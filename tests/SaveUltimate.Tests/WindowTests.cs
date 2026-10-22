@@ -147,13 +147,16 @@ public sealed class WindowTests
         Assert.AreEqual(Visibility.Collapsed, tabs.Visibility);
         navigation.SelectedIndex = 0;
         Assert.AreEqual(1, model.PageIndex, "Returning to Items preserves its sub-tab.");
-        window.Width = 1300; window.UpdateLayout();
-        // Hosted CI displays are 1024px wide, which caps the window below the auto-collapse width.
-        if (window.ActualWidth >= 1300) Assert.AreEqual(212d, ((Border)window.FindName("NavigationRail")).ActualWidth);
-        Capture(window, "navigation-expanded");
-        ((Button)window.FindName("NavigationToggle")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        window.Width = 1400; window.UpdateLayout();
-        Assert.AreEqual(68d, ((Border)window.FindName("NavigationRail")).ActualWidth, "Manual collapse survives resize.");
+        // Hosted CI displays are 1024px wide, which caps the window below the auto-collapse width; the rail checks need a wide display.
+        if (SystemParameters.PrimaryScreenWidth >= 1400)
+        {
+            window.Width = 1300; window.UpdateLayout();
+            Assert.AreEqual(212d, ((Border)window.FindName("NavigationRail")).ActualWidth);
+            Capture(window, "navigation-expanded");
+            ((Button)window.FindName("NavigationToggle")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            window.Width = 1400; window.UpdateLayout();
+            Assert.AreEqual(68d, ((Border)window.FindName("NavigationRail")).ActualWidth, "Manual collapse survives resize.");
+        }
         model.PageIndex = 0;
         Assert.IsTrue(grid.EnableRowVirtualization);
         Assert.IsTrue(grid.IsReadOnly);
