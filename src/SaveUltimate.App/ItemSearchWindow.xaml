@@ -1,0 +1,15 @@
+<Window x:Class="SaveUltimate.App.ItemSearchWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:SaveUltimate.App" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Style="{StaticResource {x:Type Window}}" Title="{local:Tr 'Swap Sold Item'}" Width="650" Height="500" MinWidth="600" MinHeight="450" WindowStartupLocation="CenterOwner">
+ <Grid Margin="16"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <TextBlock Text="{local:Tr 'Search the replacement item by name or key.'}" Margin="0,0,0,10"/>
+  <DockPanel Grid.Row="1" Margin="0,0,0,10">
+   <CheckBox x:Name="TemplatesOnly" Content="{local:Tr 'Template items only'}" IsChecked="True" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="12,0,0,0" Checked="OnFilter" Unchecked="OnFilter"/>
+   <TextBox x:Name="SearchBox" TextChanged="OnFilter" AutomationProperties.Name="{local:Tr 'Search item name or key'}"/>
+  </DockPanel>
+  <DataGrid x:Name="Results" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelection" MouseDoubleClick="OnDoubleClick">
+   <DataGrid.Columns><DataGridTextColumn Header="{local:Tr 'quest.col_key'}" Binding="{Binding Key}" Width="90"/><DataGridTextColumn Header="{local:Tr 'quest.col_name'}" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="{local:Tr 'fishing.category'}" Binding="{Binding Category}" Width="150"/></DataGrid.Columns>
+  </DataGrid>
+  <DockPanel Grid.Row="3" Margin="0,10,0,10"><StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><Button x:Name="Previous" Content="{local:Tr 'Previous'}" Click="OnPrevious"/><Button x:Name="Next" Content="{local:Tr 'Next'}" Click="OnNext" Margin="8,0,0,0"/></StackPanel><TextBlock x:Name="Count" VerticalAlignment="Center"/></DockPanel>
+  <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"><Button x:Name="Accept" Content="{local:Tr 'Select'}" IsDefault="True" IsEnabled="False" Click="OnAccept"/><Button Content="{local:Tr 'btn.cancel'}" IsCancel="True" Margin="8,0,0,0"/></StackPanel>
+ </Grid>
+</Window>

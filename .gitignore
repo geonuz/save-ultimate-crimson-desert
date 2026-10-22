@@ -1,0 +1,44 @@
+# Private documentation, measurement evidence and local SDK/packages.
+/docs/
+/artifacts/
+/.tools/
+
+# Build outputs; native DLLs are compiled from native/ by scripts/Build.ps1.
+**/bin/
+**/obj/
+/native/build/
+/native/bin/
+/releases/
+**/TestResults/
+*.exe
+*.zip
+
+# Runtime data written beside the EXE, saves and backups.
+game_data/
+game_data.lock
+backups/
+logs/
+icons_local/
+icons_mercenary/
+editor_config.json
+*.save
+*.save.*
+*.bak
+*.dmp
+*.log
+
+# Local environments, editors and credentials.
+*.user
+.vs/
+.idea/
+.vscode/
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+.codex/
+.agents/
+.claude/
+.DS_Store
+Thumbs.db

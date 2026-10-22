@@ -1,0 +1,947 @@
+[
+  {
+    "key": 1002785,
+    "name": "Destruction I",
+    "category": "Damage"
+  },
+  {
+    "key": 1002786,
+    "name": "Destruction II",
+    "category": "Damage"
+  },
+  {
+    "key": 1002787,
+    "name": "Destruction III",
+    "category": "Damage"
+  },
+  {
+    "key": 1002862,
+    "name": "Greater Destruction",
+    "category": "Damage"
+  },
+  {
+    "key": 1002794,
+    "name": "Fortification I",
+    "category": "Defense"
+  },
+  {
+    "key": 1002795,
+    "name": "Fortification II",
+    "category": "Defense"
+  },
+  {
+    "key": 1002796,
+    "name": "Fortification III",
+    "category": "Defense"
+  },
+  {
+    "key": 1002791,
+    "name": "Insight I",
+    "category": "Crit Rate"
+  },
+  {
+    "key": 1002792,
+    "name": "Insight II",
+    "category": "Crit Rate"
+  },
+  {
+    "key": 1002793,
+    "name": "Insight III",
+    "category": "Crit Rate"
+  },
+  {
+    "key": 1002969,
+    "name": "Greater Insight",
+    "category": "Crit Rate"
+  },
+  {
+    "key": 1002797,
+    "name": "Aegis I",
+    "category": "Damage Reduction"
+  },
+  {
+    "key": 1002798,
+    "name": "Aegis II",
+    "category": "Damage Reduction"
+  },
+  {
+    "key": 1002799,
+    "name": "Aegis III",
+    "category": "Damage Reduction"
+  },
+  {
+    "key": 1002810,
+    "name": "Swift I",
+    "category": "Attack Speed"
+  },
+  {
+    "key": 1002811,
+    "name": "Swift II",
+    "category": "Attack Speed"
+  },
+  {
+    "key": 1002812,
+    "name": "Swift III",
+    "category": "Attack Speed"
+  },
+  {
+    "key": 1002970,
+    "name": "Greater Swift",
+    "category": "Attack Speed"
+  },
+  {
+    "key": 1002813,
+    "name": "Haste I",
+    "category": "Move Speed"
+  },
+  {
+    "key": 1002814,
+    "name": "Haste II",
+    "category": "Move Speed"
+  },
+  {
+    "key": 1002815,
+    "name": "Haste III",
+    "category": "Move Speed"
+  },
+  {
+    "key": 1002822,
+    "name": "Vitality I",
+    "category": "HP Regen"
+  },
+  {
+    "key": 1002823,
+    "name": "Vitality II",
+    "category": "HP Regen"
+  },
+  {
+    "key": 1002824,
+    "name": "Vitality III",
+    "category": "HP Regen"
+  },
+  {
+    "key": 1002747,
+    "name": "Vigor I",
+    "category": "Stamina Regen"
+  },
+  {
+    "key": 1002748,
+    "name": "Vigor II",
+    "category": "Stamina Regen"
+  },
+  {
+    "key": 1002751,
+    "name": "Vigor III",
+    "category": "Stamina Regen"
+  },
+  {
+    "key": 1002752,
+    "name": "Composure I",
+    "category": "MP Regen"
+  },
+  {
+    "key": 1002753,
+    "name": "Composure II",
+    "category": "MP Regen"
+  },
+  {
+    "key": 1002754,
+    "name": "Composure III",
+    "category": "MP Regen"
+  },
+  {
+    "key": 1001424,
+    "name": "Flameward I",
+    "category": "Fire Resist"
+  },
+  {
+    "key": 1001425,
+    "name": "Flameward II",
+    "category": "Fire Resist"
+  },
+  {
+    "key": 1001426,
+    "name": "Flameward III",
+    "category": "Fire Resist"
+  },
+  {
+    "key": 1002972,
+    "name": "Greater Flameward",
+    "category": "Fire Resist"
+  },
+  {
+    "key": 1002167,
+    "name": "Frostward I",
+    "category": "Ice Resist"
+  },
+  {
+    "key": 1002389,
+    "name": "Frostward II",
+    "category": "Ice Resist"
+  },
+  {
+    "key": 1002467,
+    "name": "Frostward III",
+    "category": "Ice Resist"
+  },
+  {
+    "key": 1002973,
+    "name": "Greater Frostward",
+    "category": "Ice Resist"
+  },
+  {
+    "key": 1002497,
+    "name": "Shockward I",
+    "category": "Lightning Resist"
+  },
+  {
+    "key": 1002498,
+    "name": "Shockward II",
+    "category": "Lightning Resist"
+  },
+  {
+    "key": 1002499,
+    "name": "Shockward III",
+    "category": "Lightning Resist"
+  },
+  {
+    "key": 1002974,
+    "name": "Greater Shockward",
+    "category": "Lightning Resist"
+  },
+  {
+    "key": 1002807,
+    "name": "Fortitude I",
+    "category": "Guard Defense"
+  },
+  {
+    "key": 1002808,
+    "name": "Fortitude II",
+    "category": "Guard Defense"
+  },
+  {
+    "key": 1002809,
+    "name": "Fortitude III",
+    "category": "Guard Defense"
+  },
+  {
+    "key": 1002816,
+    "name": "Ascent I",
+    "category": "Climb Speed"
+  },
+  {
+    "key": 1002817,
+    "name": "Ascent II",
+    "category": "Climb Speed"
+  },
+  {
+    "key": 1002818,
+    "name": "Ascent III",
+    "category": "Climb Speed"
+  },
+  {
+    "key": 1002837,
+    "name": "Surge I",
+    "category": "Swim Speed"
+  },
+  {
+    "key": 1002838,
+    "name": "Surge II",
+    "category": "Swim Speed"
+  },
+  {
+    "key": 1002839,
+    "name": "Surge III",
+    "category": "Swim Speed"
+  },
+  {
+    "key": 1002578,
+    "name": "Storm Fang",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002848,
+    "name": "Orbs of Lightning",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002569,
+    "name": "Wind Slash",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002583,
+    "name": "Karmic Pulse",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002548,
+    "name": "Slashing Reeds",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002805,
+    "name": "Tempest of Destruction",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002602,
+    "name": "Crow Storm",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002539,
+    "name": "Crow's Pursuit",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002523,
+    "name": "Spirit's Judgment",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002606,
+    "name": "Abyssal Rays",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002509,
+    "name": "Groundsurge",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002592,
+    "name": "Hound's Claws",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002766,
+    "name": "Volcanic Eruption",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002764,
+    "name": "Frost Hail",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002843,
+    "name": "Frost Spike",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002845,
+    "name": "Shattering Frost",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002841,
+    "name": "Greysoul Howling",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002580,
+    "name": "Wound of Darkness",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002855,
+    "name": "Kinetic Burst",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002849,
+    "name": "Piercing Bloom",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002852,
+    "name": "Arrow Rain",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1001067,
+    "name": "Relentless",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002858,
+    "name": "Ator's Orb",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002920,
+    "name": "Fortune I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002921,
+    "name": "Fortune II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002922,
+    "name": "Fortune III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002929,
+    "name": "Efficiency I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002930,
+    "name": "Efficiency II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002931,
+    "name": "Efficiency III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002926,
+    "name": "Gourmet I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002927,
+    "name": "Gourmet II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002928,
+    "name": "Gourmet III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002950,
+    "name": "Aptitude I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002951,
+    "name": "Aptitude II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002952,
+    "name": "Aptitude III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002947,
+    "name": "Service I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002948,
+    "name": "Service II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002949,
+    "name": "Service III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002662,
+    "name": "Equestrian I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1000449,
+    "name": "Equestrian II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1000531,
+    "name": "Equestrian III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002538,
+    "name": "Companionship I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1000861,
+    "name": "Companionship II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1000890,
+    "name": "Companionship III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002908,
+    "name": "Malicebane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002909,
+    "name": "Malicebane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002910,
+    "name": "Malicebane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002911,
+    "name": "Beastbane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002912,
+    "name": "Beastbane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002913,
+    "name": "Beastbane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002905,
+    "name": "Primalbane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002906,
+    "name": "Primalbane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002907,
+    "name": "Primalbane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002899,
+    "name": "Hexebane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002900,
+    "name": "Hexebane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002901,
+    "name": "Hexebane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002902,
+    "name": "Bloodbane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002903,
+    "name": "Bloodbane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002904,
+    "name": "Bloodbane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002914,
+    "name": "Abyssbane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002915,
+    "name": "Abyssbane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002916,
+    "name": "Abyssbane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002896,
+    "name": "Steelbane I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002897,
+    "name": "Steelbane II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002898,
+    "name": "Steelbane III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002979,
+    "name": "Greater Malicebane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002980,
+    "name": "Greater Beastbane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002978,
+    "name": "Greater Primalbane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002976,
+    "name": "Greater Hexebane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002977,
+    "name": "Greater Bloodbane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002981,
+    "name": "Greater Abyssbane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002975,
+    "name": "Greater Steelbane",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003762,
+    "name": "Rend I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003763,
+    "name": "Rend II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003764,
+    "name": "Rend III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003765,
+    "name": "Shred I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003766,
+    "name": "Shred II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003767,
+    "name": "Shred III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003759,
+    "name": "Shatter I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003760,
+    "name": "Shatter II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003761,
+    "name": "Shatter III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002923,
+    "name": "Infinite Arrows I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002924,
+    "name": "Infinite Arrows II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002925,
+    "name": "Infinite Arrows III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002982,
+    "name": "Greater Infinite Arrows",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002953,
+    "name": "Energy Drain I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002954,
+    "name": "Energy Drain II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002955,
+    "name": "Energy Drain III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003229,
+    "name": "Disarm I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003230,
+    "name": "Disarm II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003231,
+    "name": "Disarm III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002520,
+    "name": "Solidarity I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002521,
+    "name": "Solidarity II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002522,
+    "name": "Solidarity III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002932,
+    "name": "Ledgermain I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002933,
+    "name": "Ledgermain II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002934,
+    "name": "Ledgermain III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002935,
+    "name": "Blessing of the Earth I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002936,
+    "name": "Blessing of the Earth II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002937,
+    "name": "Blessing of the Earth III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002938,
+    "name": "Blessing of Nature I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002939,
+    "name": "Blessing of Nature II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002940,
+    "name": "Blessing of Nature III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002941,
+    "name": "Blessing of the Beast I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002942,
+    "name": "Blessing of the Beast II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002943,
+    "name": "Blessing of the Beast III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002944,
+    "name": "Blessing of the Forest I",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002945,
+    "name": "Blessing of the Forest II",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002946,
+    "name": "Blessing of the Forest III",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003281,
+    "name": "Life Transference",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003290,
+    "name": "Spirit Transference",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003291,
+    "name": "Stamina Transference",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002863,
+    "name": "Abyssal Assimilation",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002865,
+    "name": "Heart of the Serpent",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002866,
+    "name": "Heart of Stone",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002658,
+    "name": "Crescent Moon Slash",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002659,
+    "name": "Half Moon Slash",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002660,
+    "name": "Fullmoon Slash",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1000121,
+    "name": "Flames of Judgment",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1001893,
+    "name": "Rising Torrent",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002496,
+    "name": "Lightning God's Affliction",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002510,
+    "name": "The Showstopper",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002542,
+    "name": "Pillar of Wind",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002552,
+    "name": "Warden of Darkness",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002554,
+    "name": "Ancient Reckoning",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002867,
+    "name": "Momentum",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003668,
+    "name": "Colossal Might",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003685,
+    "name": "Order from Above",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003686,
+    "name": "Dark Crescent",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003691,
+    "name": "Queen's Fangs",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003692,
+    "name": "Putrid Touch",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003699,
+    "name": "Shadow Claw",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003700,
+    "name": "Parting Gift",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003702,
+    "name": "Ancient Retribution",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003714,
+    "name": "Howling of Chaos",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003715,
+    "name": "Judgment of the Soul",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1003718,
+    "name": "Ancient Wrath",
+    "category": "Special Effects"
+  },
+  {
+    "key": 1002887,
+    "name": "Earthrending Strike",
+    "category": "Special Effects"
+  }
+]

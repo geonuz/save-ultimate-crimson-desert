@@ -1,0 +1,26 @@
+<UserControl x:Class="SaveUltimate.App.CompanionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
+ <Grid IsEnabled="{Binding CanEditSelection}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader Title="{local:Tr companion.title}" HelpTopic="companion.title" LoadedState="{Binding Companions, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadCompanionsCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
+  <StackPanel Grid.Row="1" Orientation="Horizontal"><TextBlock Text="{local:Tr 'Category:'}" VerticalAlignment="Center"/><ComboBox x:Name="Group" DisplayMemberPath="Label" MinWidth="260" SelectionChanged="OnGroup"/></StackPanel>
+  <TextBlock x:Name="Count" Grid.Row="2" Margin="0,8"/>
+  <local:DetailSplit Grid.Row="3">
+   <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelect">
+    <DataGrid.Columns>
+     <DataGridTemplateColumn Width="40"><DataGridTemplateColumn.CellTemplate><DataTemplate><Image Source="{Binding Icon}" Width="32" Height="32"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+     <DataGridTextColumn Header="{local:Tr 'Default Name'}" Binding="{Binding Name}" Width="*" MinWidth="140"/>
+     <DataGridTextColumn Header="{local:Tr 'Custom Name'}" Binding="{Binding Custom}" Width="150"/>
+     <DataGridTextColumn Header="{local:Tr Category}" Binding="{Binding Category}" Width="180"/>
+    </DataGrid.Columns>
+    <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="ToolTip" Value="{Binding Hint}"/></Style></DataGrid.RowStyle>
+   </DataGrid>
+   <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+    <TextBlock x:Name="SelectedTitle" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+    <Button Style="{StaticResource AccentButton}" x:Name="Rename" Content="{local:Tr 'Rename Selected'}" Click="OnRename" IsEnabled="False"/>
+    <Button Style="{StaticResource DangerButton}" x:Name="Clear" Content="{local:Tr 'Clear Name'}" Click="OnClear" IsEnabled="False" Margin="0,8"/>
+    <Button Style="{StaticResource DangerButton}" x:Name="ClearAll" Content="{local:Tr 'Reset All to Default'}" Click="OnClearAll" IsEnabled="False"/>
+   </StackPanel></ScrollViewer>
+  </local:DetailSplit>
+ </Grid>
+</UserControl>

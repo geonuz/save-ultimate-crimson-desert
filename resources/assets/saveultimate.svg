@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>SaveUltimate — crowned U shield</title>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#171b22"/>
+  <path d="M40 58 128 30 216 58v76c0 43-42 76-88 96-46-20-88-53-88-96Z" fill="#743741"/>
+  <path d="M48 64 128 39 208 64v70c0 36-36 67-80 87-44-20-80-51-80-87Z" fill="#242731"/>
+  <path d="m75 77 21 10 32-32 32 32 21-10-10 32H85Z" fill="#e7c47f"/>
+  <path d="M79 122h25v33c0 17 9 26 24 26s24-9 24-26v-33h25v34c0 31-19 49-49 49s-49-18-49-49Z" fill="#e7c47f"/>
+</svg>

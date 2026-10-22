@@ -1,0 +1,191 @@
+{
+  "dark": {
+    "name": "Charcoal Gold",
+    "description": "Neutral charcoal surfaces with a warm gold accent.",
+    "colors": {
+      "bg": "#16181b",
+      "panel": "#1f2226",
+      "header": "#282c31",
+      "accent": "#e4bd74",
+      "text": "#e8e9eb",
+      "text_dim": "#b0b7c1",
+      "selected": "#393225",
+      "border": "#363c44",
+      "input_bg": "#24282d",
+      "panel_text": "#e8e9eb",
+      "primary_text": "#e8e9eb",
+      "accent_text": "#211b11",
+      "selection_text": "#e8e9eb",
+      "success": "#95d0ae",
+      "warning": "#e4bd74",
+      "error": "#f29a9f"
+    },
+    "tab": [
+      "#2a3040",
+      "#e0eaff",
+      "#70a8ff"
+    ]
+  },
+  "obsidian_blue": {
+    "name": "Obsidian Blue",
+    "description": "Deep navy panels with a clean electric-blue accent.",
+    "colors": {
+      "bg": "#0b111b",
+      "panel": "#111c2b",
+      "header": "#172a42",
+      "accent": "#4da3ff",
+      "text": "#e8f2ff",
+      "text_dim": "#91a8c2",
+      "selected": "#234d75",
+      "border": "#2e4968",
+      "input_bg": "#0d1724",
+      "panel_text": "#FFFFFF",
+      "primary_text": "#FFFFFF",
+      "accent_text": "#FFFFFF",
+      "selection_text": "#FFFFFF",
+      "success": "#78d49a",
+      "warning": "#e6ba59",
+      "error": "#e26972"
+    },
+    "tab": [
+      "#193b5d",
+      "#e8f4ff",
+      "#4da3ff"
+    ]
+  },
+  "forest_emerald": {
+    "name": "Forest Emerald",
+    "description": "A subdued woodland palette with emerald highlights.",
+    "colors": {
+      "bg": "#0d1712",
+      "panel": "#15241b",
+      "header": "#203a2a",
+      "accent": "#55c983",
+      "text": "#e6f4e9",
+      "text_dim": "#9ab6a1",
+      "selected": "#285f3e",
+      "border": "#365c43",
+      "input_bg": "#101c15",
+      "panel_text": "#FFFFFF",
+      "primary_text": "#FFFFFF",
+      "accent_text": "#111111",
+      "selection_text": "#FFFFFF",
+      "success": "#78d49a",
+      "warning": "#e6ba59",
+      "error": "#e26972"
+    },
+    "tab": [
+      "#214e34",
+      "#edfff2",
+      "#55c983"
+    ]
+  },
+  "royal_purple": {
+    "name": "Royal Purple",
+    "description": "Dark violet surfaces with bright amethyst accents.",
+    "colors": {
+      "bg": "#15101d",
+      "panel": "#21182d",
+      "header": "#352348",
+      "accent": "#b67cff",
+      "text": "#f2eaff",
+      "text_dim": "#b6a3ca",
+      "selected": "#57357b",
+      "border": "#574069",
+      "input_bg": "#191222",
+      "panel_text": "#FFFFFF",
+      "primary_text": "#FFFFFF",
+      "accent_text": "#111111",
+      "selection_text": "#FFFFFF",
+      "success": "#78d49a",
+      "warning": "#e6ba59",
+      "error": "#e26972"
+    },
+    "tab": [
+      "#482b66",
+      "#f6edff",
+      "#b67cff"
+    ]
+  },
+  "crimson_night": {
+    "name": "Crimson Night",
+    "description": "Near-black burgundy with vivid crimson controls.",
+    "colors": {
+      "bg": "#170c0f",
+      "panel": "#281318",
+      "header": "#431d24",
+      "accent": "#e05262",
+      "text": "#f8e9eb",
+      "text_dim": "#c0a0a5",
+      "selected": "#702b37",
+      "border": "#63323a",
+      "input_bg": "#1d0e12",
+      "panel_text": "#FFFFFF",
+      "primary_text": "#FFFFFF",
+      "accent_text": "#FFFFFF",
+      "selection_text": "#FFFFFF",
+      "success": "#78d49a",
+      "warning": "#e6ba59",
+      "error": "#e26972"
+    },
+    "tab": [
+      "#5a222d",
+      "#fff0f2",
+      "#e05262"
+    ]
+  },
+  "slate_cyan": {
+    "name": "Slate Cyan",
+    "description": "Neutral charcoal-slate panels with cool cyan highlights.",
+    "colors": {
+      "bg": "#101619",
+      "panel": "#182327",
+      "header": "#24383e",
+      "accent": "#4fc6c8",
+      "text": "#e6f3f3",
+      "text_dim": "#9cb5b7",
+      "selected": "#286267",
+      "border": "#36575c",
+      "input_bg": "#121c20",
+      "panel_text": "#FFFFFF",
+      "primary_text": "#FFFFFF",
+      "accent_text": "#111111",
+      "selection_text": "#FFFFFF",
+      "success": "#78d49a",
+      "warning": "#e6ba59",
+      "error": "#e26972"
+    },
+    "tab": [
+      "#214f54",
+      "#efffff",
+      "#4fc6c8"
+    ]
+  },
+  "light": {
+    "name": "Daylight",
+    "description": "A bright, high-contrast theme for daytime use.",
+    "colors": {
+      "bg": "#f5f5f5",
+      "panel": "#ffffff",
+      "header": "#d8d8d8",
+      "accent": "#8B3A00",
+      "text": "#111111",
+      "text_dim": "#3d3d3d",
+      "selected": "#b8d9ff",
+      "border": "#a0a0a0",
+      "input_bg": "#ffffff",
+      "panel_text": "#111111",
+      "primary_text": "#111111",
+      "accent_text": "#FFFFFF",
+      "selection_text": "#111111",
+      "success": "#1b5e20",
+      "warning": "#bf5500",
+      "error": "#b71c1c"
+    },
+    "tab": [
+      "#cfe3ff",
+      "#103060",
+      "#2277dd"
+    ]
+  }
+}

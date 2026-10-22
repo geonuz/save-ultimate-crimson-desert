@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "dependencies": {
+    "net10.0-windows7.0": {
+      "CommunityToolkit.Mvvm": {
+        "type": "Direct",
+        "requested": "[8.4.2, )",
+        "resolved": "8.4.2",
+        "contentHash": "WadCzGEc2U+3e20avRLng4qNtt4zoOGWrdUISqJWrHe3/FSnrYjuM5Sb4yQb09LhkBXrrI4Zt3dLKgRMbItsrg=="
+      },
+      "Magick.NET.Core": {
+        "type": "Transitive",
+        "resolved": "15.0.0",
+        "contentHash": "mP/VovMRuXBX2Rcnn1wWu0Zur6cjsf8IQhmTUCrasEk8cyAtN5sjHE7NxiH88whw8/2mjRvuphKUwj6bAZslpQ=="
+      },
+      "saveultimate.core": {
+        "type": "Project",
+        "dependencies": {
+          "K4os.Compression.LZ4": "[1.3.8, )",
+          "Magick.NET-Q8-x64": "[15.0.0, )"
+        }
+      },
+      "K4os.Compression.LZ4": {
+        "type": "CentralTransitive",
+        "requested": "[1.3.8, )",
+        "resolved": "1.3.8",
+        "contentHash": "LhwlPa7c1zs1OV2XadMtAWdImjLIsqFJPoRcIWAadSRn0Ri1DepK65UbWLPmt4riLqx2d40xjXRk0ogpqNtK7g=="
+      },
+      "Magick.NET-Q8-x64": {
+        "type": "CentralTransitive",
+        "requested": "[15.0.0, )",
+        "resolved": "15.0.0",
+        "contentHash": "RVfIbAddWlHEr6aJiYAYIRn1P7bQUoSv9GJN0fZmcatnenaD4KTtzoxOFYq67KXegLTsBQHsGdjzgGDW5d4Ing==",
+        "dependencies": {
+          "Magick.NET.Core": "15.0.0"
+        }
+      }
+    },
+    "net10.0-windows7.0/win-x64": {
+      "Magick.NET-Q8-x64": {
+        "type": "CentralTransitive",
+        "requested": "[15.0.0, )",
+        "resolved": "15.0.0",
+        "contentHash": "RVfIbAddWlHEr6aJiYAYIRn1P7bQUoSv9GJN0fZmcatnenaD4KTtzoxOFYq67KXegLTsBQHsGdjzgGDW5d4Ing==",
+        "dependencies": {
+          "Magick.NET.Core": "15.0.0"
+        }
+      }
+    }
+  }
+}

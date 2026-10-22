@@ -1,0 +1,45 @@
+<UserControl x:Class="SaveUltimate.App.FishingPage"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
+ <Grid IsEnabled="{Binding CanEditSelection}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader Title="{local:Tr tab.fishing}" HelpTopic="tab.fishing" LoadedState="{Binding Fishing, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadFishingCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
+  <Border x:Name="SetupBanner" Grid.Row="1" Visibility="Collapsed" Background="{DynamicResource panel}" BorderBrush="{DynamicResource warning}" BorderThickness="4,1,1,1" Padding="16,12" Margin="0,0,0,8">
+   <StackPanel>
+    <TextBlock Text="{local:Tr fishing.setup_title}" FontWeight="Bold" TextWrapping="Wrap"/>
+    <TextBlock Text="{local:Tr fishing.setup_steps}" TextWrapping="Wrap" Margin="0,6,0,0"/>
+   </StackPanel>
+  </Border>
+  <TextBlock x:Name="Count" Grid.Row="2" Text="{local:Tr ui.load_prompt}" Margin="0,0,0,8"/>
+  <local:DetailSplit Grid.Row="3">
+   <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
+    EnableRowVirtualization="True" SelectionChanged="OnSelectionChanged">
+    <DataGrid.Columns>
+     <DataGridTextColumn Header="{local:Tr fishing.fish}" Binding="{Binding Name}" Width="*" MinWidth="130"/>
+     <DataGridTextColumn Header="{local:Tr fishing.category}" Binding="{Binding Category}" Width="Auto" MinWidth="140"/>
+     <DataGridTextColumn Header="{local:Tr fishing.level}" Binding="{Binding Level}" Width="Auto" MinWidth="80"/>
+     <DataGridTextColumn Header="{local:Tr fishing.maximum}" Binding="{Binding Size}" Width="Auto" MinWidth="110"/>
+     <DataGridTextColumn Header="{local:Tr fishing.availability}" Binding="{Binding Availability}" Width="Auto" MinWidth="50"/>
+    </DataGrid.Columns>
+   </DataGrid>
+   <ScrollViewer x:Name="Details" Grid.Column="2" VerticalScrollBarVisibility="Auto" Padding="12,0,0,0">
+    <StackPanel>
+     <TextBlock x:Name="SelectedTitle" Text="{local:Tr ui.select_item}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,8"/>
+     <Image x:Name="Picture" MaxHeight="200"/>
+     <TextBlock x:Name="Description" TextWrapping="Wrap" Margin="0,8"/>
+     <Button Style="{StaticResource AccentButton}" x:Name="Learn" Content="{local:Tr fishing.learn}" Click="OnLearn" IsEnabled="False"/>
+     <TextBlock Text="{local:Tr fishing.size}" Margin="0,12,0,4"/>
+     <DockPanel x:Name="SizeEditor" IsEnabled="False">
+      <StackPanel DockPanel.Dock="Right">
+       <RepeatButton Content="▴" Tag="1" Click="OnStep" Padding="0" Height="16" AutomationProperties.Name="{local:Tr 'Increase size'}"/>
+       <RepeatButton Content="▾" Tag="-1" Click="OnStep" Padding="0" Height="16" AutomationProperties.Name="{local:Tr 'Decrease size'}"/>
+      </StackPanel>
+      <TextBox x:Name="SizeInput" Text="43.400" TextChanged="OnSizeChanged" LostFocus="OnSizeLostFocus" PreviewKeyDown="OnSizeKey" AutomationProperties.Name="{local:Tr fishing.size}"/>
+     </DockPanel>
+     <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr fishing.apply}" Click="OnApply" IsEnabled="False" Margin="0,6"/>
+    </StackPanel>
+   </ScrollViewer>
+  </local:DetailSplit>
+ </Grid>
+</UserControl>
+

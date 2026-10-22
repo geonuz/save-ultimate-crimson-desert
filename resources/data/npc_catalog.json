@@ -1,0 +1,7062 @@
+{
+  "sourceSha256": {
+    "0008/gamedata/binarystaticinfo__/bin/characterinfo.staticinfoheader": "dd5fc91c31f3a5d5c4372a95027f165263435ccc94a6bf9d77e08680f708e288",
+    "0008/gamedata/binarystaticinfo__/bin/characterinfo.staticinfobody": "0f695844cedc44763407485393443fab975cdb0da5fe6b85c7c73d9c6d0b8af1",
+    "0008/gamedata/binarystaticinfo__/bin/npcinfo.staticinfoheader": "29006bb6dca44ca564782eceb9eaf2f707e47fe43940d28aee4e44ce5efb532f",
+    "0008/gamedata/binarystaticinfo__/bin/npcinfo.staticinfobody": "57037bec530050801c8946be6afa1e58cfeb2658f1b93bf4d3ea698a368ae9e0",
+    "0019/gamedata/stringtable/binary__/kor/character.paloc": "94ae92ba7c20f88883305d02051ebcfcf3d2e9241dc24e412b47a010becc7c4b",
+    "0019/gamedata/stringtable/binary__/kor/npc.paloc": "30ed94e76cbda0c577f4e9bff877749665137df234d8c32d440bd954b94eb273",
+    "0020/gamedata/stringtable/binary__/eng/character.paloc": "781ebe50c4b0454fcd71cc81270cc77d68ac61654bab8e5f87d243c1c0cb00de",
+    "0020/gamedata/stringtable/binary__/eng/npc.paloc": "bf883842228a803337b78114d67765894a8dd90e3d1551ce90ddaaba9dcf7b7c"
+  },
+  "characters": {
+    "1001165": 1000000,
+    "1001946": 1000001,
+    "3094": 1000002,
+    "12901": 1000003,
+    "1002488": 1000004,
+    "1001928": 1000005,
+    "1003975": 1000006,
+    "1001902": 1000007,
+    "1003976": 1000008,
+    "1001957": 1000009,
+    "1001958": 1000010,
+    "1001624": 1000011,
+    "1001961": 1000012,
+    "1001963": 1000013,
+    "1002477": 1000014,
+    "1000954": 1000015,
+    "1000960": 1000016,
+    "1000972": 1000017,
+    "1000973": 1000018,
+    "3136": 1000019,
+    "3402": 1000020,
+    "3558": 1000021,
+    "3627": 1000022,
+    "9808": 1000023,
+    "1001621": 1000024,
+    "1002487": 1000025,
+    "102087": 1000026,
+    "1003016": 1000027,
+    "1000926": 1000028,
+    "1003635": 1000029,
+    "1003636": 1000030,
+    "200010254": 1000031,
+    "1001738": 1000032,
+    "1000409": 1000033,
+    "1000908": 1000034,
+    "1000913": 1000035,
+    "1001838": 1000036,
+    "1000971": 1000037,
+    "200130004": 1000038,
+    "441": 1000039,
+    "492": 1000040,
+    "1000563": 1000041,
+    "493": 1000042,
+    "1000688": 1000043,
+    "1001762": 1000044,
+    "472": 1000045,
+    "1000930": 1000046,
+    "1001837": 1000047,
+    "100026": 1000048,
+    "1000695": 1000049,
+    "1001080": 1000050,
+    "1003637": 1000051,
+    "1003638": 1000052,
+    "1003639": 1000053,
+    "1003640": 1000054,
+    "1003761": 1000055,
+    "1003762": 1000056,
+    "1003073": 1000057,
+    "1000808": 1000058,
+    "1003075": 1000059,
+    "1001475": 1000060,
+    "1003067": 1000061,
+    "1003076": 1000062,
+    "1003077": 1000063,
+    "1003078": 1000064,
+    "1003079": 1000065,
+    "1000956": 1000066,
+    "450": 1000067,
+    "516": 1000068,
+    "519": 1000069,
+    "3410": 1000070,
+    "4914": 1000071,
+    "1001081": 1000072,
+    "1003527": 1000073,
+    "1003641": 1000074,
+    "1000951": 1000075,
+    "1001072": 1000076,
+    "1001073": 1000077,
+    "451": 1000078,
+    "473": 1000079,
+    "487": 1000080,
+    "1000974": 1000081,
+    "164020": 1000082,
+    "1000901": 1000083,
+    "1001842": 1000084,
+    "100027": 1000085,
+    "1003642": 1000086,
+    "1003643": 1000087,
+    "453": 1000088,
+    "1001016": 1000089,
+    "517": 1000090,
+    "5463": 1000091,
+    "5464": 1000092,
+    "1000963": 1000093,
+    "1003644": 1000094,
+    "1000388": 1000095,
+    "1000196": 1000096,
+    "1000505": 1000097,
+    "6030": 1000098,
+    "1003749": 1000099,
+    "467": 1000100,
+    "475": 1000101,
+    "5543": 1000102,
+    "5544": 1000103,
+    "1000948": 1000104,
+    "1000949": 1000105,
+    "1000385": 1000106,
+    "1000696": 1000107,
+    "1000677": 1000108,
+    "1002274": 1000109,
+    "1002275": 1000110,
+    "1002276": 1000111,
+    "1002277": 1000112,
+    "1002278": 1000113,
+    "1002279": 1000114,
+    "1002280": 1000115,
+    "1001951": 1000116,
+    "1002281": 1000117,
+    "1002282": 1000118,
+    "1002283": 1000119,
+    "1002284": 1000120,
+    "1002285": 1000121,
+    "1002286": 1000122,
+    "1002287": 1000123,
+    "1003646": 1000124,
+    "1003647": 1000125,
+    "3409": 1000126,
+    "1000896": 1000127,
+    "4019": 1000128,
+    "6032": 1000129,
+    "12102": 1000130,
+    "1000242": 1000131,
+    "100040": 1000132,
+    "1001739": 1000133,
+    "524": 1000134,
+    "3839": 1000135,
+    "4009": 1000136,
+    "1000943": 1000137,
+    "1000944": 1000138,
+    "1000698": 1000139,
+    "1001840": 1000140,
+    "1003648": 1000141,
+    "1003649": 1000142,
+    "486": 1000143,
+    "1002943": 1000144,
+    "1003015": 1000145,
+    "496": 1000146,
+    "3842": 1000147,
+    "4011": 1000148,
+    "1000945": 1000149,
+    "1000946": 1000150,
+    "1001839": 1000151,
+    "1003650": 1000152,
+    "102084": 1000153,
+    "494": 1000154,
+    "530": 1000155,
+    "3412": 1000156,
+    "1000899": 1000157,
+    "1000902": 1000158,
+    "1000922": 1000159,
+    "1000784": 1000160,
+    "1001841": 1000161,
+    "100028": 1000162,
+    "1000513": 1000163,
+    "1003652": 1000164,
+    "1003653": 1000165,
+    "1003654": 1000166,
+    "1003655": 1000167,
+    "1003656": 1000168,
+    "1003763": 1000169,
+    "1002242": 1000170,
+    "1002243": 1000171,
+    "1002244": 1000172,
+    "1002246": 1000173,
+    "1002250": 1000174,
+    "1002252": 1000175,
+    "1001921": 1000176,
+    "1001925": 1000177,
+    "1001926": 1000178,
+    "528": 1000179,
+    "1002424": 1000180,
+    "1001000": 1000181,
+    "1000514": 1000182,
+    "200090023": 1000183,
+    "1002474": 1000184,
+    "1002475": 1000185,
+    "1003072": 1000186,
+    "1003095": 1000187,
+    "1003096": 1000188,
+    "1000186": 1000189,
+    "1000641": 1000190,
+    "1000643": 1000191,
+    "1000667": 1000192,
+    "1000675": 1000193,
+    "1003080": 1000194,
+    "1003081": 1000195,
+    "1003082": 1000196,
+    "1003083": 1000197,
+    "1003084": 1000198,
+    "1002259": 1000199,
+    "1003657": 1000200,
+    "537": 1000201,
+    "1000933": 1000202,
+    "1001456": 1000203,
+    "1001540": 1000204,
+    "1001579": 1000205,
+    "1001580": 1000206,
+    "1000993": 1000207,
+    "1001582": 1000208,
+    "1001583": 1000209,
+    "1001586": 1000210,
+    "1001588": 1000211,
+    "1001100": 1000212,
+    "1003658": 1000213,
+    "1003659": 1000214,
+    "1003660": 1000215,
+    "1001857": 1000216,
+    "1001859": 1000217,
+    "1001849": 1000218,
+    "1001860": 1000219,
+    "1001865": 1000220,
+    "1001745": 1000221,
+    "1001863": 1000222,
+    "1001864": 1000223,
+    "1001867": 1000224,
+    "1001866": 1000225,
+    "1001868": 1000226,
+    "1001869": 1000227,
+    "1001871": 1000228,
+    "1002094": 1000229,
+    "1001685": 1000230,
+    "1000702": 1000231,
+    "1002938": 1000232,
+    "1002939": 1000233,
+    "1002940": 1000234,
+    "1002941": 1000235,
+    "1001369": 1000236,
+    "9021": 1000237,
+    "3631": 1000238,
+    "1003973": 1000239,
+    "1002046": 1000240,
+    "1003822": 1000241,
+    "1003823": 1000242,
+    "1003824": 1000243,
+    "1003825": 1000244,
+    "1003826": 1000245,
+    "1003827": 1000246,
+    "1003828": 1000247,
+    "1003829": 1000248,
+    "1003830": 1000249,
+    "1003831": 1000250,
+    "1003832": 1000251,
+    "1003833": 1000252,
+    "1003834": 1000253,
+    "1003835": 1000254,
+    "1003836": 1000255,
+    "1002063": 1000256,
+    "1003837": 1000257,
+    "1003838": 1000258,
+    "1003839": 1000259,
+    "1003840": 1000260,
+    "1003841": 1000261,
+    "1003842": 1000262,
+    "1003843": 1000263,
+    "1003844": 1000264,
+    "1003845": 1000265,
+    "1003846": 1000266,
+    "1003847": 1000267,
+    "1003848": 1000268,
+    "1002064": 1000269,
+    "1003849": 1000270,
+    "1003850": 1000271,
+    "1003851": 1000272,
+    "1003852": 1000273,
+    "1003853": 1000274,
+    "1003854": 1000275,
+    "1003855": 1000276,
+    "1003856": 1000277,
+    "1003857": 1000278,
+    "1003858": 1000279,
+    "1003859": 1000280,
+    "1003860": 1000281,
+    "1003861": 1000282,
+    "1003862": 1000283,
+    "1003863": 1000284,
+    "1003864": 1000285,
+    "1003865": 1000286,
+    "1002102": 1000287,
+    "1003866": 1000288,
+    "1003867": 1000289,
+    "1003868": 1000290,
+    "1003869": 1000291,
+    "1002103": 1000292,
+    "1003870": 1000293,
+    "1003871": 1000294,
+    "1003872": 1000295,
+    "1002123": 1000296,
+    "1003873": 1000297,
+    "1002124": 1000298,
+    "1003874": 1000299,
+    "1002125": 1000300,
+    "1003875": 1000301,
+    "1001011": 1000302,
+    "1001048": 1000303,
+    "1001049": 1000304,
+    "1001050": 1000305,
+    "1003662": 1000306,
+    "1003663": 1000307,
+    "1001861": 1000308,
+    "1001862": 1000309,
+    "1004420": 1000310,
+    "1004433": 1000311,
+    "1004421": 1000312,
+    "1004422": 1000313,
+    "1004423": 1000314,
+    "102067": 1000315,
+    "3438": 1000316,
+    "6024": 1000317,
+    "100150": 1000318,
+    "1000955": 1000319,
+    "1000957": 1000320,
+    "1000958": 1000321,
+    "100151": 1000322,
+    "1000699": 1000323,
+    "1001531": 1000324,
+    "1001595": 1000325,
+    "4950": 1000326,
+    "4799": 1000327,
+    "1001603": 1000328,
+    "1001608": 1000329,
+    "1001656": 1000330,
+    "1001275": 1000331,
+    "1001380": 1000332,
+    "1001657": 1000333,
+    "704": 1000334,
+    "631": 1000335,
+    "1001844": 1000336,
+    "1001094": 1000337,
+    "706": 1000338,
+    "703": 1000339,
+    "637": 1000340,
+    "1001095": 1000341,
+    "1000168": 1000342,
+    "1001389": 1000343,
+    "707": 1000344,
+    "1003127": 1000345,
+    "1001097": 1000346,
+    "1002978": 1000347,
+    "628": 1000348,
+    "1002080": 1000349,
+    "1002081": 1000350,
+    "1002082": 1000351,
+    "1003126": 1000352,
+    "1000512": 1000353,
+    "1002168": 1000354,
+    "1001845": 1000355,
+    "1001846": 1000356,
+    "1002996": 1000357,
+    "1000919": 1000358,
+    "1000924": 1000359,
+    "1003664": 1000360,
+    "1000952": 1000361,
+    "1000497": 1000362,
+    "1003876": 1000363,
+    "1003877": 1000364,
+    "1003878": 1000365,
+    "1003879": 1000366,
+    "1003880": 1000367,
+    "1003881": 1000368,
+    "1003882": 1000369,
+    "1003883": 1000370,
+    "1003884": 1000371,
+    "1003885": 1000372,
+    "1003886": 1000373,
+    "1003887": 1000374,
+    "1003888": 1000375,
+    "1003889": 1000376,
+    "1003890": 1000377,
+    "1003891": 1000378,
+    "1003892": 1000379,
+    "1003893": 1000380,
+    "1003894": 1000381,
+    "1003895": 1000382,
+    "1003896": 1000383,
+    "1003897": 1000384,
+    "1003898": 1000385,
+    "1003899": 1000386,
+    "1003900": 1000387,
+    "1003901": 1000388,
+    "1003902": 1000389,
+    "1003903": 1000390,
+    "1003904": 1000391,
+    "1003905": 1000392,
+    "1003906": 1000393,
+    "1003907": 1000394,
+    "1003908": 1000395,
+    "1003909": 1000396,
+    "1004032": 1000397,
+    "1004419": 1000398,
+    "1004090": 1000399,
+    "1004091": 1000400,
+    "1004092": 1000401,
+    "1004093": 1000402,
+    "1004094": 1000403,
+    "1004095": 1000404,
+    "1004096": 1000405,
+    "1004097": 1000406,
+    "1004098": 1000407,
+    "1004099": 1000408,
+    "1004100": 1000409,
+    "1004101": 1000410,
+    "1004102": 1000411,
+    "1004103": 1000412,
+    "1004104": 1000413,
+    "1004105": 1000414,
+    "1004106": 1000415,
+    "1004107": 1000416,
+    "1004108": 1000417,
+    "1004109": 1000418,
+    "1004110": 1000419,
+    "1004111": 1000420,
+    "1004112": 1000421,
+    "1004113": 1000422,
+    "1004114": 1000423,
+    "1004115": 1000424,
+    "1004116": 1000425,
+    "1004117": 1000426,
+    "1004118": 1000427,
+    "1004119": 1000428,
+    "1004120": 1000429,
+    "1004121": 1000430,
+    "1004122": 1000431,
+    "1004123": 1000432,
+    "1004124": 1000433,
+    "1004125": 1000434,
+    "1004126": 1000435,
+    "1004127": 1000436,
+    "1004128": 1000437,
+    "1004129": 1000438,
+    "1004130": 1000439,
+    "1004131": 1000440,
+    "1004132": 1000441,
+    "1004133": 1000442,
+    "1004134": 1000443,
+    "1004135": 1000444,
+    "1004136": 1000445,
+    "1004137": 1000446,
+    "1004138": 1000447,
+    "1004139": 1000448,
+    "1004140": 1000449,
+    "1004141": 1000450,
+    "1004142": 1000451,
+    "1004144": 1000452,
+    "1004145": 1000453,
+    "1004146": 1000454,
+    "1004147": 1000455,
+    "1004148": 1000456,
+    "1004149": 1000457,
+    "1004150": 1000458,
+    "1004151": 1000459,
+    "1004152": 1000460,
+    "1004153": 1000461,
+    "1004154": 1000462,
+    "1004155": 1000463,
+    "1004156": 1000464,
+    "1004157": 1000465,
+    "1004158": 1000466,
+    "1004159": 1000467,
+    "1004160": 1000468,
+    "1004161": 1000469,
+    "1004162": 1000470,
+    "1004163": 1000471,
+    "1004164": 1000472,
+    "1004165": 1000473,
+    "1004166": 1000474,
+    "1004167": 1000475,
+    "1004168": 1000476,
+    "1004169": 1000477,
+    "1004170": 1000478,
+    "1004171": 1000479,
+    "1004172": 1000480,
+    "1004173": 1000481,
+    "1004174": 1000482,
+    "1004175": 1000483,
+    "1004176": 1000484,
+    "1004177": 1000485,
+    "1004178": 1000486,
+    "1004179": 1000487,
+    "1004180": 1000488,
+    "1004181": 1000489,
+    "1004182": 1000490,
+    "1004183": 1000491,
+    "1004184": 1000492,
+    "1004185": 1000493,
+    "1004186": 1000494,
+    "1004187": 1000495,
+    "1004188": 1000496,
+    "1004189": 1000497,
+    "1004190": 1000498,
+    "1004191": 1000499,
+    "1004192": 1000500,
+    "1004193": 1000501,
+    "1004194": 1000502,
+    "1004195": 1000503,
+    "1004196": 1000504,
+    "1004197": 1000505,
+    "1004198": 1000506,
+    "1004199": 1000507,
+    "1004200": 1000508,
+    "1004201": 1000509,
+    "1004202": 1000510,
+    "1004203": 1000511,
+    "1004204": 1000512,
+    "1004205": 1000513,
+    "1004206": 1000514,
+    "1004207": 1000515,
+    "1004208": 1000516,
+    "1004209": 1000517,
+    "1004210": 1000518,
+    "1004211": 1000519,
+    "1004212": 1000520,
+    "1004213": 1000521,
+    "1004214": 1000522,
+    "1004215": 1000523,
+    "1004216": 1000524,
+    "1004217": 1000525,
+    "1004218": 1000526,
+    "1004219": 1000527,
+    "1004220": 1000528,
+    "1004221": 1000529,
+    "1004222": 1000530,
+    "1004223": 1000531,
+    "500486": 1000532,
+    "500487": 1000533,
+    "500485": 1000534,
+    "3564": 1000535,
+    "3392": 1000536,
+    "3632": 1000537,
+    "4305": 1000538,
+    "3405": 1000539,
+    "3018": 1000540,
+    "3020": 1000541
+  },
+  "npcs": {
+    "1000000": {
+      "ko": {
+        "title": "스콜라스톤 연구소",
+        "service": "연구소",
+        "areaOrAffiliation": "스콜라스톤"
+      },
+      "en": {
+        "title": "Scholastone Research Institute",
+        "service": "Research Institute",
+        "areaOrAffiliation": "Scholastone"
+      }
+    },
+    "1000001": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000002": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000003": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000004": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000005": {
+      "ko": {
+        "title": "에르난드 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernandian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000006": {
+      "ko": {
+        "title": "에르난드 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernandian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000007": {
+      "ko": {
+        "title": "데메니스 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Demenissian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000008": {
+      "ko": {
+        "title": "데메니스 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Demenissian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000009": {
+      "ko": {
+        "title": "델레시아 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Delesyian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000010": {
+      "ko": {
+        "title": "칼페이드 수비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Calphadean Defender",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000011": {
+      "ko": {
+        "title": "토마소 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Tommasoan Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000012": {
+      "ko": {
+        "title": "바르니아 경비대",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Varnian Guard",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000013": {
+      "ko": {
+        "title": "페일룬 자경단",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Pailune Militia",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000014": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000015": {
+      "ko": {
+        "title": "왕실 납품",
+        "service": "왕실 납품지",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Royal Trading",
+        "service": "Royal Trading Post",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000016": {
+      "ko": {
+        "title": "왕실 납품",
+        "service": "왕실 납품지",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Royal Trading",
+        "service": "Royal Trading Post",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000017": {
+      "ko": {
+        "title": "왕실 납품",
+        "service": "왕실 납품지",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Royal Trading",
+        "service": "Royal Trading Post",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000018": {
+      "ko": {
+        "title": "왕실 납품",
+        "service": "왕실 납품지",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Royal Trading",
+        "service": "Royal Trading Post",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000019": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000020": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000021": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000022": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000023": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000024": {
+      "ko": {
+        "title": "블루몬트 저택 접선책",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Bluemont Manor Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000025": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000026": {
+      "ko": {
+        "title": "케른 오두막 광물 상인",
+        "service": "광물 상점",
+        "areaOrAffiliation": "케른 오두막"
+      },
+      "en": {
+        "title": "Cairn House Mineral Vendor",
+        "service": "Mineral Shop",
+        "areaOrAffiliation": "Cairn House"
+      }
+    },
+    "1000027": {
+      "ko": {
+        "title": "비석 공방 광물 상인",
+        "service": "광물 상점",
+        "areaOrAffiliation": "비석 공방"
+      },
+      "en": {
+        "title": "Headstone Workshop Mineral Vendor",
+        "service": "Mineral Shop",
+        "areaOrAffiliation": "Headstone Workshop"
+      }
+    },
+    "1000028": {
+      "ko": {
+        "title": "광물 상점",
+        "service": "광물 상점",
+        "areaOrAffiliation": "마누브 요새"
+      },
+      "en": {
+        "title": "Mineral Shop",
+        "service": "Mineral Shop",
+        "areaOrAffiliation": "Fort Manub"
+      }
+    },
+    "1000029": {
+      "ko": {
+        "title": "로버츠 가문 광물 상인",
+        "service": "광물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Roberts's Mineral Vendor",
+        "service": "Mineral Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000030": {
+      "ko": {
+        "title": "토마소 광물 상인",
+        "service": "광물 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Tommaso Mineral Vendor",
+        "service": "Mineral Shop",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000031": {
+      "ko": {
+        "title": "에르난드 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000032": {
+      "ko": {
+        "title": "데메니스 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000033": {
+      "ko": {
+        "title": "토마소 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000034": {
+      "ko": {
+        "title": "페일룬 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000035": {
+      "ko": {
+        "title": "델레시아 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000036": {
+      "ko": {
+        "title": "사막 바르니아 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000037": {
+      "ko": {
+        "title": "베이겐 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "베이겐"
+      },
+      "en": {
+        "title": "Beighen Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Beighen"
+      }
+    },
+    "1000038": {
+      "ko": {
+        "title": "신비한 무쇠솥 공방",
+        "service": "그림니르 쿠쿠상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Mysterious Pot",
+        "service": "Grimnir's Kuku Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000039": {
+      "ko": {
+        "title": "에르난드 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000040": {
+      "ko": {
+        "title": "데메니스의 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000041": {
+      "ko": {
+        "title": "타리브의 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "타리브"
+      },
+      "en": {
+        "title": "Tariv Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Tariv"
+      }
+    },
+    "1000042": {
+      "ko": {
+        "title": "페일룬 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000043": {
+      "ko": {
+        "title": "스코그혼 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "스코그혼"
+      },
+      "en": {
+        "title": "Skoghorn Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Skoghorn"
+      }
+    },
+    "1000044": {
+      "ko": {
+        "title": "오데크 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "오데크"
+      },
+      "en": {
+        "title": "Odeck Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Odeck"
+      }
+    },
+    "1000045": {
+      "ko": {
+        "title": "칼페이드의 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000046": {
+      "ko": {
+        "title": "토마소 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000047": {
+      "ko": {
+        "title": "사막 바르니아 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000048": {
+      "ko": {
+        "title": "델레시아 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000049": {
+      "ko": {
+        "title": "카론소 마을 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "카론소"
+      },
+      "en": {
+        "title": "Kharonso Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Kharonso"
+      }
+    },
+    "1000050": {
+      "ko": {
+        "title": "장비 상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "붉은산맥 요새"
+      },
+      "en": {
+        "title": "Quartermaster",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Crimson Mountains Fortress"
+      }
+    },
+    "1000051": {
+      "ko": {
+        "title": "서키스 가문 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Serkis Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000052": {
+      "ko": {
+        "title": "알폰소 가문 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Alfonso Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000053": {
+      "ko": {
+        "title": "웰스 가문 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "House Wells Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000054": {
+      "ko": {
+        "title": "사막의 현자 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Sage of the Desert Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000055": {
+      "ko": {
+        "title": "랜포드 가문 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Lanford Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000056": {
+      "ko": {
+        "title": "델레시아 국립학술원 장비상점",
+        "service": "장비 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "National Delesyian Institute Equipment Shop",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000057": {
+      "ko": {
+        "title": "에르난드 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000058": {
+      "ko": {
+        "title": "스콜라스톤 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Scholastone Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000059": {
+      "ko": {
+        "title": "데메니스 대성당 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Cathedral of Demeniss Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000060": {
+      "ko": {
+        "title": "데메니스 성 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Castle Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000061": {
+      "ko": {
+        "title": "데메니스 마을 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000062": {
+      "ko": {
+        "title": "델레시아 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000063": {
+      "ko": {
+        "title": "페일룬 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000064": {
+      "ko": {
+        "title": "토마소 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "타슈칼프"
+      },
+      "en": {
+        "title": "Tommaso Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Tashkalp"
+      }
+    },
+    "1000065": {
+      "ko": {
+        "title": "바르니아 공헌 관리소",
+        "service": "공헌 관리소",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Contribution Office",
+        "service": "Contribution Office",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000066": {
+      "ko": {
+        "title": "데메니스 서쪽 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "데메니스 서부 교회"
+      },
+      "en": {
+        "title": "West Demeniss Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of West Demeniss"
+      }
+    },
+    "1000067": {
+      "ko": {
+        "title": "에르난드 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000068": {
+      "ko": {
+        "title": "페일룬 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000069": {
+      "ko": {
+        "title": "데메니스 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000070": {
+      "ko": {
+        "title": "에르난드 푸줏간",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernand Butchery",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000071": {
+      "ko": {
+        "title": "델레시아 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000072": {
+      "ko": {
+        "title": "이스바투 요새 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "이스바투 요새"
+      },
+      "en": {
+        "title": "Izvatu Fortress Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Izvatu Fortress"
+      }
+    },
+    "1000073": {
+      "ko": {
+        "title": "벨루아 마을 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "벨루아 마을"
+      },
+      "en": {
+        "title": "Vellua Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Vellua"
+      }
+    },
+    "1000074": {
+      "ko": {
+        "title": "스코그혼 부족 푸줏간",
+        "service": "푸줏간",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Skoghorn Tribe Butchery",
+        "service": "Butchery",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000075": {
+      "ko": {
+        "title": "데메니스 농산물 도매 상점",
+        "service": "농산물 도매 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Wholesale Grocer's Shop",
+        "service": "Wholesale Grocer's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000076": {
+      "ko": {
+        "title": "칼페이드 농장 농산물 도매 상점",
+        "service": "농산물 도매 상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Farmhouse Wholesale Grocer's Shop",
+        "service": "Wholesale Grocer's Shop",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000077": {
+      "ko": {
+        "title": "델레시아 농산물 도매 상점",
+        "service": "농산물 도매 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Wholesale Grocer's Shop",
+        "service": "Wholesale Grocer's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000078": {
+      "ko": {
+        "title": "에르난드 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000079": {
+      "ko": {
+        "title": "칼페이드 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000080": {
+      "ko": {
+        "title": "데메니스 성 잡화점",
+        "service": "식료품점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Castle Provisioner's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000081": {
+      "ko": {
+        "title": "베이겐마을 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "베이겐"
+      },
+      "en": {
+        "title": "Beighen Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Beighen"
+      }
+    },
+    "1000082": {
+      "ko": {
+        "title": "페일룬 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000083": {
+      "ko": {
+        "title": "토마소 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000084": {
+      "ko": {
+        "title": "사막 바르니아 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000085": {
+      "ko": {
+        "title": "델레시아 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000086": {
+      "ko": {
+        "title": "엘리모어 가문 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "House Elemore Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000087": {
+      "ko": {
+        "title": "긴잎나무 부족 식료품",
+        "service": "식료품점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Longleaf Tribe Grocer's Shop",
+        "service": "Grocer's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000088": {
+      "ko": {
+        "title": "에르난드 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000089": {
+      "ko": {
+        "title": "데메니스 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000090": {
+      "ko": {
+        "title": "페일룬 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000091": {
+      "ko": {
+        "title": "에르난드 가죽 상인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernand Tanner",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000092": {
+      "ko": {
+        "title": "델레시아 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000093": {
+      "ko": {
+        "title": "칼페이드 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000094": {
+      "ko": {
+        "title": "벨루아 마을 가죽 상인",
+        "service": "가죽 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Vellua Tanner",
+        "service": "Tannery",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000095": {
+      "ko": {
+        "title": "하늘범선 바르곤 상인",
+        "service": "하늘범선 바르곤 상점",
+        "areaOrAffiliation": "듀헤이븐 세력"
+      },
+      "en": {
+        "title": "Sky Galleon Vargon Merchant",
+        "service": "Sky Galleon Vargon Shop",
+        "areaOrAffiliation": "Dewhaven Faction"
+      }
+    },
+    "1000096": {
+      "ko": {
+        "title": "스트롱헬름 공방 장비상점",
+        "service": "투구 상점",
+        "areaOrAffiliation": "스트롱헬름 공방"
+      },
+      "en": {
+        "title": "Stronghelm Forge Equipment Shop",
+        "service": "Helm Shop",
+        "areaOrAffiliation": "Stronghelm Forge"
+      }
+    },
+    "1000097": {
+      "ko": {
+        "title": "데메니스 손대포 상인",
+        "service": "대포 상점",
+        "areaOrAffiliation": "대포 제작소"
+      },
+      "en": {
+        "title": "Demeniss Cannonwright",
+        "service": "Blaster Shop",
+        "areaOrAffiliation": "Cannon Foundry"
+      }
+    },
+    "1000098": {
+      "ko": {
+        "title": "델레시아 손대포 상인",
+        "service": "손대포 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Cannonwright",
+        "service": "Blaster Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000099": {
+      "ko": {
+        "title": "아제리안 가문 손대포 상인",
+        "service": "손대포 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "House Azerian Cannonwright",
+        "service": "Blaster Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000100": {
+      "ko": {
+        "title": "에르난드 마구 상점",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernand Saddlery",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000101": {
+      "ko": {
+        "title": "칼페이드 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000102": {
+      "ko": {
+        "title": "데메니스 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000103": {
+      "ko": {
+        "title": "델레시아 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000104": {
+      "ko": {
+        "title": "페일룬 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000105": {
+      "ko": {
+        "title": "토마소 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000106": {
+      "ko": {
+        "title": "바르니아 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000107": {
+      "ko": {
+        "title": "에르난드 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000108": {
+      "ko": {
+        "title": "에퀸셔 마구 상점",
+        "service": "마구 상점",
+        "areaOrAffiliation": "에퀸셔 안장 공방"
+      },
+      "en": {
+        "title": "Equinsher Saddlery",
+        "service": "Saddlery",
+        "areaOrAffiliation": "Equinsher Saddlery"
+      }
+    },
+    "1000109": {
+      "ko": {
+        "title": "에르난드 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000110": {
+      "ko": {
+        "title": "에르난드 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000111": {
+      "ko": {
+        "title": "에르난드 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000112": {
+      "ko": {
+        "title": "에르난드 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "벨루아 마을"
+      },
+      "en": {
+        "title": "Hernand Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Vellua"
+      }
+    },
+    "1000113": {
+      "ko": {
+        "title": "데메니스 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000114": {
+      "ko": {
+        "title": "데메니스 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000115": {
+      "ko": {
+        "title": "데메니스 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000116": {
+      "ko": {
+        "title": "델레시아 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000117": {
+      "ko": {
+        "title": "델레시아 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000118": {
+      "ko": {
+        "title": "델레시아 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000119": {
+      "ko": {
+        "title": "델레시아 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000120": {
+      "ko": {
+        "title": "페일룬 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000121": {
+      "ko": {
+        "title": "페일룬 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000122": {
+      "ko": {
+        "title": "페일룬 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000123": {
+      "ko": {
+        "title": "붉은사막 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Crimson Desert Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000124": {
+      "ko": {
+        "title": "은월상단 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Silvermoon Fishing Dock Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000125": {
+      "ko": {
+        "title": "스티야르 부족 낚시터 상인",
+        "service": "낚시 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Stjar Clan Fishing Vendor",
+        "service": "Fishing Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000126": {
+      "ko": {
+        "title": "에르난드 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000127": {
+      "ko": {
+        "title": "칼페이드 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000128": {
+      "ko": {
+        "title": "델레시아 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000129": {
+      "ko": {
+        "title": "페일룬 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000130": {
+      "ko": {
+        "title": "사막 토마소 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000131": {
+      "ko": {
+        "title": "사막 바르니아 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000132": {
+      "ko": {
+        "title": "데메니스 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000133": {
+      "ko": {
+        "title": "데메니스 주점",
+        "service": "여관",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000134": {
+      "ko": {
+        "title": "주점 상인의 주점",
+        "service": "여관",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000135": {
+      "ko": {
+        "title": "주점 상인의 주점",
+        "service": "여관",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000136": {
+      "ko": {
+        "title": "별이 보이는 주점",
+        "service": "여관",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Stargazers' Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000137": {
+      "ko": {
+        "title": "별이 보이는 주점",
+        "service": "여관",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Stargazers' Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000138": {
+      "ko": {
+        "title": "별이 보이는 주점",
+        "service": "여관",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Stargazers' Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000139": {
+      "ko": {
+        "title": "스콜라스톤 술 상인",
+        "service": "여관",
+        "areaOrAffiliation": "카론소"
+      },
+      "en": {
+        "title": "Scholastone Brewer",
+        "service": "Tavern",
+        "areaOrAffiliation": "Kharonso"
+      }
+    },
+    "1000140": {
+      "ko": {
+        "title": "사막 바르니아 주점",
+        "service": "여관",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000141": {
+      "ko": {
+        "title": "그레이스 가문 주점",
+        "service": "여관",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Grace Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000142": {
+      "ko": {
+        "title": "베이겐 부족 주점",
+        "service": "여관",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Beighen Tavern",
+        "service": "Tavern",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000143": {
+      "ko": {
+        "title": "데메니스 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000144": {
+      "ko": {
+        "title": "타리브 마을 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "타리브"
+      },
+      "en": {
+        "title": "Tariv Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Tariv"
+      }
+    },
+    "1000145": {
+      "ko": {
+        "title": "데메니스 동물원 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "데메니스 동물원"
+      },
+      "en": {
+        "title": "Demeniss Wildlife Park Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Demeniss Wildlife Park"
+      }
+    },
+    "1000146": {
+      "ko": {
+        "title": "페일룬 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000147": {
+      "ko": {
+        "title": "델레시아의 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000148": {
+      "ko": {
+        "title": "에르난드 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000149": {
+      "ko": {
+        "title": "칼페이드 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000150": {
+      "ko": {
+        "title": "토마소 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000151": {
+      "ko": {
+        "title": "사막 바르니아 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000152": {
+      "ko": {
+        "title": "토렐 가문 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "House Thorel Tailor's Shop",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000153": {
+      "ko": {
+        "title": "에르난드 보따리 상인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Hernand Peddler",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000154": {
+      "ko": {
+        "title": "페일룬 마을 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000155": {
+      "ko": {
+        "title": "데메니스 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000156": {
+      "ko": {
+        "title": "에르난드 농가 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Farmhouse Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000157": {
+      "ko": {
+        "title": "벨루아 마을 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "벨루아 마을"
+      },
+      "en": {
+        "title": "Vellua Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Vellua"
+      }
+    },
+    "1000158": {
+      "ko": {
+        "title": "스코그혼 마을 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "스코그혼"
+      },
+      "en": {
+        "title": "Skoghorn Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Skoghorn"
+      }
+    },
+    "1000159": {
+      "ko": {
+        "title": "칼페이드 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Calphade Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000160": {
+      "ko": {
+        "title": "토마소 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000161": {
+      "ko": {
+        "title": "사막 바르니아 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000162": {
+      "ko": {
+        "title": "델레시아 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000163": {
+      "ko": {
+        "title": "페일룬 베이겐 마을 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "베이겐"
+      },
+      "en": {
+        "title": "Pailune Beighen Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Beighen"
+      }
+    },
+    "1000164": {
+      "ko": {
+        "title": "타리브 소서러 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Tariv Sorcerer Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000165": {
+      "ko": {
+        "title": "블랙워터 유전 상회 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Blackwater Oil Merchant Guild Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000166": {
+      "ko": {
+        "title": "오데크 부족 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Odeck Tribe Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000167": {
+      "ko": {
+        "title": "성 할시우스 치유소 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "St. Halssius's House of Healing Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000168": {
+      "ko": {
+        "title": "솔루멘 교단 에르난드 교구 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernandian Parish of Solumen Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000169": {
+      "ko": {
+        "title": "카론소 마을 잡화점",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Kharonso Provisioner's Shop",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000170": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000171": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000172": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000173": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000174": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000175": {
+      "ko": {
+        "title": "은행",
+        "service": "은행",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Bank",
+        "service": "Bank",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000176": {
+      "ko": {
+        "title": "농협",
+        "service": "식량 거래소",
+        "areaOrAffiliation": "데메니스 소속 무역회"
+      },
+      "en": {
+        "title": "Farmers' Shop",
+        "service": "Provisions Trading Post",
+        "areaOrAffiliation": "Demeniss-Affiliated Trading Post"
+      }
+    },
+    "1000177": {
+      "ko": {
+        "title": "광협",
+        "service": "군수물자 거래소",
+        "areaOrAffiliation": "데메니스 소속 무역회"
+      },
+      "en": {
+        "title": "Miners' Shop",
+        "service": "Military Trading Post",
+        "areaOrAffiliation": "Demeniss-Affiliated Trading Post"
+      }
+    },
+    "1000178": {
+      "ko": {
+        "title": "목협",
+        "service": "목재 거래소",
+        "areaOrAffiliation": "데메니스 소속 무역회"
+      },
+      "en": {
+        "title": "Woodcutters' Shop",
+        "service": "Timber Trading Post",
+        "areaOrAffiliation": "Demeniss-Affiliated Trading Post"
+      }
+    },
+    "1000179": {
+      "ko": {
+        "title": "붉은바람 무역회 무역 관리소",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Redwind Merchant Guild Trading Center",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000180": {
+      "ko": {
+        "title": "델레시아 붉은바람 무역회 무역 관리소",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Delesyia Redwind Merchant Guild Trading Center",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000181": {
+      "ko": {
+        "title": "아르코사 마을 붉은바람 무역회 무역 관리소",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Arcosa Redwind Merchant Guild Trading Center",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000182": {
+      "ko": {
+        "title": "데메니스 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Demeniss Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000183": {
+      "ko": {
+        "title": "에르난드 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Hernand Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000184": {
+      "ko": {
+        "title": "델레시아 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Delesyia Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000185": {
+      "ko": {
+        "title": "토마소 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Tommaso Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000186": {
+      "ko": {
+        "title": "우르다바 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Urdavah Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000187": {
+      "ko": {
+        "title": "데메니스 항구 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Demeniss Port Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000188": {
+      "ko": {
+        "title": "스톤워드 무역 관리인",
+        "service": "무역 관리소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Stoneward Trade Manager",
+        "service": "Trading Center",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000189": {
+      "ko": {
+        "title": "포로린 연구소장",
+        "service": "연구소",
+        "areaOrAffiliation": "포로린"
+      },
+      "en": {
+        "title": "Pororin Research Director",
+        "service": "Research Institute",
+        "areaOrAffiliation": "Pororin"
+      }
+    },
+    "1000190": {
+      "ko": {
+        "title": "우르다바연구소장",
+        "service": "연구소",
+        "areaOrAffiliation": "우르다바"
+      },
+      "en": {
+        "title": "Urdavah Research Director",
+        "service": "Research Institute",
+        "areaOrAffiliation": "Urdavah"
+      }
+    },
+    "1000191": {
+      "ko": {
+        "title": "고르탁 제철소 연구소장",
+        "service": "연구소",
+        "areaOrAffiliation": "고르탁 제철소"
+      },
+      "en": {
+        "title": "Gorthak Ironworks Research Director",
+        "service": "Research Institute",
+        "areaOrAffiliation": "Gorthak Ironworks"
+      }
+    },
+    "1000192": {
+      "ko": {
+        "title": "델레시아 학술원 연구소장",
+        "service": "연구소",
+        "areaOrAffiliation": "델레시아 학술원"
+      },
+      "en": {
+        "title": "Delesyian Institute Research Director",
+        "service": "Research Institute",
+        "areaOrAffiliation": "The Delesyian Institute"
+      }
+    },
+    "1000193": {
+      "ko": {
+        "title": "듀헤이븐 연구소장",
+        "service": "연구소",
+        "areaOrAffiliation": "듀헤이븐"
+      },
+      "en": {
+        "title": "Dewhaven Research Director",
+        "service": "Research Institute",
+        "areaOrAffiliation": "Dewhaven"
+      }
+    },
+    "1000194": {
+      "ko": {
+        "title": "에르난드 남부 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Southern Hernand Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000195": {
+      "ko": {
+        "title": "데메니스 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Demeniss Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000196": {
+      "ko": {
+        "title": "칼페이드 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Calphade Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000197": {
+      "ko": {
+        "title": "에르난드 북부 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Northern Hernand Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000198": {
+      "ko": {
+        "title": "에르난드 동부 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Eastern Hernand Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000199": {
+      "ko": {
+        "title": "에르난드 마을 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Hernand Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000200": {
+      "ko": {
+        "title": "기어멜트 제과회 고블린 상회 암시장",
+        "service": "무역품 암시장",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Gearmelt Confectionery Association Goldleaves' Black Market",
+        "service": "Trade Goods Black Market",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000201": {
+      "ko": {
+        "title": "밀수꾼",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Smuggler",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000202": {
+      "ko": {
+        "title": "블러드스틸 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Bloodsteel Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000203": {
+      "ko": {
+        "title": "페일룬 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Pailune Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000204": {
+      "ko": {
+        "title": "에르난드 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Hernand Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000205": {
+      "ko": {
+        "title": "할시우스 치유소 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "St. Halssius's House of Healing Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000206": {
+      "ko": {
+        "title": "칼페이드 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Calphade Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000207": {
+      "ko": {
+        "title": "새들윈드 말목장 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Saddlewind Ranch Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000208": {
+      "ko": {
+        "title": "오데크 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Odeck Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000209": {
+      "ko": {
+        "title": "데메니스 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Demeniss Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000210": {
+      "ko": {
+        "title": "델레시아 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Delesyia Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000211": {
+      "ko": {
+        "title": "토마소 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Tommaso Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000212": {
+      "ko": {
+        "title": "바르니아 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "뒷골목 상인"
+      },
+      "en": {
+        "title": "Varnia Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Alley Vendors"
+      }
+    },
+    "1000213": {
+      "ko": {
+        "title": "빈민촌 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hovels Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000214": {
+      "ko": {
+        "title": "소금길 캠프 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Saltroad Camp Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000215": {
+      "ko": {
+        "title": "무이쿤 밀수꾼",
+        "service": "뒷골목 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Muiquun Smuggler",
+        "service": "Back Alley Shop",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000216": {
+      "ko": {
+        "title": "장물아비",
+        "service": "가축 장물 거래소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Livestock Black Market",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000217": {
+      "ko": {
+        "title": "장물아비",
+        "service": "가축 장물 거래소",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Livestock Black Market",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000218": {
+      "ko": {
+        "title": "장물아비",
+        "service": "가축 장물 거래소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Livestock Black Market",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000219": {
+      "ko": {
+        "title": "장물아비",
+        "service": "가축 장물 거래소",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Livestock Black Market",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000220": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000221": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "그린필드 농장"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Greenfield Farm"
+      }
+    },
+    "1000222": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "선셋 염색 공방"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Sunset Dyehouse"
+      }
+    },
+    "1000223": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "러슬리프 농장"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Rustleleaf Farm"
+      }
+    },
+    "1000224": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000225": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000226": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "칼페이드"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Calphade"
+      }
+    },
+    "1000227": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000228": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000229": {
+      "ko": {
+        "title": "염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "포로린"
+      },
+      "en": {
+        "title": "Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Pororin"
+      }
+    },
+    "1000230": {
+      "ko": {
+        "title": "반려동물 상점",
+        "service": "반려동물 상점",
+        "areaOrAffiliation": "데메니스 반려동물 상점"
+      },
+      "en": {
+        "title": "Pet Shop",
+        "service": "Pet Shop",
+        "areaOrAffiliation": "Demeniss Pet Shop"
+      }
+    },
+    "1000231": {
+      "ko": {
+        "title": "반려동물 상점",
+        "service": "반려동물 상점",
+        "areaOrAffiliation": "포로린"
+      },
+      "en": {
+        "title": "Pet Shop",
+        "service": "Pet Shop",
+        "areaOrAffiliation": "Pororin"
+      }
+    },
+    "1000232": {
+      "ko": {
+        "title": "마녀 공방",
+        "service": "마녀의 거처",
+        "areaOrAffiliation": "우르다바"
+      },
+      "en": {
+        "title": "Witch's Workshop",
+        "service": "Witch's Lair",
+        "areaOrAffiliation": "Urdavah"
+      }
+    },
+    "1000233": {
+      "ko": {
+        "title": "마녀 공방",
+        "service": "마녀의 거처",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Witch's Workshop",
+        "service": "Witch's Lair",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000234": {
+      "ko": {
+        "title": "마녀 공방",
+        "service": "마녀의 거처",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Witch's Workshop",
+        "service": "Witch's Lair",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000235": {
+      "ko": {
+        "title": "마녀 공방",
+        "service": "마녀의 거처",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Witch's Workshop",
+        "service": "Witch's Lair",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000236": {
+      "ko": {
+        "title": "마녀 공방",
+        "service": "마녀의 거처",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Witch's Workshop",
+        "service": "Witch's Lair",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000237": {
+      "ko": {
+        "title": "신기루 상점",
+        "service": "신기루 상점",
+        "areaOrAffiliation": "쿠쿠새 통신 판매원"
+      },
+      "en": {
+        "title": "Mysterious Shop",
+        "service": "Mysterious Shop",
+        "areaOrAffiliation": "Kuku Communication Service Provider"
+      }
+    },
+    "1000238": {
+      "ko": {
+        "title": "파트리지오의 비밀상점",
+        "service": "비밀 상점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Patrigio's Secret Shop",
+        "service": "Secret Shops",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000239": {
+      "ko": {
+        "title": "레이시의 비밀상점",
+        "service": "비밀 상점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Lacey's Secret Shop",
+        "service": "Secret Shops",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000240": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000241": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000242": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000243": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000244": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000245": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000246": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000247": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000248": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000249": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000250": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000251": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000252": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000253": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000254": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000255": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000256": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000257": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000258": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000259": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000260": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000261": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000262": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000263": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000264": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000265": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000266": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000267": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000268": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000269": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000270": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000271": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000272": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000273": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000274": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000275": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000276": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000277": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000278": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000279": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000280": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000281": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000282": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000283": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000284": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000285": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000286": {
+      "ko": {
+        "title": "남부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Southern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000287": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000288": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000289": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000290": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000291": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000292": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000293": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000294": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000295": {
+      "ko": {
+        "title": "북부 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Northern Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000296": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000297": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000298": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000299": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000300": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000301": {
+      "ko": {
+        "title": "사막 노점상",
+        "service": "노점",
+        "areaOrAffiliation": "떠돌이 상인"
+      },
+      "en": {
+        "title": "Desert Street Vendor",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Wandering Merchant"
+      }
+    },
+    "1000302": {
+      "ko": {
+        "title": "델레시아 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "목 좋은 마을"
+      },
+      "en": {
+        "title": "Delesyia Furniture Shop",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Timberton"
+      }
+    },
+    "1000303": {
+      "ko": {
+        "title": "에르난드 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Furniture Shop",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000304": {
+      "ko": {
+        "title": "데메니스 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "히든그로브 목장"
+      },
+      "en": {
+        "title": "Demeniss Furniture Shop",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Hidden Grove Ranch"
+      }
+    },
+    "1000305": {
+      "ko": {
+        "title": "베이겐 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "베이겐"
+      },
+      "en": {
+        "title": "Beighen Furniture Shop",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Beighen"
+      }
+    },
+    "1000306": {
+      "ko": {
+        "title": "붉은바람 무역회 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Redwind Merchant Guild Furniture Shop",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000307": {
+      "ko": {
+        "title": "페일룬 자경단 소모품",
+        "service": "노점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Militia Consumables",
+        "service": "Street Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000308": {
+      "ko": {
+        "title": "에르난드 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Hernand Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000309": {
+      "ko": {
+        "title": "데메니스 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Demeniss Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000310": {
+      "ko": {
+        "title": "델레시아 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Delesyia Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000311": {
+      "ko": {
+        "title": "페일룬 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Pailune Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000312": {
+      "ko": {
+        "title": "토마소 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Tommaso Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000313": {
+      "ko": {
+        "title": "우르다바 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "토마소"
+      },
+      "en": {
+        "title": "Urdavah Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Tommaso"
+      }
+    },
+    "1000314": {
+      "ko": {
+        "title": "바르니아 마차 공방",
+        "service": "마차 공방",
+        "areaOrAffiliation": "바르니아"
+      },
+      "en": {
+        "title": "Varnia Wagon Workshop",
+        "service": "Wainwright",
+        "areaOrAffiliation": "Varnia"
+      }
+    },
+    "1000315": {
+      "ko": {
+        "title": "돌팔이 의사 조수",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Quacksalver's Assisant",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000316": {
+      "ko": {
+        "title": "에르난드 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "에르난드 교회"
+      },
+      "en": {
+        "title": "Hernand Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of Hernand"
+      }
+    },
+    "1000317": {
+      "ko": {
+        "title": "페일룬 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "페일룬 교회"
+      },
+      "en": {
+        "title": "Pailune Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of Pailune"
+      }
+    },
+    "1000318": {
+      "ko": {
+        "title": "데메니스 대성당",
+        "service": "고해소",
+        "areaOrAffiliation": "데메니스 대성당"
+      },
+      "en": {
+        "title": "Cathedral of Demeniss",
+        "service": "Confessional",
+        "areaOrAffiliation": "Cathedral of Demeniss"
+      }
+    },
+    "1000319": {
+      "ko": {
+        "title": "데메니스 동쪽 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "데메니스 동부 교회"
+      },
+      "en": {
+        "title": "East Demeniss Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of East Demeniss"
+      }
+    },
+    "1000320": {
+      "ko": {
+        "title": "칼페이드 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "칼페이드 교회"
+      },
+      "en": {
+        "title": "Calphade Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of Calphade"
+      }
+    },
+    "1000321": {
+      "ko": {
+        "title": "리벤타인 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "리벤타인 수도원"
+      },
+      "en": {
+        "title": "Reventine Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Reventine Monastery"
+      }
+    },
+    "1000322": {
+      "ko": {
+        "title": "델레시아 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "델레시아 교회"
+      },
+      "en": {
+        "title": "Delesyia Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of Delesyia"
+      }
+    },
+    "1000323": {
+      "ko": {
+        "title": "스콜라스톤 성당",
+        "service": "고해소",
+        "areaOrAffiliation": "카론소 교회"
+      },
+      "en": {
+        "title": "Scholastone Church",
+        "service": "Confessional",
+        "areaOrAffiliation": "Church of Kharonso"
+      }
+    },
+    "1000324": {
+      "ko": {
+        "title": "접선인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000325": {
+      "ko": {
+        "title": "접선인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000326": {
+      "ko": {
+        "title": "장물아비",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Fence",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000327": {
+      "ko": {
+        "title": "장물아비",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Fence",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000328": {
+      "ko": {
+        "title": "접선인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000329": {
+      "ko": {
+        "title": "벨루아 마을 접선인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Vellua Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000330": {
+      "ko": {
+        "title": "엘리모어 접선인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Elemore's Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000331": {
+      "ko": {
+        "title": "아제리안 접선책",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Azerian's Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000332": {
+      "ko": {
+        "title": "바이런 접선책",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Byron's Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000333": {
+      "ko": {
+        "title": "마르셀 접선책",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Marshell's Contact",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000334": {
+      "ko": {
+        "title": "캠프물자 관리",
+        "service": "용병단 물자 관리",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Provisions Keeper",
+        "service": "Camp Provisions Tent",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000335": {
+      "ko": {
+        "title": "캠프 요리사",
+        "service": "요리 상점",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Cook",
+        "service": "Cook",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000336": {
+      "ko": {
+        "title": "용병 관리소",
+        "service": "용병관리소",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Comrade Dispatch Tent",
+        "service": "Dispatch Coordinator",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000337": {
+      "ko": {
+        "title": "캠프 장비상인",
+        "service": "장비 상점",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Outfitter",
+        "service": "Quartermaster",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000338": {
+      "ko": {
+        "title": "캠프 가구점",
+        "service": "가구 상점",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Carpenter",
+        "service": "Furniture Shop",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000339": {
+      "ko": {
+        "title": "캠프 소모품",
+        "service": "잡화 상점",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Consumables",
+        "service": "Provisioner's Shop",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000340": {
+      "ko": {
+        "title": "캠프 마구간",
+        "service": "마구간",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Stable",
+        "service": "Stable",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000341": {
+      "ko": {
+        "title": "캠프 의상점",
+        "service": "의상점",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Tailor",
+        "service": "Tailor's Shop",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000342": {
+      "ko": {
+        "title": "캠프 염색공",
+        "service": "염색소",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Dyer",
+        "service": "Dyehouse",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000343": {
+      "ko": {
+        "title": "캠프 이발소",
+        "service": "이발소",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Barber",
+        "service": "Barber Shops",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000344": {
+      "ko": {
+        "title": "캠프 식물",
+        "service": "농장",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Gardener",
+        "service": "Cultivator",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000345": {
+      "ko": {
+        "title": "캠프 목장",
+        "service": "목장",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Rancher",
+        "service": "Ranches",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000346": {
+      "ko": {
+        "title": "캠프 마차관리소",
+        "service": "마차관리소",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Wagonmaster",
+        "service": "Wagonmaster",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000347": {
+      "ko": {
+        "title": "캠프 세공사",
+        "service": "세공소",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Craftsman",
+        "service": "Lapidarist",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000348": {
+      "ko": {
+        "title": "캠프 대장간",
+        "service": "대장간",
+        "areaOrAffiliation": "베이스 캠프"
+      },
+      "en": {
+        "title": "Camp Smithy",
+        "service": "Smithy",
+        "areaOrAffiliation": "Base Camp"
+      }
+    },
+    "1000349": {
+      "ko": {
+        "title": "가축 판매 담당",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Livestock Vendor",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000350": {
+      "ko": {
+        "title": "가축 등록 담당",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Livestock Registrar",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000351": {
+      "ko": {
+        "title": "가축 도축 담당",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Livestock Butcher",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000352": {
+      "ko": {
+        "title": "장물아비",
+        "service": "마차 장물 거래소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Wagon Black Market",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000353": {
+      "ko": {
+        "title": "장물아비",
+        "service": "마차 장물 거래소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Wagon Black Market",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000354": {
+      "ko": {
+        "title": "장물아비",
+        "service": "마차 장물 거래소",
+        "areaOrAffiliation": "무이쿤"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Wagon Black Market",
+        "areaOrAffiliation": "Muiquun"
+      }
+    },
+    "1000355": {
+      "ko": {
+        "title": "장물아비",
+        "service": "말 장물 거래소",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Horse Black Market",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000356": {
+      "ko": {
+        "title": "장물아비",
+        "service": "말 장물 거래소",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Fence",
+        "service": "Horse Black Market",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000357": {
+      "ko": {
+        "title": "토마소 가죽 상인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Tommaso Tanner",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000358": {
+      "ko": {
+        "title": "그림 상인",
+        "service": "그림 상점",
+        "areaOrAffiliation": "액자 마을"
+      },
+      "en": {
+        "title": "Art Dealer",
+        "service": "Artwork Shops",
+        "areaOrAffiliation": "Easelbury"
+      }
+    },
+    "1000359": {
+      "ko": {
+        "title": "수석 상인",
+        "service": "수석 상점",
+        "areaOrAffiliation": "케른 오두막"
+      },
+      "en": {
+        "title": "Decorative Stone Merchant",
+        "service": "Decorative Stone Shop",
+        "areaOrAffiliation": "Cairn House"
+      }
+    },
+    "1000360": {
+      "ko": {
+        "title": "펠릭스 가문 수석 상인",
+        "service": "수석 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "House Felix Decorative Stone Merchant",
+        "service": "Decorative Stone Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000361": {
+      "ko": {
+        "title": "조각상 상인",
+        "service": "조각상 상점",
+        "areaOrAffiliation": "비석 공방"
+      },
+      "en": {
+        "title": "Statue Vendor",
+        "service": "Statue Shops",
+        "areaOrAffiliation": "Headstone Workshop"
+      }
+    },
+    "1000362": {
+      "ko": {
+        "title": "엘리모어 상인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Elemore Vendor",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000363": {
+      "ko": {
+        "title": "브라이들펀 농장 주인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Bradenfern Farm Owner",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000364": {
+      "ko": {
+        "title": "칼페이드 농장 주인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Calphade Farmhouse Owner",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000365": {
+      "ko": {
+        "title": "폴렌가르드 양봉장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Pollengarth Apiary Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000366": {
+      "ko": {
+        "title": "글렌브라이트 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Glenbright Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000367": {
+      "ko": {
+        "title": "넥타우드 양봉장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Nectarwood Apiary Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000368": {
+      "ko": {
+        "title": "스코그혼 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Skoghorn Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000369": {
+      "ko": {
+        "title": "라쿠스 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Lacus Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000370": {
+      "ko": {
+        "title": "캐널사이드 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Canalside Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000371": {
+      "ko": {
+        "title": "러슬리프 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Rustleleaf Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000372": {
+      "ko": {
+        "title": "카우벨 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Cowbell Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000373": {
+      "ko": {
+        "title": "헤이센트 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Hayscent Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000374": {
+      "ko": {
+        "title": "아이언우드 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Ironwood Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000375": {
+      "ko": {
+        "title": "그린필드 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Greenfield Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000376": {
+      "ko": {
+        "title": "블루벨 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Bluebell Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000377": {
+      "ko": {
+        "title": "스톤웰 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Stonewell Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000378": {
+      "ko": {
+        "title": "허니우드 양봉장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Honeywood Apiary Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000379": {
+      "ko": {
+        "title": "스프링데일 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Springdale Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000380": {
+      "ko": {
+        "title": "슬로프시드 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Slopeseed Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000381": {
+      "ko": {
+        "title": "오리 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Duck Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000382": {
+      "ko": {
+        "title": "브룩필드 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Brookfield Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000383": {
+      "ko": {
+        "title": "시드로우 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Seedrow Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000384": {
+      "ko": {
+        "title": "벨루아 마을 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Vellua Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000385": {
+      "ko": {
+        "title": "헤이루프 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Hayroof Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000386": {
+      "ko": {
+        "title": "화이트밀 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "데메니스"
+      },
+      "en": {
+        "title": "Whitemill Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Demeniss"
+      }
+    },
+    "1000387": {
+      "ko": {
+        "title": "목 좋은 마을 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Timberton Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000388": {
+      "ko": {
+        "title": "윈드로즈 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Windrose Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000389": {
+      "ko": {
+        "title": "콘필드 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Cornfield Farmhouse Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000390": {
+      "ko": {
+        "title": "카카오밭 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Cacao Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000391": {
+      "ko": {
+        "title": "붉은모래 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "붉은사막"
+      },
+      "en": {
+        "title": "Redsand Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Crimson Desert"
+      }
+    },
+    "1000392": {
+      "ko": {
+        "title": "붉은바위 농장 주인",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Redrock Farm Owner",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000393": {
+      "ko": {
+        "title": "노을골 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Sunset Valley Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000394": {
+      "ko": {
+        "title": "벨루아 마을 농장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Vellua Farm Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000395": {
+      "ko": {
+        "title": "새들캡 목장 주인",
+        "service": "농산물 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Saddlecap Ranch Owner",
+        "service": "Produce Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000396": {
+      "ko": {
+        "title": "스빈홀트 목장 주인",
+        "service": "가축 상점",
+        "areaOrAffiliation": "페일룬"
+      },
+      "en": {
+        "title": "Svinholt Ranch Owner",
+        "service": "Rancher's Shop",
+        "areaOrAffiliation": "Pailune"
+      }
+    },
+    "1000397": {
+      "ko": {
+        "title": "마르니 주화 교환소",
+        "service": "마르니 주화 교환소",
+        "areaOrAffiliation": "델레시아"
+      },
+      "en": {
+        "title": "Marni Token Exchange",
+        "service": "Marni Token Exchange",
+        "areaOrAffiliation": "Delesyia"
+      }
+    },
+    "1000398": {
+      "ko": {
+        "title": "채권 교환소",
+        "service": "채권 상점",
+        "areaOrAffiliation": "에르난드"
+      },
+      "en": {
+        "title": "Bond Exchange",
+        "service": "Bond Shop",
+        "areaOrAffiliation": "Hernand"
+      }
+    },
+    "1000399": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000400": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000401": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000402": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000403": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000404": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000405": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000406": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000407": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000408": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000409": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000410": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000411": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000412": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000413": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000414": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000415": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000416": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000417": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000418": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000419": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000420": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000421": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000422": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000423": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000424": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000425": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000426": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000427": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000428": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000429": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000430": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000431": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000432": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000433": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000434": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000435": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000436": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000437": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000438": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000439": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000440": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000441": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000442": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000443": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000444": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000445": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000446": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000447": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000448": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000449": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000450": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000451": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "페일룬 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Pailune Trading Post",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000452": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000453": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000454": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000455": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000456": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000457": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000458": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000459": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000460": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000461": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000462": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000463": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000464": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000465": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000466": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000467": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000468": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000469": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000470": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000471": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000472": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000473": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000474": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000475": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000476": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000477": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000478": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000479": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000480": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000481": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000482": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000483": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000484": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000485": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000486": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000487": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000488": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000489": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000490": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000491": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000492": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000493": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000494": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000495": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000496": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000497": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000498": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000499": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000500": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000501": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000502": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000503": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000504": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000505": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000506": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000507": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000508": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000509": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000510": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000511": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000512": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000513": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000514": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000515": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000516": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000517": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000518": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000519": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000520": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000521": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000522": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000523": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000524": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000525": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000526": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000527": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000528": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "금풍상회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Goldleaf Merchant Guild"
+      }
+    },
+    "1000529": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "은월상단"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Silvermoon Trade Group"
+      }
+    },
+    "1000530": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "붉은바람 무역회"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Redwind Merchant Guild"
+      }
+    },
+    "1000531": {
+      "ko": {
+        "title": "무역 관리인",
+        "service": "길거리 무역소",
+        "areaOrAffiliation": "자유무역"
+      },
+      "en": {
+        "title": "Trade Manager",
+        "service": "Trading Stall",
+        "areaOrAffiliation": "Free Trading"
+      }
+    },
+    "1000532": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000533": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000534": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000535": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000536": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000537": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000538": {
+      "ko": {
+        "title": "장물아비",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "Fence",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000539": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000540": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    },
+    "1000541": {
+      "ko": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      },
+      "en": {
+        "title": "",
+        "service": "",
+        "areaOrAffiliation": ""
+      }
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "repository": "https://github.com/NattKh/CRIMSON-DESERT-SAVE-EDITOR-AND-GAME-MODS",
+  "commit": "96e7f78fcb00d6cb5615171a7f359f0c2de5b114",
+  "checked": "2026-10-13",
+  "note": "The files array preserves pinned upstream provenance. local_changes records SaveUltimate sources and build outputs. The unchanged upstream parc_parser.dll is retained as an oracle; parc_validation.dll is the qualified streaming runtime validator.",
+  "upstream_dll": {
+    "path": "CrimsonSaveEditor/parc_parser.dll",
+    "sha256": "8902fed952faefa86fe3f4712b18b44b1b434cd510033af66a7ab3a234e6550e",
+    "bytes": 239104,
+    "version": "crimson_save_backend 2.1.0"
+  },
+  "files": [
+    {
+      "path": "src/blob_fixup.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/blob_fixup.h",
+      "bytes": 6664,
+      "sha256": "dd59419e10a3fc28ec38b189fe9557d80fb72416c2efa45e5d9392b45765cf55",
+      "git_blob_sha1": "18bcaabc61dd5304459068c40cd7b4ddd78b5c11"
+    },
+    {
+      "path": "src/parc_dll.cpp",
+      "upstream_path": "CrimsonSaveEditorCpp/src/parc_dll.cpp",
+      "bytes": 14364,
+      "sha256": "dbfbf6343320cbc58141670d523994dc81f96a9ac7bab6c181dab09dadfe1020",
+      "git_blob_sha1": "8cb64c6137d1ba96ec61fe2e7c712bf2f42c1127"
+    },
+    {
+      "path": "src/parc_engine.cpp",
+      "upstream_path": "CrimsonSaveEditorCpp/src/parc_engine.cpp",
+      "bytes": 45715,
+      "sha256": "d277eb746c2366d37cdfb60aace65a3db26668dc9fe2e55f2e2e030a8a5ae792",
+      "git_blob_sha1": "e625f1596c8b167ebbfd10e30d708adcdcde8c36"
+    },
+    {
+      "path": "src/parc_engine.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/parc_engine.h",
+      "bytes": 4332,
+      "sha256": "7baa730d14b0e0b8d65d786625f6e5bc211e0cafb2349472dc369156e17df4a7",
+      "git_blob_sha1": "70fdd989c748d6f04e3be209f8274ca3ed27e2e7"
+    },
+    {
+      "path": "src/parc_serializer.cpp",
+      "upstream_path": "CrimsonSaveEditorCpp/src/parc_serializer.cpp",
+      "bytes": 23946,
+      "sha256": "ba008222a070f215a3dbd1b788d5ba43a574064184e8a9bf8944bd38b3544ecf",
+      "git_blob_sha1": "219a879dae1ad2d64d2c22e56083e7e9143fc21e"
+    },
+    {
+      "path": "src/parc_serializer.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/parc_serializer.h",
+      "bytes": 1095,
+      "sha256": "229a78e5743c47ce6f9e1ea68f0f9bcd4fb034a41c85b8d940e9fb66e21d8c4f",
+      "git_blob_sha1": "360402d05a30f53792919b63a215042f5cccd1d9"
+    },
+    {
+      "path": "src/portable_hmac_sha256.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/portable_hmac_sha256.h",
+      "bytes": 4833,
+      "sha256": "758779a774deca44da5f49891cd8440c704e0f7938112c5e1f9826da893b851e",
+      "git_blob_sha1": "9ae115cc3ce26605ffb1b43ddc353fc4a16cf852"
+    },
+    {
+      "path": "src/save_parser_cpp.cpp",
+      "upstream_path": "CrimsonSaveEditorCpp/src/save_parser_cpp.cpp",
+      "bytes": 72615,
+      "sha256": "fc9d4661c35413810b37e123bc359009ee1b4fcc73db440203c9cd6229617cfc",
+      "git_blob_sha1": "eb35e93f764e59e04cf938954fd6a5f6ba934890"
+    },
+    {
+      "path": "src/save_parser_cpp.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/save_parser_cpp.h",
+      "bytes": 5515,
+      "sha256": "4ea60771d03df1640944f101b8ff7cf9e146c4534e709757664f3ab64d812607",
+      "git_blob_sha1": "66bc613b3a476a57a735095e7c575912073d1fe4"
+    },
+    {
+      "path": "src/save_writer.cpp",
+      "upstream_path": "CrimsonSaveEditorCpp/src/save_writer.cpp",
+      "bytes": 9596,
+      "sha256": "ec0ad28055738594546ff7d0c781add07c96d555426894d10de727a4c18142fb",
+      "git_blob_sha1": "8c76e1d369b720201fd2d407ccc666780f3e742e"
+    },
+    {
+      "path": "src/save_writer.h",
+      "upstream_path": "CrimsonSaveEditorCpp/src/save_writer.h",
+      "bytes": 899,
+      "sha256": "733f0aa8cbd00f1d47d34371627e39f4b238dbd203042b11f56fa0aea4a6c8ee",
+      "git_blob_sha1": "622be9e55ac98d1790d3c6a2884ecd9cb1c8f2b8"
+    },
+    {
+      "path": "third_party/lz4/lz4.c",
+      "upstream_path": "CrimsonSaveEditorCpp/third_party/lz4/lz4.c",
+      "bytes": 118947,
+      "sha256": "53debdc44985bddbe4805e7f385ceae743598e90424b87798def5056363a6845",
+      "git_blob_sha1": "493a27e454ca49c41f44425351d087d4d825046a"
+    },
+    {
+      "path": "third_party/lz4/lz4.h",
+      "upstream_path": "CrimsonSaveEditorCpp/third_party/lz4/lz4.h",
+      "bytes": 46123,
+      "sha256": "774f26afe507c3ea4e781faca51dfcad719f60804526cef7fe223e3c3e534eef",
+      "git_blob_sha1": "5b147b29d28f451579cf73e113afb776cc86e6e7"
+    },
+    {
+      "path": "third_party/lz4/lz4hc.c",
+      "upstream_path": "CrimsonSaveEditorCpp/third_party/lz4/lz4hc.c",
+      "bytes": 95129,
+      "sha256": "53f6c148f243c6b214d80f85f157e690b53329bc44126da6668b7da87d2496ce",
+      "git_blob_sha1": "a5571333621c2390c56dabb961f2c7ad27d6ae5b"
+    },
+    {
+      "path": "third_party/lz4/lz4hc.h",
+      "upstream_path": "CrimsonSaveEditorCpp/third_party/lz4/lz4hc.h",
+      "bytes": 20752,
+      "sha256": "59d7c7e9bce386c74b87346d7f9c35575213205df7adeb712bfc00a97ba0ee7a",
+      "git_blob_sha1": "1f323f54f85e8af2f7b4309ea66d62f6c0add237"
+    },
+    {
+      "path": "upstream/CMakeLists.txt",
+      "upstream_path": "CrimsonSaveEditorCpp/CMakeLists.txt",
+      "bytes": 5340,
+      "sha256": "abd3aac27d374b66a5006974cd2e6a60d74d2cecf76991e330ba87ca5f6dfae4",
+      "git_blob_sha1": "4a0a146eb1572d2b0262f668f58b2b90f6e6be77"
+    },
+    {
+      "path": "upstream/README.md",
+      "upstream_path": "CrimsonSaveEditorCpp/README.md",
+      "bytes": 1321,
+      "sha256": "3b197ab1be361ae9b969388016582c7850724423c67a4d09abb2855c54e76cc2",
+      "git_blob_sha1": "35c365cfe7d52d7656703e006d38a1b1a8b043c8"
+    },
+    {
+      "path": "../licenses/Upstream-MPL-2.0.txt",
+      "upstream_path": "LICENSE.txt",
+      "bytes": 15588,
+      "sha256": "a3d8c93952258fb736a705f3a14091a9edee6fdb497fe5a7dcf1138b998e5788",
+      "git_blob_sha1": "0fcc75d434c65119dfbed2350353147939dab8f6"
+    }
+  ],
+  "local_changes": {
+    "checked": "2026-10-13",
+    "purpose": "Native region relocation and selected-field reads (ABI 4), projected store ownership reads, and record-by-record full validation using the shared decoder and original serializer. LZ4 HC default-level save compression preserves decoded bytes while reducing write latency.",
+    "toolchain": "Windows x64, GCC 16.2.0, CMake 4.4.3, Ninja 1.13.2, Release",
+    "files": [
+      {
+        "path": "src/parc_dll.cpp",
+        "bytes": 15562,
+        "sha256": "5b3f5b6578429a15d9c2d0e05edeb8003aa5046381469da461294dffde68f7b7"
+      },
+      {
+        "path": "src/parc_serializer.cpp",
+        "bytes": 27171,
+        "sha256": "db5fb15cc588302be191f7a75c7057dd94c3e86fffa224b026125b898835080b"
+      },
+      {
+        "path": "src/parc_serializer.h",
+        "bytes": 1443,
+        "sha256": "1bf6a188d79fb4324aaccd7199bd2822e8cb4f325fe469f61794f2edcbd28c4d"
+      },
+      {
+        "path": "src/save_parser_cpp.cpp",
+        "bytes": 81550,
+        "sha256": "a72d0369d66465fe262b4e2e58e0c6a1b0b280a320d098e166e5f8d33f410b3c"
+      },
+      {
+        "path": "src/save_parser_cpp.h",
+        "bytes": 6337,
+        "sha256": "13716db997fec3cc5af97459308494e4c3e82c1b14b2b7894a85323a18027173"
+      },
+      {
+        "path": "src/parc_index.cpp",
+        "bytes": 11199,
+        "sha256": "23e8bf76fcc06489bec4afad7ff6bbe115a066fe1afff91af0c6567469f5f3cd"
+      },
+      {
+        "path": "CMakeLists.txt",
+        "bytes": 2294,
+        "sha256": "68a46858f6aab6af2dc116feb6a15b02f868bee9163e2ecccd06121ce10de50d"
+      },
+      {
+        "path": "verify_backend.py",
+        "bytes": 5765,
+        "sha256": "7fbacef35ac12182a66ded2ff2b38e89afb7bac160f6a5349649507d49cfac64"
+      },
+      {
+        "path": "src/save_writer.cpp",
+        "bytes": 9842,
+        "sha256": "edcc15042bab752a8673fd2cac9c2b2c4b3088cc47ed7209e615bda54282126f"
+      }
+    ],
+    "dll": {
+      "path": "../parc_index.dll",
+      "bytes": 2910303,
+      "sha256": "88be04d1a2fc79e1d709347cf278661269608ecb91378ece590c70083bf3b851",
+      "abi_version": 4
+    },
+    "validation_dll": {
+      "path": "../parc_validation.dll",
+      "bytes": 3303617,
+      "sha256": "a084ccca2aadd263b644a25b43c5c0d302b1c06f85f99291f1a851dd8d7b969c",
+      "version": "saveultimate_stream_backend 2.1.0-stream.2"
+    }
+  }
+}

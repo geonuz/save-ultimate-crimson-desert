@@ -1,0 +1,1015 @@
+{
+  "gameVersion": "2.03.02 (user-provided save label)",
+  "sourceSha256": {
+    "characterinfo.staticinfobody": "0f695844cedc44763407485393443fab975cdb0da5fe6b85c7c73d9c6d0b8af1",
+    "characterinfo.staticinfoheader": "dd5fc91c31f3a5d5c4372a95027f165263435ccc94a6bf9d77e08680f708e288",
+    "eng_knowledge.paloc": "4ef192cf1088602d1e8ffc088aed43b7be950c5bf9d37893b1d69c9f57b48bd6",
+    "knowledgegroupinfo.staticinfobody": "0ed756570f6c2659538e446847defbbf796ffc2adffa01da08de383f7e47e8bf",
+    "knowledgegroupinfo.staticinfoheader": "b6ef0d71f291d0c9af1a4026bf6af6eb562a1768b18139897f5b624c3437d0c2",
+    "knowledgeinfo.staticinfobody": "927368bde09f963a4810084688a6e42b62d8b5914e79f3d9a57df6e8fc5ab737",
+    "knowledgeinfo.staticinfoheader": "5daa5d0af250b93c743957e77f84ade2a08c240896f3dfb5eb08404cafae759f",
+    "kor_knowledge.paloc": "ce5604c154182ea88002e72ebd1e2f6c1777a951a0d6d707dfa32eb684be5700"
+  },
+  "eligibilityNote": "Client size-parameter analysis; game UI behavior still needs in-game verification.",
+  "fish": [
+    {
+      "key": 1000652,
+      "name": "Piranha",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 15672,
+          "internalName": "Object_Piranha_15672",
+          "sizePairOffset": 691,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "27b3776e259ec391aa3ca5656b772b7a13a5c9d3878630e4412b0d079d57fd58"
+        }
+      ]
+    },
+    {
+      "key": 2001,
+      "name": "Small Blackbrow Bleak",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000389,
+          "internalName": "Animal_Small_BlackbrowBleak_Fish_Wild_1",
+          "sizePairOffset": 821,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "2446fe2740f43d44e3ef402e3e4849c3133921cf5c5ab5c6a47809e655bf3183"
+        }
+      ]
+    },
+    {
+      "key": 2002,
+      "name": "Small Minnow",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000391,
+          "internalName": "Animal_Small_BaliOgluChub_Fish_Wild_1",
+          "sizePairOffset": 819,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "a361d121bd2af6e00a7dbe1e24b0807f62b6b23a16408882a008ea0c386faf4a"
+        }
+      ]
+    },
+    {
+      "key": 2003,
+      "name": "Small Spirlin",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000393,
+          "internalName": "Animal_Small_Schneider_Fish_Wild_1",
+          "sizePairOffset": 816,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "f20ef051715a43fa1b3fc7f5c9768d0670b1d1bc1d78bcf37be6362c458ace86"
+        }
+      ]
+    },
+    {
+      "key": 2004,
+      "name": "Small Gudgeon",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001183,
+          "internalName": "Animal_Small_Sammy_Fish_Wild_1",
+          "sizePairOffset": 812,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "d65d69c0af67e7f2e350b36d60fd15dac1057c2e50b36b05bdeef4e50471f869"
+        }
+      ]
+    },
+    {
+      "key": 2005,
+      "name": "Small Rasbora",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001185,
+          "internalName": "Animal_Small_Beyaz_Fish_Wild_1",
+          "sizePairOffset": 812,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "b3ffd82649cdf07880fc2eb75cb971ad98854b09501a7eb763ec160156f8bac9"
+        }
+      ]
+    },
+    {
+      "key": 2032,
+      "name": "Pond Loach",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001193,
+          "internalName": "Animal_Small_Mudfish_Fish_Wild_1",
+          "sizePairOffset": 814,
+          "minimum": 1.0,
+          "maximum": 10.0,
+          "sha256": "f3cd9f0deed2526a47d9af3b572bdfd5ead85e7215cf04bf65c171eb8d16428b"
+        }
+      ]
+    },
+    {
+      "key": 1001592,
+      "name": "Ricefish",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000786,
+          "internalName": "Animal_RiceFish",
+          "sizePairOffset": 757,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "6c304d68f70b6a328839792524abcd37612395f17ba217397b05320056a92fb2"
+        }
+      ]
+    },
+    {
+      "key": 2006,
+      "name": "Bass",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001217,
+          "internalName": "Animal_Normal_Bass_Wild_1",
+          "sizePairOffset": 802,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "a358d4dddccfdf62a1f48ba639a0ca1c63d9c38cfa42a67d1b47772acdffd917"
+        },
+        {
+          "characterKey": 1001218,
+          "internalName": "Animal_Normal_Yellow_Bass_Wild_1",
+          "sizePairOffset": 809,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "a2f0263c2acfa3f034772124eb6048f7cfd97e7b6acee89eae4581d44808a752"
+        }
+      ]
+    },
+    {
+      "key": 2037,
+      "name": "Perch",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001216,
+          "internalName": "Animal_Normal_Perch_Wild_1",
+          "sizePairOffset": 803,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "d769420d50ee9646bb9bf8c932d5efbecbc9dbb25dbd4e6c6d2e639ff4151908"
+        }
+      ]
+    },
+    {
+      "key": 2031,
+      "name": "Tench",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001192,
+          "internalName": "Animal_Normal_Tench_Wild_1",
+          "sizePairOffset": 803,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "b14b4bae678d523edede88678b50169496e76ea060a9999392baa1999e5f8059"
+        }
+      ]
+    },
+    {
+      "key": 2040,
+      "name": "Leopard Perch",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001227,
+          "internalName": "Animal_Normal_Golden_mandarinFish_Wild_1",
+          "sizePairOffset": 817,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "5b876707acc6c640ec28cd2efd18e9127e746d58a0e157d9cb41dcb7fdebb4db"
+        }
+      ]
+    },
+    {
+      "key": 2041,
+      "name": "Crucian Carp",
+      "groupKey": 1310,
+      "groupName": "Small Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001228,
+          "internalName": "Animal_Normal_Crucian_Carp_Wild_1",
+          "sizePairOffset": 810,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "43e57834a9e3e3cfff007afac7d2a70c3d0620314956949d1b8c589384dfd58b"
+        }
+      ]
+    },
+    {
+      "key": 2016,
+      "name": "Salmon",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001965,
+          "internalName": "Animal_Middle_Salmon_Wild_1",
+          "sizePairOffset": 827,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "5478ba54c1da37c63c2c690ab30084d7f6c1b22e28382d8c819bdd6d054d3e2c"
+        }
+      ]
+    },
+    {
+      "key": 2017,
+      "name": "Sockeye Salmon",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001968,
+          "internalName": "Animal_Middle_Sockeye_Salmon_Wild_1",
+          "sizePairOffset": 835,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "10e514d11740f73a2a0df24d604e88028954275e2896801555308fb2d0731e85"
+        }
+      ]
+    },
+    {
+      "key": 2028,
+      "name": "Northern Pike",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001191,
+          "internalName": "Animal_Middle_Pikefish_Wild_1",
+          "sizePairOffset": 806,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "fdb4bc830ea06bd5584f1b8c475dfceea746aeee0610a83d6e022c63182fa497"
+        }
+      ]
+    },
+    {
+      "key": 2029,
+      "name": "Trout",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001971,
+          "internalName": "Animal_Middle_Trout_Wild_1",
+          "sizePairOffset": 803,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "fa3b3f1523668b6bc6aea289cda9571e190172f26b55829ea572b742347ff5db"
+        }
+      ]
+    },
+    {
+      "key": 2030,
+      "name": "Carp",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1002470,
+          "internalName": "Animal_Middle_Carp_Wild_1",
+          "sizePairOffset": 802,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "849a967287ae3b290b35c92f949a7b764bb2c3769577c24b2f4343334792ed6f"
+        }
+      ]
+    },
+    {
+      "key": 2033,
+      "name": "Catfish",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001200,
+          "internalName": "Animal_Middle_Catfish_Wild_1",
+          "sizePairOffset": 805,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "5070cb495a15b8b4e7e311b29afd028053d1300709fa9d7d0cd1984042e8f108"
+        }
+      ]
+    },
+    {
+      "key": 2034,
+      "name": "Lenok",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001208,
+          "internalName": "Animal_Middle_Lenok_Wild_1",
+          "sizePairOffset": 803,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "354dd1da6addf4f5e0003888bed07356e55da0dcb04bb88ea996954c0683f559"
+        }
+      ]
+    },
+    {
+      "key": 2035,
+      "name": "Burbot",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001210,
+          "internalName": "Animal_Middle_Burbot_Wild_1",
+          "sizePairOffset": 804,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "91fecaf921101418060850c4828e307ed15db4023e03f7907358f539bd7e0bd8"
+        }
+      ]
+    },
+    {
+      "key": 2027,
+      "name": "Saw-Edged Perch",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001949,
+          "internalName": "Animal_Middle_Cuvier_Wild_1",
+          "sizePairOffset": 814,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "bfb864507fd0348650d388cccbfa78d82736e550f14cb480d701f0da9a3482b7"
+        }
+      ]
+    },
+    {
+      "key": 2036,
+      "name": "Freshwater Eel",
+      "groupKey": 1311,
+      "groupName": "Medium Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001974,
+          "internalName": "Animal_Big_Eel_Wild_1",
+          "sizePairOffset": 817,
+          "minimum": 80.0,
+          "maximum": 160.0,
+          "sha256": "95f8c107b216110e104ab42e584ee98b255833ef9fae1d3aa87030a41bda813b"
+        }
+      ]
+    },
+    {
+      "key": 2226,
+      "name": "Electric Eel",
+      "groupKey": 1312,
+      "groupName": "Large Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 35234,
+          "internalName": "Animal_Electric_Eel_Wild_35234",
+          "sizePairOffset": 902,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "81a957d4da9e8a4e8e0185ee5c4708b2d59a0be4fde2e6a1f567063ba63ba34f"
+        }
+      ]
+    },
+    {
+      "key": 1000653,
+      "name": "Giant Pond Loach",
+      "groupKey": 1312,
+      "groupName": "Large Freshwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39105,
+          "internalName": "Animal_Giant_MudFish_Wild_39105",
+          "sizePairOffset": 808,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "7f8051af1f0334eaee63d733f36fd02be4c50365a1b348da74720934aac2fdf0"
+        }
+      ]
+    },
+    {
+      "key": 2014,
+      "name": "Red Tonguesole",
+      "groupKey": 1320,
+      "groupName": "Small Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001244,
+          "internalName": "Animal_Normal_Dover_Sole_Wild_1",
+          "sizePairOffset": 818,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "6dc8a2a2c81c1f3fc937b194a25efac11314b0a88436f3bfbe3c46cb501db846"
+        }
+      ]
+    },
+    {
+      "key": 2021,
+      "name": "Mackerel",
+      "groupKey": 1320,
+      "groupName": "Small Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001939,
+          "internalName": "Animal_Normal_Mackerel_Wild_1",
+          "sizePairOffset": 816,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "5abadf85d4e719a867e4fec4aece8858e8810d14ba121a126f7b1e2d9e52958a"
+        }
+      ]
+    },
+    {
+      "key": 1001734,
+      "name": "Threeline Grunt",
+      "groupKey": 1320,
+      "groupName": "Small Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001669,
+          "internalName": "Animal_Normal_Benjari_Wild_1",
+          "sizePairOffset": 815,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "6431ae99cacf78c2e48a9f925543afe6d699148544698518cbad43e4e1d68804"
+        }
+      ]
+    },
+    {
+      "key": 2018,
+      "name": "Blackhead Seabream",
+      "groupKey": 1321,
+      "groupName": "Medium Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001797,
+          "internalName": "Animal_Middle_BlackSeaBream_Wild_1",
+          "sizePairOffset": 821,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "b4639b8c1018738b94ff4417b3fa184f7bfac7a0144c54dfb4591c32250a119a"
+        }
+      ]
+    },
+    {
+      "key": 2019,
+      "name": "Opaleye",
+      "groupKey": 1321,
+      "groupName": "Medium Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001800,
+          "internalName": "Animal_Middle_Red_Snapper_Wild_1",
+          "sizePairOffset": 819,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "b61d81e06f953b4ffbaaa0238e0f4ae67f69ac54a5a769ee5c3da7eaa30cd0d7"
+        }
+      ]
+    },
+    {
+      "key": 2020,
+      "name": "Barred Knifejaw",
+      "groupKey": 1321,
+      "groupName": "Medium Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001936,
+          "internalName": "Animal_Middle_Rock_Bream_Wild_1",
+          "sizePairOffset": 818,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "e51b026fd9fae24a5e4cf1b03cf60dd68c4c1bcef18d0b3d4492cb188f5fcd90"
+        }
+      ]
+    },
+    {
+      "key": 2015,
+      "name": "Red Seabream",
+      "groupKey": 1321,
+      "groupName": "Medium Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001788,
+          "internalName": "Animal_Middle_Red_Seabream_Wild_1",
+          "sizePairOffset": 820,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "0b832e18b07e38262bf1ad507cb0d1cbfb99ce12e2c60ad874075ba5e755e4e8"
+        }
+      ]
+    },
+    {
+      "key": 2022,
+      "name": "Striped Marlin",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001945,
+          "internalName": "Animal_VeryBig_Marlin_Wild_1",
+          "sizePairOffset": 912,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "75befe7e1e1fdc9cc694f83f9e25cb7978725086732d679c84b9c1e80b660385"
+        }
+      ]
+    },
+    {
+      "key": 2038,
+      "name": "Sturgeon",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001977,
+          "internalName": "Animal_Big_Sturgeon_Wild_1",
+          "sizePairOffset": 814,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "6439516fd39c194e0169cfba608c5b2e7c52e0bd7254024f6fc9aa8ed5137c68"
+        }
+      ]
+    },
+    {
+      "key": 2214,
+      "name": "Paddlefish",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39101,
+          "internalName": "Animal_PaddleFish_Wild_39101",
+          "sizePairOffset": 930,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "438ac04226140961ca4dfa8684a4c46fd1225133442cfe7f22db748a39b892bf"
+        }
+      ]
+    },
+    {
+      "key": 2216,
+      "name": "Giant Red Seabream",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39103,
+          "internalName": "Animal_PagrusMajor_Wild_39103",
+          "sizePairOffset": 812,
+          "minimum": 80.0,
+          "maximum": 160.0,
+          "sha256": "5a4b37dca67be011688caa61d876d9c53621bdbf009344862b3bccce1597c562"
+        }
+      ]
+    },
+    {
+      "key": 2219,
+      "name": "Sailfish",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39106,
+          "internalName": "Animal_SailFish_Wild_39106",
+          "sizePairOffset": 908,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "bb8d23bf7f5fac97766d061be531ae7f7ba70af5388dee12f3a26b3c0409101c"
+        }
+      ]
+    },
+    {
+      "key": 2215,
+      "name": "Broadnose Sevengill Shark",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39102,
+          "internalName": "Animal_SevenGill_Wild_39102",
+          "sizePairOffset": 929,
+          "minimum": 160.0,
+          "maximum": 300.0,
+          "sha256": "790423423ebb6d4c005264c85186330e699cd89b285c0e990c6a4dfc9545f7ab"
+        }
+      ]
+    },
+    {
+      "key": 2217,
+      "name": "Crimson Opaleye",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39104,
+          "internalName": "Animal_RedOpaleye_Wild_39104",
+          "sizePairOffset": 815,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "34799afd280785355d93d9dbe385ba0c253dc5df03d64e6d44a611b579fc9b6e"
+        }
+      ]
+    },
+    {
+      "key": 2224,
+      "name": "Anglerfish",
+      "groupKey": 1322,
+      "groupName": "Large Saltwater Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39111,
+          "internalName": "Animal_FootballFish_Wild_39111",
+          "sizePairOffset": 825,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "1f39a4d3d2caeb239335ca221f1c17932c70cf356c975e57310eab78f9ad1ba0"
+        }
+      ]
+    },
+    {
+      "key": 2147483281,
+      "name": "Blue Whale",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000190,
+          "internalName": "Animal_BlueWhale_Wild_35018",
+          "sizePairOffset": 699,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "99fcc7ec619ff1818e7a7df8aed37ee7c51db74a6fff6a44560d818ead71295c"
+        }
+      ]
+    },
+    {
+      "key": 2023,
+      "name": "Seahorse",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001241,
+          "internalName": "Animal_Insect_Seahorse",
+          "sizePairOffset": 804,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "72907ce069ebf3b94c5594f1c18f9dc3305937f69840915aa1fa7f9b34148702"
+        }
+      ]
+    },
+    {
+      "key": 2009,
+      "name": "Shrimp",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001239,
+          "internalName": "Animal_Insect_Shrimp",
+          "sizePairOffset": 802,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "b8ce5f79e1ffb9daa40fb6da3a433e36d55259a8f5c2da4b0933816153ede128"
+        }
+      ]
+    },
+    {
+      "key": 1001594,
+      "name": "Wharf Roach",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000782,
+          "internalName": "Animal_Insect_Sea_Slater",
+          "sizePairOffset": 752,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "e3b7b03e4505ce2b6223c007d0db3fc66ff01793619b7765c036f2755f11ba8d"
+        }
+      ]
+    },
+    {
+      "key": 1001595,
+      "name": "Crayfish",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001240,
+          "internalName": "Animal_Insect_Lobster",
+          "sizePairOffset": 739,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "4634b190c95afbdc24d94f9d94de95938acf200a06b362f1bfae4d74df26f6a6"
+        }
+      ]
+    },
+    {
+      "key": 2024,
+      "name": "Blue Crab",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001713,
+          "internalName": "Animal_Insect_Crab",
+          "sizePairOffset": 746,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "fd2a1d5afdfc5811e7d053eaa2e58a8aee2597eaa8be982239e0b5d1d9ef8036"
+        }
+      ]
+    },
+    {
+      "key": 1001596,
+      "name": "Freshwater Crab",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000779,
+          "internalName": "Animal_Insect_river_Crab",
+          "sizePairOffset": 742,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "2992d0a58778851d63c85f001c54eec2ccb7388bbed3f7df3b3dc44d3276f4dc"
+        }
+      ]
+    },
+    {
+      "key": 2025,
+      "name": "Starfish",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1000372,
+          "internalName": "Animal_Insect_StarFish",
+          "sizePairOffset": 750,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "98d4a62aa6a3861afc07ade9b1e5eb74c0c0dd1e5ad1c3ef8b656e2c83825e1e"
+        }
+      ]
+    },
+    {
+      "key": 2026,
+      "name": "Squid",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001242,
+          "internalName": "Animal_Insect_Squid",
+          "sizePairOffset": 790,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "sha256": "db69352b42f2878548c627cbadd3149dcd0bcd83fdac716766956e11df799d03"
+        }
+      ]
+    },
+    {
+      "key": 1000156,
+      "name": "Freshwater Clam",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": []
+    },
+    {
+      "key": 1002837,
+      "name": "Razor Clam",
+      "groupKey": 1340,
+      "groupName": "Other",
+      "recordSupported": false,
+      "supportReason": "no_client_size_parameters",
+      "evidence": []
+    },
+    {
+      "key": 2220,
+      "name": "Golden Tench",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39107,
+          "internalName": "Animal_GoldenTench_Wild_39107",
+          "sizePairOffset": 750,
+          "minimum": 30.0,
+          "maximum": 50.0,
+          "sha256": "f3e01aa3424551b68bfb2193122fdcef78dac5fd18793d484672d5baa812e541"
+        }
+      ]
+    },
+    {
+      "key": 2221,
+      "name": "Coelacanth",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001343,
+          "internalName": "Animal_Dune_Coelacanth",
+          "sizePairOffset": 755,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "c7a7b88686d1a828e6705ba51eb630ae5ea0f19bf8fc019dfd2c384e586c37b0"
+        }
+      ]
+    },
+    {
+      "key": 1003306,
+      "name": "Golden Coelacanth",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1001353,
+          "internalName": "Animal_Dune_Golden_Coelacanth",
+          "sizePairOffset": 762,
+          "minimum": 60.0,
+          "maximum": 100.0,
+          "sha256": "430d535ac26531359ce251a031e3607d4ea2afee71c0e876dc2ac86197f4591d"
+        }
+      ]
+    },
+    {
+      "key": 2222,
+      "name": "Golden Carp",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 39109,
+          "internalName": "Animal_GoldenCarp_Wild_39109",
+          "sizePairOffset": 745,
+          "minimum": 80.0,
+          "maximum": 160.0,
+          "sha256": "648bb18b39a2281c9b6591a936be9d67dbc5985d0f1c07592ae94795d95d3fba"
+        }
+      ]
+    },
+    {
+      "key": 1841,
+      "name": "Clockwork Fish",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 35223,
+          "internalName": "Animal_Marni_MachineFish_Wild_35223",
+          "sizePairOffset": 774,
+          "minimum": 80.0,
+          "maximum": 160.0,
+          "sha256": "b6fe1d0514b7b6779b63e214e8c1202ebb04033de482be9f72d91bae71381293"
+        }
+      ]
+    }
+  ],
+  "clientFileVersion": "1.0.0.2976"
+}

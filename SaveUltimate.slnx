@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SaveUltimate.App/SaveUltimate.App.csproj" />
+    <Project Path="src/SaveUltimate.Core/SaveUltimate.Core.csproj" />
+    <Project Path="src/SaveUltimate.Tools/SaveUltimate.Tools.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SaveUltimate.Tests/SaveUltimate.Tests.csproj" />
+  </Folder>
+</Solution>

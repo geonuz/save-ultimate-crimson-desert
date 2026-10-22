@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><UseWPF>true</UseWPF></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MSTest" />
+    <ProjectReference Include="../../src/SaveUltimate.Core/SaveUltimate.Core.csproj" />
+    <ProjectReference Include="../../src/SaveUltimate.App/SaveUltimate.App.csproj" />
+  </ItemGroup>
+</Project>
