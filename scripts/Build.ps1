@@ -2,7 +2,9 @@ param(
     [string]$ToolchainDirectory,
     [switch]$Test,
     [switch]$Publish,
-    [string]$OutputDirectory
+    [string]$OutputDirectory,
+    # Reuse the native DLLs already in native/bin (no CMake toolchain needed).
+    [switch]$SkipNative
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot
@@ -19,18 +21,25 @@ try {
         $toolchain = (Resolve-Path -LiteralPath $ToolchainDirectory).Path
         $env:PATH = $toolchain + ';' + $env:PATH
     }
-    $cmake = (Get-Command cmake -ErrorAction Stop).Source
-    $configure = @('-S', 'native', '-B', 'native/build', '-DCMAKE_BUILD_TYPE=Release')
-    if (Get-Command g++ -ErrorAction SilentlyContinue) { $configure += @('-G', 'MinGW Makefiles') }
-    & $cmake @configure
-    if ($LASTEXITCODE) { throw 'Native configuration failed.' }
-    & $cmake --build native/build --config Release --target parc_validation parc_index parc_reader --parallel 4
-    if ($LASTEXITCODE) { throw 'Native compilation failed.' }
-    New-Item -ItemType Directory -Force native/bin | Out-Null
-    foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
-        $binary = Join-Path $root "native/build/$name.dll"
-        if (!(Test-Path -LiteralPath $binary)) { $binary = Join-Path $root "native/build/Release/$name.dll" }
-        Copy-Item -LiteralPath $binary -Destination native/bin
+    if ($SkipNative) {
+        foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
+            if (!(Test-Path -LiteralPath "native/bin/$name.dll")) { throw "Missing native/bin/$name.dll; build without -SkipNative." }
+        }
+    }
+    else {
+        $cmake = (Get-Command cmake -ErrorAction Stop).Source
+        $configure = @('-S', 'native', '-B', 'native/build', '-DCMAKE_BUILD_TYPE=Release')
+        if (Get-Command g++ -ErrorAction SilentlyContinue) { $configure += @('-G', 'MinGW Makefiles') }
+        & $cmake @configure
+        if ($LASTEXITCODE) { throw 'Native configuration failed.' }
+        & $cmake --build native/build --config Release --target parc_validation parc_index parc_reader --parallel 4
+        if ($LASTEXITCODE) { throw 'Native compilation failed.' }
+        New-Item -ItemType Directory -Force native/bin | Out-Null
+        foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
+            $binary = Join-Path $root "native/build/$name.dll"
+            if (!(Test-Path -LiteralPath $binary)) { $binary = Join-Path $root "native/build/Release/$name.dll" }
+            Copy-Item -LiteralPath $binary -Destination native/bin
+        }
     }
     & $dotnet restore SaveUltimate.slnx --locked-mode --disable-parallel -m:1
     if ($LASTEXITCODE) { throw 'Locked package restore failed.' }

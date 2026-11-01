@@ -39,9 +39,11 @@ public sealed partial class SaveDocument
     public (IReadOnlyDictionary<uint, uint> Levels, SkillState Skills) EditKnowledge(IEnumerable<uint> selection, KnowledgeAction action, uint level = 1)
     {
         var catalog = KnowledgeCatalog.Shared;
-        uint[] keys = action == KnowledgeAction.AllMaximum ? catalog.ItemPaths.Keys.ToArray() : selection.Distinct().ToArray();
+        var dlc = DlcContent.Shared.Knowledge;
+        uint[] keys = action == KnowledgeAction.AllMaximum ? catalog.ItemPaths.Keys.Where(k => !DlcContent.Hidden || !dlc.Contains(k)).ToArray() : selection.Distinct().ToArray();
         if (!Enum.IsDefined(action) || keys.Any(k => !catalog.ItemPaths.ContainsKey(k)))
             throw new InvalidOperationException("지원되지 않는 지식입니다.");
+        DlcContent.Refuse(action != KnowledgeAction.Unlearn && keys.Any(dlc.Contains));
         return EditKnowledgeKeys(keys, action, level);
     }
 

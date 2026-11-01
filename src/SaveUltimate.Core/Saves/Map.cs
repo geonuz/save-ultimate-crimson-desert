@@ -12,7 +12,16 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
 {
     [JsonPropertyName("label_ref")]
     public System.Text.Json.JsonElement[]? LabelRef { get; init; }
-    public static MapAction[] All { get; } = ChallengeCatalog.Load<MapAction[]>("MapActions.json");
+    private static readonly MapAction[] shipped = ChallengeCatalog.Load<MapAction[]>("MapActions.json");
+    private static MapAction[]? baseGame;
+    // Same actions in the same order either way, so an index means the same action.
+    public static MapAction[] All => DlcContent.Hidden ? baseGame ??= shipped.Select(a => a.WithoutDlc(DlcContent.Shared)).ToArray() : shipped;
+    private MapAction WithoutDlc(DlcContent dlc) => this with
+    {
+        Keys = Keys.Where(k => !dlc.Knowledge.Contains(k)).ToArray(), JournalKeys = JournalKeys.Where(k => !dlc.Knowledge.Contains(k)).ToArray(),
+        CountKeys = CountKeys?.Where(k => !dlc.Knowledge.Contains(k)).ToArray(), Scenes = Scenes.Where(s => !dlc.Scenes.Contains(s)).ToArray(),
+        Pivots = Pivots?.Where(p => !dlc.Scenes.Contains(p.Key)).ToDictionary(), ChallengeRoots = ChallengeRoots?.Where(r => !dlc.Missions.Contains(r)).ToArray()
+    };
 }
 public sealed record MapDiscovery(byte? Completed, byte? Discovered, string? Pivot);
 public sealed record MapFog(int Offset, byte[] Codes)
@@ -45,7 +54,8 @@ public sealed partial class SaveDocument
         if (codes.Bytes.Length != lengths.Bytes.Length || lengths.Bytes.Contains((byte)0)) throw new InvalidDataException("Invalid fog runs.");
         var expected = new List<uint>(); uint expanded = 0;
         for (int i = 0; i < lengths.Bytes.Length; i++) { expanded += lengths.Bytes[i]; if ((i + 1) % 64 == 0) expected.Add(expanded); }
-        if (expected.Count == 0 || expanded != 524288) throw new InvalidDataException("Unsupported fog dimensions.");
+        // 64×64 tiles of 128 cells until 2.03; 2.04 (dlc_01) extends the grid to 109×109 tiles.
+        if (expected.Count == 0 || expanded is not (524288 or 1520768)) throw new InvalidDataException("Unsupported fog dimensions.");
         expected[^1] = expanded;
         if (jumps.Bytes.Length != expected.Count * 4 || expected.Where((v, i) => v != BinaryPrimitives.ReadUInt32LittleEndian(jumps.Bytes.AsSpan(i * 4))).Any())
             throw new InvalidDataException("Invalid fog jump table.");

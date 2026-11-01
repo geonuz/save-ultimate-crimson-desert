@@ -5,7 +5,9 @@ using SaveUltimate.Core.Binary;
 
 namespace SaveUltimate.Core.Catalogs;
 
-internal sealed record ClientRecord(string Name, ReadOnlyMemory<byte> Bytes, int Prefix);
+// Compact records (2.04) store [name][key][0] instead of [key][name][0] and reorder ItemInfo fields.
+internal sealed record ClientRecord(string Name, ReadOnlyMemory<byte> Bytes, int Prefix, bool Compact = false);
+internal sealed record ItemFields(ulong MaxStack, string NameRef, string Description, string Extra, uint[] Icons, uint Category, int End);
 
 // ItemInfo has no reflection schema: every read stays within its indexed record.
 internal sealed class ClientReader(ReadOnlyMemory<byte> data, int position = 0)
@@ -30,6 +32,7 @@ internal sealed class ClientReader(ReadOnlyMemory<byte> data, int position = 0)
     public string Text() => Utf8.GetString(Take(Count(128 * 1024 * 1024)));
     public void SkipText() => Utf8.GetCharCount(Take(Count(128 * 1024 * 1024)));
     public void Array(int width) => Take(checked(Count() * width));
+    public uint[] Array32() { var values = new uint[Count()]; for (int i = 0; i < values.Length; i++) values[i] = U32(); return values; }
     public string Reference(byte category, uint member, uint owner, bool optional = false)
     {
         var actual = (U8(), U32(), U32()); string value = Text();
@@ -42,26 +45,53 @@ internal sealed class ClientReader(ReadOnlyMemory<byte> data, int position = 0)
 
 internal static class ClientTables
 {
-    public static Dictionary<uint, ClientRecord> Records(byte[] header, byte[] body)
+    // The record's only [category][member][owner][length][decimal owner << 32 | member] reference, or -1.
+    public static int Anchor(ClientRecord record, byte category, uint member, uint owner)
     {
-        var index = new ClientReader(header); int count = index.U16();
+        string label = (((ulong)owner << 32) | member).ToString(); var anchor = new byte[13 + label.Length];
+        anchor[0] = category; BinaryPrimitives.WriteUInt32LittleEndian(anchor.AsSpan(1), member); BinaryPrimitives.WriteUInt32LittleEndian(anchor.AsSpan(5), owner);
+        BinaryPrimitives.WriteInt32LittleEndian(anchor.AsSpan(9), label.Length); Encoding.ASCII.GetBytes(label, anchor.AsSpan(13));
+        var span = record.Bytes.Span; int first = span.IndexOf(anchor);
+        return first >= 0 && span[(first + 1)..].IndexOf(anchor) < 0 ? first : -1;
+    }
+    // UiMapTextureInfo has unnamed records, hence emptyNames.
+    public static Dictionary<uint, ClientRecord> Records(byte[] header, byte[] body, bool emptyNames = false)
+    {
+        var index = new ClientReader(header);
+        // QuestInfo counts its records with a uint32; the other tables use a uint16.
+        int count = header.Length >= 4 && (header.Length - 4) % 8 == 0 && BinaryPrimitives.ReadUInt32LittleEndian(header) == (header.Length - 4) / 8
+            ? index.Count(65535) : index.U16();
         if (count == 0 || index.Remaining != count * 8) throw new InvalidDataException("Invalid static-info index.");
         var entries = Enumerable.Range(0, count).Select(_ => (Key: index.U32(), Offset: index.U32())).ToArray();
         if (entries[0].Offset != 0) throw new InvalidDataException("Invalid first record offset.");
-        var records = new Dictionary<uint, ClientRecord>(count);
-        for (int i = 0; i < count; i++)
+        Dictionary<uint, ClientRecord> Read(bool compact)
         {
-            var (key, offset) = entries[i]; uint end = i + 1 < count ? entries[i + 1].Offset : (uint)body.Length;
-            if (key == 0 || end <= offset || end > body.Length) throw new InvalidDataException("Invalid static-info boundary.");
-            var bytes = body.AsMemory((int)offset, (int)(end - offset)); var r = new ClientReader(bytes);
-            if (r.U32() != key) throw new InvalidDataException("Static-info identity mismatch.");
-            int length = r.Count(512);
-            if (length == 0) throw new InvalidDataException("Empty client name.");
-            string name = new UTF8Encoding(false, true).GetString(r.Take(length));
-            if (r.U8() != 0 || name.Any(char.IsControl) || !records.TryAdd(key, new(name, bytes, r.Position)))
-                throw new InvalidDataException("Invalid or duplicate client record.");
+            var records = new Dictionary<uint, ClientRecord>(count);
+            for (int i = 0; i < count; i++)
+            {
+                var (key, offset) = entries[i]; uint end = i + 1 < count ? entries[i + 1].Offset : (uint)body.Length;
+                if (key == 0 || end <= offset || end > body.Length) throw new InvalidDataException("Invalid static-info boundary.");
+                var bytes = body.AsMemory((int)offset, (int)(end - offset)); var r = new ClientReader(bytes);
+                if (!compact && r.U32() != key) throw new InvalidDataException("Static-info identity mismatch.");
+                int length = r.Count(512);
+                if (length == 0 && !emptyNames) throw new InvalidDataException("Empty client name.");
+                string name = new UTF8Encoding(false, true).GetString(r.Take(length));
+                if (compact && r.U32() != key) throw new InvalidDataException("Static-info identity mismatch.");
+                if (r.U8() != 0 || name.Any(char.IsControl) || !records.TryAdd(key, new(name, bytes, r.Position, compact)))
+                    throw new InvalidDataException("Invalid or duplicate client record.");
+            }
+            return records;
         }
-        return records;
+        try { return Read(false); }
+        catch (Exception e) when (e is InvalidDataException or DecoderFallbackException) { return Read(true); }
+    }
+    public static Dictionary<uint, ClientRecord> Records(IEnumerable<(string Tag, byte[] Header, byte[] Body)> layers, bool emptyNames = false)
+    {
+        // DLC tables add records and replace base records with the same key.
+        var merged = new Dictionary<uint, ClientRecord>();
+        foreach (var (_, header, body) in layers)
+            foreach (var (key, record) in Records(header, body, emptyNames)) merged[key] = record;
+        return merged;
     }
     public static Dictionary<string, string> Strings(byte[] data, IReadOnlySet<string>? needed = null)
     {
@@ -87,19 +117,54 @@ internal static class ClientTables
         if (r.Remaining != 0) throw new InvalidDataException("Trailing PALOC data.");
         return result;
     }
-    public static (string Description, string Extra, uint[] Icons, int End) ItemHeader(uint key, ClientRecord record)
+    public static ItemFields Item(uint key, ClientRecord record)
     {
         var r = new ClientReader(record.Bytes, record.Prefix);
-        r.Take(8); r.Reference(7, 0x70, key); r.Take(8);
-        for (int i = r.Count(); i > 0; i--) { r.Take(4); r.Array(1); }
-        r.Array(4); r.Take(4); r.Array(4); r.Array(4);
-        var icons = new uint[r.Count()];
-        for (int i = 0; i < icons.Length; i++) { icons[i] = r.U32(); r.Take(5); r.Array(4); r.Take(1); }
-        r.Take(14);
-        return (r.Reference(7, 0x71, key), r.Reference(7, 0x72, key, true), icons, r.Position);
+        static uint[] Icons(ClientReader r)
+        {
+            var icons = new uint[r.Count()];
+            for (int i = 0; i < icons.Length; i++) { icons[i] = r.U32(); r.Take(5); r.Array(4); r.Take(1); }
+            return icons;
+        }
+        if (!record.Compact)
+        {
+            ulong maxStack = r.U64(); string name = r.Reference(7, 0x70, key); r.Take(8);
+            for (int i = r.Count(); i > 0; i--) { r.Take(4); r.Array(1); }
+            r.Array(4); r.Take(4); r.Array(4); r.Array(4);
+            var icons = Icons(r);
+            r.Take(14);
+            string description = r.Reference(7, 0x71, key), extra = r.Reference(7, 0x72, key, true); int end = r.Position;
+            var category = new ClientReader(record.Bytes, end); category.Take(4);
+            return new(maxStack, name, description, extra, icons, category.U16(), end);
+        }
+        // 2.04 layout, checked against every 2.03 item: a fixed 152-byte block (stack limit at +2, category at +101)
+        // precedes the references, then the group label, three optional arrays and the icons.
+        r.Take(2); ulong stack = r.U64();
+        uint compactCategory = new ClientReader(record.Bytes, record.Prefix + 101).U16();
+        r = new ClientReader(record.Bytes, record.Prefix + 152);
+        string compactName = r.Reference(7, 0x70, key), compactDescription = r.Reference(7, 0x71, key);
+        string compactExtra = r.U8() switch { 0 => "", 1 => r.Reference(7, 0x72, key), _ => throw new InvalidDataException("Invalid item text flag.") };
+        r.SkipText(); r.Take(12);
+        foreach (int width in new[] { 9, 4, 4 }) Optional(r, width);
+        var compactIcons = Icons(r);
+        return new(stack, compactName, compactDescription, compactExtra, compactIcons, compactCategory, r.Position);
+    }
+    private static void Optional(ClientReader r, int width)
+    {
+        byte present = r.U8();
+        if (present == 1) r.Array(width);
+        else if (present != 0) throw new InvalidDataException("Invalid optional client array.");
     }
     public static int SocketLimit(ClientRecord record, int start, Dictionary<uint, ClientRecord> items)
     {
+        if (record.Compact)
+        {
+            // shortcut: only equipment-shaped tails are decoded; any other tail reports 0. For 2.04 a search of every
+            // other tail for a socket-rule block found none with sockets (and the search finds exactly the walked block
+            // in all 891 socketed items). Decode the remaining tail variants if a client update breaks that check.
+            try { return CompactSocketLimit(record, start, items); }
+            catch (InvalidDataException) { return 0; }
+        }
         var r = new ClientReader(record.Bytes, start);
         r.Take(15); r.Take(r.Count(10000) * 8); r.Take(8); r.Text(); r.Text(); r.Take(4);
         for (int i = r.Count(10000); i > 0; i--) r.Text();
@@ -114,13 +179,25 @@ internal static class ClientTables
             }
         r.Array(4); r.Take(6); r.Array(4); r.Array(4); r.Array(2); r.Take(1); r.Array(4); r.Take(8);
         r.Take(r.Count(10000) * 8); r.Take(4);
+        return SocketRules(r, items, false);
+    }
+    private static int CompactSocketLimit(ClientRecord record, int start, Dictionary<uint, ClientRecord> items)
+    {
+        var r = new ClientReader(record.Bytes, start);
+        Optional(r, 8); r.Take(10); Optional(r, 4); r.Take(2);
+        return SocketRules(r, items, true);
+    }
+    private static int SocketRules(ClientReader r, Dictionary<uint, ClientRecord> items, bool compact)
+    {
         int enchant = r.U16(), gems = r.Count(5);
         for (int i = 0; i < gems; i++) if (!items.ContainsKey(r.U32())) throw new InvalidDataException("Unresolved socket gem.");
         int materials = r.Count(5);
         for (int i = 0; i < materials; i++) if (!items.ContainsKey(r.U32()) || r.U64() == 0) throw new InvalidDataException("Invalid socket material.");
         byte sub = r.U8();
         if (sub is 0 or 3 or 9) r.Take(4); else if (sub != 18) throw new InvalidDataException("Unsupported sub-item tag.");
-        byte valid = r.U8(), enabled = r.U8(); int levels = r.Count(11);
+        byte valid = r.U8(), enabled = r.U8();
+        if (compact) r.Take(1);
+        int levels = r.Count(11);
         if (levels > 0 && r.U16() != 0 || enabled > 1 || valid != gems || gems > materials || enchant > 10 || enabled == 0 && (gems > 0 || materials > 0))
             throw new InvalidDataException("Invalid socket rules.");
         return enabled == 1 ? materials : 0;
@@ -159,6 +236,7 @@ internal static class ClientTables
                             if (!items.ContainsKey(key) || !items.ContainsKey(other) || price > 1000000000000) throw new InvalidDataException("Unresolved currency.");
                         }
                         r.Take(r.Count(32) * 8); r.Take(r.Count(32) * 4);
+                        if (record.Compact) r.Take(4);
                         hasStats |= stats.Count > 0; levels.Add(new JsonObject { ["level"] = level, ["stats"] = stats });
                     }
                     if (hasStats) { match = levels; matches++; }
@@ -168,22 +246,37 @@ internal static class ClientTables
         }
         return matches == 1 ? match : null;
     }
-    public static Dictionary<uint, (string Name, ClientReader Reader)> Records16(byte[] header, byte[] body)
+    // Small tables keyed by a uint16, or by a byte when width is 1 (MercenaryInfo).
+    public static Dictionary<uint, (string Name, ClientReader Reader, bool Compact)> Records16(byte[] header, byte[] body, int width = 2)
     {
         var h = new ClientReader(header); int count = h.U16();
-        if (count == 0 || h.Remaining != count * 6) throw new InvalidDataException("Invalid classification index.");
-        var entries = Enumerable.Range(0, count).Select(_ => (Key: (uint)h.U16(), Offset: h.U32())).ToArray();
+        if (count == 0 || h.Remaining != count * (width + 4)) throw new InvalidDataException("Invalid classification index.");
+        uint Key(ClientReader r) => width == 1 ? r.U8() : r.U16();
+        var entries = Enumerable.Range(0, count).Select(_ => (Key: Key(h), Offset: h.U32())).ToArray();
         if (entries[0].Offset != 0) throw new InvalidDataException("Invalid classification first offset.");
-        var result = new Dictionary<uint, (string, ClientReader)>();
-        for (int i = 0; i < count; i++)
+        Dictionary<uint, (string, ClientReader, bool)> Read(bool compact)
         {
-            var (key, offset) = entries[i]; uint end = i + 1 < count ? entries[i + 1].Offset : (uint)body.Length;
-            if (offset >= end || end > body.Length) throw new InvalidDataException("Invalid classification boundary.");
-            var r = new ClientReader(body.AsMemory((int)offset, (int)(end - offset)));
-            if (r.U16() != key) throw new InvalidDataException("Classification identity mismatch.");
-            string name = r.Text();
-            if (r.U8() > 1 || !result.TryAdd(key, (name, r))) throw new InvalidDataException("Invalid classification record.");
+            var result = new Dictionary<uint, (string, ClientReader, bool)>();
+            for (int i = 0; i < count; i++)
+            {
+                var (key, offset) = entries[i]; uint end = i + 1 < count ? entries[i + 1].Offset : (uint)body.Length;
+                if (offset >= end || end > body.Length) throw new InvalidDataException("Invalid classification boundary.");
+                var r = new ClientReader(body.AsMemory((int)offset, (int)(end - offset)));
+                if (!compact && Key(r) != key) throw new InvalidDataException("Classification identity mismatch.");
+                string name = r.Text();
+                if (compact && Key(r) != key) throw new InvalidDataException("Classification identity mismatch.");
+                if (r.U8() > 1 || !result.TryAdd(key, (name, r, compact))) throw new InvalidDataException("Invalid classification record.");
+            }
+            return result;
         }
-        return result;
+        try { return Read(false); }
+        catch (Exception e) when (e is InvalidDataException or DecoderFallbackException) { return Read(true); }
+    }
+    public static Dictionary<uint, (string Name, ClientReader Reader, bool Compact)> Records16(IEnumerable<(string Tag, byte[] Header, byte[] Body)> layers, int width = 2)
+    {
+        var merged = new Dictionary<uint, (string Name, ClientReader Reader, bool Compact)>();
+        foreach (var (_, header, body) in layers)
+            foreach (var (key, record) in Records16(header, body, width)) merged[key] = record;
+        return merged;
     }
 }

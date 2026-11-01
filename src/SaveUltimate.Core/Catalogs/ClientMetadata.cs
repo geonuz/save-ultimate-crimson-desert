@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using SaveUltimate.Core.Archives;
 
 namespace SaveUltimate.Core.Catalogs;
 
@@ -12,17 +13,17 @@ internal static class ClientMetadata
         ["ItemGroup_Equip_Horse"] = "7737074371868491952"
     };
     private sealed record Group(string Internal, string Reference, uint[] Children, uint[] Items);
-    public static Dictionary<string, JsonNode> Build(Func<string, string, byte[]> read, string resources, string destination,
+    public static Dictionary<string, JsonNode> Build(GameFiles game, string resources, string destination,
         IReadOnlySet<string> valid, out int itemCount, out int added, out int changed)
     {
-        (byte[], byte[]) Table(string name) => (read("0008", $"gamedata/binarystaticinfo__/bin/{name}.staticinfoheader"),
-            read("0008", $"gamedata/binarystaticinfo__/bin/{name}.staticinfobody"));
-        Dictionary<uint, ClientRecord> Records(string name) { var (h, b) = Table(name); return ClientTables.Records(h, b); }
-        Dictionary<uint, (string Name, ClientReader Reader)> Small(string name) { var (h, b) = Table(name); return ClientTables.Records16(h, b); }
+        Dictionary<uint, ClientRecord> Records(string name) => ClientTables.Records(game.Tables(name));
+        Dictionary<uint, (string Name, ClientReader Reader, bool Compact)> Small(string name) => ClientTables.Records16(game.Tables(name));
         Dictionary<string, string> Strings(string code, string name)
         {
-            var (group, language) = Languages[code]; return ClientTables.Strings(read(group, $"gamedata/stringtable/binary__/{language}/{name}.paloc"),
-                name == "localstringinfo" ? BroadNames.Values.ToHashSet() : null);
+            var (group, language) = Languages[code]; var result = new Dictionary<string, string>();
+            foreach (var (_, layer) in game.ReadLayers(group,$"gamedata/stringtable/binary__/{language}/{name}.paloc"))
+                foreach (var (key, text) in ClientTables.Strings(layer, name == "localstringinfo" ? BroadNames.Values.ToHashSet() : null)) result[key] = text;
+            return result;
         }
         var items = Records("iteminfo"); var statuses = Records("statusinfo");
         var texts = Languages.Keys.ToDictionary(c => c, c => Strings(c, "item"));
@@ -36,11 +37,15 @@ internal static class ClientMetadata
         });
         var groups = Small("itemgroupinfo").ToDictionary(p => p.Key, p =>
         {
-            var r = p.Value.Reader; string reference = r.Reference(8, 0x80, p.Key);
+            var r = p.Value.Reader;
+            void Flags() { foreach (byte flag in r.Take(4)) if (flag > 1) throw new InvalidDataException("Invalid item group flag."); }
+            // 2.04 moves the four flags and the seven bytes before them ahead of the reference.
+            if (p.Value.Compact) { Flags(); r.Take(7); }
+            string reference = r.Reference(8, 0x80, p.Key);
             var children = Enumerable.Range(0, r.Count()).Select(_ => (uint)r.U16()).ToArray();
             var members = Enumerable.Range(0, r.Count()).Select(_ => r.U32()).ToArray();
-            r.Array(1); r.Take(7);
-            foreach (byte flag in r.Take(4)) if (flag > 1) throw new InvalidDataException("Invalid item group flag.");
+            r.Array(1);
+            if (!p.Value.Compact) { r.Take(7); Flags(); }
             if (r.Remaining != 0) throw new InvalidDataException("Unsupported ItemGroupInfo layout.");
             return new Group(p.Value.Name, reference, children, members);
         });
@@ -76,11 +81,8 @@ internal static class ClientMetadata
         var details = new JsonObject(); var caps = new JsonObject(); changed = 0;
         foreach (var (key, item) in items)
         {
-            var r = new ClientReader(item.Bytes, item.Prefix); ulong maxStack = r.U64();
+            var header = ClientTables.Item(key, item); ulong maxStack = header.MaxStack; string nameRef = header.NameRef; uint category = header.Category;
             if (maxStack == 0) throw new InvalidDataException("Zero item stack limit.");
-            string nameRef = r.Reference(7, 0x70, key);
-            var header = ClientTables.ItemHeader(key, item);
-            var categoryReader = new ClientReader(item.Bytes, header.End); categoryReader.Take(4); uint category = categoryReader.U16();
             if (!categories.TryGetValue(category, out var indices)) throw new InvalidDataException("Unknown item category.");
             uint d = detail.GetValueOrDefault(key), g = broad.GetValueOrDefault(key, d);
             var classification = JsonValue.Create(new

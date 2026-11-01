@@ -9,9 +9,13 @@ public partial class MainViewModel
     public bool IsMap => PageIndex == 8;
     public bool IsCompanions => PageIndex == 9;
     public bool IsFriendship => PageIndex == 10;
-    public bool IsNpc => IsCompanions || IsFriendship;
+    public bool IsPets => PageIndex == 12;
+    public bool IsNpc => IsCompanions || IsFriendship || IsPets;
+    // NPC tabs in order: companions (9), pets and special mounts (12), NPC friendship (10).
+    private static readonly int[] NpcPages = [9, 12, 10];
+    public static int NpcPage(int tab) => NpcPages[tab];
     [ObservableProperty] private int npcPageIndex;
-    partial void OnNpcPageIndexChanged(int value) { if (IsNpc) PageIndex = 9 + value; }
+    partial void OnNpcPageIndexChanged(int value) { if (IsNpc) PageIndex = NpcPages[value]; }
     [ObservableProperty] private MapState? map;
     [ObservableProperty] private Companion[]? companions;
     [ObservableProperty] private NpcFriendship[]? friendship;
@@ -59,6 +63,26 @@ public partial class MainViewModel
     {
         if (!CanSave() || Friendship is null) return;
         await RunAsync(Tr.Text("npc.apply"), async () => { Friendship = await Task.Run(() => document!.SetFriendship(key, expected, value)); Refresh(); Status = Tr.Text("NPC affinity changed."); });
+    }
+    public async Task SetAffinityAsync(uint key, uint playable, ulong expected, int value)
+    {
+        if (!CanSave() || Friendship is null) return;
+        await RunAsync(Tr.Text("npc.apply"), async () => { Friendship = await Task.Run(() => document!.SetAffinity(key, playable, expected, value)); Refresh(); Status = Tr.Text("npc.affinity_changed"); });
+    }
+    public Dictionary<ulong, CompanionDetail> CompanionDetails() => document?.ReadCompanionDetails() ?? [];
+    public async Task EditRobotWorkersAsync(Companion? remove)
+    {
+        if (!CanSave() || Companions is null) return;
+        await RunAsync(Tr.Text(remove is null ? "companion.robot_add" : "companion.robot_remove"), async () =>
+        {
+            Companions = await Task.Run(() => remove is null ? document!.AddRobotWorker() : document!.RemoveRobotWorker(remove));
+            Refresh(); Status = Tr.Text("companion.robot_changed");
+        });
+    }
+    public async Task SwapCompanionsAsync(Companion first, Companion second)
+    {
+        if (!CanSave() || Companions is null) return;
+        await RunAsync(Tr.Text("companion.move"), async () => { Companions = await Task.Run(() => document!.SwapCompanions(first, second)); Refresh(); Status = Tr.Text("companion.moved"); });
     }
     public async Task RenameCompanionsAsync(Companion[] selected, string? name)
     {

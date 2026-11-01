@@ -34,8 +34,8 @@ public sealed class PamtIndex
             uint id = reader.U32(); reader.U32();
             if (!chunks.TryAdd(id, reader.U32())) throw new InvalidDataException("Duplicate PAMT chunk.");
         }
-        var directories = new Trie(reader.Take(reader.Count()).ToArray());
-        var filenames = new Trie(reader.Take(reader.Count()).ToArray());
+        byte[] directoryNames = reader.Take(reader.Count()).ToArray();
+        byte[] fileNames = reader.Take(reader.Count()).ToArray();
         int directoryCount = reader.Count();
         if (directoryCount > reader.Remaining / 16) throw new InvalidDataException("Truncated PAMT directory table.");
         var directoryRows = new List<(uint Hash, int Name, uint Start, uint Count)>();
@@ -43,14 +43,22 @@ public sealed class PamtIndex
             directoryRows.Add((reader.U32(), unchecked((int)reader.U32()), reader.U32(), reader.U32()));
         int fileCount = reader.Count();
         if (fileCount > reader.Remaining / 20) throw new InvalidDataException("Truncated PAMT file table.");
-        var files = new List<(uint Name, uint Offset, uint Packed, uint Expanded, ushort Chunk, byte Flags)>();
+        var files = new List<(uint Name, uint Offset, uint Packed, uint Expanded, ushort Chunk, byte Flags, byte Extension)>();
         for (int i = 0; i < fileCount; i++)
+            files.Add((reader.U32(), reader.U32(), reader.U32(), reader.U32(), reader.U16(), reader.U8(), reader.U8()));
+        // 2.04 indexes end with a NUL-separated extension table; each file row's last byte selects its extension
+        // and the name tries switch to compact entries. Older indexes end here and keep that byte zero.
+        bool compact = reader.Remaining != 0;
+        string[] extensions = [""];
+        if (compact)
         {
-            var row = (reader.U32(), reader.U32(), reader.U32(), reader.U32(), reader.U16(), reader.U8());
-            if (reader.U8() != 0) throw new InvalidDataException("Invalid PAMT file reserved field.");
-            files.Add(row);
+            string table = new UTF8Encoding(false, true).GetString(reader.Take(reader.Count()));
+            if (reader.Remaining != 0 || !table.StartsWith('\0') || !table.EndsWith('\0')) throw new InvalidDataException("Invalid PAMT extension table.");
+            extensions = table[..^1].Split('\0');
         }
-        if (reader.Remaining != 0) throw new InvalidDataException("Trailing PAMT bytes.");
+        if (files.Any(f => f.Extension >= extensions.Length)) throw new InvalidDataException("Invalid PAMT file extension.");
+        var directories = new Trie(directoryNames, compact);
+        var filenames = new Trie(fileNames, compact);
         var entries = new Dictionary<string, ArchiveEntry>(StringComparer.Ordinal);
         foreach (var dir in directoryRows)
         {
@@ -62,7 +70,7 @@ public sealed class PamtIndex
                 var file = files[checked((int)(dir.Start + i))];
                 if (!chunks.TryGetValue(file.Chunk, out uint size) || (ulong)file.Offset + file.Packed > size)
                     throw new InvalidDataException("PAMT entry lies outside its chunk.");
-                string name = filenames.Resolve(checked((int)file.Name));
+                string name = filenames.Resolve(checked((int)file.Name)) + extensions[file.Extension];
                 string fullPath = path.Length == 0 ? name : path + "/" + name;
                 if (!entries.TryAdd(fullPath, new(fullPath, file.Chunk, file.Offset, file.Packed, file.Expanded, file.Flags)))
                     throw new InvalidDataException("Duplicate archive path.");
@@ -71,7 +79,9 @@ public sealed class PamtIndex
         return new(encryptionInfo, entries);
     }
 
-    private sealed class Trie(byte[] data)
+    // Classic entries: [i32 parent offset][u8 length][text]. Compact (2.04) entries: [LEB128 distance back to the
+    // parent entry, 0 for a root][u8 length][text].
+    private sealed class Trie(byte[] data, bool compact)
     {
         private readonly Dictionary<int, string> cache = new() { [-1] = "" };
         public string Resolve(int offset)
@@ -80,12 +90,26 @@ public sealed class PamtIndex
             var pending = new Stack<(int Offset, string Text)>();
             while (!cache.ContainsKey(offset))
             {
-                if (offset < 0 || offset > data.Length - 5 || !seen.Add(offset))
+                if (offset < 0 || offset > data.Length - (compact ? 2 : 5) || !seen.Add(offset))
                     throw new InvalidDataException("Invalid or cyclic PAMT string reference.");
-                int parent = BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(offset));
-                int size = data[offset + 4];
-                if (size > data.Length - offset - 5) throw new InvalidDataException("Truncated PAMT string.");
-                pending.Push((offset, new UTF8Encoding(false, true).GetString(data, offset + 5, size)));
+                int parent, start;
+                if (compact)
+                {
+                    uint distance = 0; start = offset;
+                    for (int shift = 0; ; shift += 7)
+                    {
+                        if (shift > 28 || start >= data.Length) throw new InvalidDataException("Invalid PAMT string reference.");
+                        byte part = data[start++]; distance |= (uint)(part & 0x7f) << shift;
+                        if ((part & 0x80) == 0) break;
+                    }
+                    if (distance > (uint)offset) throw new InvalidDataException("Invalid PAMT string reference.");
+                    parent = distance == 0 ? -1 : offset - (int)distance;
+                }
+                else { parent = BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(offset)); start = offset + 4; }
+                if (start >= data.Length) throw new InvalidDataException("Truncated PAMT string.");
+                int size = data[start];
+                if (size > data.Length - start - 1) throw new InvalidDataException("Truncated PAMT string.");
+                pending.Push((offset, new UTF8Encoding(false, true).GetString(data, start + 1, size)));
                 offset = parent;
             }
             string value = cache[offset];

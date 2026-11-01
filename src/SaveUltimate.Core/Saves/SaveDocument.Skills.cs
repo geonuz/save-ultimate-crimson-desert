@@ -27,10 +27,9 @@ public sealed partial class SaveDocument
         }
         static Dictionary<string, ScalarValue> Level(uint k, uint level) => new()
             { ["_key"] = new("KnowledgeKey", 4, k), ["_level"] = new("TLevel", 4, level) };
-        var edits = new List<ListEdit>
-        {
-            new(block.Fields.Named("_list"), "KnowledgeElementSaveData", "_key", plan.Changes.ToDictionary(p => p.Key, p => Level(p.Key, p.Value)))
-        };
+        var edits = new List<ListEdit>();
+        if (plan.Changes.Count != 0)
+            edits.Add(new(block.Fields.Named("_list"), "KnowledgeElementSaveData", "_key", plan.Changes.ToDictionary(p => p.Key, p => Level(p.Key, p.Value))));
         var paid = new Dictionary<uint, SkillPayment>(before.Paid);
         if (plan.Investment != 0)
         {

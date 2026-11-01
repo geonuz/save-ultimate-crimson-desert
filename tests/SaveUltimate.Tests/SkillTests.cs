@@ -1,5 +1,4 @@
 using System.IO;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,6 +25,11 @@ public sealed class SkillTests
         Assert.AreEqual(1UL, second.Bonds); Assert.AreEqual(0UL, second.Artifacts);
         var watched = SkillPlan.Create(state, 40024, 1, true);
         Assert.AreEqual(7u, watched.Follow[40024]); Assert.AreEqual(0UL, watched.Investment);
+        // A learned skill can still be observed: only the observation record is added.
+        var learned = state with { Levels = new Dictionary<uint, uint> { [40024] = 1 } };
+        var observed = SkillPlan.Create(learned, 40024, 1, true);
+        Assert.AreEqual(7u, observed.Follow[40024]); Assert.AreEqual(0, observed.Changes.Count); Assert.AreEqual(0, observed.Costs.Count);
+        Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(learned with { Follow = new Dictionary<uint, uint> { [40024] = 20 } }, 40024, 1, true));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 40001, 1));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 1004772, 1));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 1005840, 1, true));
@@ -37,15 +41,33 @@ public sealed class SkillTests
 
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void RealSkillRecordsAndEditsMatchPythonExactlyAndUndo()
+    public void InvestedSkillCanBeObservedRoundTripAndUndo()
+    {
+        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
+        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.04.00.save")); string original = document.BlobSha256;
+        var before = document.ReadSkills();
+        uint key = SkillCatalog.Shared.Skills.Values.First(d => d.Watch && before.Level(d.Key) > 0 && before.Paid.ContainsKey(d.Key) && !before.Follow.ContainsKey(d.Key)).Key;
+        var after = document.LearnSkill(key, 1, true);
+        Assert.IsTrue(after.Observed(key));
+        CollectionAssert.AreEquivalent(before.Levels.ToArray(), after.Levels.ToArray());
+        CollectionAssert.AreEquivalent(before.Paid.ToArray(), after.Paid.ToArray());
+        Assert.Throws<InvalidOperationException>(() => document.LearnSkill(key, 1, true));
+        string output = Path.Combine(Path.GetTempPath(), $"observe-{Guid.NewGuid():N}.save");
+        try { document.SaveCopy(output); Assert.IsTrue(SaveDocument.Open(output).ReadSkills().Observed(key)); }
+        finally { if (File.Exists(output)) File.Delete(output); }
+        document.Undo(); Assert.AreEqual(original, document.BlobSha256);
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void RealSkillRecordsRejectBrokenLedgersAndEditsUndo()
     {
         string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
-        string? reference = Environment.GetEnvironmentVariable("SAVEULTIMATE_SKILL_REFERENCE");
-        if (fixtures is null || reference is null) Assert.Inconclusive("Set private skill fixtures and Python reference.");
-        using var json = JsonDocument.Parse(File.ReadAllBytes(reference));
-        foreach (var expected in json.RootElement.EnumerateArray())
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        string[] editable = ["new.save", "save_fishnot.save", "save_friendship_not_working.save", "save_friendship_not_working2.save", "save_memory.save"];
+        foreach (string file in editable.Concat(["save_v2.00.02.save", "save_v2.03.02.save", "save_도전과제 일부 미완료.save"]))
         {
-            string path = Path.Combine(fixtures, expected.GetProperty("file").GetString()!);
+            string path = Path.Combine(fixtures, file);
             byte[] original = File.ReadAllBytes(path);
             var document = SaveDocument.Open(path);
             var state = document.ReadSkills();
@@ -58,31 +80,26 @@ public sealed class SkillTests
                 corrupt[total.StartOffset] ^= 1;
                 Assert.Throws<InvalidDataException>(() => SkillState.Read(corrupt, layout, document.Items), "A mismatched investment ledger must not be accepted.");
             }
-            var source = expected.GetProperty("state");
-            Assert.AreEqual(source.GetProperty("levels").EnumerateObject().Count(), state.Levels.Count, path);
-            foreach (var p in source.GetProperty("levels").EnumerateObject()) Assert.AreEqual(p.Value.GetUInt32(), state.Level(uint.Parse(p.Name)), path);
-            Assert.AreEqual(source.GetProperty("paid").EnumerateObject().Count(), state.Paid.Count, path);
-            foreach (var p in source.GetProperty("paid").EnumerateObject())
-                Assert.AreEqual(new SkillPayment(p.Value[0].GetUInt64(), p.Value[1].GetInt32()), state.Paid[uint.Parse(p.Name)], path);
-            foreach (var p in source.GetProperty("points").EnumerateObject())
-                Assert.AreEqual(new SkillPoints(p.Value[0].GetUInt64(), p.Value[1].GetUInt64()), state.Points[int.Parse(p.Name)], path);
-            Assert.AreEqual(source.GetProperty("follow").EnumerateObject().Count(), state.Follow.Count, path);
-            foreach (var p in source.GetProperty("follow").EnumerateObject()) Assert.AreEqual(p.Value[0].GetUInt32(), state.Follow[uint.Parse(p.Name)], path);
-            foreach (var p in source.GetProperty("inventory").EnumerateObject()) Assert.AreEqual(p.Value.GetUInt64(), state.Inventory[uint.Parse(p.Name)], path);
+            if (!editable.Contains(file)) continue;
             string hash = document.BlobSha256;
-            foreach (var edit in expected.GetProperty("cases").EnumerateArray())
+            // Invest one and two levels, observe two skills, and invest a two-level node.
+            foreach (var (key, target, watch) in new[] { (1005842u, 1u, false), (1005842u, 2u, false), (40064u, 1u, true), (1003474u, 1u, true), (40003u, 2u, false) })
             {
-                uint key = edit.GetProperty("key").GetUInt32(), target = edit.GetProperty("target").GetUInt32();
-                var after = document.LearnSkill(key, target, edit.GetProperty("watch").GetBoolean());
-                Assert.AreEqual(target, after.Level(key), $"{path} {key}");
-                Assert.AreEqual(edit.GetProperty("sha256").GetString()!.ToUpperInvariant(), document.BlobSha256, $"{path} {key}");
+                var after = document.LearnSkill(key, target, watch);
+                Assert.AreEqual(target, after.Level(key), $"{file} {key}");
+                if (watch) Assert.IsTrue(after.Observed(key), $"{file} {key}");
                 string changed = document.BlobSha256;
                 Assert.Throws<InvalidOperationException>(() => document.LearnSkill(key, target));
                 Assert.AreEqual(changed, document.BlobSha256);
                 if (key == 40064)
                 {
                     string copy = Path.Combine(Path.GetTempPath(), $"skills-{Guid.NewGuid():N}.save");
-                    try { document.SaveCopy(copy); Assert.AreEqual(changed, SaveDocument.Open(copy).BlobSha256); }
+                    try
+                    {
+                        document.SaveCopy(copy);
+                        var reopened = SaveDocument.Open(copy);
+                        Assert.AreEqual(changed, reopened.BlobSha256); Assert.IsTrue(reopened.ReadSkills().Observed(key));
+                    }
                     finally { File.Delete(copy); }
                 }
                 document.Undo();
@@ -106,8 +123,8 @@ public sealed class SkillTests
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show(); model.PageIndex = 4; window.UpdateLayout();
         var tabs = (SkillsView)window.FindName("SkillsArea");
-        CollectionAssert.AreEqual(new[] { "클리프", "데미안", "웅카" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
-        tabs.SelectedIndex = 1; window.UpdateLayout();
+        CollectionAssert.AreEqual(new[] { "클리프", "웅카", "데미안" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
+        tabs.SelectedIndex = 2; window.UpdateLayout();
         var page = (SkillPage)((TabItem)tabs.SelectedItem).Content;
         var tree = (Canvas)page.FindName("Tree");
         var node = tree.Children.OfType<Button>().Single(b => Equals(b.Tag, 1005842u));

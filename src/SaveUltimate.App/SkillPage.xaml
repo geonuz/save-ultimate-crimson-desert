@@ -18,7 +18,7 @@
    <Style.Triggers><Trigger Property="Text" Value=""><Setter Property="Visibility" Value="Collapsed"/></Trigger></Style.Triggers>
   </Style>
  </UserControl.Resources>
- <Grid Margin="8">
+ <Grid Margin="0,16,0,0">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
   <StackPanel Margin="0,0,0,12"><local:PageHeader Title="{local:Tr skills.title}" HelpTopic="skills.title" LoadedState="{Binding Skills, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadSkillsCommand}"/></local:PageHeader.LoadButton></local:PageHeader><TextBlock x:Name="Balance" TextWrapping="Wrap" Style="{StaticResource SecondaryText}" Margin="0,6,0,0"/></StackPanel>
   <DockPanel Grid.Row="1" Margin="0,0,0,8">

@@ -9,17 +9,20 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class ArchiveTests
 {
-    private static byte[] Index(bool cycle = false, uint offset = 0)
+    private static byte[] Index(bool cycle = false, uint offset = 0, bool compact = false, byte extension = 0, byte distance = 3)
     {
         using var data = new MemoryStream();
         using var writer = new BinaryWriter(data);
         writer.Write(0u); writer.Write((ushort)1); writer.Write((ushort)0); writer.Write(0u);
         writer.Write(0u); writer.Write(0u); writer.Write(3u);
         writer.Write(0u);
-        writer.Write(6u); writer.Write(cycle ? 0 : -1); writer.Write((byte)1); writer.Write((byte)'a');
+        // Compact names: "a" at 0 (root) and "b" at 3, whose parent lies `distance` bytes back.
+        if (compact) { writer.Write(6u); writer.Write([0, 1, (byte)'a', distance, 1, (byte)'b']); }
+        else { writer.Write(6u); writer.Write(cycle ? 0 : -1); writer.Write((byte)1); writer.Write((byte)'a'); }
         writer.Write(1u); writer.Write(GameChecksum.Calculate([])); writer.Write(-1); writer.Write(0u); writer.Write(1u);
-        writer.Write(1u); writer.Write(0u); writer.Write(offset); writer.Write(3u); writer.Write(3u);
-        writer.Write((ushort)0); writer.Write((byte)0); writer.Write((byte)0);
+        writer.Write(1u); writer.Write(compact ? 3u : 0u); writer.Write(offset); writer.Write(3u); writer.Write(3u);
+        writer.Write((ushort)0); writer.Write((byte)0); writer.Write(extension);
+        if (compact) { writer.Write(6u); writer.Write("\0.txt\0"u8); }
         var bytes = data.ToArray();
         BinaryPrimitives.WriteUInt32LittleEndian(bytes, GameChecksum.Calculate(bytes.AsSpan(12)));
         return bytes;
@@ -35,6 +38,16 @@ public sealed class ArchiveTests
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(cycle: true)));
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(offset: 2)));
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index().AsSpan(0, 10)));
+    }
+
+    [TestMethod]
+    public void CompactPamtResolvesParentsAndExtensions()
+    {
+        Assert.AreEqual(3u, PamtIndex.Parse(Index(compact: true, extension: 1)).Entries["ab.txt"].CompressedSize);
+        Assert.IsTrue(PamtIndex.Parse(Index(compact: true)).Entries.ContainsKey("ab"));
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(compact: true, extension: 2)));
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(compact: true, distance: 4)));
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(extension: 1)));
     }
 
     [TestMethod]

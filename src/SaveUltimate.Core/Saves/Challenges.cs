@@ -73,6 +73,7 @@ public sealed partial class SaveDocument
 
     public (ChallengeState State, int Completed) CompleteChallenges(uint[] roots, uint[]? checkpoints = null)
     {
+        DlcContent.Refuse(roots.Any(DlcContent.Shared.Missions.Contains));
         var (edits, expected, count) = PlanChallenges(blob, Layout, roots, checkpoints);
         if (count == 0) return (expected, 0);
         byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, edits.ToArray());
@@ -92,8 +93,11 @@ public sealed partial class SaveDocument
     {
         var catalog = ChallengeCatalog.Shared;
         var reference = ChallengeCatalog.Completion;
+        // Completion shapes come from completed reference saves, so they may cover only part of the catalog
+        // (e.g. new DLC challenges); every offered root must be covered entirely.
         if (!reference.ClientSources.OrderBy(p => p.Key).SequenceEqual(catalog.SourceSha256.OrderBy(p => p.Key)) ||
-            !reference.Missions.Keys.Order().SequenceEqual(catalog.Missions.Keys.Order()))
+            reference.Missions.Keys.Any(k => !catalog.Missions.ContainsKey(k)) ||
+            reference.Roots.Any(r => catalog.Descendants(r).Any(k => !reference.Missions.ContainsKey(k))))
             throw new InvalidDataException("Challenge definitions do not match the catalog.");
         if (roots.Length == 0 || roots.Distinct().Count() != roots.Length || roots.Any(k => !reference.Roots.Contains(k)))
             throw new InvalidOperationException("서로 다른 도전과제를 선택하세요.");
@@ -136,6 +140,8 @@ public sealed partial class SaveDocument
         foreach (uint key in checkpoints is null ? roots.Select(r => catalog.Missions[r].Quest).Distinct() : [])
         {
             bool complete = catalog.Quests[key].Missions!.All(k => missions.GetValueOrDefault(k)?.State == 5);
+            // Without a recorded final state the quest row is left as the game wrote it.
+            if (complete && !reference.Quests.ContainsKey(key)) continue;
             byte desired = complete ? reference.Quests[key] : (byte)2;
             var row = before.Quest.GetValueOrDefault(key);
             if (row is not null && (desired != 5 || row.State == 5)) continue;

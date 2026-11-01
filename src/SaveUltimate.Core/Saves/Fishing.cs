@@ -54,6 +54,7 @@ public sealed partial class SaveDocument
     {
         if (!FishingCatalog.Shared.Fish.Any(f => f.Key == key && f.RecordSupported))
             throw new InvalidOperationException("포획 기록 편집이 확인되지 않은 물고기입니다.");
+        DlcContent.Refuse(DlcContent.Shared.Knowledge.Contains(key));
         if (!double.IsFinite(sizeCm) || sizeCm <= 0 || sizeCm > 1000 || (float)sizeCm <= 0)
             throw new ArgumentOutOfRangeException(nameof(sizeCm), "크기는 0보다 크고 1000cm 이하여야 합니다.");
         float size = (float)sizeCm;

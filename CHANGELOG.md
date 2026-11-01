@@ -1,5 +1,54 @@
 # Changelog
 
+## [1.1.0]
+
+Support for the first DLC (dlc_01) and game updates 2.04.00 to 2.04.04. Verified with Crimson Desert 2.04.04;
+2.03.02, 2.04.00 and 2.04.03 saves still open.
+
+Game 2.04 and the DLC
+- Game data sync reads the 2.04 archive and table formats and merges installed DLC data: 8,373 items (1,566 new) with
+  names in all languages, icons, and enchantment and socket rules. Bundled item data is refreshed from 2.04 for use
+  before the first sync.
+- Knowledge, skills, fishing and characters follow 2.04 and the DLC: 4,596 journal entries (657 new), 311 skills
+  (33 new) on the updated skill trees, four new legendary fish, 7,600 character names and NPC titles.
+- Challenges add the "Unknown Journey" category and the DLC missions. 417 of 445 challenges can be completed; the other
+  28 DLC challenges are view-only until one challenge of their series is completed in game.
+- The Map page reads and reveals the enlarged 2.04 exploration grid. Bulk actions cover the DLC region and the regions,
+  caves and memory fragments added in 2.04, and Abyss Nexus travel covers 293 nexuses (27 from the DLC). The Abyss
+  Cresset action covers the 101 base-game cressets only: the DLC's 29 crashed the game at the title screen when
+  activated with estimated positions.
+- Without the DLC installed (no `dlc/dlc_01` in the game folder), the header says so and DLC items, knowledge, fish,
+  skills, challenges and map placements are hidden and refused by every edit.
+
+NPC
+- Companions, Pets & Special Mounts, and NPC Trust are separate tabs. Companions are view-only with level, skill points
+  and equipment, except Grey-0 robot workers, which can be added and removed.
+- Pets & Special Mounts has a tab per category; pets and special mounts can be moved up or down, which the game does
+  not offer. Names are edited on this page, and every record shows its character key and instance number.
+- NPC Trust leaves out pets, mounts and entries that only record a threat reward (wanted criminals, the culprit
+  Corbin), and edits the extended trust stage the DLC adds (친밀도(확장), English "bond") per character, on a tab
+  each for Kliff, Oongka and Damiane. Values the game left between steps of five are kept, and bonds can only be raised.
+- Editing Kliff's bond with a witch also sets her "Improve your bond" mission in progress to the bond, up to its target
+  of 40. Talking to her once in the game makes the quest pick up the new value. Other characters' bonds are left as
+  they are, although the game lowers them when one character's bond rises.
+
+Interface
+- Wording follows the game in every language (Trust and Bond in English, 好感度 and 絆 in Japanese, Доверие and
+  Симпатия in Russian), and character lists read Kliff, Oongka, Damiane everywhere.
+- Items: the Equipment tab filters by owner, and the Money filter also lists currencies kept in the inventory, such
+  as the DLC's Ancient Relics. Item columns read "item key" and "instance number".
+- Tables keep every column header readable in all four languages, fixed-width columns no longer shrink below their
+  designed width, and clipped text ends in "…" with the full text as a tooltip.
+- Search boxes filter once typing pauses; a challenge search that matched every challenge went from 0.9 s to 0.1 s.
+  Knowledge search no longer narrows its columns.
+- Skills: a skill learned by investing can still be observed. The skill tabs line up with the other menus.
+
+Development
+- Tools `refresh-items`, `catalog-challenges`, `challenge-completion` and `catalog-knowledge` regenerate the bundled
+  resources from an installed game, and a test checks the shipped resources against it.
+- Tests no longer compare against the archived Python editor; private-save tests check each edit by reading it back,
+  saving and undoing.
+
 ## [1.0.0]
 
 First release of the C#/.NET edition, replacing the Python/Qt editor. Verified with Crimson Desert 2.03.02.

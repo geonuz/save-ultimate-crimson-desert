@@ -1,14 +1,26 @@
 {
   "gameVersion": "2.03.02 (user-provided save label)",
   "sourceSha256": {
-    "characterinfo.staticinfobody": "0f695844cedc44763407485393443fab975cdb0da5fe6b85c7c73d9c6d0b8af1",
-    "characterinfo.staticinfoheader": "dd5fc91c31f3a5d5c4372a95027f165263435ccc94a6bf9d77e08680f708e288",
-    "eng_knowledge.paloc": "4ef192cf1088602d1e8ffc088aed43b7be950c5bf9d37893b1d69c9f57b48bd6",
-    "knowledgegroupinfo.staticinfobody": "0ed756570f6c2659538e446847defbbf796ffc2adffa01da08de383f7e47e8bf",
-    "knowledgegroupinfo.staticinfoheader": "b6ef0d71f291d0c9af1a4026bf6af6eb562a1768b18139897f5b624c3437d0c2",
-    "knowledgeinfo.staticinfobody": "927368bde09f963a4810084688a6e42b62d8b5914e79f3d9a57df6e8fc5ab737",
-    "knowledgeinfo.staticinfoheader": "5daa5d0af250b93c743957e77f84ade2a08c240896f3dfb5eb08404cafae759f",
-    "kor_knowledge.paloc": "ce5604c154182ea88002e72ebd1e2f6c1777a951a0d6d707dfa32eb684be5700"
+    "characterinfo.dlc_01.staticinfobody": "10737031281c5a53457a3c99edf43c8a0178347a3f51a7c71df0546c167ee735",
+    "characterinfo.dlc_01.staticinfoheader": "9491d575ee5a671e7ddd782e618d540f60c09c9b2a2e4c3403df4352680bd8e3",
+    "characterinfo.staticinfobody": "004a2d8a50657fff7704c3da8730f31db529272fc5c1065e039c2d215fda03c3",
+    "characterinfo.staticinfoheader": "e40d940275822d04afd804ee3c55808a1a0b9647effa889767529e92c3394d48",
+    "eng_knowledge.dlc_01.paloc": "f616f4ef2dfee890a8aa9ecd8c090f8a1b905586919d2edf92331c7a1150712b",
+    "eng_knowledge.paloc": "4921e254fd31c136d1eef331311806ec5cff4e588bf4a3755cf7af1607735f04",
+    "jpn_knowledge.dlc_01.paloc": "d69586620d611f2cc53cdbc996955d0d5cdae8d701af8c3ccf02c102999213dc",
+    "jpn_knowledge.paloc": "4c61429bb86d8d7c1a86127fab94df12a0b6d8288dc330a33770832d86857503",
+    "knowledgegroupinfo.dlc_01.staticinfobody": "4181f4eb87e0598239d5e0bab4f423544513fb6cd38b355888563e1ffb32804a",
+    "knowledgegroupinfo.dlc_01.staticinfoheader": "13bed2c819790ad6ce4177926b2d4a9142eff5c83292e59d8e7c9c4c8a0fbd91",
+    "knowledgegroupinfo.staticinfobody": "2eeb2a85713b9a271daabdbca07e3624c65f6887c42154c7372cec1e504cee90",
+    "knowledgegroupinfo.staticinfoheader": "efd10baf4615a895adcbfdd7695a93ba8c14316e7edeb97d0b141ef0a6809623",
+    "knowledgeinfo.dlc_01.staticinfobody": "cec0c4d190555cc0aa344d53d7327b3497748ab7e45f8997c76e82b070c28992",
+    "knowledgeinfo.dlc_01.staticinfoheader": "980ba13005793aed752211d3f454c2a25f2287c1978d8234a5ac941189af1cf6",
+    "knowledgeinfo.staticinfobody": "00a05dbdb2d12a7c5cb49001db211708f82ee820bbd203174644c8fbd9225c38",
+    "knowledgeinfo.staticinfoheader": "176ba4a6cb4cc6fb17ac6125733a251f7790ae0aa1d8e23b0525ede71f813f7b",
+    "kor_knowledge.dlc_01.paloc": "6a4be529895f7093e16ff6aa768aa23f7724ab19cf5aafdf2fd55490cfa2946f",
+    "kor_knowledge.paloc": "a997e8e5801d96a326972b1b7351d3109bfdaf9e378a9b181d0ca4cc1049b486",
+    "rus_knowledge.dlc_01.paloc": "73c54d243470297a9656e742d415ea73c157b57badcbb197cd4517aaafb0cf5d",
+    "rus_knowledge.paloc": "a0beccba082babcfa72c358e2ede6adc2593e0cd693dc546baf3e2feb7583a5e"
   },
   "eligibilityNote": "Client size-parameter analysis; game UI behavior still needs in-game verification.",
   "fish": [
@@ -1007,6 +1019,78 @@
           "minimum": 80.0,
           "maximum": 160.0,
           "sha256": "b6fe1d0514b7b6779b63e214e8c1202ebb04033de482be9f72d91bae71381293"
+        }
+      ]
+    },
+    {
+      "key": 1006325,
+      "name": "Pink Manta Ray",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1004530,
+          "internalName": "Animal_pink_MantaRay_Wild_1",
+          "sizePairOffset": 507,
+          "minimum": 300,
+          "maximum": 360,
+          "sha256": "200651eaf61cfb9bd1b247eb4aa7b030504f9881f10183b9fa6d504116a2b5d1"
+        }
+      ]
+    },
+    {
+      "key": 1006326,
+      "name": "Golden Shark",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1004531,
+          "internalName": "Animal_gold_Shark_Wild_1",
+          "sizePairOffset": 514,
+          "minimum": 470,
+          "maximum": 520,
+          "sha256": "e1fc83cfb9205475634a080b59a8805bc0f42ec7dacfdcc6a17478df88716de4"
+        }
+      ]
+    },
+    {
+      "key": 1005747,
+      "name": "Golden Striped Marlin",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1004466,
+          "internalName": "Animal_VeryBig_gold_Marlin_Wild_1",
+          "sizePairOffset": 516,
+          "minimum": 200,
+          "maximum": 230,
+          "sha256": "4e770d1cfaa70ba8bc0674c4f704bae2eb487c1432d0e3bdb0a225a1df60eb54"
+        }
+      ]
+    },
+    {
+      "key": 1006324,
+      "name": "Pink Dolphin",
+      "groupKey": 1330,
+      "groupName": "Legendary Fish",
+      "recordSupported": true,
+      "supportReason": "client_size_parameters",
+      "evidence": [
+        {
+          "characterKey": 1004536,
+          "internalName": "Animal_Pink_Dolphin_Wild_1",
+          "sizePairOffset": 515,
+          "minimum": 420,
+          "maximum": 450,
+          "sha256": "9a106b9b590d2fe9da4f9f025a2961464f767a2a459519b18bfd0668232646da"
         }
       ]
     }

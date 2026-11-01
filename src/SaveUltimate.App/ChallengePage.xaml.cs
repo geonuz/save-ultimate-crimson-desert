@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -24,6 +24,8 @@ public sealed record ChallengeRow(uint Key, string Role, string Name, string Int
 public partial class ChallengePage : UserControl
 {
     private static ChallengeCatalog Catalog => ChallengeCatalog.Shared;
+    private static uint[] AllRoots => Catalog.Groups.SelectMany(g => g.Quests).SelectMany(q => Catalog.Quests[q].Missions!).Where(Visible).ToArray();
+    private static bool Visible(uint root) => !DlcContent.Hidden || !DlcContent.Shared.Missions.Contains(root);
     private MainViewModel Model => (MainViewModel)DataContext;
     private ChallengeNode[] nodes = [];
     private ChallengeNode? selected;
@@ -42,7 +44,7 @@ public partial class ChallengePage : UserControl
     private void Changed(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(MainViewModel.Challenges)) return;
-        bool membership = Incomplete.IsChecked == true && ChallengeCatalog.Completion.Roots.Any(k =>
+        bool membership = Incomplete.IsChecked == true && AllRoots.Any(k =>
             (previous?.Mission.GetValueOrDefault(k)?.State == 5) != (Model.Challenges?.Mission.GetValueOrDefault(k)?.State == 5));
         if (previous is null || Model.Challenges is null || membership || language != Tr.Language) { language = Tr.Language; Populate(); }
         else { foreach (var node in All(nodes)) UpdateNode(node); ShowDetails(); }
@@ -69,6 +71,16 @@ public partial class ChallengePage : UserControl
         node.Done = node.Root is uint key ? Done(key) : node.Roots.Length > 0 && node.Roots.All(Done);
         node.Status = node.Root is uint root ? State(root) : Tr.Text(node.Done ? "Completed" : "challenge.unfinished");
     }
+    // Each root's searchable text resolves translated names of all its checkpoints; build it once per language.
+    private Dictionary<uint, string>? searchText;
+    private string searchLanguage = "";
+    private string SearchText(ChallengeGroup group, ChallengeQuest quest, uint root)
+    {
+        if (searchLanguage != Tr.Language) { searchText = []; searchLanguage = Tr.Language; }
+        if (searchText!.TryGetValue(root, out var text)) return text;
+        return searchText[root] = $"{group.Key} {group.Name} {group.NameKo} {group.InternalName} {quest.Key} {quest.Name} {quest.NameKo} {quest.InternalName} " +
+            string.Join(' ', Catalog.Descendants(root).Select(k => { var m = Catalog.Missions[k]; return $"{m.Key} {DisplayName(m)} {m.Name} {m.NameKo} {m.InternalName}"; }));
+    }
     private void Populate()
     {
         if (Tree is null || updating) return;
@@ -87,10 +99,8 @@ public partial class ChallengePage : UserControl
                     var roots = new List<ChallengeNode>();
                     foreach (uint root in quest.Missions!)
                     {
-                        if (Incomplete.IsChecked == true && Done(root)) continue;
-                        string text = $"{group.Key} {group.Name} {group.NameKo} {group.InternalName} {quest.Key} {quest.Name} {quest.NameKo} {quest.InternalName} " +
-                            string.Join(' ', Catalog.Descendants(root).Select(k => { var m = Catalog.Missions[k]; return $"{m.Key} {DisplayName(m)} {m.Name} {m.NameKo} {m.InternalName}"; }));
-                        if (!Matches(text)) continue;
+                        if (!Visible(root) || Incomplete.IsChecked == true && Done(root)) continue;
+                        if (search.Length > 0 && !Matches(SearchText(group, quest, root))) continue;
                         roots.Add(new($"m{root}", DisplayName(Catalog.Missions[root]), root, [root], []));
                     }
                     if (roots.Count > 0) quests.Add(new($"q{key}", Tr.Name("quests", quest.Key.ToString(), DisplayName(quest.NameKo, quest.Name, quest.InternalName)), null, quest.Missions!, roots.ToArray()) { Expanded = search.Length > 0 });
@@ -112,7 +122,7 @@ public partial class ChallengePage : UserControl
             Tree.ItemsSource = nodes;
         }
         finally { updating = false; }
-        Count.Text = Model.Challenges is null ? Tr.Text("challenge.load_prompt") : Tr.Count(ChallengeCatalog.Completion.Roots.Length, All(nodes).Count(n => n.Root.HasValue));
+        Count.Text = Model.Challenges is null ? Tr.Text("challenge.load_prompt") : Tr.Count(AllRoots.Length, All(nodes).Count(n => n.Root.HasValue));
         ShowDetails();
     }
     private void ShowDetails()
@@ -138,16 +148,18 @@ public partial class ChallengePage : UserControl
         finally { updating = false; }
         UpdateActions();
     }
+    // Only challenges with completion shapes recorded from a completed reference save can be completed here.
+    private static bool Completable(uint root) => ChallengeCatalog.Completion.Roots.Contains(root);
     private (uint[] Roots, uint[]? Checkpoints) Targets(bool checkpoints)
     {
         if (selected is null || Model.Challenges is null) return ([], null);
         uint[] keys = Rows.SelectedItems.Cast<ChallengeRow>().Select(r => r.Key).ToArray();
         if (checkpoints)
         {
-            uint[] leaves = keys.Where(k => selected.Root is uint root && k != root && Catalog.Missions[k].Children.Length == 0 && !Done(k)).ToArray();
+            uint[] leaves = keys.Where(k => selected.Root is uint root && Completable(root) && k != root && Catalog.Missions[k].Children.Length == 0 && !Done(k)).ToArray();
             return leaves.Length > 0 ? ([selected.Root!.Value], leaves) : ([], null);
         }
-        return ((selected.Root is uint r ? new[] { r } : keys).Where(k => Catalog.Descendants(k).Any(child => !Done(child))).ToArray(), null);
+        return ((selected.Root is uint r ? new[] { r } : keys).Where(k => Completable(k) && Catalog.Descendants(k).Any(child => !Done(child))).ToArray(), null);
     }
     private void UpdateActions()
     {
@@ -160,12 +172,13 @@ public partial class ChallengePage : UserControl
         CompleteSelected.Visibility = selected?.Root is null ? Visibility.Collapsed : Visibility.Visible;
         CompleteSelected.IsEnabled = leaves.Checkpoints?.Length > 0;
         CompleteSelected.Content = Tr.Text("challenge.complete_selected") + (leaves.Checkpoints?.Length > 0 ? $" ({leaves.Checkpoints.Length})" : "");
-        EditNote.Text = Tr.Text(selected is null ? "challenge.select" : "challenge.edit_scope");
+        EditNote.Text = Tr.Text(selected is null ? "challenge.select" : selected.Root is uint root && !Completable(root) ? "challenge.view_only" : "challenge.edit_scope");
     }
     private void OnSelected(object sender, RoutedPropertyChangedEventArgs<object> e) { if (!updating) { selected = e.NewValue as ChallengeNode; ShowDetails(); } }
     private void OnRowsSelected(object sender, SelectionChangedEventArgs e) => UpdateActions();
     private void OnFilter(object sender, RoutedEventArgs e) { if (DataContext is MainViewModel) Populate(); }
-    private void OnSearch(object sender, TextChangedEventArgs e) => OnFilter(sender, e);
+    private TypingDelay? typing;
+    private void OnSearch(object sender, TextChangedEventArgs e) => (typing ??= new(() => OnFilter(this, e))).Restart(sender);
     private async void OnCompleteAll(object sender, RoutedEventArgs e) { var targets = Targets(false); await Model.CompleteChallengesAsync(targets.Roots); }
     private async void OnCompleteSelected(object sender, RoutedEventArgs e) { var targets = Targets(true); await Model.CompleteChallengesAsync(targets.Roots, targets.Checkpoints); }
 }

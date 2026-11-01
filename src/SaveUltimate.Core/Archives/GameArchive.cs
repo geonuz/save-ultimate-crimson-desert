@@ -7,6 +7,7 @@ namespace SaveUltimate.Core.Archives;
 public sealed class GameArchive
 {
     private readonly string directory;
+    public string Root => directory;
     public PamtIndex Index { get; }
     public GameArchive(string groupDirectory)
     {

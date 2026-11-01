@@ -7,6 +7,7 @@
     <EmbeddedResource Include="../../resources/data/knowledge_ui.json" LogicalName="Knowledge.json" />
     <EmbeddedResource Include="../../resources/data/fishing_catalog.json" LogicalName="Fishing.json" />
     <EmbeddedResource Include="../../resources/data/map_actions.json" LogicalName="MapActions.json" />
+    <EmbeddedResource Include="../../resources/data/dlc_content.json" LogicalName="DlcContent.json" />
     <EmbeddedResource Include="../../resources/data/companion_types.json" LogicalName="CompanionTypes.json" />
     <EmbeddedResource Include="../../resources/data/challenge_catalog.json" LogicalName="Challenges.json" />
     <EmbeddedResource Include="../../resources/data/challenge_completion.json" LogicalName="ChallengeCompletion.json" />

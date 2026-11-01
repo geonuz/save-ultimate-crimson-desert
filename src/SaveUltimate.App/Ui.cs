@@ -27,6 +27,15 @@ internal static class Ui
     public static ScrollViewer Scroll(UIElement content) => new() { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
 }
 
+/// <summary>Runs a filter once typing pauses; text set without keyboard focus (code, tests) applies at once.</summary>
+internal sealed class TypingDelay
+{
+    private readonly System.Windows.Threading.DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(200) };
+    private readonly Action action;
+    public TypingDelay(Action action) { this.action = action; timer.Tick += (_, _) => { timer.Stop(); action(); }; }
+    public void Restart(object sender) { timer.Stop(); if (sender is UIElement { IsKeyboardFocusWithin: true }) timer.Start(); else action(); }
+}
+
 public static class ThemedMessageBox
 {
     public static MessageBoxResult Show(string message, string title = "SaveUltimate", MessageBoxButton buttons = MessageBoxButton.OK,

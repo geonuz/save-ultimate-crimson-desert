@@ -49,9 +49,9 @@ dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory!=PrivateF
 ```
 
 The public suite needs no saves or game installation. Tests marked
-`PrivateFixtures` compare edits byte-for-byte with the original Python editor
-and report Inconclusive unless their inputs are configured through environment
-variables such as `SAVEULTIMATE_FIXTURES` (a folder of saves) and
+`PrivateFixtures` edit real saves, check the result by reading it back, saving
+and undoing, and report Inconclusive unless their inputs are configured through
+the environment variables `SAVEULTIMATE_FIXTURES` (a folder of saves) and
 `SAVEULTIMATE_GAME` (the installed game). Those inputs are personal data and
 stay outside Git.
 

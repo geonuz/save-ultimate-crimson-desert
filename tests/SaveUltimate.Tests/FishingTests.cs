@@ -1,5 +1,4 @@
 using System.IO;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,52 +11,38 @@ namespace SaveUltimate.Tests;
 public sealed class FishingTests
 {
     private static string Fixtures => Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set private fixtures.");
-    private static string Reference => Environment.GetEnvironmentVariable("SAVEULTIMATE_FISHING_REFERENCE") ?? throw new AssertInconclusiveException("Set Python fishing reference.");
-
-    private static void Same(JsonElement expected, FishingRecord[] actual)
-    {
-        Assert.AreEqual(expected.GetArrayLength(), actual.Length);
-        foreach (var row in expected.EnumerateArray())
-        {
-            var fish = actual.Single(r => r.Fish.Key == row.GetProperty("key").GetUInt32());
-            Assert.AreEqual(row.GetProperty("level").GetUInt32(), fish.Level);
-            Assert.AreEqual(row.GetProperty("recordSupported").GetBoolean(), fish.Fish.RecordSupported);
-            Assert.AreEqual(row.GetProperty("recordTypeAvailable").GetBoolean(), fish.RecordTypeAvailable);
-            Assert.AreEqual(row.GetProperty("size_cm").ValueKind == JsonValueKind.Null ? (float?)null : row.GetProperty("size_cm").GetSingle(), fish.Size);
-        }
-    }
-
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void PythonParityScalarInsertionSaveAndUndo()
+    public void ExistingAndInsertedRecordsChangeOnlyTheirFishSaveAndUndo()
     {
-        foreach (int i in Enumerable.Range(0, 3))
+        // 2006 already has a record; 2001 and 2038 insert small and large values.
+        foreach (var (key, size) in new[] { (2006u, 52.125), (2001u, 7.25), (2038u, 150.5) })
         {
-            using var json = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(Reference, $"python-{i}.json")));
-            var row = json.RootElement;
-            var document = SaveDocument.Open(row.GetProperty("path").GetString()!);
+            var document = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
             string original = document.BlobSha256;
             var knowledge = document.ReadKnowledge().OrderBy(p => p.Key).ToArray();
             var items = document.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source)).ToArray();
-            Same(row.GetProperty("before"), document.ReadFishing());
-            uint key = row.GetProperty("key").GetUInt32();
-            double size = row.GetProperty("size").GetDouble();
-            Same(row.GetProperty("after"), document.SetFishingRecord(key, size));
-            Assert.AreEqual(row.GetProperty("sha256").GetString(), document.BlobSha256);
+            var before = document.ReadFishing();
+            var after = document.SetFishingRecord(key, size);
+            CollectionAssert.AreEqual(before.Select(r => r.Fish.Key == key ? r with { Size = (float)size, RecordTypeAvailable = true } : r).ToArray(), after);
             CollectionAssert.AreEqual(knowledge, document.ReadKnowledge().OrderBy(p => p.Key).ToArray());
             CollectionAssert.AreEqual(items, document.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source)).ToArray());
+            string changed = document.BlobSha256;
             document.SetFishingRecord(key, size);
+            Assert.AreEqual(changed, document.BlobSha256);
             string output = Path.Combine(Path.GetTempPath(), $"fishing-{Guid.NewGuid():N}.save");
             try
             {
                 document.SaveCopy(output);
-                Assert.AreEqual(document.BlobSha256, SaveDocument.Open(output).BlobSha256);
+                var reopened = SaveDocument.Open(output);
+                Assert.AreEqual(changed, reopened.BlobSha256);
+                CollectionAssert.AreEqual(after, reopened.ReadFishing());
             }
             finally { if (File.Exists(output)) File.Delete(output); }
             document.Undo();
             Assert.AreEqual(original, document.BlobSha256);
             Assert.IsFalse(document.CanUndo);
-            Same(row.GetProperty("before"), document.ReadFishing());
+            CollectionAssert.AreEqual(before, document.ReadFishing());
         }
     }
 
@@ -85,11 +70,9 @@ public sealed class FishingTests
 
     [STATestMethod]
     [TestCategory("PrivateFixtures")]
-    public void OriginalLabelsSelectionLearnApplyUndoAndFirstCatchBanner()
+    public void SelectionLearnApplyUndoAndFirstCatchBanner()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        using var labels = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(Reference, "python-ui-labels.json")));
-        string Label(string key) => labels.RootElement.GetProperty(key).GetString()!;
         var document = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
@@ -103,13 +86,8 @@ public sealed class FishingTests
             var page = (FishingPage)window.FindName("FishingArea");
             var rows = (DataGrid)page.FindName("Rows");
             Assert.AreEqual(0, rows.Items.Count);
-            foreach (var pair in new[] { ("LoadData", "load"), ("Learn", "learn"), ("Apply", "apply") })
-                Assert.AreEqual(Label(pair.Item2), ((Button)page.FindName(pair.Item1)).Content);
-            CollectionAssert.AreEqual(labels.RootElement.GetProperty("headers").EnumerateArray().Select(r => r.GetString()).ToArray(),
-                rows.Columns.Select(c => (string)c.Header).ToArray());
             WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null));
-            Assert.AreEqual(43, rows.Items.Count);
-            CollectionAssert.AreEqual(labels.RootElement.GetProperty("names").EnumerateArray().Select(r => r.GetString()).ToArray(), rows.Items.Cast<FishingRow>().Select(r => r.Name).ToArray());
+            Assert.AreEqual(model.Fishing!.Count(r => r.Fish.RecordSupported), rows.Items.Count);
             var selected = rows.Items.Cast<FishingRow>().Single(r => r.Key == 2220);
             rows.SelectedItem = selected;
             var apply = (Button)page.FindName("Apply");

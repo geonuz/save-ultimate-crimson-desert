@@ -64,4 +64,64 @@ public sealed class LanguageTests
         }
         finally { Tr.SetLanguage("ko"); }
     }
+    [STATestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void EveryGridHeaderFitsItsColumnInEveryLanguage()
+    {
+        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
+        if (System.Windows.Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown; }
+        var clipped = new List<string>();
+        try
+        {
+            foreach (string language in new[] { "ko", "en", "ja", "ru" })
+            {
+                Tr.SetLanguage(language);
+                var model = new MainViewModel(SaveDocument.Open(Path.Combine(fixtures, "save_v2.04.03_bond.save")));
+                var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+                window.Show();
+                try
+                {
+                    void Check(string page)
+                    {
+                        window.UpdateLayout();
+                        window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                        foreach (var header in Find<System.Windows.Controls.Primitives.DataGridColumnHeader>(window).Where(h => h.IsVisible && h.Column is not null && h.Content is string { Length: > 0 }))
+                            foreach (var text in Find<System.Windows.Controls.TextBlock>(header).Where(t => t.Text == (string)header.Content))
+                            {
+                                text.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                                // The text block keeps its full width; the header cell around it is what clips.
+                                double room = header.ActualWidth - header.Padding.Left - header.Padding.Right;
+                                if (text.DesiredSize.Width > room + 0.5) clipped.Add($"{language} {page}: {header.Content} ({room:F0} < {text.DesiredSize.Width:F0})");
+                            }
+                    }
+                    var nav = (System.Windows.Controls.ListBox)window.FindName("PrimaryNavigation");
+                    nav.SelectedIndex = 0;
+                    var items = (System.Windows.Controls.TabControl)window.FindName("ItemTabs");
+                    for (int i = 0; i < items.Items.Count; i++) { items.SelectedIndex = i; Check($"items {i}"); }
+                    nav.SelectedIndex = 1;
+                    var journal = (System.Windows.Controls.TabControl)window.FindName("JournalTabs");
+                    journal.SelectedIndex = 0; WindowTests.Pump(() => model.LoadKnowledgeCommand.ExecuteAsync(null)); Check("knowledge");
+                    journal.SelectedIndex = 1; WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null)); Check("challenges");
+                    journal.SelectedIndex = 2; WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null)); Check("fishing");
+                    nav.SelectedIndex = 4;
+                    var tabs = (System.Windows.Controls.TabControl)window.FindName("NpcTabs");
+                    tabs.SelectedIndex = 0; WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null)); Check("companions");
+                    tabs.SelectedIndex = 1; Check("pets");
+                    tabs.SelectedIndex = 2; WindowTests.Pump(() => model.LoadFriendshipCommand.ExecuteAsync(null)); Check("npc");
+                }
+                finally { window.Close(); }
+            }
+        }
+        finally { Tr.SetLanguage("ko"); }
+        Assert.AreEqual("", string.Join(Environment.NewLine, clipped.Distinct()));
+    }
+    private static IEnumerable<T> Find<T>(System.Windows.DependencyObject parent) where T : System.Windows.DependencyObject
+    {
+        for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+            if (child is T match) yield return match;
+            foreach (var nested in Find<T>(child)) yield return nested;
+        }
+    }
 }

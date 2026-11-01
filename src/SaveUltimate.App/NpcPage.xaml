@@ -12,6 +12,7 @@
      <DataGridTextColumn Header="{local:Tr npc.area}" Binding="{Binding Area}" Width="Auto" MinWidth="140"/>
      <DataGridTextColumn Header="{local:Tr npc.role}" Binding="{Binding Service}" Width="Auto" MinWidth="120"/>
      <DataGridTextColumn Header="{local:Tr npc.value}" Binding="{Binding Value}" Width="Auto" MinWidth="70"/>
+     <DataGridTextColumn Header="{local:Tr npc.affinity}" Binding="{Binding Affinity}" Width="Auto" MinWidth="170"/>
      <DataGridTextColumn Header="{local:Tr Status}" Binding="{Binding Status}" Width="Auto" MinWidth="100"/>
     </DataGrid.Columns>
     <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="ToolTip" Value="{Binding Title}"/></Style></DataGrid.RowStyle>
@@ -22,6 +23,18 @@
     <ComboBox x:Name="Value" SelectionChanged="OnValue" IsEnabled="False" Margin="0,6"/>
     <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr npc.apply}" IsEnabled="False" Click="OnApply"/>
     <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8"/>
+    <!-- Each playable character keeps its own bond with the NPC, one tab each. -->
+    <TabControl x:Name="Bonds" Margin="0,12,0,0">
+     <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Character}"/></DataTemplate></TabControl.ItemTemplate>
+     <TabControl.ContentTemplate><DataTemplate>
+      <StackPanel Margin="0,8,0,0">
+       <TextBlock Text="{Binding Partner}" TextWrapping="Wrap"/>
+       <TextBlock Text="{local:Tr npc.affinity_new}" Margin="0,8,0,0"/>
+       <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding Value}" IsEnabled="{Binding Gauge.Editable}" Margin="0,6"/>
+       <Button Style="{StaticResource AccentButton}" Content="{local:Tr npc.affinity_apply}" IsEnabled="{Binding CanApply}" Click="OnApplyAffinity"/>
+      </StackPanel>
+     </DataTemplate></TabControl.ContentTemplate>
+    </TabControl>
    </StackPanel></ScrollViewer>
   </local:DetailSplit>
  </Grid>

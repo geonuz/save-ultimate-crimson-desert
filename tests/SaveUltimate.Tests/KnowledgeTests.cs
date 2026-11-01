@@ -13,60 +13,70 @@ public sealed class KnowledgeTests
 {
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void KnowledgeActionsMatchPythonAndPreserveUndoAndLedgers()
+    public void KnowledgeActionsAgreeWithEachOtherAndPreserveUndoAndLedgers()
     {
-        string? reference = Environment.GetEnvironmentVariable("SAVEULTIMATE_KNOWLEDGE_REFERENCE");
-        if (reference is null) Assert.Inconclusive("Set the private knowledge reference directory.");
-        foreach (string path in Directory.GetFiles(reference, "python-*.json"))
+        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        string original = document.BlobSha256;
+        var skills = document.ReadSkills();
+        var levels = document.ReadKnowledge();
+        void Ledgers()
         {
-            using var json = JsonDocument.Parse(File.ReadAllBytes(path));
-            var row = json.RootElement;
-            var document = SaveDocument.Open(row.GetProperty("path").GetString()!);
-            string original = document.BlobSha256;
-            var before = document.ReadSkills();
-            var rawLevels = document.ReadKnowledge();
-            var levels = row.GetProperty("levels");
-            Assert.AreEqual(levels.EnumerateObject().Count(), rawLevels.Count);
-            foreach (var p in levels.EnumerateObject()) Assert.AreEqual(p.Value.GetUInt32(), rawLevels[uint.Parse(p.Name)]);
-            uint[] keys = row.GetProperty("keys").EnumerateArray().Select(k => k.GetUInt32()).ToArray();
-            var action = Enum.Parse<KnowledgeAction>(row.GetProperty("action").GetString()!);
-            document.EditKnowledge(keys, action, row.GetProperty("level").GetUInt32());
-            string changed = document.BlobSha256;
-            Assert.AreEqual(row.GetProperty("sha256").GetString(), changed, path);
             var after = document.ReadSkills();
-            CollectionAssert.AreEqual(before.Paid.OrderBy(p => p.Key).ToArray(), after.Paid.OrderBy(p => p.Key).ToArray());
-            CollectionAssert.AreEqual(before.Points.OrderBy(p => p.Key).ToArray(), after.Points.OrderBy(p => p.Key).ToArray());
-            CollectionAssert.AreEqual(before.Follow.OrderBy(p => p.Key).ToArray(), after.Follow.OrderBy(p => p.Key).ToArray());
-            if (action == KnowledgeAction.AllMaximum)
-            {
-                string copy = Path.Combine(Path.GetTempPath(), $"knowledge-{Guid.NewGuid():N}.save");
-                try
-                {
-                    document.SaveCopy(copy);
-                    var reopened = SaveDocument.Open(copy);
-                    Assert.AreEqual(changed, reopened.BlobSha256);
-                    Assert.AreEqual(JsonSerializer.Serialize(reopened.Items), JsonSerializer.Serialize(document.Items));
-                }
-                finally { File.Delete(copy); }
-                uint learned = KnowledgeCatalog.Shared.ItemPaths.Keys.First();
-                document.EditKnowledge([learned], KnowledgeAction.Unlearn);
-                document.Undo();
-                Assert.AreEqual(changed, document.BlobSha256, "A scalar edit after insertion must not break structural Undo.");
-                document.EditKnowledge([], KnowledgeAction.AllMaximum);
-                Assert.AreEqual(changed, document.BlobSha256, "Reapplying maximum is a no-op.");
-            }
-            Assert.Throws<InvalidOperationException>(() => document.EditKnowledge([uint.MaxValue], KnowledgeAction.Learn));
-            Assert.Throws<InvalidOperationException>(() => document.EditKnowledge([], KnowledgeAction.Level));
-            Assert.Throws<InvalidOperationException>(() => document.EditKnowledge(keys, KnowledgeAction.Level, 256));
-            Assert.AreEqual(changed, document.BlobSha256);
-            if (document.CanUndo) document.Undo();
-            Assert.AreEqual(original, document.BlobSha256);
-            Assert.AreEqual(action == KnowledgeAction.AllMaximum, document.IsDirty, "Undo after SaveCopy differs from the saved copy.");
-            Assert.IsFalse(document.CanUndo);
-            document.EditKnowledge([], KnowledgeAction.Learn);
-            Assert.IsFalse(document.CanUndo);
+            CollectionAssert.AreEqual(skills.Paid.OrderBy(p => p.Key).ToArray(), after.Paid.OrderBy(p => p.Key).ToArray());
+            CollectionAssert.AreEqual(skills.Points.OrderBy(p => p.Key).ToArray(), after.Points.OrderBy(p => p.Key).ToArray());
+            CollectionAssert.AreEqual(skills.Follow.OrderBy(p => p.Key).ToArray(), after.Follow.OrderBy(p => p.Key).ToArray());
         }
-        Assert.AreEqual(6, Directory.GetFiles(reference, "python-*.json").Length);
+        // 2147483059 has no record in this save, so learning inserts one.
+        Assert.IsFalse(levels.ContainsKey(2147483059));
+        document.EditKnowledge([2147483059], KnowledgeAction.Learn);
+        Assert.AreEqual(1u, document.ReadKnowledge()[2147483059]); Ledgers();
+        document.Undo(); Assert.AreEqual(original, document.BlobSha256);
+        // Key 1 is at its maximum: lowering it and raising it back restores the original bytes.
+        Assert.AreEqual(KnowledgeCatalog.Shared.LevelCounts[1], levels[1]);
+        document.EditKnowledge([1], KnowledgeAction.Level, 1);
+        string lowered = document.BlobSha256;
+        Assert.AreEqual(1u, document.ReadKnowledge()[1]);
+        document.EditKnowledge([1], KnowledgeAction.Maximum);
+        Assert.AreEqual(original, document.BlobSha256); Ledgers();
+        document.Undo(); document.Undo();
+        // Unlearning keeps the record at level 0, and learning it again matches setting level 1.
+        document.EditKnowledge([1], KnowledgeAction.Unlearn);
+        Assert.AreEqual(0u, document.ReadKnowledge()[1]);
+        document.EditKnowledge([1], KnowledgeAction.Learn);
+        Assert.AreEqual(lowered, document.BlobSha256); Ledgers();
+        document.Undo(); document.Undo();
+        Assert.AreEqual(original, document.BlobSha256);
+        document.EditKnowledge([], KnowledgeAction.AllMaximum);
+        string changed = document.BlobSha256;
+        var maximum = document.ReadKnowledge();
+        Assert.IsTrue(KnowledgeCatalog.Shared.ItemPaths.Keys.All(k => maximum.GetValueOrDefault(k) >= KnowledgeCatalog.Shared.LevelCounts[k]));
+        Ledgers();
+        string copy = Path.Combine(Path.GetTempPath(), $"knowledge-{Guid.NewGuid():N}.save");
+        try
+        {
+            document.SaveCopy(copy);
+            var reopened = SaveDocument.Open(copy);
+            Assert.AreEqual(changed, reopened.BlobSha256);
+            Assert.AreEqual(JsonSerializer.Serialize(reopened.Items), JsonSerializer.Serialize(document.Items));
+        }
+        finally { File.Delete(copy); }
+        document.EditKnowledge([1], KnowledgeAction.Unlearn);
+        document.Undo();
+        Assert.AreEqual(changed, document.BlobSha256, "A scalar edit after insertion must not break structural Undo.");
+        document.EditKnowledge([], KnowledgeAction.AllMaximum);
+        Assert.AreEqual(changed, document.BlobSha256, "Reapplying maximum is a no-op.");
+        Assert.Throws<InvalidOperationException>(() => document.EditKnowledge([uint.MaxValue], KnowledgeAction.Learn));
+        Assert.Throws<InvalidOperationException>(() => document.EditKnowledge([], KnowledgeAction.Level));
+        Assert.Throws<InvalidOperationException>(() => document.EditKnowledge([1], KnowledgeAction.Level, 256));
+        Assert.AreEqual(changed, document.BlobSha256);
+        document.Undo();
+        Assert.AreEqual(original, document.BlobSha256);
+        Assert.IsTrue(document.IsDirty, "Undo after SaveCopy differs from the saved copy.");
+        Assert.IsFalse(document.CanUndo);
+        document.EditKnowledge([], KnowledgeAction.Learn);
+        Assert.IsFalse(document.CanUndo);
     }
 
     [STATestMethod]

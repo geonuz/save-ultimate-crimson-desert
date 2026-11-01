@@ -11919,6 +11919,136 @@
     "internalName": "NHW_Citizen_42",
     "stringKey": "4295267943710768"
   },
+  "1004849": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_1",
+    "stringKey": "4315793592418352"
+  },
+  "1004850": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_2",
+    "stringKey": "4315797887385648"
+  },
+  "1004851": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_3",
+    "stringKey": "4315802182352944"
+  },
+  "1004852": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_4",
+    "stringKey": "4315806477320240"
+  },
+  "1004853": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_5",
+    "stringKey": "4315810772287536"
+  },
+  "1004854": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_06",
+    "stringKey": "4315815067254832"
+  },
+  "1004855": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_7",
+    "stringKey": "4315819362222128"
+  },
+  "1004856": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_8",
+    "stringKey": "4315823657189424"
+  },
+  "1004857": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_9",
+    "stringKey": "4315827952156720"
+  },
+  "1004858": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_10",
+    "stringKey": "4315832247124016"
+  },
+  "1004859": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_11",
+    "stringKey": "4315836542091312"
+  },
+  "1004860": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_12",
+    "stringKey": "4315840837058608"
+  },
+  "1004861": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_13",
+    "stringKey": "4315845132025904"
+  },
+  "1004862": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_14",
+    "stringKey": "4315849426993200"
+  },
+  "1004863": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_15",
+    "stringKey": "4315853721960496"
+  },
+  "1004864": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_16",
+    "stringKey": "4315858016927792"
+  },
+  "1004865": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_17",
+    "stringKey": "4315862311895088"
+  },
+  "1004866": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_18",
+    "stringKey": "4315866606862384"
+  },
+  "1004867": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_19",
+    "stringKey": "4315870901829680"
+  },
+  "1004868": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_20",
+    "stringKey": "4315875196796976"
+  },
+  "1004869": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_21",
+    "stringKey": "4315879491764272"
+  },
+  "1004870": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_22",
+    "stringKey": "4315883786731568"
+  },
+  "1004871": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_23",
+    "stringKey": "4315888081698864"
+  },
+  "1004872": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_24",
+    "stringKey": "4315892376666160"
+  },
+  "1004873": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_25",
+    "stringKey": "4315896671633456"
+  },
+  "1004874": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_26",
+    "stringKey": "4315900966600752"
+  },
   "1000223": {
     "name": "Captive",
     "internalName": "NHM_Prisoner_Contribution_1501",
@@ -13358,36 +13488,6 @@
     "name": "Host",
     "internalName": "NHM_GameHost_10",
     "stringKey": "4310343278919728"
-  },
-  "1003953": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53108",
-    "stringKey": "4311945301721136"
-  },
-  "1003954": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53109",
-    "stringKey": "4311949596688432"
-  },
-  "1003955": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53110",
-    "stringKey": "4311953891655728"
-  },
-  "1003956": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53111",
-    "stringKey": "4311958186623024"
-  },
-  "1003957": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53112",
-    "stringKey": "4311962481590320"
-  },
-  "1003958": {
-    "name": "Antumbra Follower",
-    "internalName": "NHM_Antumbra_53113",
-    "stringKey": "4311966776557616"
   },
   "1004252": {
     "name": "Kliff",
@@ -14895,7 +14995,7 @@
     "stringKey": "16488379449392"
   },
   "4009": {
-    "name": "Dahlia",
+    "name": "Dalia",
     "internalName": "NHW_Unique_Dahlia_4009",
     "stringKey": "17218523889712"
   },
@@ -14970,7 +15070,7 @@
     "stringKey": "4299030335062064"
   },
   "1001839": {
-    "name": "Nora",
+    "name": "Nour",
     "internalName": "NHW_Unique_Noor_4011",
     "stringKey": "4302865740857392"
   },
@@ -15820,7 +15920,7 @@
     "stringKey": "4302960230137904"
   },
   "1001862": {
-    "name": "Steven",
+    "name": "Stephen",
     "internalName": "NHM_Unique_Stephen_3409",
     "stringKey": "4302964525105200"
   },
@@ -15848,6 +15948,21 @@
     "name": "Nasr",
     "internalName": "NHM_Unique_Nasr",
     "stringKey": "4313963936350256"
+  },
+  "1004606": {
+    "name": "Holden",
+    "internalName": "NHM_Unique_Holden",
+    "stringKey": "4314749915365424"
+  },
+  "1004607": {
+    "name": "Camillo",
+    "internalName": "NHM_Unique_Camillo",
+    "stringKey": "4314754210332720"
+  },
+  "1004608": {
+    "name": "Jurian",
+    "internalName": "NHM_Unique_Jurian",
+    "stringKey": "4314758505300016"
   },
   "102067": {
     "name": "Keynan",
@@ -15903,6 +16018,41 @@
     "name": "Trok",
     "internalName": "NHM_Unique_Wells_Brigade_Throk_54483",
     "stringKey": "4301817768837168"
+  },
+  "1004488": {
+    "name": "Dalt",
+    "internalName": "NHM_Unique_Her_Barber",
+    "stringKey": "4314243109224496"
+  },
+  "1004489": {
+    "name": "Swalan",
+    "internalName": "NHM_Unique_Cal_Barber",
+    "stringKey": "4314247404191792"
+  },
+  "1004490": {
+    "name": "Banver",
+    "internalName": "NHM_Unique_Pai_Barber",
+    "stringKey": "4314251699159088"
+  },
+  "1004491": {
+    "name": "Ortein",
+    "internalName": "NHM_Unique_Dem_Barber",
+    "stringKey": "4314255994126384"
+  },
+  "1004492": {
+    "name": "Bill",
+    "internalName": "NHM_Unique_Del_Barber",
+    "stringKey": "4314260289093680"
+  },
+  "1004493": {
+    "name": "Shadi",
+    "internalName": "NHM_Unique_Tom_Barber",
+    "stringKey": "4314264584060976"
+  },
+  "1004494": {
+    "name": "Famoz",
+    "internalName": "NHM_Unique_Var_Barber",
+    "stringKey": "4314268879028272"
   },
   "4950": {
     "name": "Barun",
@@ -16093,6 +16243,11 @@
     "name": "Belroc",
     "internalName": "NHM_Unique_Elemore_Shop_01",
     "stringKey": "4297101894746160"
+  },
+  "1004253": {
+    "name": "Markan",
+    "internalName": "NHM_Unique_Markan_1",
+    "stringKey": "4313233791909936"
   },
   "1003876": {
     "name": "Bradenfern Farm Owner",
@@ -20174,6 +20329,36 @@
     "internalName": "Animal_SevenGill_Wild_39102",
     "stringKey": "167941811208240"
   },
+  "30066": {
+    "name": "Turtle",
+    "internalName": "Animal_Turtle_Wild_30066",
+    "stringKey": "129132486721584"
+  },
+  "1003799": {
+    "name": "Turtle",
+    "internalName": "Animal_Turtle_Domestic_30066",
+    "stringKey": "4311283876757552"
+  },
+  "35011": {
+    "name": "Snapping Turtle",
+    "internalName": "Animal_SnappingTurtle_Wild_35011",
+    "stringKey": "150371100000304"
+  },
+  "1000404": {
+    "name": "Red-Footed Tortoise",
+    "internalName": "Animal_RedFooted_Turtle_Wild_1",
+    "stringKey": "4296702462787632"
+  },
+  "1000405": {
+    "name": "Leopard Tortoise",
+    "internalName": "Animal_Leopard_Turtle_Wild_1",
+    "stringKey": "4296706757754928"
+  },
+  "1000406": {
+    "name": "Sulcata Tortoise",
+    "internalName": "Animal_Sulcata_Turtle_Wild_1",
+    "stringKey": "4296711052722224"
+  },
   "32300": {
     "name": "Loggerhead Sea Turtle",
     "internalName": "Animal_Caretta_Wild_32300",
@@ -20578,6 +20763,21 @@
     "name": "Shepherd",
     "internalName": "Animal_Unique_Shepherd_Domestic_1",
     "stringKey": "4304588022743088"
+  },
+  "1004353": {
+    "name": "Golden Rhinoceros Beetle",
+    "internalName": "Animal_Unique_Insect_Golden_Rhinoceros_Beetle",
+    "stringKey": "4313663288639536"
+  },
+  "1004354": {
+    "name": "Golden Jewel Beetle",
+    "internalName": "Animal_Unique_Insect_Golden_Jewel_Beetle",
+    "stringKey": "4313667583606832"
+  },
+  "1004355": {
+    "name": "Golden Butterfly",
+    "internalName": "Animal_Unique_Insect_Golden_Butterfly",
+    "stringKey": "4313671878574128"
   },
   "30014": {
     "name": "Small Stoneback Crab",
@@ -22284,6 +22484,36 @@
     "internalName": "NHM_Pirate_TwohandIceThrower_1",
     "stringKey": "4295053195345968"
   },
+  "1004883": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_TwoHandCannon_1",
+    "stringKey": "4315939621306416"
+  },
+  "1004884": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_TwoHandCannon_2",
+    "stringKey": "4315943916273712"
+  },
+  "1004885": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_TwoHandCannon_3",
+    "stringKey": "4315948211241008"
+  },
+  "1004886": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_TwoHandCannon_4",
+    "stringKey": "4315952506208304"
+  },
+  "1004887": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_OneHandMusket_1",
+    "stringKey": "4315956801175600"
+  },
+  "1004888": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_OneHandMusket_2",
+    "stringKey": "4315961096142896"
+  },
   "1000255": {
     "name": "Pirate",
     "internalName": "NHM_Pirate_TwoHandSpear_6",
@@ -22298,6 +22528,111 @@
     "name": "Pirate",
     "internalName": "NHM_Pirate_OneHandMace_1",
     "stringKey": "4296114052268080"
+  },
+  "1004902": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandSword_1",
+    "stringKey": "4316021225685040"
+  },
+  "1004903": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandSword_2",
+    "stringKey": "4316025520652336"
+  },
+  "1004904": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandBow_1",
+    "stringKey": "4316029815619632"
+  },
+  "1004905": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandBomb_1",
+    "stringKey": "4316034110586928"
+  },
+  "1004906": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandSword_3",
+    "stringKey": "4316038405554224"
+  },
+  "1004907": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_TwoHandSpear_6",
+    "stringKey": "4316042700521520"
+  },
+  "1004908": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Small_OneHandMace_1",
+    "stringKey": "4316046995488816"
+  },
+  "1004909": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandSword_1",
+    "stringKey": "4316051290456112"
+  },
+  "1004910": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandSword_2",
+    "stringKey": "4316055585423408"
+  },
+  "1004911": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandBow_1",
+    "stringKey": "4316059880390704"
+  },
+  "1004912": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandBomb_1",
+    "stringKey": "4316064175358000"
+  },
+  "1004913": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandSword_3",
+    "stringKey": "4316068470325296"
+  },
+  "1004914": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_TwoHandSpear_6",
+    "stringKey": "4316072765292592"
+  },
+  "1004915": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Medium_OneHandMace_1",
+    "stringKey": "4316077060259888"
+  },
+  "1004916": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandSword_1",
+    "stringKey": "4316081355227184"
+  },
+  "1004917": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandSword_2",
+    "stringKey": "4316085650194480"
+  },
+  "1004918": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandBow_1",
+    "stringKey": "4316089945161776"
+  },
+  "1004919": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandBomb_1",
+    "stringKey": "4316094240129072"
+  },
+  "1004920": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandSword_3",
+    "stringKey": "4316098535096368"
+  },
+  "1004921": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_TwoHandSpear_6",
+    "stringKey": "4316102830063664"
+  },
+  "1004922": {
+    "name": "Pirate",
+    "internalName": "NHM_Pirate_Ship_Large_OneHandMace_1",
+    "stringKey": "4316107125030960"
   },
   "1000633": {
     "name": "Grave Robber",
@@ -27564,6 +27899,31 @@
     "internalName": "NHM_Wandering_Mercenary_SwordShield_50810",
     "stringKey": "218227288309808"
   },
+  "1004875": {
+    "name": "Wandering Freesword",
+    "internalName": "NHM_Wandering_Mercenary_1",
+    "stringKey": "4315905261568048"
+  },
+  "1004876": {
+    "name": "Wandering Freesword",
+    "internalName": "NHM_Wandering_Mercenary_2",
+    "stringKey": "4315909556535344"
+  },
+  "1004877": {
+    "name": "Wandering Freesword",
+    "internalName": "NHM_Wandering_Mercenary_3",
+    "stringKey": "4315913851502640"
+  },
+  "1004878": {
+    "name": "Wandering Freesword",
+    "internalName": "NHM_Wandering_Mercenary_4",
+    "stringKey": "4315918146469936"
+  },
+  "1004879": {
+    "name": "Wandering Freesword",
+    "internalName": "NHM_Wandering_Mercenary_5",
+    "stringKey": "4315922441437232"
+  },
   "1000721": {
     "name": "Bounty Hunter",
     "internalName": "NHM_BountyHunter_SwordShield_200010273",
@@ -31650,7 +32010,7 @@
     "stringKey": "4303157798633520"
   },
   "1001884": {
-    "name": "Tarik",
+    "name": "Tariq",
     "internalName": "NHM_Criminal_12",
     "stringKey": "4303059014385712"
   },
@@ -31918,11 +32278,6 @@
     "name": "Look",
     "internalName": "Object_15064",
     "stringKey": "64699387346992"
-  },
-  "15282": {
-    "name": "Trap",
-    "internalName": "Object_Trap_15282",
-    "stringKey": "65635690217520"
   },
   "15518": {
     "name": "Sandstorm",
@@ -33323,36 +33678,6 @@
     "name": "Grebe",
     "internalName": "Animal_Little_Grebe_Wild_1",
     "stringKey": "4300872876032048"
-  },
-  "30066": {
-    "name": "Turtle",
-    "internalName": "Animal_Turtle_Wild_30066",
-    "stringKey": "129132486721584"
-  },
-  "1003799": {
-    "name": "Turtle",
-    "internalName": "Animal_Turtle_Domestic_30066",
-    "stringKey": "4311283876757552"
-  },
-  "35011": {
-    "name": "Snapping Turtle",
-    "internalName": "Animal_SnappingTurtle_Wild_35011",
-    "stringKey": "150371100000304"
-  },
-  "1000404": {
-    "name": "Red-Footed Tortoise",
-    "internalName": "Animal_RedFooted_Turtle_Wild_1",
-    "stringKey": "4296702462787632"
-  },
-  "1000405": {
-    "name": "Leopard Tortoise",
-    "internalName": "Animal_Leopard_Turtle_Wild_1",
-    "stringKey": "4296706757754928"
-  },
-  "1000406": {
-    "name": "Sulcata Tortoise",
-    "internalName": "Animal_Sulcata_Turtle_Wild_1",
-    "stringKey": "4296711052722224"
   },
   "2000": {
     "name": "Herspia",
@@ -35555,7 +35880,7 @@
     "stringKey": "4304377569345584"
   },
   "1000516": {
-    "name": "Lapique",
+    "name": "Rafiq",
     "internalName": "NHM_Unique_Desert_Trader",
     "stringKey": "4297183499124784"
   },
@@ -35865,7 +36190,7 @@
     "stringKey": "4304295964966960"
   },
   "1002173": {
-    "name": "Kasim",
+    "name": "Qasim",
     "internalName": "NHM_Unique_Citizen_TruthontheSand_0004",
     "stringKey": "4304300259934256"
   },
@@ -36248,5 +36573,1430 @@
     "name": "Bleed Bandit",
     "internalName": "NHM_Bleed_Bandits_OneHandSword_54106",
     "stringKey": "4311867992309808"
+  },
+  "1004411": {
+    "name": "Beggar",
+    "internalName": "NHM_Beggar_1",
+    "stringKey": "4313912396742704"
+  },
+  "1004612": {
+    "name": "Noble",
+    "internalName": "NHW_Noble_Damianstory_0001",
+    "stringKey": "4314775685169200"
+  },
+  "1004605": {
+    "name": "Azerian's Contact",
+    "internalName": "NHM_Unique_Contact_11",
+    "stringKey": "4314745620398128"
+  },
+  "1004412": {
+    "name": "Patient",
+    "internalName": "NHM_Patient_1",
+    "stringKey": "4313916691710000"
+  },
+  "1004413": {
+    "name": "Patient",
+    "internalName": "NHM_Patient_2",
+    "stringKey": "4313920986677296"
+  },
+  "1004414": {
+    "name": "Patient",
+    "internalName": "NHM_Patient_3",
+    "stringKey": "4313925281644592"
+  },
+  "1004415": {
+    "name": "Patient",
+    "internalName": "NHM_Patient_4",
+    "stringKey": "4313929576611888"
+  },
+  "1004416": {
+    "name": "Patient",
+    "internalName": "NHW_Patient_1",
+    "stringKey": "4313933871579184"
+  },
+  "1004417": {
+    "name": "Patient",
+    "internalName": "NHW_Patient_2",
+    "stringKey": "4313938166546480"
+  },
+  "1003953": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53108",
+    "stringKey": "4311945301721136"
+  },
+  "1003954": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53109",
+    "stringKey": "4311949596688432"
+  },
+  "1003955": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53110",
+    "stringKey": "4311953891655728"
+  },
+  "1003956": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53111",
+    "stringKey": "4311958186623024"
+  },
+  "1003957": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53112",
+    "stringKey": "4311962481590320"
+  },
+  "1003958": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_53113",
+    "stringKey": "4311966776557616"
+  },
+  "1004552": {
+    "name": "Guard",
+    "internalName": "NHM_Unique_Guard_1",
+    "stringKey": "4314517987131440"
+  },
+  "1004586": {
+    "name": "Edward Thorel",
+    "internalName": "NHM_Unique_EdwordThorel_2",
+    "stringKey": "4314664016019504"
+  },
+  "1004587": {
+    "name": "Greymane Cook",
+    "internalName": "NHM_Unique_GreyMane_Cook",
+    "stringKey": "4314668310986800"
+  },
+  "1004588": {
+    "name": "Greymane Equipment Shop",
+    "internalName": "NHM_Unique_GreyMane_Smithy",
+    "stringKey": "4314672605954096"
+  },
+  "1004589": {
+    "name": "Greymane Furniture Shop",
+    "internalName": "NHM_Unique_GreyMane_Furniture",
+    "stringKey": "4314676900921392"
+  },
+  "1004590": {
+    "name": "Greymane Provisioner's Shop",
+    "internalName": "NHM_Unique_GreyMane_Supplies",
+    "stringKey": "4314681195888688"
+  },
+  "1004591": {
+    "name": "Greymane Stable",
+    "internalName": "NHM_Unique_GreyMane_Stable",
+    "stringKey": "4314685490855984"
+  },
+  "1004592": {
+    "name": "Greymane Tailor's Shop",
+    "internalName": "NHM_Unique_GreyMane_Clothes",
+    "stringKey": "4314689785823280"
+  },
+  "1004593": {
+    "name": "Greymane Dyer",
+    "internalName": "NHM_Unique_GreyMane_Dye",
+    "stringKey": "4314694080790576"
+  },
+  "1004594": {
+    "name": "Greymane Barber",
+    "internalName": "NHM_Unique_GreyMane_barbershop",
+    "stringKey": "4314698375757872"
+  },
+  "1004595": {
+    "name": "Greymane Wagonmaster",
+    "internalName": "NHM_Unique_GreyMane_Carriage",
+    "stringKey": "4314702670725168"
+  },
+  "1004596": {
+    "name": "Greymane Jeweler",
+    "internalName": "NHM_Unique_GreyMane_jeweler",
+    "stringKey": "4314706965692464"
+  },
+  "1004597": {
+    "name": "Greymane Smithy",
+    "internalName": "NHM_Unique_GreyMane_CraftingBlackSmith",
+    "stringKey": "4314711260659760"
+  },
+  "1004472": {
+    "name": "Rafi",
+    "internalName": "NHM_Unique_Lafi",
+    "stringKey": "4314174389747760"
+  },
+  "1004898": {
+    "name": "Cartaine",
+    "internalName": "NHM_Unique_Kartein",
+    "stringKey": "4316004045815856"
+  },
+  "1004899": {
+    "name": "Sulivan",
+    "internalName": "NHM_Unique_Schliven",
+    "stringKey": "4316008340783152"
+  },
+  "1004900": {
+    "name": "Evander",
+    "internalName": "NHM_Unique_Evander",
+    "stringKey": "4316012635750448"
+  },
+  "1004901": {
+    "name": "Reyard",
+    "internalName": "NHM_Unique_Leyard",
+    "stringKey": "4316016930717744"
+  },
+  "1004469": {
+    "name": "Ludic",
+    "internalName": "NHM_Island_Trader_0001",
+    "stringKey": "4314161504845872"
+  },
+  "1004473": {
+    "name": "Killiian",
+    "internalName": "NHM_Island_Trader_0002",
+    "stringKey": "4314178684715056"
+  },
+  "1004551": {
+    "name": "Harris",
+    "internalName": "NHM_Island_Trader_0003",
+    "stringKey": "4314513692164144"
+  },
+  "1004357": {
+    "name": "Barrett",
+    "internalName": "NHM_ShipManager_01",
+    "stringKey": "4313680468508720"
+  },
+  "1004486": {
+    "name": "Cruise",
+    "internalName": "NHM_ShipManager_02",
+    "stringKey": "4314234519289904"
+  },
+  "1004515": {
+    "name": "Dwight",
+    "internalName": "NHM_ShipManager_03",
+    "stringKey": "4314359073341488"
+  },
+  "1004549": {
+    "name": "Hopkins",
+    "internalName": "NHM_ShipManager_04",
+    "stringKey": "4314505102229552"
+  },
+  "1004516": {
+    "name": "Joaquin",
+    "internalName": "NHM_ShipItemManager_01",
+    "stringKey": "4314363368308784"
+  },
+  "1004524": {
+    "name": "Juan",
+    "internalName": "NHM_ShipItemManager_02",
+    "stringKey": "4314397728047152"
+  },
+  "1004838": {
+    "name": "White Plains Cow",
+    "internalName": "Animal_Whitegallowaycow_Wild_32215",
+    "stringKey": "4315746347778096"
+  },
+  "1004840": {
+    "name": "Golden Sheep",
+    "internalName": "Animal_GoldenSheep_Wild_1",
+    "stringKey": "4315754937712688"
+  },
+  "1004839": {
+    "name": "Mangalica",
+    "internalName": "Animal_Mangalica_Domestic_1",
+    "stringKey": "4315750642745392"
+  },
+  "1004435": {
+    "name": "Pearl Moss Crocodile",
+    "internalName": "Animal_PearlCrocodile_Wild_1",
+    "stringKey": "4314015475957808"
+  },
+  "1004434": {
+    "name": "Hydrothermal Salamander",
+    "internalName": "Animal_Giant_Salamander_Wild_1",
+    "stringKey": "4314011180990512"
+  },
+  "1004632": {
+    "name": "Giant Hydrothermal Salamander",
+    "internalName": "Animal_Giant_Hydrothermal_Salamander_Wild_1",
+    "stringKey": "4314861584515120"
+  },
+  "1004471": {
+    "name": "Sea Serpent",
+    "internalName": "Animal_SeaKrait_Wild_1",
+    "stringKey": "4314170094780464"
+  },
+  "1004613": {
+    "name": "Great Horned Rhinoceros Beetle",
+    "internalName": "Animal_Insect_Hercules_Beetle",
+    "stringKey": "4314779980136496"
+  },
+  "1004614": {
+    "name": "Five-Horned Rhinoceros Beetle",
+    "internalName": "Animal_Insect_Eupatorus_Beetle",
+    "stringKey": "4314784275103792"
+  },
+  "1004615": {
+    "name": "Scorpionfly",
+    "internalName": "Animal_Insect_Mecoptera",
+    "stringKey": "4314788570071088"
+  },
+  "1004558": {
+    "name": "Scaly-Foot Snail",
+    "internalName": "Animal_Insect_Hydrothermal_Snail",
+    "stringKey": "4314543756935216"
+  },
+  "1004430": {
+    "name": "Blue Lobster",
+    "internalName": "Animal_Insect_BlueLobster",
+    "stringKey": "4313994001121328"
+  },
+  "1004431": {
+    "name": "King Crab",
+    "internalName": "Animal_Insect_KingCrab",
+    "stringKey": "4313998296088624"
+  },
+  "1004432": {
+    "name": "Snow Crab",
+    "internalName": "Animal_Insect_SnowCrab",
+    "stringKey": "4314002591055920"
+  },
+  "1004281": {
+    "name": "Yellow Tang",
+    "internalName": "Animal_YellowTang_Wild_2",
+    "stringKey": "4313354050994224"
+  },
+  "1004282": {
+    "name": "Dawnwave Blue Tang",
+    "internalName": "Animal_AtlanticBlueTang_Wild_2",
+    "stringKey": "4313358345961520"
+  },
+  "1004283": {
+    "name": "Blue Tang",
+    "internalName": "Animal_BlueTang_Wild_2",
+    "stringKey": "4313362640928816"
+  },
+  "1004664": {
+    "name": "Red Tang",
+    "internalName": "Animal_RedTang_Wild_2",
+    "stringKey": "4314999023468592"
+  },
+  "1004665": {
+    "name": "Dewleaf Green Tang",
+    "internalName": "Animal_AtlanticGreenTang_Wild_2",
+    "stringKey": "4315003318435888"
+  },
+  "1004666": {
+    "name": "Purple Tang",
+    "internalName": "Animal_purpleTang_Wild_2",
+    "stringKey": "4315007613403184"
+  },
+  "1004284": {
+    "name": "Discus",
+    "internalName": "Animal_Discus_Wild_2",
+    "stringKey": "4313366935896112"
+  },
+  "1004517": {
+    "name": "Clownfish",
+    "internalName": "Animal_ClownFish_Wild_2",
+    "stringKey": "4314367663276080"
+  },
+  "1004618": {
+    "name": "Longfin Batfish",
+    "internalName": "Animal_Longfin_Batfish_Wild_2",
+    "stringKey": "4314801454972976"
+  },
+  "1004559": {
+    "name": "Pearl Octopus",
+    "internalName": "Animal_Insect_Vulcanoctopus",
+    "stringKey": "4314548051902512"
+  },
+  "1004468": {
+    "name": "Homing Pigeon",
+    "internalName": "Animal_Pigeon_Domestic_30087",
+    "stringKey": "4314157209878576"
+  },
+  "1004495": {
+    "name": "Homing Pigeon",
+    "internalName": "Animal_Pigeon_Domestic_30088",
+    "stringKey": "4314273173995568"
+  },
+  "1004496": {
+    "name": "Homing Pigeon",
+    "internalName": "Animal_Pigeon_Domestic_30089",
+    "stringKey": "4314277468962864"
+  },
+  "1004497": {
+    "name": "Homing Pigeon",
+    "internalName": "Animal_Pigeon_Domestic_30090",
+    "stringKey": "4314281763930160"
+  },
+  "1004844": {
+    "name": "Homing Pigeon",
+    "internalName": "Animal_Pigeon_Domestic_30091",
+    "stringKey": "4315772117581872"
+  },
+  "1004089": {
+    "name": "Spotted Seal",
+    "internalName": "Animal_Spotted_Seal_Wild_1",
+    "stringKey": "4312529417273392"
+  },
+  "1004442": {
+    "name": "Oceanic Anglerfish",
+    "internalName": "Animal_FootballFish_Wild_1",
+    "stringKey": "4314045540728880"
+  },
+  "1004465": {
+    "name": "Oceanic Barred Knifejaw",
+    "internalName": "Animal_Big_Rock_Bream_Wild_1",
+    "stringKey": "4314144324976688"
+  },
+  "1004560": {
+    "name": "Blobfish",
+    "internalName": "Animal_Blobfish_Wild_1",
+    "stringKey": "4314552346869808"
+  },
+  "1004467": {
+    "name": "Red Sailfish",
+    "internalName": "Animal_Red_SailFish_Wild_1",
+    "stringKey": "4314152914911280"
+  },
+  "1004561": {
+    "name": "Hydrothermal Turtle",
+    "internalName": "Animal_Hydrothermal_Turtle_Wild_1",
+    "stringKey": "4314556641837104"
+  },
+  "1004277": {
+    "name": "Manta Ray",
+    "internalName": "Animal_MantaRay_Wild_1",
+    "stringKey": "4313336871125040"
+  },
+  "1004626": {
+    "name": "Giant Manta Ray",
+    "internalName": "Animal_Giant_MantaRay_Wild_1",
+    "stringKey": "4314835814711344"
+  },
+  "1004562": {
+    "name": "Angel Shark",
+    "internalName": "Animal_Angelshark_Wild_1",
+    "stringKey": "4314560936804400"
+  },
+  "1004574": {
+    "name": "Eagle Ray",
+    "internalName": "Animal_EagleRay_Wild_1",
+    "stringKey": "4314612476411952"
+  },
+  "1004563": {
+    "name": "Electric Ray",
+    "internalName": "Animal_LightningRay_Wild_1",
+    "stringKey": "4314565231771696"
+  },
+  "1004278": {
+    "name": "Shark",
+    "internalName": "Animal_Shark_Wild_1",
+    "stringKey": "4313341166092336"
+  },
+  "1004575": {
+    "name": "Hammerhead Shark",
+    "internalName": "Animal_hammerhead_shark_Wild_1",
+    "stringKey": "4314616771379248"
+  },
+  "1004576": {
+    "name": "Megalodon",
+    "internalName": "Animal_Giant_Shark_Wild_1",
+    "stringKey": "4314621066346544"
+  },
+  "1004609": {
+    "name": "Sperm Whale",
+    "internalName": "Animal_Sperm_Whale_Wild_1",
+    "stringKey": "4314762800267312"
+  },
+  "1004610": {
+    "name": "Blue Whale",
+    "internalName": "Animal_Blue_Whale_Wild_1",
+    "stringKey": "4314767095234608"
+  },
+  "1004279": {
+    "name": "Sunfish",
+    "internalName": "Animal_OceanSunfish_Wild_1",
+    "stringKey": "4313345461059632"
+  },
+  "1004280": {
+    "name": "Orca",
+    "internalName": "Animal_Orca_Wild_1",
+    "stringKey": "4313349756026928"
+  },
+  "1004535": {
+    "name": "Dolphin",
+    "internalName": "Animal_Dolphin_Wild_1",
+    "stringKey": "4314444972687408"
+  },
+  "1004406": {
+    "name": "Yellow Tang",
+    "internalName": "Animal_YellowTang_Wild_1",
+    "stringKey": "4313890921906224"
+  },
+  "1004407": {
+    "name": "Dawnwave Blue Tang",
+    "internalName": "Animal_AtlanticBlueTang_Wild_1",
+    "stringKey": "4313895216873520"
+  },
+  "1004408": {
+    "name": "Blue Tang",
+    "internalName": "Animal_BlueTang_Wild_1",
+    "stringKey": "4313899511840816"
+  },
+  "1004667": {
+    "name": "Red Tang",
+    "internalName": "Animal_RedTang_Wild_1",
+    "stringKey": "4315011908370480"
+  },
+  "1004668": {
+    "name": "Dewleaf Green Tang",
+    "internalName": "Animal_AtlanticGreenTang_Wild_1",
+    "stringKey": "4315016203337776"
+  },
+  "1004669": {
+    "name": "Purple Tang",
+    "internalName": "Animal_purpleTang_Wild_1",
+    "stringKey": "4315020498305072"
+  },
+  "1004409": {
+    "name": "Discus",
+    "internalName": "Animal_Discus_Wild_1",
+    "stringKey": "4313903806808112"
+  },
+  "1004514": {
+    "name": "Clownfish",
+    "internalName": "Animal_ClownFish_Wild_1",
+    "stringKey": "4314354778374192"
+  },
+  "1004619": {
+    "name": "Longfin Batfish",
+    "internalName": "Animal_Longfin_Batfish_Wild_1",
+    "stringKey": "4314805749940272"
+  },
+  "1004577": {
+    "name": "Lionfish",
+    "internalName": "Animal_lionfish_Wild_1",
+    "stringKey": "4314625361313840"
+  },
+  "1004578": {
+    "name": "Parrotfish",
+    "internalName": "Animal_Parrotfish_Wild_1",
+    "stringKey": "4314629656281136"
+  },
+  "1004579": {
+    "name": "Honeycomb Grouper",
+    "internalName": "Animal_Honeycomb_Grouper_Wild_1",
+    "stringKey": "4314633951248432"
+  },
+  "1004446": {
+    "name": "Jellyfish",
+    "internalName": "Animal_JellyFish_Wild_1",
+    "stringKey": "4314062720598064"
+  },
+  "1004447": {
+    "name": "Jellyfish",
+    "internalName": "Animal_JellyFish_Wild_2",
+    "stringKey": "4314067015565360"
+  },
+  "1004448": {
+    "name": "Jellyfish",
+    "internalName": "Animal_JellyFish_Wild_3",
+    "stringKey": "4314071310532656"
+  },
+  "1004570": {
+    "name": "Giant Jellyfish",
+    "internalName": "Animal_Giant_JellyFish_Wild_1",
+    "stringKey": "4314595296542768"
+  },
+  "1004571": {
+    "name": "Giant Jellyfish",
+    "internalName": "Animal_Giant_JellyFish_Wild_2",
+    "stringKey": "4314599591510064"
+  },
+  "1004572": {
+    "name": "Giant Jellyfish",
+    "internalName": "Animal_Giant_JellyFish_Wild_3",
+    "stringKey": "4314603886477360"
+  },
+  "1004449": {
+    "name": "Electric Jellyfish",
+    "internalName": "Animal_Lightning_JellyFish_1",
+    "stringKey": "4314075605499952"
+  },
+  "1004564": {
+    "name": "Giant Electric Jellyfish",
+    "internalName": "Animal_Giant_Lightning_JellyFish_1",
+    "stringKey": "4314569526738992"
+  },
+  "1004450": {
+    "name": "Venomous Jellyfish",
+    "internalName": "Animal_Poision_JellyFish_1",
+    "stringKey": "4314079900467248"
+  },
+  "1004565": {
+    "name": "Giant Venomous Jellyfish",
+    "internalName": "Animal_Giant_Poision_JellyFish_1",
+    "stringKey": "4314573821706288"
+  },
+  "1004530": {
+    "name": "Pink Manta Ray",
+    "internalName": "Animal_pink_MantaRay_Wild_1",
+    "stringKey": "4314423497850928"
+  },
+  "1004531": {
+    "name": "Golden Shark",
+    "internalName": "Animal_gold_Shark_Wild_1",
+    "stringKey": "4314427792818224"
+  },
+  "1004466": {
+    "name": "Golden Striped Marlin",
+    "internalName": "Animal_VeryBig_gold_Marlin_Wild_1",
+    "stringKey": "4314148619943984"
+  },
+  "1004536": {
+    "name": "Pink Dolphin",
+    "internalName": "Animal_Pink_Dolphin_Wild_1",
+    "stringKey": "4314449267654704"
+  },
+  "1004529": {
+    "name": "Kraken",
+    "internalName": "Animal_SwarmpOcotopus_1",
+    "stringKey": "4314419202883632"
+  },
+  "1004526": {
+    "name": "Bison Calf",
+    "internalName": "Animal_Unique_Baby_Bison_Domestic_1",
+    "stringKey": "4314406317981744"
+  },
+  "1004451": {
+    "name": "Coralback Crab",
+    "internalName": "Animal_Big_Coral_LandSpider_1",
+    "stringKey": "4314084195434544"
+  },
+  "1004452": {
+    "name": "Coralback Crab",
+    "internalName": "Animal_Big_Coral_LandSpider_2",
+    "stringKey": "4314088490401840"
+  },
+  "1004453": {
+    "name": "Coralback Crab",
+    "internalName": "Animal_Big_Coral_LandSpider_3",
+    "stringKey": "4314092785369136"
+  },
+  "1004306": {
+    "name": "Stoneduck",
+    "internalName": "NatureCreature_StoneDuck_31054",
+    "stringKey": "4313461425176624"
+  },
+  "1004305": {
+    "name": "Branch Bird",
+    "internalName": "NatureCreature_BranchBird_31053",
+    "stringKey": "4313457130209328"
+  },
+  "1004553": {
+    "name": "Giant Coral Stoneworm",
+    "internalName": "NatureCreature_StoneWorm_31057",
+    "stringKey": "4314522282098736"
+  },
+  "1004429": {
+    "name": "Siren",
+    "internalName": "Mon_Harpy_2",
+    "stringKey": "4313989706154032"
+  },
+  "1004554": {
+    "name": "Pirate",
+    "internalName": "NHM_Ghost_Pirate_TwoHandSpear_1",
+    "stringKey": "4314526577066032"
+  },
+  "1004555": {
+    "name": "Pirate",
+    "internalName": "NHM_Ghost_Pirate_OneHandSword_1",
+    "stringKey": "4314530872033328"
+  },
+  "1004556": {
+    "name": "Pirate",
+    "internalName": "NHM_Ghost_Pirate_OneHandSword_2",
+    "stringKey": "4314535167000624"
+  },
+  "1004557": {
+    "name": "Pirate",
+    "internalName": "NHM_Ghost_Pirate_TwoHandSpear_2",
+    "stringKey": "4314539461967920"
+  },
+  "1004645": {
+    "name": "Ghost Ship Will-o'-the-Wisp",
+    "internalName": "GhostShip_GhostLight_1",
+    "stringKey": "4314917419089968"
+  },
+  "1004633": {
+    "name": "Island Walker",
+    "internalName": "Mon_Titan_Follower_51342",
+    "stringKey": "4314865879482416"
+  },
+  "1004634": {
+    "name": "Island Walker",
+    "internalName": "Mon_Titan_Follower_51343",
+    "stringKey": "4314870174449712"
+  },
+  "1004509": {
+    "name": "Coral Temple Walker",
+    "internalName": "Mon_AncientStoneSoldier_3",
+    "stringKey": "4314333303537712"
+  },
+  "1004510": {
+    "name": "Coral Temple Walker",
+    "internalName": "Mon_AncientStoneSoldier_4",
+    "stringKey": "4314337598505008"
+  },
+  "1004511": {
+    "name": "Coral Templewalker Guardian",
+    "internalName": "Mon_AncientStoneWarrior_3",
+    "stringKey": "4314341893472304"
+  },
+  "1004512": {
+    "name": "Coral Templewalker Guardian",
+    "internalName": "Mon_AncientStoneWarrior_4",
+    "stringKey": "4314346188439600"
+  },
+  "1004402": {
+    "name": "Antumbra Sand Warpriest",
+    "internalName": "NHM_Sand_Antumbra_OneHandMace_1",
+    "stringKey": "4313873742037040"
+  },
+  "1004841": {
+    "name": "Antumbra Sand Warpriest",
+    "internalName": "NHM_Sand_Antumbra_OneHandAxe_1",
+    "stringKey": "4315759232679984"
+  },
+  "1004842": {
+    "name": "Antumbra Sand Warpriest",
+    "internalName": "NHM_Sand_Antumbra_Wizard_1",
+    "stringKey": "4315763527647280"
+  },
+  "1004843": {
+    "name": "Antumbra Sand Warpriest",
+    "internalName": "NHM_Sand_Antumbra_TwoHandCannon_1",
+    "stringKey": "4315767822614576"
+  },
+  "1004356": {
+    "name": "Marni Butler",
+    "internalName": "Object_MarniDrone_Butler_1",
+    "stringKey": "4313676173541424"
+  },
+  "1004522": {
+    "name": "Greymane",
+    "internalName": "NHM_Unique_Greyfur_OneHandBow_8",
+    "stringKey": "4314389138112560"
+  },
+  "1004523": {
+    "name": "Greymane",
+    "internalName": "NHM_Unique_Greyfur_OneHandAxe_5",
+    "stringKey": "4314393433079856"
+  },
+  "1004845": {
+    "name": "Greymane",
+    "internalName": "NHM_Unique_Greyfur_TwoHandAxe_4",
+    "stringKey": "4315776412549168"
+  },
+  "1004846": {
+    "name": "Greymane",
+    "internalName": "NHM_Unique_Greyfur_SwordShield_6",
+    "stringKey": "4315780707516464"
+  },
+  "54815": {
+    "name": "Cloudcart Goblin",
+    "internalName": "NGM_Air_Balloon_54815",
+    "stringKey": "235428632330288"
+  },
+  "1004388": {
+    "name": "Cloudcart Pirate",
+    "internalName": "NHM_Pirate_Air_Balloon_1",
+    "stringKey": "4313813612494896"
+  },
+  "1004437": {
+    "name": "Kite Pirate",
+    "internalName": "NHM_Pirate_kite_1",
+    "stringKey": "4314024065892400"
+  },
+  "1004582": {
+    "name": "Thug",
+    "internalName": "NHM_Thug_1",
+    "stringKey": "4314646836150320"
+  },
+  "1004583": {
+    "name": "Thug",
+    "internalName": "NHM_Thug_2",
+    "stringKey": "4314651131117616"
+  },
+  "1004584": {
+    "name": "Thug",
+    "internalName": "NHM_Thug_3",
+    "stringKey": "4314655426084912"
+  },
+  "1004585": {
+    "name": "Thug",
+    "internalName": "NHM_Thug_4",
+    "stringKey": "4314659721052208"
+  },
+  "1004273": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_DualDagger_60201",
+    "stringKey": "4313319691255856"
+  },
+  "1004274": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_DualDagger_60202",
+    "stringKey": "4313323986223152"
+  },
+  "1004389": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_1",
+    "stringKey": "4313817907462192"
+  },
+  "1004390": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_OneHandBow_1",
+    "stringKey": "4313822202429488"
+  },
+  "1004391": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_TwoHandSpear_1",
+    "stringKey": "4313826497396784"
+  },
+  "1004392": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_OneHandMace_1",
+    "stringKey": "4313830792364080"
+  },
+  "1004393": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_WarHammer_1",
+    "stringKey": "4313835087331376"
+  },
+  "1004394": {
+    "name": "Satyr",
+    "internalName": "NHM_Satyros_WarHammer_2",
+    "stringKey": "4313839382298672"
+  },
+  "1004474": {
+    "name": "T'rukan the Ascended",
+    "internalName": "Boss_Trukan_55061_Ep",
+    "stringKey": "4314182979682352"
+  },
+  "1004275": {
+    "name": "Satyros",
+    "internalName": "Boss_Satyros",
+    "stringKey": "4313328281190448"
+  },
+  "1004258": {
+    "name": "Reggis the Isleguard",
+    "internalName": "Boss_Wild_Imp_Boss_500051",
+    "stringKey": "4313255266746416"
+  },
+  "1004259": {
+    "name": "Rohan Cooper",
+    "internalName": "Boss_Demeniss_Musket_Leader",
+    "stringKey": "4313259561713712"
+  },
+  "1004269": {
+    "name": "Knight of Void",
+    "internalName": "Boss_Void_Knight_1",
+    "stringKey": "4313302511386672"
+  },
+  "1000077": {
+    "name": "Ator",
+    "internalName": "Boss_Ator_55014",
+    "stringKey": "4295298008481840"
+  },
+  "1004237": {
+    "name": "Scrap Metal Queen Stoneback Crab",
+    "internalName": "MiddleBoss_LandSpider_ScrapQueen_1",
+    "stringKey": "4313165072433200"
+  },
+  "1004244": {
+    "name": "Iron Tyrant Harkan",
+    "internalName": "Boss_LandSpider_ScrapQueen_Goblin_1",
+    "stringKey": "4313195137204272"
+  },
+  "1004245": {
+    "name": "Geago the Flamecrazed",
+    "internalName": "Boss_Armor_Goblin_1",
+    "stringKey": "4313199432171568"
+  },
+  "1004246": {
+    "name": "Geago the Flamecrazed",
+    "internalName": "Boss_Broken_Armor_Goblin_1",
+    "stringKey": "4313203727138864"
+  },
+  "1004387": {
+    "name": "Geago the Flamecrazed",
+    "internalName": "Boss_Armor_Goblin_2",
+    "stringKey": "4313809317527600"
+  },
+  "1004247": {
+    "name": "Archon of Antumbra, Kharzek",
+    "internalName": "Boss_Desert_AntumbraArchon_DualSword_1",
+    "stringKey": "4313208022106160"
+  },
+  "1004470": {
+    "name": "Sir Catfish",
+    "internalName": "Boss_Sir_Catfish",
+    "stringKey": "4314165799813168"
+  },
+  "1004248": {
+    "name": "Leviakan",
+    "internalName": "Boss_Air_Machine_Snake_1",
+    "stringKey": "4313212317073456"
+  },
+  "1004250": {
+    "name": "The Dancing Catfish Crusher",
+    "internalName": "Boss_Sandcrawler_MTT_1",
+    "stringKey": "4313220907008048"
+  },
+  "1004599": {
+    "name": "Humble Rowboat",
+    "internalName": "Riding_Player_Boat_01",
+    "stringKey": "4314719850594352"
+  },
+  "1004600": {
+    "name": "Balanced Rowboat",
+    "internalName": "Riding_Player_Boat_07",
+    "stringKey": "4314724145561648"
+  },
+  "1004601": {
+    "name": "A dark brown rowboat cutting through the waves",
+    "internalName": "Riding_Player_Boat_08",
+    "stringKey": "4314728440528944"
+  },
+  "1004602": {
+    "name": "A sand-colored rowboat cutting through the waves",
+    "internalName": "Riding_Player_Boat_08_index01",
+    "stringKey": "4314732735496240"
+  },
+  "1004603": {
+    "name": "Sturdy Tawny Rowboat",
+    "internalName": "Riding_Player_Boat_09",
+    "stringKey": "4314737030463536"
+  },
+  "1004604": {
+    "name": "Sturdy Grayish-Brown Rowboat",
+    "internalName": "Riding_Player_Boat_09_index01",
+    "stringKey": "4314741325430832"
+  },
+  "1004537": {
+    "name": "Small Greymane Ship",
+    "internalName": "Riding_Big_Player_Small_ship_Graymane",
+    "stringKey": "4314453562622000"
+  },
+  "1004538": {
+    "name": "Small Demenissian Ship",
+    "internalName": "Riding_Big_Player_Small_ship_Demeniss",
+    "stringKey": "4314457857589296"
+  },
+  "1004539": {
+    "name": "Small Delesyian Ship",
+    "internalName": "Riding_Big_Player_Small_ship_Delesyia",
+    "stringKey": "4314462152556592"
+  },
+  "1004540": {
+    "name": "Small Hernandian Ship",
+    "internalName": "Riding_Big_Player_Small_ship_Hernand",
+    "stringKey": "4314466447523888"
+  },
+  "1004541": {
+    "name": "Medium Greymane Ship",
+    "internalName": "Riding_Big_Player_ship_Graymane",
+    "stringKey": "4314470742491184"
+  },
+  "1004542": {
+    "name": "Medium Demenissian Ship",
+    "internalName": "Riding_Big_Player_ship_Demeniss",
+    "stringKey": "4314475037458480"
+  },
+  "1004543": {
+    "name": "Medium Delesyian Ship",
+    "internalName": "Riding_Big_Player_ship_Delesyia",
+    "stringKey": "4314479332425776"
+  },
+  "1004544": {
+    "name": "Medium Hernandian Ship",
+    "internalName": "Riding_Big_Player_ship_Hernand",
+    "stringKey": "4314483627393072"
+  },
+  "1004545": {
+    "name": "Large Greymane Ship",
+    "internalName": "Riding_Player_Big_Ship_Graymane",
+    "stringKey": "4314487922360368"
+  },
+  "1004546": {
+    "name": "Large Demenissian Ship",
+    "internalName": "Riding_Player_Big_Ship_Demeniss",
+    "stringKey": "4314492217327664"
+  },
+  "1004547": {
+    "name": "Large Delesyian Ship",
+    "internalName": "Riding_Player_Big_Ship_Delesyia",
+    "stringKey": "4314496512294960"
+  },
+  "1004548": {
+    "name": "Large Hernandian Ship",
+    "internalName": "Riding_Player_Big_Ship_Hernand",
+    "stringKey": "4314500807262256"
+  },
+  "1004566": {
+    "name": "Phantom Ship",
+    "internalName": "Riding_ghost_Big_Ship_01",
+    "stringKey": "4314578116673584"
+  },
+  "1004438": {
+    "name": "Ships",
+    "internalName": "Riding_Big_Player_ship_02",
+    "stringKey": "4314028360859696"
+  },
+  "1004425": {
+    "name": "Standard Medium Ship",
+    "internalName": "Riding_Big_Player_npc_ship_01",
+    "stringKey": "4313972526284848"
+  },
+  "1004426": {
+    "name": "Standard Medium Ship",
+    "internalName": "Riding_Big_Player_npc_ship_02",
+    "stringKey": "4313976821252144"
+  },
+  "1004427": {
+    "name": "Standard Medium Ship",
+    "internalName": "Riding_Big_Player_npc_ship_03",
+    "stringKey": "4313981116219440"
+  },
+  "1004635": {
+    "name": "Standard Medium Ship",
+    "internalName": "Riding_Big_Player_npc_ship_04",
+    "stringKey": "4314874469417008"
+  },
+  "1004636": {
+    "name": "Standard Medium Ship",
+    "internalName": "Riding_Big_Player_npc_ship_05",
+    "stringKey": "4314878764384304"
+  },
+  "1004649": {
+    "name": "Standard Small Ship",
+    "internalName": "Riding_Big_Player_npc_Small_ship_01",
+    "stringKey": "4314934598959152"
+  },
+  "1004650": {
+    "name": "Standard Small Ship",
+    "internalName": "Riding_Big_Player_npc_Small_ship_02",
+    "stringKey": "4314938893926448"
+  },
+  "1004651": {
+    "name": "Standard Large Ship",
+    "internalName": "Riding_Big_Player_npc_ship_06",
+    "stringKey": "4314943188893744"
+  },
+  "1004652": {
+    "name": "Standard Large Ship",
+    "internalName": "Riding_Big_Player_npc_ship_07",
+    "stringKey": "4314947483861040"
+  },
+  "1004671": {
+    "name": "Large Delesyian Naval Ship",
+    "internalName": "Riding_Big_Player_npc_Ship_Navy",
+    "stringKey": "4315029088239664"
+  },
+  "1004889": {
+    "name": "Small Hernandian Ship",
+    "internalName": "Riding_Big_Player_npc_Small_ship_Hernand",
+    "stringKey": "4315965391110192"
+  },
+  "1004890": {
+    "name": "Small Demenissian Ship",
+    "internalName": "Riding_Big_Player_npc_Small_ship_Demeniss",
+    "stringKey": "4315969686077488"
+  },
+  "1004891": {
+    "name": "Small Delesyian Ship",
+    "internalName": "Riding_Big_Player_npc_Small_ship_Delesyia",
+    "stringKey": "4315973981044784"
+  },
+  "1004892": {
+    "name": "Medium Hernandian Ship",
+    "internalName": "Riding_Big_Player_npc_ship_Hernand",
+    "stringKey": "4315978276012080"
+  },
+  "1004893": {
+    "name": "Medium Demenissian Ship",
+    "internalName": "Riding_Big_Player_npc_ship_Demeniss",
+    "stringKey": "4315982570979376"
+  },
+  "1004894": {
+    "name": "Medium Delesyian Ship",
+    "internalName": "Riding_Big_Player_npc_ship_Delesyia",
+    "stringKey": "4315986865946672"
+  },
+  "1004895": {
+    "name": "Large Hernandian Ship",
+    "internalName": "Riding_Big_Player_npc_Big_ship_Hernand",
+    "stringKey": "4315991160913968"
+  },
+  "1004896": {
+    "name": "Large Demenissian Ship",
+    "internalName": "Riding_Big_Player_npc_Big_ship_Demeniss",
+    "stringKey": "4315995455881264"
+  },
+  "1004897": {
+    "name": "Large Delesyian Ship",
+    "internalName": "Riding_Big_Player_npc_Big_ship_Delesyia",
+    "stringKey": "4315999750848560"
+  },
+  "1004623": {
+    "name": "Assault Ship of the East",
+    "internalName": "Riding_Player_Big_Ship_TurtleShip",
+    "stringKey": "4314822929809456"
+  },
+  "1004624": {
+    "name": "Flagship of the East",
+    "internalName": "Riding_Big_Player_ship_PanokSeon",
+    "stringKey": "4314827224776752"
+  },
+  "1004625": {
+    "name": "Galley",
+    "internalName": "Riding_Big_Player_ship_Galley",
+    "stringKey": "4314831519744048"
+  },
+  "1004533": {
+    "name": "Medium Pirate Ship",
+    "internalName": "Riding_Big_Monster_ship_01",
+    "stringKey": "4314436382752816"
+  },
+  "1004653": {
+    "name": "Small Pirate Ship",
+    "internalName": "Riding_Big_Monster_Small_ship_00",
+    "stringKey": "4314951778828336"
+  },
+  "1004654": {
+    "name": "Small Pirate Ship",
+    "internalName": "Riding_Big_Monster_Small_ship_03",
+    "stringKey": "4314956073795632"
+  },
+  "1004655": {
+    "name": "Small Pirate Ship",
+    "internalName": "Riding_Big_Monster_Small_ship_04",
+    "stringKey": "4314960368762928"
+  },
+  "1004656": {
+    "name": "Medium Pirate Ship",
+    "internalName": "Riding_Big_Monster_Medium_ship_03",
+    "stringKey": "4314964663730224"
+  },
+  "1004657": {
+    "name": "Large Pirate Ship",
+    "internalName": "Riding_Big_Monster_ship_12",
+    "stringKey": "4314968958697520"
+  },
+  "1004658": {
+    "name": "Large Pirate Ship",
+    "internalName": "Riding_Big_Monster_ship_13",
+    "stringKey": "4314973253664816"
+  },
+  "1004646": {
+    "name": "The Sea's Vengeance",
+    "internalName": "Riding_Big_Monster_Medium_ship_01",
+    "stringKey": "4314921714057264"
+  },
+  "1004659": {
+    "name": "The Death Blossom",
+    "internalName": "Riding_Big_Monster_Medium_ship_02",
+    "stringKey": "4314977548632112"
+  },
+  "1004647": {
+    "name": "The Siren's Cry",
+    "internalName": "Riding_Big_Monster_Small_ship_01",
+    "stringKey": "4314926009024560"
+  },
+  "1004648": {
+    "name": "The Sea Claw",
+    "internalName": "Riding_Big_Monster_Small_ship_02",
+    "stringKey": "4314930303991856"
+  },
+  "1004611": {
+    "name": "The Black Bloom",
+    "internalName": "Riding_Big_Monster_ship_03",
+    "stringKey": "4314771390201904"
+  },
+  "1004620": {
+    "name": "The Crimson Shield",
+    "internalName": "Riding_Big_Monster_ship_04",
+    "stringKey": "4314810044907568"
+  },
+  "1004621": {
+    "name": "The Vengeance",
+    "internalName": "Riding_Big_Monster_ship_05",
+    "stringKey": "4314814339874864"
+  },
+  "1004622": {
+    "name": "Faunus",
+    "internalName": "Riding_Big_Monster_ship_06",
+    "stringKey": "4314818634842160"
+  },
+  "1004627": {
+    "name": "The Grim Wind",
+    "internalName": "Riding_Big_Monster_ship_07",
+    "stringKey": "4314840109678640"
+  },
+  "1004628": {
+    "name": "The Scarlet Widow",
+    "internalName": "Riding_Big_Monster_ship_08",
+    "stringKey": "4314844404645936"
+  },
+  "1004629": {
+    "name": "The Bloodied Stake",
+    "internalName": "Riding_Big_Monster_ship_09",
+    "stringKey": "4314848699613232"
+  },
+  "1004630": {
+    "name": "The Devils' Plunder",
+    "internalName": "Riding_Big_Monster_ship_10",
+    "stringKey": "4314852994580528"
+  },
+  "1004631": {
+    "name": "The Black Curved Blade",
+    "internalName": "Riding_Big_Monster_ship_11",
+    "stringKey": "4314857289547824"
+  },
+  "1004550": {
+    "name": "The Drunken Catfish",
+    "internalName": "Riding_Big_Monster_ship_02",
+    "stringKey": "4314509397196848"
+  },
+  "1004307": {
+    "name": "Dalmatian",
+    "internalName": "Animal_Dalmatian_Domestic_01",
+    "stringKey": "4313465720143920"
+  },
+  "1004308": {
+    "name": "Baby Dalmatian",
+    "internalName": "Animal_Baby_Dalmatian_Domestic_01",
+    "stringKey": "4313470015111216"
+  },
+  "1004670": {
+    "name": "Long-Haired Cat",
+    "internalName": "Animal_oddeye_Norwegianforest_Domestic",
+    "stringKey": "4315024793272368"
+  },
+  "1004643": {
+    "name": "Ocean Drifter",
+    "internalName": "Riding_Underwater_Atag_Scooter_1",
+    "stringKey": "4314908829155376"
+  },
+  "1004475": {
+    "name": "Matthias",
+    "internalName": "Boss_Matthias_EP",
+    "stringKey": "4314187274649648"
+  },
+  "1004534": {
+    "name": "Goyen",
+    "internalName": "Boss_Old_Kliff_SwordShield_02",
+    "stringKey": "4314440677720112"
+  },
+  "1004581": {
+    "name": "Pickpocket",
+    "internalName": "NHM_Unique_Criminal_DemenissPickpocket",
+    "stringKey": "4314642541183024"
+  },
+  "1004359": {
+    "name": "Politician",
+    "internalName": "NHM_Noble_Politician",
+    "stringKey": "4313689058443312"
+  },
+  "1004360": {
+    "name": "Man in a Mask",
+    "internalName": "NHM_Unique_MaskedMan",
+    "stringKey": "4313693353410608"
+  },
+  "1004361": {
+    "name": "House Azerian Servant",
+    "internalName": "NHM_Unique_AzureianServant_2",
+    "stringKey": "4313697648377904"
+  },
+  "1004362": {
+    "name": "Politician",
+    "internalName": "NHM_Noble_Reformers_1",
+    "stringKey": "4313701943345200"
+  },
+  "1004363": {
+    "name": "Politician",
+    "internalName": "NHM_Noble_Reformers_2",
+    "stringKey": "4313706238312496"
+  },
+  "1004364": {
+    "name": "Wagon Driver",
+    "internalName": "NHM_Citizen_Coachman_14506",
+    "stringKey": "4313710533279792"
+  },
+  "1004365": {
+    "name": "Stranger",
+    "internalName": "NHW_Citizen_Worker_ToolBroom_500700",
+    "stringKey": "4313714828247088"
+  },
+  "1004366": {
+    "name": "Noble",
+    "internalName": "NHM_Noble_3558",
+    "stringKey": "4313719123214384"
+  },
+  "1004367": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_3600",
+    "stringKey": "4313723418181680"
+  },
+  "1004368": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_3601",
+    "stringKey": "4313727713148976"
+  },
+  "1004369": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_3602",
+    "stringKey": "4313732008116272"
+  },
+  "1004370": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_3603",
+    "stringKey": "4313736303083568"
+  },
+  "1004371": {
+    "name": "Stranger",
+    "internalName": "NHM_MiddleCitizen_3133",
+    "stringKey": "4313740598050864"
+  },
+  "1004372": {
+    "name": "Stranger",
+    "internalName": "NHW_Citizen_3800",
+    "stringKey": "4313744893018160"
+  },
+  "1004373": {
+    "name": "Stranger",
+    "internalName": "NHW_Citizen_Worker_ToolBroom_500701",
+    "stringKey": "4313749187985456"
+  },
+  "1004528": {
+    "name": "Stranger",
+    "internalName": "NHM_Unique_Criminal_Remnants",
+    "stringKey": "4314414907916336"
+  },
+  "1004374": {
+    "name": "Agitator",
+    "internalName": "NHM_Unique_Criminal_Agitator",
+    "stringKey": "4313753482952752"
+  },
+  "1004395": {
+    "name": "Politician",
+    "internalName": "NHM_Noble_Reform_Speaker_1",
+    "stringKey": "4313843677265968"
+  },
+  "1004396": {
+    "name": "Politician",
+    "internalName": "NHM_Citizen_Reform_Supporter_1",
+    "stringKey": "4313847972233264"
+  },
+  "1004397": {
+    "name": "Politician",
+    "internalName": "NHM_Citizen_Reform_Supporter_2",
+    "stringKey": "4313852267200560"
+  },
+  "1004660": {
+    "name": "Politician",
+    "internalName": "NHM_Citizen_Reform_Supporter_3",
+    "stringKey": "4314981843599408"
+  },
+  "1004661": {
+    "name": "Politician",
+    "internalName": "NHM_Citizen_Reform_Supporter_4",
+    "stringKey": "4314986138566704"
+  },
+  "1004398": {
+    "name": "Noble",
+    "internalName": "NHM_Noble_AntiReform_Speaker_1",
+    "stringKey": "4313856562167856"
+  },
+  "1004399": {
+    "name": "Noble's Private Soldier",
+    "internalName": "NHM_Wandering_AntiReform_Supporter_1",
+    "stringKey": "4313860857135152"
+  },
+  "1004400": {
+    "name": "Noble's Private Soldier",
+    "internalName": "NHM_Wandering_AntiReform_Supporter_2",
+    "stringKey": "4313865152102448"
+  },
+  "1004662": {
+    "name": "Noble's Private Soldier",
+    "internalName": "NHM_Wandering_AntiReform_Supporter_3",
+    "stringKey": "4314990433534000"
+  },
+  "1004663": {
+    "name": "Noble's Private Soldier",
+    "internalName": "NHM_Wandering_AntiReform_Supporter_4",
+    "stringKey": "4314994728501296"
+  },
+  "1004401": {
+    "name": "Antumbra Follower",
+    "internalName": "NHM_Antumbra_Bishop_Supporter_1",
+    "stringKey": "4313869447069744"
+  },
+  "1004513": {
+    "name": "Warehouse Manager",
+    "internalName": "NHM_Citizen_Warehouse_Manager_1",
+    "stringKey": "4314350483406896"
+  },
+  "1004375": {
+    "name": "Patient",
+    "internalName": "NHM_Citizen_DesertPatient",
+    "stringKey": "4313757777920048"
+  },
+  "1004376": {
+    "name": "Herbalist",
+    "internalName": "NHM_Citizen_DesertHerbalist",
+    "stringKey": "4313762072887344"
+  },
+  "1004377": {
+    "name": "Boy",
+    "internalName": "NHM_Child_Citizen_DesertMissing",
+    "stringKey": "4313766367854640"
+  },
+  "1004378": {
+    "name": "Stranger",
+    "internalName": "NHW_MiddleCitizen_DesertMissingMom",
+    "stringKey": "4313770662821936"
+  },
+  "1004379": {
+    "name": "Stranger",
+    "internalName": "NHM_Citizen_DesertCattle",
+    "stringKey": "4313774957789232"
+  },
+  "1004380": {
+    "name": "Captain",
+    "internalName": "NHM_Ocean_Citizen_Captain",
+    "stringKey": "4313779252756528"
+  },
+  "1004381": {
+    "name": "Crew Member",
+    "internalName": "NHM_Ocean_Citizen_crewman",
+    "stringKey": "4313783547723824"
+  },
+  "1004418": {
+    "name": "Crew Member",
+    "internalName": "NHM_Ocean_Citizen_crewman_1",
+    "stringKey": "4313942461513776"
+  },
+  "1004385": {
+    "name": "Ian",
+    "internalName": "NHM_Unique_Ian",
+    "stringKey": "4313800727593008"
+  },
+  "1004386": {
+    "name": "Milo",
+    "internalName": "NHM_Unique_Milo",
+    "stringKey": "4313805022560304"
+  },
+  "1004384": {
+    "name": "Stranger",
+    "internalName": "NHM_Ocean_Citizen_SunFriend",
+    "stringKey": "4313796432625712"
   }
 }

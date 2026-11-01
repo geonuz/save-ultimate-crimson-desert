@@ -7,7 +7,8 @@ namespace SaveUltimate.App;
 
 public partial class MapPage : UserControl
 {
-    private readonly List<(MapAction Action, TextBlock Label, TextBlock Count, Button Button)> actions = [];
+    // Actions are read by index on every refresh: their DLC-free form depends on the game install.
+    private readonly List<(int Index, TextBlock Label, TextBlock Count, Button Button)> actions = [];
     private MainViewModel Model => (MainViewModel)DataContext;
     public MapPage()
     {
@@ -25,7 +26,7 @@ public partial class MapPage : UserControl
                 var button = new Button { Content = Tr.Text("map.activate_all"), Style = (Style)FindResource("AccentButton"), MinWidth = 100, IsEnabled = false, Tag = pair.i };
                 button.Click += async (_, _) => await Model.ActivateMapAsync(pair.i);
                 Grid.SetColumn(count, 1); Grid.SetColumn(button, 2); row.Children.Add(label); row.Children.Add(count); row.Children.Add(button); body.Children.Add(row);
-                actions.Add((pair.a, label, count, button));
+                actions.Add((pair.i, label, count, button));
                 if (pair.a.ChallengeRoots is { Length: > 0 }) body.Children.Add(new TextBlock { Text = Tr.Text("map.effect_cresset"), TextWrapping = TextWrapping.Wrap, Margin = new(0, 6, 0, 0) });
             }
             (group is "places" or "resources" ? LeftCards : RightCards).Children.Add(new GroupBox { Header = Tr.Text("map.group_" + group), Content = body, Margin = new(0, 0, 0, 12) });
@@ -48,8 +49,9 @@ public partial class MapPage : UserControl
     {
         var state = Model.Map;
         bool Learned(uint k) => state?.Knowledge.GetValueOrDefault(k) > 0;
-        foreach (var (a, label, countLabel, button) in actions)
+        foreach (var (index, label, countLabel, button) in actions)
         {
+            var a = MapAction.All[index];
             uint[] counted = a.CountKeys ?? a.Keys;
             int total = counted.Length, count = counted.Count(Learned);
             bool complete = state is not null && a.Keys.All(Learned);

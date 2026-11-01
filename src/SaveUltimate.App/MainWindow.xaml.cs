@@ -10,7 +10,7 @@ public partial class MainWindow : Window
 {
     private sealed record TableState(ItemRow[] Selection, ItemRow? Current, SortDescription[] Sorts,
         double Horizontal, double Vertical, double EditorOffset, DataGridLength[] Widths);
-    private readonly TableState?[] tables = new TableState?[12];
+    private readonly TableState?[] tables = new TableState?[13];
     private bool restoringSelection;
     private bool? detailBelow;
     private bool? backupsBelow;
@@ -35,10 +35,10 @@ public partial class MainWindow : Window
         UpdateColumns(model);
         UpdateNavigation(model);
         foreach (UIElement child in ContentArea.Children)
-            if (child is UserControl or SkillsView || child is Grid && Grid.GetRow(child) == 3 && child != ItemArea)
+            if (child is UserControl || child is Grid && Grid.GetRow(child) == 3 && child != ItemArea)
                 ((FrameworkElement)child).Margin = new(20, 16, 20, 16);
         foreach (var (name, page) in new[] { ("tab.inventory", 0), ("tab.repurchase", 1), ("tab.equipment", 2), ("tab.knowledge", 5),
-            ("Challenges", 6), ("tab.fishing", 7), ("skills.title", 4), ("map.title", 8), ("companion.title", 9), ("npc.title", 10), ("tab.backup", 3), ("tab.database", 11) })
+            ("Challenges", 6), ("tab.fishing", 7), ("skills.title", 4), ("map.title", 8), ("companion.title", 9), ("companion.pets", 12), ("npc.title", 10), ("tab.backup", 3), ("tab.database", 11) })
         { var item = new MenuItem { Header = Tr.Text(name) }; item.Click += (_, _) => { if (!model.Busy) model.PageIndex = page; }; ViewMenu.Items.Add(item); }
         IconsToggle.IsChecked = SettingsStore.Current.ShowIcons;
         Appearance.Changed += ApplyAppearance;
@@ -187,7 +187,7 @@ public partial class MainWindow : Window
         if (updatingNavigation || DataContext is not MainViewModel { Busy: false } model ||
             PrimaryNavigation.SelectedItem is not ListBoxItem { Tag: string tag }) return;
         int page = int.Parse(tag);
-        model.PageIndex = page == 0 ? model.ItemPageIndex == 3 ? 11 : model.ItemPageIndex : page == 5 ? model.JournalPageIndex + 5 : page == 9 ? model.NpcPageIndex + 9 : page;
+        model.PageIndex = page == 0 ? model.ItemPageIndex == 3 ? 11 : model.ItemPageIndex : page == 5 ? model.JournalPageIndex + 5 : page == 9 ? MainViewModel.NpcPage(model.NpcPageIndex) : page;
     }
 
     private void OnNavigationKey(object sender, KeyEventArgs e)
@@ -253,7 +253,7 @@ public partial class MainWindow : Window
         if (language != Tr.Language) { language = Tr.Language; ((MainViewModel)DataContext).RefreshLanguage(); }
         SetNavigationCollapsed(navigationCollapsed);
         InventoryGrid.Columns[0].Visibility = SettingsStore.Current.ShowIcons ? Visibility.Visible : Visibility.Collapsed;
-        DatabaseArea.Rows.Columns[0].Visibility = CompanionArea.Rows.Columns[0].Visibility = InventoryGrid.Columns[0].Visibility;
+        DatabaseArea.Rows.Columns[0].Visibility = CompanionArea.Rows.Columns[0].Visibility = PetArea.Rows.Columns[0].Visibility = InventoryGrid.Columns[0].Visibility;
         ((MainViewModel)DataContext).RefreshAppearance(true);
     }
     private void OnIconsChanged(object sender, RoutedEventArgs e)
@@ -290,13 +290,13 @@ public partial class MainWindow : Window
     private string CurrentTopic() => ((MainViewModel)DataContext).PageIndex switch
     {
         0 => "tab.inventory", 1 => "tab.repurchase", 2 => "tab.equipment", 3 => "tab.backup", 4 => "skills.title",
-        5 => "tab.knowledge", 6 => "Challenges", 7 => "tab.fishing", 8 => "map.title", 9 => "companion.title", 11 => "tab.database", _ => "npc.title"
+        5 => "tab.knowledge", 6 => "Challenges", 7 => "tab.fishing", 8 => "map.title", 9 => "companion.title", 11 => "tab.database", 12 => "companion.pets", _ => "npc.title"
     };
     public void ShowHelp(string topic, bool toggle = true)
     {
         if (toggle && HelpPanel.Visibility == Visibility.Visible && Equals(HelpPanel.Tag, topic)) { HelpPanel.Visibility = Visibility.Collapsed; return; }
         string name = topic switch { "tab.inventory" => "inventory", "tab.repurchase" => "repurchase", "tab.equipment" => "equipment", "tab.knowledge" => "knowledge",
-            "Challenges" => "challenges", "tab.fishing" => "fishing", "map.title" => "maps", "companion.title" => "companions", "npc.title" => "npc", "skills.title" => "skills", "tab.database" => "items_db", _ => "backup" };
+            "Challenges" => "challenges", "tab.fishing" => "fishing", "map.title" => "maps", "companion.title" or "companion.pets" => "companions", "npc.title" => "npc", "skills.title" => "skills", "tab.database" => "items_db", _ => "backup" };
         HelpPanel.Tag = topic; HelpPanel.Visibility = Visibility.Visible; HelpTitle.Text = Tr.Text("ui.help") + " · " + Tr.Text(topic);
         HelpScroll.Content = RichTextBlock.Create(Tr.Text("help." + name)); HelpScroll.ScrollToTop();
     }

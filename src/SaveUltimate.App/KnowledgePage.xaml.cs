@@ -32,20 +32,26 @@ public partial class KnowledgePage : UserControl
         };
         IsVisibleChanged += (_, e) => { if ((bool)e.NewValue) FitColumns(); };
     }
-    // Auto columns keep their first measurement, taken while the page was still hidden; remeasure once shown.
+    // Auto columns keep their first measurement, taken while the page was still hidden; remeasure once shown. The collapsed
+    // layout must run before widths are restored, or Auto columns keep shrinking and star columns stop sharing the space.
     private void FitColumns() => Dispatcher.InvokeAsync(() =>
     {
-        foreach (var column in Rows.Columns.Where(c => c.Width.IsAuto)) { column.Width = 0; column.Width = DataGridLength.Auto; }
+        var widths = Rows.Columns.Select(c => c.Width).ToArray();
+        foreach (var column in Rows.Columns.Where(c => c.Width.IsAuto)) column.Width = 0;
+        Rows.UpdateLayout();
+        for (int i = 0; i < widths.Length; i++) Rows.Columns[i].Width = widths[i];
     }, System.Windows.Threading.DispatcherPriority.Loaded);
     private void Changed(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(MainViewModel.Knowledge)) Refresh();
     }
+    private static bool Visible(uint key) => !DlcContent.Hidden || !DlcContent.Shared.Knowledge.Contains(key);
     internal static string GroupName(KnowledgeGroup group) => Tr.Name("knowledge_groups", group.Key.ToString(), Tr.Language == "ko" ? group.NameKo : group.Name);
     private Choice Group(uint key, string prefix = "")
     {
         var group = Catalog.Groups.Single(g => g.Key == key);
-        return new(key, $"{prefix}{GroupName(group)} ({group.Members.Count(k => Model.Knowledge?.GetValueOrDefault(k) > 0)}/{group.Members.Length})");
+        var members = group.Members.Where(Visible).ToArray();
+        return new(key, $"{prefix}{GroupName(group)} ({members.Count(k => Model.Knowledge?.GetValueOrDefault(k) > 0)}/{members.Length})");
     }
     private void Refresh()
     {
@@ -55,7 +61,7 @@ public partial class KnowledgePage : UserControl
         updating = true;
         try
         {
-            entries = Model.Knowledge is null ? [] : Catalog.ItemPaths.Select(p =>
+            entries = Model.Knowledge is null ? [] : Catalog.ItemPaths.Where(p => Visible(p.Key)).Select(p =>
             {
                 var text = KnowledgeText.Get(p.Key);
                 return new KnowledgeRow(p.Key, text.Name, text.InternalName,
@@ -106,7 +112,6 @@ public partial class KnowledgePage : UserControl
             $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase)).ToArray();
         var view = CollectionViewSource.GetDefaultView(Rows.ItemsSource);
         foreach (var sort in sorts) view.SortDescriptions.Add(sort);
-        if (IsVisible) FitColumns();
         Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count) + " · " + Tr.Format("ui.count_learned", ("count", entries.Count(r => r.Learned).ToString("N0")));
         Select();
     }
@@ -127,7 +132,8 @@ public partial class KnowledgePage : UserControl
         Picture.Source = row is null ? null : ItemImages.GetFile(Path.Combine(AppContext.BaseDirectory, "game_data", "images", "knowledge", $"{row.Key}.png"), 280);
     }
     private void OnFilterChanged(object sender, RoutedEventArgs e) { if (DataContext is MainViewModel) Filter(); }
-    private void OnSearchChanged(object sender, TextChangedEventArgs e) => OnFilterChanged(sender, e);
+    private TypingDelay? typing;
+    private void OnSearchChanged(object sender, TextChangedEventArgs e) => (typing ??= new(() => OnFilterChanged(this, e))).Restart(sender);
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) { if (Level is not null) Select(); }
     private async void OnLearn(object sender, RoutedEventArgs e) => await Model.EditKnowledgeAsync(SelectedKeys(), KnowledgeAction.Learn);
     private async void OnUnlearn(object sender, RoutedEventArgs e) => await Model.EditKnowledgeAsync(SelectedKeys(), KnowledgeAction.Unlearn);

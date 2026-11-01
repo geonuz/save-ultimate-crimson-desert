@@ -33,14 +33,16 @@ public static class GameDataSync
     private static SortedDictionary<string, string> Identity(string game, string resources)
     {
         var result = new SortedDictionary<string, string>(StringComparer.Ordinal);
-        foreach (string group in new[] { "0008", "0012", "0019", "0020", "0021", "0022" })
-        {
-            string root = Path.Combine(game, group);
-            result[group + "/0.pamt"] = FileHash(Path.Combine(root, "0.pamt"));
-            foreach (var file in new DirectoryInfo(root).EnumerateFiles("*.paz")) result[group + "/" + file.Name] = $"{file.Length}:{file.LastWriteTimeUtc.Ticks}";
-        }
+        foreach (string? dlc in new GameFiles(game).Dlcs.Prepend(null))
+            foreach (string group in new[] { "0008", "0012", "0019", "0020", "0021", "0022" })
+            {
+                string root = GameFiles.GroupDirectory(game, dlc, group), prefix = dlc is null ? group : $"dlc/{dlc}/{group}";
+                if (dlc is not null && !File.Exists(Path.Combine(root, "0.pamt"))) continue;
+                result[prefix + "/0.pamt"] = FileHash(Path.Combine(root, "0.pamt"));
+                foreach (var file in new DirectoryInfo(root).EnumerateFiles("*.paz")) result[prefix + "/" + file.Name] = $"{file.Length}:{file.LastWriteTimeUtc.Ticks}";
+            }
         foreach (string path in Metadata.Where(p => p != "data/max_enchant_map.json")) result["resource/" + path] = FileHash(Path.Combine(resources, path));
-        result["schema"] = "csharp-sync-3";
+        result["schema"] = "csharp-sync-4";
         return result;
     }
     private static SyncManifest ReadManifest(string path)
@@ -91,20 +93,10 @@ public static class GameDataSync
         }
         if (saved.Fingerprint == fingerprint && valid.Count == saved.Files.Count && Metadata.All(valid.Contains))
             return new(saved.Items, 0, 0, saved.Images.Records.Count, saved.Images.Unresolved.Count, 0, 0, true, watch.Elapsed.TotalSeconds);
-        var archives = new Dictionary<string, GameArchive>();
-        GameArchive Archive(string group)
-        {
-            if (!archives.TryGetValue(group, out var archive)) archives[group] = archive = new(Path.Combine(game, group));
-            return archive;
-        }
-        byte[] Read(string group, string path)
-        {
-            cancel.ThrowIfCancellationRequested();
-            return Archive(group).Extract(path);
-        }
+        var gameFiles = new GameFiles(game, cancel);
         int items = saved.Items, added = 0, changed = 0;
         Dictionary<string, JsonNode> outputs = saved.MetadataFingerprint == metadataFingerprint && Metadata.All(valid.Contains) ? [] :
-            ClientMetadata.Build(Read, resources, destination, valid, out items, out added, out changed);
+            ClientMetadata.Build(gameFiles, resources, destination, valid, out items, out added, out changed);
         string stage = Path.Combine(parent, ".game-sync-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(stage);
         try
         {
@@ -118,7 +110,7 @@ public static class GameDataSync
             var details = outputs.GetValueOrDefault("data/item_details.json") ?? JsonNode.Parse(File.ReadAllBytes(Path.Combine(destination, "data/item_details.json")))!;
             var icons = details["items"]!.AsObject().ToDictionary(p => uint.Parse(p.Key), p => p.Value!["icons"]!.AsArray().Select(v => v!.GetValue<uint>()).ToArray());
             details = null; outputs.Clear();
-            var images = ClientImages.Extract(game, Archive("0012"), Read, icons, stage, saved, valid, files, progress, cancel);
+            var images = ClientImages.Extract(gameFiles, icons, stage, saved, valid, files, progress, cancel);
             cancel.ThrowIfCancellationRequested();
             if (fingerprint != Hash(JsonSerializer.SerializeToUtf8Bytes(Identity(game, resources)))) throw new IOException("Game files changed during synchronization. Retry after the update.");
             var manifest = new SyncManifest { Fingerprint = fingerprint, MetadataFingerprint = metadataFingerprint, Files = files, Images = images, Items = items };

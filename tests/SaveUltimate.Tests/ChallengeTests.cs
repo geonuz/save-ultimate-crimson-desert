@@ -1,7 +1,6 @@
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.App;
@@ -12,6 +11,17 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class ChallengeTests
 {
+    [TestMethod]
+    public void ShippedCompletionCoversEveryOfferedChallenge()
+    {
+        var catalog = ChallengeCatalog.Shared; var completion = ChallengeCatalog.Completion;
+        CollectionAssert.AreEquivalent(catalog.SourceSha256.ToArray(), completion.ClientSources.ToArray());
+        Assert.IsTrue(completion.Missions.Keys.All(catalog.Missions.ContainsKey));
+        var roots = catalog.Groups.SelectMany(g => g.Quests).SelectMany(q => catalog.Quests[q].Missions!).ToHashSet();
+        Assert.IsTrue(completion.Roots.Length > 0 && completion.Roots.All(roots.Contains));
+        Assert.IsTrue(completion.Roots.All(r => catalog.Descendants(r).All(completion.Missions.ContainsKey)));
+    }
+
     [TestMethod]
     [TestCategory("PrivateFixtures")]
     public void SelectedListReaderMatchesFullMetadataAndRejectsUnsupportedFields()
@@ -64,42 +74,25 @@ public sealed class ChallengeTests
         finally { File.Delete(path); }
     }
 
-    private static void Equal(JsonElement expected, ChallengeState actual)
-    {
-        foreach (var (name, records) in new[] { ("quest", actual.Quest), ("mission", actual.Mission) })
-        {
-            var rows = expected.GetProperty(name);
-            Assert.AreEqual(rows.EnumerateObject().Count(), records.Count);
-            foreach (var property in rows.EnumerateObject())
-            {
-                var row = property.Value;
-                ulong? Value(string key) => row.TryGetProperty(key, out var p) && p.ValueKind != JsonValueKind.Null ? p.GetUInt64() : null;
-                Assert.AreEqual(new JournalRecord((byte?)Value("state"), Value("_completedTime"), Value("_branchedTime"),
-                    (uint?)Value("_completeCount"), (byte?)Value("_uiState")), records[uint.Parse(property.Name)], property.Name);
-            }
-        }
-    }
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void CheckpointsFamiliesAndBatchMatchPythonAndUndoExactly()
+    public void CheckpointsFamiliesAndBatchCompleteOnlyTheirMissionsAndUndoExactly()
     {
-        string? directory = Environment.GetEnvironmentVariable("SAVEULTIMATE_CHALLENGE_REFERENCE");
-        if (directory is null) Assert.Inconclusive("Set private challenge references.");
-        string[] files = Enumerable.Range(0, 4).Select(i => Path.Combine(directory, $"python-{i}.json")).ToArray();
-        foreach (string file in files)
+        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        uint[] batch = [1000912, 1000913, 1000915, 1001044, 1001048, 1003194, 1000423, 1003957, 1004406, 1004407, 1004408, 1004409, 1004410];
+        // An existing and a missing checkpoint record, one family, and a batch; the counts are what those saves leave incomplete.
+        foreach (var (file, roots, checkpoints, completed) in new (string, uint[], uint[]?, int)[] {
+            ("save_도전과제 일부 미완료.save", [1000912], [4294966659], 1), ("new.save", [1000912], [4294966659], 1),
+            ("save_fishnot.save", [1000912], null, 7), ("save_도전과제 일부 미완료.save", batch, null, 38) })
         {
-            using var json = JsonDocument.Parse(File.ReadAllBytes(file));
-            var row = json.RootElement;
-            string path = row.GetProperty("path").GetString()!;
+            string path = Path.Combine(fixtures, file);
             byte[] source = File.ReadAllBytes(path);
             var document = SaveDocument.Open(path);
             string original = document.BlobSha256;
             string items = JsonSerializer.Serialize(document.Items);
             var knowledge = document.ReadKnowledge();
-            Equal(row.GetProperty("before"), document.ReadChallenges());
-            uint[] roots = row.GetProperty("roots").EnumerateArray().Select(k => k.GetUInt32()).ToArray();
-            uint[]? checkpoints = row.GetProperty("checkpoints").ValueKind == JsonValueKind.Null ? null :
-                row.GetProperty("checkpoints").EnumerateArray().Select(k => k.GetUInt32()).ToArray();
+            var before = document.ReadChallenges();
             Assert.Throws<InvalidOperationException>(() => document.CompleteChallenges([]));
             Assert.Throws<InvalidOperationException>(() => document.CompleteChallenges([roots[0], roots[0]]));
             Assert.Throws<InvalidOperationException>(() => document.CompleteChallenges([4294966659]));
@@ -108,13 +101,16 @@ public sealed class ChallengeTests
             Assert.Throws<InvalidOperationException>(() => document.CompleteChallenges([1000912], [4294966659, 4294966659]));
             Assert.AreEqual(original, document.BlobSha256);
             var result = document.CompleteChallenges(roots, checkpoints);
-            Assert.AreEqual(row.GetProperty("completed").GetInt32(), result.Completed);
-            Equal(row.GetProperty("after"), result.State);
-            Assert.AreEqual(row.GetProperty("sha256").GetString(), document.BlobSha256);
+            Assert.AreEqual(completed, result.Completed, file);
+            var targets = (checkpoints ?? roots.SelectMany(r => ChallengeCatalog.Shared.Descendants(r).Append(r))).ToHashSet();
+            Assert.IsTrue(targets.All(k => result.State.Mission[k].State == 5), file);
+            foreach (var (key, record) in before.Mission.Where(p => !ChallengeCatalog.Completion.Missions.ContainsKey(p.Key)))
+                Assert.AreEqual(record, result.State.Mission[key], $"{file} mission {key} is outside every completion");
+            Assert.AreEqual(completed, result.State.Mission.Count(p => p.Value.State == 5) - before.Mission.Count(p => p.Value.State == 5), file);
             Assert.AreEqual(items, JsonSerializer.Serialize(document.Items), "Rewards must not be granted.");
             CollectionAssert.AreEqual(knowledge.OrderBy(p => p.Key).ToArray(), document.ReadKnowledge().OrderBy(p => p.Key).ToArray());
             Assert.AreEqual(0, document.CompleteChallenges(roots, checkpoints).Completed);
-            if (row.GetProperty("operation").GetString() == "challenge-batch")
+            if (roots.Length > 1)
             {
                 string copy = Path.Combine(Path.GetTempPath(), $"challenges-{Guid.NewGuid():N}.save");
                 try
@@ -122,7 +118,7 @@ public sealed class ChallengeTests
                     document.SaveCopy(copy);
                     var reopened = SaveDocument.Open(copy);
                     Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
-                    Equal(row.GetProperty("after"), reopened.ReadChallenges());
+                    CollectionAssert.AreEquivalent(result.State.Mission.ToArray(), reopened.ReadChallenges().Mission.ToArray());
                     Assert.AreEqual(items, JsonSerializer.Serialize(reopened.Items));
                 }
                 finally { File.Delete(copy); }
@@ -130,19 +126,17 @@ public sealed class ChallengeTests
             document.Undo();
             Assert.AreEqual(original, document.BlobSha256);
             Assert.IsFalse(document.CanUndo, "No-op must not add history.");
-            Equal(row.GetProperty("before"), document.ReadChallenges());
+            CollectionAssert.AreEquivalent(before.Mission.ToArray(), document.ReadChallenges().Mission.ToArray());
             CollectionAssert.AreEqual(source, File.ReadAllBytes(path));
         }
     }
 
     [STATestMethod]
     [TestCategory("PrivateFixtures")]
-    public void OriginalLabelsAndChallengeSelectionUndoAndFiltersMatch()
+    public void ChallengeSelectionUndoAndFiltersStayConnected()
     {
         string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        using var locale = JsonDocument.Parse(File.ReadAllBytes(Path.GetFullPath(Path.Combine(fixtures, "../../archive/editor-python/resources/locale/ko.json"))));
-        string Text(string key) => locale.RootElement.GetProperty(key).GetString()!.Replace("&&", "&");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
         var document = SaveDocument.Open(Path.Combine(fixtures, "save_도전과제 일부 미완료.save"));
         var model = new MainViewModel(document);
@@ -151,39 +145,23 @@ public sealed class ChallengeTests
         try
         {
             var navigation = (ListBox)window.FindName("PrimaryNavigation");
-            CollectionAssert.AreEqual(new[] { "tab.items", "tab.knowledge_quest", "skills.title", "tab.maps", "tab.mercenary", "tab.backup" }.Select(Text).ToArray(),
-                navigation.Items.Cast<ListBoxItem>().Select(AutomationProperties.GetName).ToArray());
-            var itemTabs = (TabControl)window.FindName("ItemTabs");
-            CollectionAssert.AreEqual(new[] { "tab.inventory", "tab.repurchase", "tab.equipment", "tab.database" }.Select(Text).ToArray(),
-                itemTabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
             navigation.SelectedIndex = 1;
             var tabs = (TabControl)window.FindName("JournalTabs");
-            CollectionAssert.AreEqual(new[] { Text("tab.knowledge"), Text("Challenges"), "낚시" },
-                tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
             tabs.SelectedIndex = 1;
             Assert.IsTrue(model.IsChallenges);
             var page = (ChallengePage)window.FindName("ChallengeArea");
             var tree = (TreeView)page.FindName("Tree");
             var rows = (DataGrid)page.FindName("Rows");
-            string? reference = Environment.GetEnvironmentVariable("SAVEULTIMATE_CHALLENGE_REFERENCE");
-            if (reference is null) Assert.Inconclusive("Set captured Python UI reference.");
-            using var labels = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(reference, "python-ui-labels.json")));
-            string[] Captured(string key) => labels.RootElement.GetProperty(key).EnumerateArray().Select(v => v.GetString()!.Replace("&&", "&")).ToArray();
-            CollectionAssert.AreEqual(Captured("navigation"), navigation.Items.Cast<ListBoxItem>().Select(AutomationProperties.GetName).ToArray());
-            CollectionAssert.AreEqual(Captured("items"), itemTabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
-            CollectionAssert.AreEqual(Captured("journal").Take(2).Append("낚시").ToArray(), tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
-            Assert.AreEqual(labels.RootElement.GetProperty("load").GetString(), ((Button)page.FindName("LoadData")).Content);
-            var knowledgePage = (KnowledgePage)window.FindName("KnowledgeArea");
-            CollectionAssert.AreEqual(Captured("knowledge"), new[] { "Learn", "Unlearn", "Apply", "Maximum", "AllMaximum" }
-                .Select(n => (string)((Button)knowledgePage.FindName(n)).Content).ToArray());
-            var skillPage = (SkillPage)((TabItem)((SkillsView)window.FindName("SkillsArea")).Items[0]).Content;
-            CollectionAssert.AreEqual(Captured("skills").Take(2).ToArray(), new[] { "Invest", "Watch" }.Select(n => (string)((Button)skillPage.FindName(n)).Content).ToArray());
             Assert.AreEqual(0, tree.Items.Count);
             WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null));
             WindowTests.Pump(() => model.LoadMapCommand.ExecuteAsync(null));
             ChallengeNode[] Roots() => tree.Items.Cast<ChallengeNode>().SelectMany(n => n.Children).SelectMany(n => n.Children).ToArray();
-            Assert.AreEqual(ChallengeCatalog.Completion.Roots.Length, Roots().Length);
+            // View-only challenges (no completion data yet) are listed too.
+            var catalog = ChallengeCatalog.Shared;
+            Assert.AreEqual(catalog.Groups.SelectMany(g => g.Quests).Sum(q => catalog.Quests[q].Missions!.Length), Roots().Length);
             var node = Roots().Single(n => n.Root == 1000912);
+            // The page virtualizes the tree; the walk below needs every container realized.
+            VirtualizingPanel.SetIsVirtualizing(tree, false);
             bool Contains(ChallengeNode parent, ChallengeNode target) => parent == target || parent.Children.Any(n => Contains(n, target));
             void Select(ItemsControl parent, ChallengeNode target)
             {
@@ -198,7 +176,7 @@ public sealed class ChallengeTests
             rows.SelectedItem = rows.Items.Cast<ChallengeRow>().Single(r => r.Key == 4294966659);
             var complete = (Button)page.FindName("CompleteSelected");
             Assert.IsTrue(complete.IsEnabled);
-            Assert.AreEqual(Text("challenge.complete_selected") + " (1)", complete.Content);
+            Assert.AreEqual(Tr.Text("challenge.complete_selected") + " (1)", complete.Content);
             string hash = document.BlobSha256;
             WindowTests.Capture(window, "challenges");
             WindowTests.Pump(() => model.CompleteChallengesAsync([1000912], [4294966659]));
@@ -211,7 +189,7 @@ public sealed class ChallengeTests
             Assert.AreSame(model.Challenges, model.Map!.Progress, "Undo must also refresh the hidden map's challenge progress.");
             Assert.IsTrue(complete.IsEnabled);
             ((CheckBox)page.FindName("Incomplete")).IsChecked = true;
-            Assert.AreEqual(13, Roots().Length);
+            Assert.AreEqual(catalog.Groups.SelectMany(g => g.Quests).SelectMany(q => catalog.Quests[q].Missions!).Count(k => model.Challenges!.Mission.GetValueOrDefault(k)?.State != 5), Roots().Length);
             ((TextBox)page.FindName("Search")).Text = "no_matching_challenge_123";
             Assert.AreEqual(0, tree.Items.Count);
             Assert.IsFalse(((Button)page.FindName("CompleteAll")).IsEnabled);

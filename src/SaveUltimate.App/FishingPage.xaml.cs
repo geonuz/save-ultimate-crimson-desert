@@ -37,7 +37,7 @@ public partial class FishingPage : UserControl
     private void Changed(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(MainViewModel.Fishing)) Refresh(); }
     private void Refresh()
     {
-        var records = Model.Fishing?.Where(r => r.Fish.RecordSupported).ToArray() ?? [];
+        var records = Model.Fishing?.Where(r => r.Fish.RecordSupported && !(DlcContent.Hidden && DlcContent.Shared.Knowledge.Contains(r.Fish.Key))).ToArray() ?? [];
         var old = Rows.Items.Cast<FishingRow>().ToDictionary(r => r.Key);
         if (old.Keys.ToHashSet().SetEquals(records.Select(r => r.Fish.Key)))
             foreach (var record in records) old[record.Fish.Key].Update(record);

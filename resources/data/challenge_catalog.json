@@ -88,6 +88,22 @@
         1000689,
         1000717
       ]
+    },
+    {
+      "key": 6009,
+      "internalName": "Challenge_Ocean",
+      "type": 3,
+      "name": "Charting the Unknown",
+      "nameKo": "미지의 여정",
+      "quests": [
+        1000865,
+        1000866,
+        1000830,
+        1000887,
+        1001280,
+        1000972,
+        1000764
+      ]
     }
   ],
   "quests": {
@@ -333,20 +349,9 @@
       "faction": 0,
       "kind": "other"
     },
-    "1000414": {
-      "key": 1000414,
-      "internalName": "LevelSequencerSpawn",
-      "name": "",
-      "nameKo": "",
-      "group": 9999,
-      "category": 0,
-      "type": 2,
-      "faction": 0,
-      "kind": "other"
-    },
-    "1000869": {
-      "key": 1000869,
-      "internalName": "LevelSequencerSpawn_AllSchedule_03_m06",
+    "1001201": {
+      "key": 1001201,
+      "internalName": "CastleGrant_Node_Dem_Flame_Knights_0001_Phase00_00",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -919,6 +924,28 @@
     "1001128": {
       "key": 1001128,
       "internalName": "LevelSequencerSpawn_AllSchedule_m12_m05",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000871": {
+      "key": 1000871,
+      "internalName": "LevelSequencerSpawn_Faction_03_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000875": {
+      "key": 1000875,
+      "internalName": "LevelSequencerSpawn_Faction_03_m07",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -1675,6 +1702,39 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000877": {
+      "key": 1000877,
+      "internalName": "LevelSequencerSpawn_Faction_m12_m14",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000879": {
+      "key": 1000879,
+      "internalName": "LevelSequencerSpawn_Faction_m12_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000882": {
+      "key": 1000882,
+      "internalName": "LevelSequencerSpawn_Faction_m12_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
     "1001163": {
       "key": 1001163,
       "internalName": "LevelSequencerSpawn_Faction_m13_m01",
@@ -1697,6 +1757,39 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000801": {
+      "key": 1000801,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m02_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000790": {
+      "key": 1000790,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m02_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000793": {
+      "key": 1000793,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m03_m02",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
     "1000010": {
       "key": 1000010,
       "internalName": "LevelSequencerSpawn_WildAnimal_m03_m05",
@@ -1711,6 +1804,28 @@
     "1001164": {
       "key": 1001164,
       "internalName": "LevelSequencerSpawn_WildAnimal_m03_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000798": {
+      "key": 1000798,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m03_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001130": {
+      "key": 1001130,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m03_m10",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -1785,6 +1900,17 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000799": {
+      "key": 1000799,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m04_m04",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
     "1001165": {
       "key": 1001165,
       "internalName": "LevelSequencerSpawn_WildAnimal_m04_m05",
@@ -1799,6 +1925,17 @@
     "1001166": {
       "key": 1001166,
       "internalName": "LevelSequencerSpawn_WildAnimal_m04_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000769": {
+      "key": 1000769,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m04_m07",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -1917,6 +2054,17 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000771": {
+      "key": 1000771,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m05_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
     "1000787": {
       "key": 1000787,
       "internalName": "LevelSequencerSpawn_WildAnimal_m06_00",
@@ -2005,6 +2153,28 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000773": {
+      "key": 1000773,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m06_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000802": {
+      "key": 1000802,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m06_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
     "1000808": {
       "key": 1000808,
       "internalName": "LevelSequencerSpawn_WildAnimal_m07_00",
@@ -2082,9 +2252,31 @@
       "faction": 0,
       "kind": "other"
     },
-    "1000051": {
-      "key": 1000051,
-      "internalName": "LevelSequencerSpawn_WildAnimal_m08_00",
+    "1000780": {
+      "key": 1000780,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m07_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000785": {
+      "key": 1000785,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m07_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000809": {
+      "key": 1000809,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m07_m09",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -2162,6 +2354,28 @@
     "1000392": {
       "key": 1000392,
       "internalName": "LevelSequencerSpawn_WildAnimal_m08_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000811": {
+      "key": 1000811,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m08_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000820": {
+      "key": 1000820,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m08_m09",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -2349,6 +2563,17 @@
     "1001042": {
       "key": 1001042,
       "internalName": "LevelSequencerSpawn_WildAnimal_m10_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000788": {
+      "key": 1000788,
+      "internalName": "LevelSequencerSpawn_WildAnimal_m10_m08",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -2602,6 +2827,545 @@
     "1000364": {
       "key": 1000364,
       "internalName": "LevelSequencerSpawn_WildAnimal_m13_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001208": {
+      "key": 1001208,
+      "internalName": "Island_SatyrosIsland_build_0001_Phase02_00_SequencerSpawn",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001251": {
+      "key": 1001251,
+      "internalName": "Island_SamoraIsland_build_0001_Phase02_00_SequencerSpawn",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001217": {
+      "key": 1001217,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_00_m03",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001218": {
+      "key": 1001218,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_00_m12",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001241": {
+      "key": 1001241,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_02_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001253": {
+      "key": 1001253,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_02_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001242": {
+      "key": 1001242,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_03_m14",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001243": {
+      "key": 1001243,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_03_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001254": {
+      "key": 1001254,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_03_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001244": {
+      "key": 1001244,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_04_m14",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001245": {
+      "key": 1001245,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_04_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001219": {
+      "key": 1001219,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m01_m12",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001220": {
+      "key": 1001220,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m01_m13",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001255": {
+      "key": 1001255,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m02_m02",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001256": {
+      "key": 1001256,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m02_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001257": {
+      "key": 1001257,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m02_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001258": {
+      "key": 1001258,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m02",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001259": {
+      "key": 1001259,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m03",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001260": {
+      "key": 1001260,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m05",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001261": {
+      "key": 1001261,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001262": {
+      "key": 1001262,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001263": {
+      "key": 1001263,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m10",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001222": {
+      "key": 1001222,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m03_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001264": {
+      "key": 1001264,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m04",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001265": {
+      "key": 1001265,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001225": {
+      "key": 1001225,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001232": {
+      "key": 1001232,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m09",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001233": {
+      "key": 1001233,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m13",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001234": {
+      "key": 1001234,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m14",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001235": {
+      "key": 1001235,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m04_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001266": {
+      "key": 1001266,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m05_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001267": {
+      "key": 1001267,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m05_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001268": {
+      "key": 1001268,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m06_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001269": {
+      "key": 1001269,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m06_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001270": {
+      "key": 1001270,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m07_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001271": {
+      "key": 1001271,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m07_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001272": {
+      "key": 1001272,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m07_m09",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001273": {
+      "key": 1001273,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m08_m06",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001274": {
+      "key": 1001274,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m08_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001275": {
+      "key": 1001275,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m08_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001276": {
+      "key": 1001276,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m08_m09",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001277": {
+      "key": 1001277,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m08_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001236": {
+      "key": 1001236,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m09_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001278": {
+      "key": 1001278,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m10_m07",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001279": {
+      "key": 1001279,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m10_m08",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001237": {
+      "key": 1001237,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m10_m12",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001238": {
+      "key": 1001238,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m12_m15",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001239": {
+      "key": 1001239,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m12_m16",
+      "name": "",
+      "nameKo": "",
+      "group": 9999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001240": {
+      "key": 1001240,
+      "internalName": "LevelSequencerSpawn_DLC01_WildAnimal_m13_m16",
       "name": "",
       "nameKo": "",
       "group": 9999,
@@ -2968,7 +3732,10 @@
       "kind": "challenge",
       "missions": [
         1003957,
-        1003958
+        1003958,
+        1004549,
+        1004550,
+        1004551
       ]
     },
     "1000689": {
@@ -3103,7 +3870,7 @@
     "1000095": {
       "key": 1000095,
       "internalName": "Challenge_SealedArtifact_Mastery_Cannon",
-      "name": "Blaster",
+      "name": "Cannon",
       "nameKo": "대포",
       "group": 6005,
       "category": 0,
@@ -3458,7 +4225,8 @@
       "missions": [
         1002158,
         1000625,
-        1002164
+        1002164,
+        1004818
       ]
     },
     "1000060": {
@@ -3742,6 +4510,39 @@
       "name": "Guard Blocking the Path",
       "nameKo": "길목에서 막는 경비병",
       "group": 5100,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000981": {
+      "key": 1000981,
+      "internalName": "Contents_Ocean_FishingSpot",
+      "name": "Ocean Fishing Spot",
+      "nameKo": "대양 낚시 스팟",
+      "group": 8200,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000983": {
+      "key": 1000983,
+      "internalName": "Contents_Ocean_Deco",
+      "name": "Ocean Cutscene",
+      "nameKo": "대양 연출",
+      "group": 8200,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000991": {
+      "key": 1000991,
+      "internalName": "Contents_Ocean_Monster",
+      "name": "Ocean Enemy",
+      "nameKo": "대양 적군",
+      "group": 8200,
       "category": 0,
       "type": 2,
       "faction": 0,
@@ -5565,7 +6366,7 @@
     "1000013": {
       "key": 1000013,
       "internalName": "Quest_Node_Dem_Flame_Knights_Normal",
-      "name": "Flame Knights Castle After Liberation",
+      "name": "Flame Knights' Castle After Liberation",
       "nameKo": "화염의 기사단 성 해방 후",
       "group": 0,
       "category": 0,
@@ -7069,6 +7870,17 @@
       "faction": 1000011,
       "kind": "other"
     },
+    "1000978": {
+      "key": 1000978,
+      "internalName": "Quest_Node_Her_VelluaVillage_PirateShip",
+      "name": "The Singing Catfish in Vellua",
+      "nameKo": "벨루아 마을 노래하는 메기호",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000011,
+      "kind": "other"
+    },
     "1001066": {
       "key": 1001066,
       "internalName": "Quest_Node_Her_VelluaVillage_Block",
@@ -8106,7 +8918,7 @@
     "1000422": {
       "key": 1000422,
       "internalName": "Quest_Node_WatchTower_Her",
-      "name": "Defeat enemies around the watchtower",
+      "name": "Defeat enemies around the Watchtower Zone",
       "nameKo": "망루 지대 주변의 적 처치",
       "group": 0,
       "category": 0,
@@ -8117,7 +8929,7 @@
     "1000104": {
       "key": 1000104,
       "internalName": "Quest_Node_WatchTower_Her_Normal",
-      "name": "North Hernand Watchtower Liberation",
+      "name": "North Hernand Watchtower Zone Liberation",
       "nameKo": "에르난드 북부 망루 지대 해방",
       "group": 0,
       "category": 0,
@@ -8128,7 +8940,7 @@
     "1000150": {
       "key": 1000150,
       "internalName": "Quest_Node_Her_SnowMountain_WatchTower_Normal",
-      "name": "Everfrost Watchtower Liberation",
+      "name": "Everfrost Watchtower Zone Liberation",
       "nameKo": "설산 망루 지대 해방",
       "group": 0,
       "category": 0,
@@ -8139,7 +8951,7 @@
     "1000423": {
       "key": 1000423,
       "internalName": "Quest_Node_WatchTower_Del",
-      "name": "Defeat enemies around the watchtower",
+      "name": "Defeat enemies around the Watchtower Zone",
       "nameKo": "망루 지대 주변의 적 처치",
       "group": 0,
       "category": 0,
@@ -8150,7 +8962,7 @@
     "1000087": {
       "key": 1000087,
       "internalName": "Quest_Node_Del_Watchtower_II_Normal",
-      "name": "Drywind Valley Watchtower Liberation",
+      "name": "Drywind Valley Watchtower Zone Liberation",
       "nameKo": "마른바람 계곡 망루 지대 해방",
       "group": 0,
       "category": 0,
@@ -8557,7 +9369,7 @@
     "1000443": {
       "key": 1000443,
       "internalName": "Quest_Node_Dem_Flame_Knights_Reoccupation",
-      "name": "Re-Blockade - Flame Knights Castle",
+      "name": "Re-Blockade - Flame Knights' Castle",
       "nameKo": "재봉쇄 - 화염의 기사단 성",
       "group": 0,
       "category": 0,
@@ -8568,7 +9380,7 @@
     "1000478": {
       "key": 1000478,
       "internalName": "Quest_Node_Dem_Flame_Knights_Invasion",
-      "name": "Engagement - Flame Knights Castle",
+      "name": "Engagement - Flame Knights' Castle",
       "nameKo": "교전 - 화염의 기사단 성",
       "group": 0,
       "category": 0,
@@ -8579,7 +9391,7 @@
     "1000637": {
       "key": 1000637,
       "internalName": "Quest_Node_Dem_Flame_Knights_Reconstruction",
-      "name": "Reconstruct - Flame Knights Castle",
+      "name": "Reconstruct - Flame Knights' Castle",
       "nameKo": "재건 - 화염의 기사단 성",
       "group": 0,
       "category": 0,
@@ -12393,6 +13205,29 @@
       "faction": 0,
       "kind": "other"
     },
+    "1000764": {
+      "key": 1000764,
+      "internalName": "Contents_BossRush",
+      "name": "Garden of Trials",
+      "nameKo": "시련의 정원",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004648,
+        1004658,
+        1004637,
+        1004649,
+        1004657,
+        1004633,
+        1004810,
+        1004811,
+        1004812,
+        1004813
+      ]
+    },
     "1000107": {
       "key": 1000107,
       "internalName": "Func_MiniGame",
@@ -12421,6 +13256,17 @@
       "name": "Police/Crime Spawn",
       "nameKo": "경찰/범죄 스폰",
       "group": 5100,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000997": {
+      "key": 1000997,
+      "internalName": "Func_SpawnStage_Ocean",
+      "name": "Ocean Spawn",
+      "nameKo": "대양 스폰",
+      "group": 8200,
       "category": 0,
       "type": 2,
       "faction": 0,
@@ -12572,41 +13418,704 @@
     "1000716": {
       "key": 1000716,
       "internalName": "Quest_PoliticianStory_Damian",
-      "name": "",
-      "nameKo": "",
-      "group": 0,
-      "category": 0,
+      "name": "From the Ashes",
+      "nameKo": "끝과 시작",
+      "group": 1014,
+      "category": 13,
       "type": 2,
       "faction": 0,
-      "kind": "other"
+      "kind": "main"
     },
     "1000732": {
       "key": 1000732,
       "internalName": "Quest_EngineerStory_Oongka",
-      "name": "",
-      "nameKo": "",
-      "group": 0,
-      "category": 0,
+      "name": "Forged Resolve",
+      "nameKo": "결심",
+      "group": 1014,
+      "category": 13,
       "type": 2,
       "faction": 0,
-      "kind": "other"
+      "kind": "main"
     },
     "1000723": {
       "key": 1000723,
       "internalName": "Quest_MapmakerStory_Kliff",
-      "name": "",
-      "nameKo": "",
+      "name": "Beyond the Margins",
+      "nameKo": "여백",
+      "group": 1014,
+      "category": 13,
+      "type": 2,
+      "faction": 0,
+      "kind": "main"
+    },
+    "1000852": {
+      "key": 1000852,
+      "internalName": "Quest_OceanStory_Tutorial",
+      "name": "A Wider World",
+      "nameKo": "더 넓은 세상으로",
       "group": 0,
       "category": 0,
       "type": 2,
-      "faction": 0,
+      "faction": 1000000,
       "kind": "other"
     },
     "1000740": {
       "key": 1000740,
       "internalName": "Quest_OceanStory_Remote_Island",
-      "name": "",
-      "nameKo": "",
+      "name": "Remote Islands",
+      "nameKo": "외딴 섬",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000865": {
+      "key": 1000865,
+      "internalName": "Challenge_Beyond_The_Horizon",
+      "name": "Voyage",
+      "nameKo": "항해",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004919,
+        1004997,
+        1004998,
+        1004999,
+        1005000,
+        1005001,
+        1005002,
+        1005003
+      ]
+    },
+    "1000866": {
+      "key": 1000866,
+      "internalName": "Challenge_Underwater_Voyager",
+      "name": "Swimming",
+      "nameKo": "유영",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004920,
+        1005006,
+        1005007,
+        1005008,
+        1005009,
+        1005010,
+        1005011,
+        1005012,
+        1005013,
+        1005014
+      ]
+    },
+    "1000830": {
+      "key": 1000830,
+      "internalName": "Challenge_Standstone_Adventure_II",
+      "name": "Scenic View",
+      "nameKo": "절경",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004698,
+        1004699,
+        1004700,
+        1004701,
+        1004702,
+        1004703,
+        1004704,
+        1004705,
+        1004706,
+        1004707,
+        1004708,
+        1004709,
+        1004710,
+        1004711,
+        1004712,
+        1004713,
+        1004714,
+        1004715,
+        1004716,
+        1004717
+      ]
+    },
+    "1000887": {
+      "key": 1000887,
+      "internalName": "Challenge_Standstone_Puzzle_II",
+      "name": "Ocean Ruins",
+      "nameKo": "해양 유적",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004951,
+        1004952,
+        1004953,
+        1004954,
+        1004955,
+        1004956,
+        1004957,
+        1004958,
+        1004959
+      ]
+    },
+    "1001280": {
+      "key": 1001280,
+      "internalName": "Challenge_LegendAnimal_Ocean",
+      "name": "Sea Legends",
+      "nameKo": "바다의 전설",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1004927,
+        1004928,
+        1004929,
+        1005253
+      ]
+    },
+    "1000972": {
+      "key": 1000972,
+      "internalName": "Challenge_Management",
+      "name": "Management",
+      "nameKo": "경영",
+      "group": 6009,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "challenge",
+      "missions": [
+        1005156,
+        1005300,
+        1005301,
+        1005302,
+        1005311,
+        1005312
+      ]
+    },
+    "1000849": {
+      "key": 1000849,
+      "internalName": "Contents_MiniGame_CeeLo",
+      "name": "Banker's Dice",
+      "nameKo": "주사위 놀이",
+      "group": 5200,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000883": {
+      "key": 1000883,
+      "internalName": "Contents_MiniGame_CeeLo_I",
+      "name": "Banker's Dice",
+      "nameKo": "주사위 놀이",
+      "group": 5200,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000895": {
+      "key": 1000895,
+      "internalName": "Contents_WeatherChange_HeightFog_GreatOcean",
+      "name": "Ocean Height Fog Weather Spawn Stage",
+      "nameKo": "대양 HeightFog 날씨 스폰 스테이지",
+      "group": 1999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000898": {
+      "key": 1000898,
+      "internalName": "Contents_WeatherChange_MieFog_GreatOcean",
+      "name": "Ocean Mie Fog Weather Spawn Stage",
+      "nameKo": "대양 MieFog 날씨 스폰 스테이지",
+      "group": 1999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000899": {
+      "key": 1000899,
+      "internalName": "Contents_WeatherChange_Precipitation_GreatOcean",
+      "name": "Great Ocean Rainfall Weather Spawn Stage",
+      "nameKo": "대양 강수량 날씨 스폰 스테이지",
+      "group": 1999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000965": {
+      "key": 1000965,
+      "internalName": "Contents_WeatherChange_Cloud_GreatOcean",
+      "name": "Ocean Cloud Weather Spawn Stage",
+      "nameKo": "대양 구름 날씨 스폰 스테이지",
+      "group": 1999,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1001247": {
+      "key": 1001247,
+      "internalName": "Contents_BossRush_Complete",
+      "name": "A Flower in the Breeze",
+      "nameKo": "흔들리며 핀 꽃",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 0,
+      "kind": "other"
+    },
+    "1000464": {
+      "key": 1000464,
+      "internalName": "Quest_Graymane_BaseCamp_Pailune_After_Festival",
+      "name": "Festivals",
+      "nameKo": "축제",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "other"
+    },
+    "1000465": {
+      "key": 1000465,
+      "internalName": "Quest_Faction_Graymane_BaseCamp_Festival",
+      "name": "Base Camp",
+      "nameKo": "베이스 캠프",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "other"
+    },
+    "1000762": {
+      "key": 1000762,
+      "internalName": "Quest_Faction_Graymane_KliffHouse_LivingTogether",
+      "name": "Base Camp",
+      "nameKo": "베이스 캠프",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "other"
+    },
+    "1000853": {
+      "key": 1000853,
+      "internalName": "Quest_Faction_Graymane_LoveStory_Lyseleah",
+      "name": "Brave Steps",
+      "nameKo": "용기 낸 첫걸음",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000003,
+      "kind": "regional"
+    },
+    "1000854": {
+      "key": 1000854,
+      "internalName": "Quest_Faction_Graymane_LoveStory_Bari",
+      "name": "Beyond the Words",
+      "nameKo": "말투 너머의 진심",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000003,
+      "kind": "regional"
+    },
+    "1000858": {
+      "key": 1000858,
+      "internalName": "Quest_Faction_Graymane_LoveStory_Areciel",
+      "name": "Courage to Be Vulnerable",
+      "nameKo": "약해질 수 있는 용기",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000003,
+      "kind": "regional"
+    },
+    "1000859": {
+      "key": 1000859,
+      "internalName": "Quest_Faction_Graymane_LoveStory_Elowen",
+      "name": "Missing Final Page",
+      "nameKo": "마지막 페이지가 없는 책",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000003,
+      "kind": "regional"
+    },
+    "1000826": {
+      "key": 1000826,
+      "internalName": "Quest_Faction_Graymane_CastleCeremony_DragonKillCastle",
+      "name": "Shield of Hernand",
+      "nameKo": "에르난드의 방패",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "regional"
+    },
+    "1000824": {
+      "key": 1000824,
+      "internalName": "Quest_Faction_Graymane_CastleCeremony_FlameKnights",
+      "name": "A Memory Beyond Ashes",
+      "nameKo": "재가 되지 않은 기억",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "regional"
+    },
+    "1000967": {
+      "key": 1000967,
+      "internalName": "Quest_Faction_Graymane_Management_TimberhamSawmill",
+      "name": "Renewed Vitality",
+      "nameKo": "새로운 활기",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "regional"
+    },
+    "1000998": {
+      "key": 1000998,
+      "internalName": "Quest_Node_Ocean_GhostShip",
+      "name": "Fog of the Ocean",
+      "nameKo": "대양의 안개",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000966": {
+      "key": 1000966,
+      "internalName": "Quest_Node_Ocean_Wanted",
+      "name": "Outlaws of the Ocean",
+      "nameKo": "대양 해적선 수배",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000901": {
+      "key": 1000901,
+      "internalName": "Quest_Node_Ocean_AuronuiIsland_Development",
+      "name": "Schedule After Pioneering Auronui Island",
+      "nameKo": "아우로누이 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000979": {
+      "key": 1000979,
+      "internalName": "Quest_Node_Ocean_CarcanoIsland_Block",
+      "name": "Carcano Island Blockage Schedule",
+      "nameKo": "카르카노 섬 봉쇄 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000911": {
+      "key": 1000911,
+      "internalName": "Quest_Node_Ocean_CarcanoIsland_Development",
+      "name": "Schedule After Pioneering Carcano Island",
+      "nameKo": "카르카노 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000913": {
+      "key": 1000913,
+      "internalName": "Quest_Node_Ocean_ClovenHoofIsland_Development",
+      "name": "Schedule After Pioneering Cloven Hoof Isle",
+      "nameKo": "갈라진 발굽 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000914": {
+      "key": 1000914,
+      "internalName": "Quest_Node_Ocean_EstraIsland_Development",
+      "name": "Schedule After Pioneering Estra Island",
+      "nameKo": "에스트라 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000916": {
+      "key": 1000916,
+      "internalName": "Quest_Node_Ocean_IliyaIsland_Development",
+      "name": "Schedule After Pioneering Iliya Island",
+      "nameKo": "일리야 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000919": {
+      "key": 1000919,
+      "internalName": "Quest_Node_Ocean_Island_House_Dragnar_Development",
+      "name": "Schedule After Pioneering Drangar Island",
+      "nameKo": "드랑가 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000932": {
+      "key": 1000932,
+      "internalName": "Quest_Node_Ocean_Island_House_Spagnola_Development",
+      "name": "Schedule After Pioneering Spagnola Island",
+      "nameKo": "스파뇰라 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000951": {
+      "key": 1000951,
+      "internalName": "Quest_Node_Ocean_Island_House_Xamaca_Development",
+      "name": "Schedule After Pioneering Xamaca Island",
+      "nameKo": "샤마카 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000955": {
+      "key": 1000955,
+      "internalName": "Quest_Node_Ocean_NirakanIsland_Development",
+      "name": "Schedule After Pioneering Nirakan Island",
+      "nameKo": "니라칸 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000956": {
+      "key": 1000956,
+      "internalName": "Quest_Node_Ocean_NavraIsland_Development",
+      "name": "Schedule After Pioneering Navrah Island",
+      "nameKo": "나브라 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000957": {
+      "key": 1000957,
+      "internalName": "Quest_Node_Ocean_OculaIsland_Development",
+      "name": "Schedule After Pioneering Ocula Island",
+      "nameKo": "오쿨라 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000958": {
+      "key": 1000958,
+      "internalName": "Quest_Node_Ocean_PragmaIsland_Development",
+      "name": "Schedule After Pioneering Phragma Island",
+      "nameKo": "프라그마 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000959": {
+      "key": 1000959,
+      "internalName": "Quest_Node_Ocean_RazanuiIsland_development",
+      "name": "Schedule After Pioneering Razanui Island",
+      "nameKo": "라자누이 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000962": {
+      "key": 1000962,
+      "internalName": "Quest_Node_Ocean_SatyrosIsland_Development",
+      "name": "Schedule After Pioneering Satyros Island",
+      "nameKo": "사티로스 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000960": {
+      "key": 1000960,
+      "internalName": "Quest_Node_Ocean_SamoraIsland_Development",
+      "name": "Schedule After Pioneering Samora Island",
+      "nameKo": "사모라 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000961": {
+      "key": 1000961,
+      "internalName": "Quest_Node_Ocean_SaeonIsland_Development",
+      "name": "Schedule After Pioneering Saeon Island",
+      "nameKo": "새온 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1000964": {
+      "key": 1000964,
+      "internalName": "Quest_Node_Ocean_VergelIsland_Development",
+      "name": "Schedule After Pioneering Bergel Island",
+      "nameKo": "베르겔 섬 개척 후 스케줄",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "other"
+    },
+    "1001026": {
+      "key": 1001026,
+      "internalName": "Quest_BossRush_Guide",
+      "name": "Garden of Trials",
+      "nameKo": "시련의 정원",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000000,
+      "kind": "regional"
+    },
+    "1000746": {
+      "key": 1000746,
+      "internalName": "Quest_OceanStory_Stolen_Relic",
+      "name": "Mistbound Sea",
+      "nameKo": "안개의 바다",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000115,
+      "kind": "regional"
+    },
+    "1000832": {
+      "key": 1000832,
+      "internalName": "Quest_OceanStory_SatyrosIsland_Satyros",
+      "name": "Isolated Island Chief",
+      "nameKo": "고립된 섬의 족장",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000108,
+      "kind": "other"
+    },
+    "1000833": {
+      "key": 1000833,
+      "internalName": "Quest_OceanStory_RazanuiIsland_Imp",
+      "name": "Predator of the Abandoned Island",
+      "nameKo": "버려진 섬의 포식자",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000108,
+      "kind": "regional"
+    },
+    "1000834": {
+      "key": 1000834,
+      "internalName": "Quest_OceanStory_VergelIsland_RohanCooper",
+      "name": "Cave of Sorrow",
+      "nameKo": "비탄의 동굴",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000108,
+      "kind": "regional"
+    },
+    "1001182": {
+      "key": 1001182,
+      "internalName": "Quest_Node_Ocean_RazanuiIsland_Block",
+      "name": "Land of the Black Flag",
+      "nameKo": "검은 깃발의 땅",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000108,
+      "kind": "other"
+    },
+    "1000889": {
+      "key": 1000889,
+      "internalName": "Quest_OceanStory_CitizenStory",
+      "name": "Tales of the Ocean Residents",
+      "nameKo": "대양 주민들의 이야기",
+      "group": 0,
+      "category": 0,
+      "type": 2,
+      "faction": 1000116,
+      "kind": "other"
+    },
+    "1000763": {
+      "key": 1000763,
+      "internalName": "Quest_OceanStory_BackGroundStage",
+      "name": "Great Ocean Backdrop Stage",
+      "nameKo": "대양 배경 스테이지",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 0,
+      "kind": "regional"
+    },
+    "1000848": {
+      "key": 1000848,
+      "internalName": "Quest_OceanStory_CrimDungeon_VoidKnight",
+      "name": "Vestiges of the Void",
+      "nameKo": "공허에 잠식된 잔영",
+      "group": 0,
+      "category": 12,
+      "type": 2,
+      "faction": 1000098,
+      "kind": "regional"
+    },
+    "1001248": {
+      "key": 1001248,
+      "internalName": "Func_GameplayVariable_Ocean",
+      "name": "GameplayVariable Check Quest",
+      "nameKo": "GameplayVariable 체크용 퀘스트",
       "group": 0,
       "category": 0,
       "type": 2,
@@ -13150,7 +14659,8 @@
         4294967060
       ],
       "stages": [
-        1006213
+        1006213,
+        1000095
       ],
       "name": "Precipice of Silence",
       "nameKo": "침묵의 낭떠러지"
@@ -15108,6 +16618,39 @@
       "stages": [],
       "name": "Iron Eagle",
       "nameKo": "기계 독수리"
+    },
+    "1004549": {
+      "key": 1004549,
+      "internalName": "Mission_Legendanimal_Golden_Jewel_Beetle",
+      "quest": 1000390,
+      "children": [
+        1004552
+      ],
+      "stages": [],
+      "name": "Catch the golden jewel beetle",
+      "nameKo": "황금 비단벌레 잡기"
+    },
+    "1004550": {
+      "key": 1004550,
+      "internalName": "Mission_Legendanimal_Golden_Rhinoceros_Beetle",
+      "quest": 1000390,
+      "children": [
+        1004553
+      ],
+      "stages": [],
+      "name": "Catch the golden rhinoceros beetle",
+      "nameKo": "황금 장수풍뎅이 잡기"
+    },
+    "1004551": {
+      "key": 1004551,
+      "internalName": "Mission_Legendanimal_Golden_Butterfly",
+      "quest": 1000390,
+      "children": [
+        1004554
+      ],
+      "stages": [],
+      "name": "Catch the golden butterfly",
+      "nameKo": "황금 나비 잡기"
     },
     "1004406": {
       "key": 1004406,
@@ -19033,7 +20576,8 @@
       "quest": 1000038,
       "children": [],
       "stages": [
-        1000971
+        1000971,
+        1004856
       ],
       "name": "Restore the Abyss",
       "nameKo": "어비스 복구하기"
@@ -21575,6 +23119,39 @@
       ],
       "name": "Tame the iron eagle",
       "nameKo": "기계 독수리 길들이기"
+    },
+    "1004552": {
+      "key": 1004552,
+      "internalName": "Mission_Legendanimal_Golden_Jewel_Beetle_0",
+      "quest": 1000390,
+      "children": [],
+      "stages": [
+        1048524
+      ],
+      "name": "Catch the golden jewel beetle",
+      "nameKo": "황금 비단벌레 잡기"
+    },
+    "1004553": {
+      "key": 1004553,
+      "internalName": "Mission_Legendanimal_Golden_Rhinoceros_Beetle_0",
+      "quest": 1000390,
+      "children": [],
+      "stages": [
+        1048525
+      ],
+      "name": "Catch the golden rhinoceros beetle",
+      "nameKo": "황금 장수풍뎅이 잡기"
+    },
+    "1004554": {
+      "key": 1004554,
+      "internalName": "Mission_Legendanimal_Golden_Butterfly_0",
+      "quest": 1000390,
+      "children": [],
+      "stages": [
+        1048526
+      ],
+      "name": "Catch the golden butterfly",
+      "nameKo": "황금 나비 잡기"
     },
     "1004411": {
       "key": 1004411,
@@ -27188,6 +28765,1995 @@
       "stages": [],
       "name": "Win against 3 opponents",
       "nameKo": "3명을 상대로 승리"
+    },
+    "1004919": {
+      "key": 1004919,
+      "internalName": "Challenge_Beyond_The_Horizon_I",
+      "quest": 1000865,
+      "children": [
+        1004921,
+        1005015,
+        1005016
+      ],
+      "stages": [],
+      "name": "Taste of the Sea",
+      "nameKo": "먼 바다의 손맛",
+      "objectiveEdit": {
+        "prerequisite": 1004921,
+        "artifact": 1005016,
+        "goals": [
+          1005015
+        ]
+      }
+    },
+    "1004997": {
+      "key": 1004997,
+      "internalName": "Challenge_Beyond_The_Horizon_II",
+      "quest": 1000865,
+      "children": [
+        1005017,
+        1005018,
+        1005019
+      ],
+      "stages": [],
+      "name": "Riding the Wind",
+      "nameKo": "바람을 타고",
+      "objectiveEdit": {
+        "prerequisite": 1005017,
+        "artifact": 1005019,
+        "goals": [
+          1005018
+        ]
+      }
+    },
+    "1004998": {
+      "key": 1004998,
+      "internalName": "Challenge_Beyond_The_Horizon_III",
+      "quest": 1000865,
+      "children": [
+        1005020,
+        1005021,
+        1005022
+      ],
+      "stages": [],
+      "name": "A Shipless Voyage",
+      "nameKo": "배 없는 뱃길",
+      "objectiveEdit": {
+        "prerequisite": 1005020,
+        "artifact": 1005022,
+        "goals": [
+          1005021
+        ]
+      }
+    },
+    "1004999": {
+      "key": 1004999,
+      "internalName": "Challenge_Beyond_The_Horizon_IV",
+      "quest": 1000865,
+      "children": [
+        1005023,
+        1005024,
+        1005025
+      ],
+      "stages": [],
+      "name": "Dots on the Sea",
+      "nameKo": "바다 위의 점",
+      "objectiveEdit": {
+        "prerequisite": 1005023,
+        "artifact": 1005025,
+        "goals": [
+          1005024
+        ]
+      }
+    },
+    "1005000": {
+      "key": 1005000,
+      "internalName": "Challenge_Beyond_The_Horizon_V",
+      "quest": 1000865,
+      "children": [
+        1005026,
+        1005027,
+        1005028
+      ],
+      "stages": [],
+      "name": "Swift and Decisive",
+      "nameKo": "속전속결",
+      "objectiveEdit": {
+        "prerequisite": 1005026,
+        "artifact": 1005028,
+        "goals": [
+          1005027
+        ]
+      }
+    },
+    "1005001": {
+      "key": 1005001,
+      "internalName": "Challenge_Beyond_The_Horizon_VI",
+      "quest": 1000865,
+      "children": [
+        1005029,
+        1005030,
+        1005031
+      ],
+      "stages": [],
+      "name": "Strike Prow",
+      "nameKo": "뱃머리 일격",
+      "objectiveEdit": {
+        "prerequisite": 1005029,
+        "artifact": 1005031,
+        "goals": [
+          1005030
+        ]
+      }
+    },
+    "1005002": {
+      "key": 1005002,
+      "internalName": "Challenge_Beyond_The_Horizon_VII",
+      "quest": 1000865,
+      "children": [
+        1005032,
+        1005033,
+        1005034
+      ],
+      "stages": [],
+      "name": "Business Expansion",
+      "nameKo": "사업 확장",
+      "objectiveEdit": {
+        "prerequisite": 1005032,
+        "artifact": 1005034,
+        "goals": [
+          1005033
+        ]
+      }
+    },
+    "1005003": {
+      "key": 1005003,
+      "internalName": "Challenge_Beyond_The_Horizon_VIII",
+      "quest": 1000865,
+      "children": [
+        1005035,
+        1005036,
+        1005037
+      ],
+      "stages": [],
+      "name": "Ship Collector",
+      "nameKo": "배 수집가",
+      "objectiveEdit": {
+        "prerequisite": 1005035,
+        "artifact": 1005037,
+        "goals": [
+          1005036
+        ]
+      }
+    },
+    "1004920": {
+      "key": 1004920,
+      "internalName": "Challenge_Underwater_Voyager_I",
+      "quest": 1000866,
+      "children": [
+        1004922,
+        1005044,
+        1005045
+      ],
+      "stages": [],
+      "name": "The Depths' Visitors",
+      "nameKo": "깊은 곳의 손님",
+      "objectiveEdit": {
+        "prerequisite": 1004922,
+        "artifact": 1005045,
+        "goals": [
+          1005044
+        ]
+      }
+    },
+    "1005006": {
+      "key": 1005006,
+      "internalName": "Challenge_Underwater_Voyager_II",
+      "quest": 1000866,
+      "children": [
+        1005046,
+        1005047,
+        1005048
+      ],
+      "stages": [],
+      "name": "Flawless Victory",
+      "nameKo": "흠 없는 승부",
+      "objectiveEdit": {
+        "prerequisite": 1005046,
+        "artifact": 1005048,
+        "goals": [
+          1005047
+        ]
+      }
+    },
+    "1005007": {
+      "key": 1005007,
+      "internalName": "Challenge_Underwater_Voyager_III",
+      "quest": 1000866,
+      "children": [
+        1005049,
+        1005050,
+        1005051
+      ],
+      "stages": [],
+      "name": "Three Different Takes",
+      "nameKo": "세 갈래의 손맛",
+      "objectiveEdit": {
+        "prerequisite": 1005049,
+        "artifact": 1005051,
+        "goals": [
+          1005050
+        ]
+      }
+    },
+    "1005008": {
+      "key": 1005008,
+      "internalName": "Challenge_Underwater_Voyager_IV",
+      "quest": 1000866,
+      "children": [
+        1005052,
+        1005053,
+        1005054
+      ],
+      "stages": [],
+      "name": "Feast of the Sea",
+      "nameKo": "바다의 식탁",
+      "objectiveEdit": {
+        "prerequisite": 1005052,
+        "artifact": 1005054,
+        "goals": [
+          1005053
+        ]
+      }
+    },
+    "1005009": {
+      "key": 1005009,
+      "internalName": "Challenge_Underwater_Voyager_V",
+      "quest": 1000866,
+      "children": [
+        1005055,
+        1005056,
+        1005057
+      ],
+      "stages": [],
+      "name": "Companion of the Ocean",
+      "nameKo": "대양의 동반자",
+      "objectiveEdit": {
+        "prerequisite": 1005055,
+        "artifact": 1005057,
+        "goals": [
+          1005056
+        ]
+      }
+    },
+    "1005010": {
+      "key": 1005010,
+      "internalName": "Challenge_Underwater_Voyager_VI",
+      "quest": 1000866,
+      "children": [
+        1005058,
+        1005059,
+        1005060
+      ],
+      "stages": [],
+      "name": "A Leisurely Voyage",
+      "nameKo": "느긋한 항해",
+      "objectiveEdit": {
+        "prerequisite": 1005058,
+        "artifact": 1005060,
+        "goals": [
+          1005059
+        ]
+      }
+    },
+    "1005011": {
+      "key": 1005011,
+      "internalName": "Challenge_Underwater_Voyager_VII",
+      "quest": 1000866,
+      "children": [
+        1005061,
+        1005062,
+        1005063
+      ],
+      "stages": [],
+      "name": "Showdown in the Deep",
+      "nameKo": "심해에서의 승부",
+      "objectiveEdit": {
+        "prerequisite": 1005061,
+        "artifact": 1005063,
+        "goals": [
+          1005062
+        ]
+      }
+    },
+    "1005012": {
+      "key": 1005012,
+      "internalName": "Challenge_Underwater_Voyager_VIII",
+      "quest": 1000866,
+      "children": [
+        1005064,
+        1005065,
+        1005066
+      ],
+      "stages": [],
+      "name": "Footprints on the Water",
+      "nameKo": "물 위의 발자국",
+      "objectiveEdit": {
+        "prerequisite": 1005064,
+        "artifact": 1005066,
+        "goals": [
+          1005065
+        ]
+      }
+    },
+    "1005013": {
+      "key": 1005013,
+      "internalName": "Challenge_Underwater_Voyager_IX",
+      "quest": 1000866,
+      "children": [
+        1005067,
+        1005068,
+        1005069
+      ],
+      "stages": [],
+      "name": "Edge of the Depths",
+      "nameKo": "심연의 문턱",
+      "objectiveEdit": {
+        "prerequisite": 1005067,
+        "artifact": 1005069,
+        "goals": [
+          1005068
+        ]
+      }
+    },
+    "1005014": {
+      "key": 1005014,
+      "internalName": "Challenge_Underwater_Voyager_X",
+      "quest": 1000866,
+      "children": [
+        1005070,
+        1005071,
+        1005072
+      ],
+      "stages": [],
+      "name": "Deep-Sea Veins",
+      "nameKo": "심해의 광맥",
+      "objectiveEdit": {
+        "prerequisite": 1005070,
+        "artifact": 1005072,
+        "goals": [
+          1005071
+        ]
+      }
+    },
+    "1004698": {
+      "key": 1004698,
+      "internalName": "Challenge_Standstone_Adventure_0061",
+      "quest": 1000830,
+      "children": [
+        1004718
+      ],
+      "stages": [
+        1006213,
+        1000095
+      ],
+      "name": "The Wandering Archipelago",
+      "nameKo": "유랑하는 군도"
+    },
+    "1004699": {
+      "key": 1004699,
+      "internalName": "Challenge_Standstone_Adventure_0062",
+      "quest": 1000830,
+      "children": [
+        1004719
+      ],
+      "stages": [],
+      "name": "The Surging Archipelago",
+      "nameKo": "넘실거리는 열도"
+    },
+    "1004700": {
+      "key": 1004700,
+      "internalName": "Challenge_Standstone_Adventure_0063",
+      "quest": 1000830,
+      "children": [
+        1004720
+      ],
+      "stages": [],
+      "name": "Atop the Island Ridge",
+      "nameKo": "섬마루 위 절경"
+    },
+    "1004701": {
+      "key": 1004701,
+      "internalName": "Challenge_Standstone_Adventure_0064",
+      "quest": 1000830,
+      "children": [
+        1004721
+      ],
+      "stages": [],
+      "name": "Sea-Worn Ruins",
+      "nameKo": "해풍을 머금은 고적"
+    },
+    "1004702": {
+      "key": 1004702,
+      "internalName": "Challenge_Standstone_Adventure_0065",
+      "quest": 1000830,
+      "children": [
+        1004722
+      ],
+      "stages": [],
+      "name": "The Shoreward Hill",
+      "nameKo": "바다와 땅을 맞이하는 언덕"
+    },
+    "1004703": {
+      "key": 1004703,
+      "internalName": "Challenge_Standstone_Adventure_0066",
+      "quest": 1000830,
+      "children": [
+        1004723
+      ],
+      "stages": [],
+      "name": "Greenery Beneath the Waves",
+      "nameKo": "물결 아래 녹음"
+    },
+    "1004704": {
+      "key": 1004704,
+      "internalName": "Challenge_Standstone_Adventure_0067",
+      "quest": 1000830,
+      "children": [
+        1004724
+      ],
+      "stages": [],
+      "name": "A Fallen Voyage",
+      "nameKo": "추락한 항해"
+    },
+    "1004705": {
+      "key": 1004705,
+      "internalName": "Challenge_Standstone_Adventure_0068",
+      "quest": 1000830,
+      "children": [
+        1004725
+      ],
+      "stages": [],
+      "name": "Where the Current Rests",
+      "nameKo": "물살이 쉬어가는 곳"
+    },
+    "1004706": {
+      "key": 1004706,
+      "internalName": "Challenge_Standstone_Adventure_0069",
+      "quest": 1000830,
+      "children": [
+        1004726
+      ],
+      "stages": [],
+      "name": "The Silenced Splendor of the Past",
+      "nameKo": "숨죽인 과거의 찬란함"
+    },
+    "1004707": {
+      "key": 1004707,
+      "internalName": "Challenge_Standstone_Adventure_0070",
+      "quest": 1000830,
+      "children": [
+        1004727
+      ],
+      "stages": [],
+      "name": "Blooms Beneath the Waves",
+      "nameKo": "물결 아래 꽃밭"
+    },
+    "1004708": {
+      "key": 1004708,
+      "internalName": "Challenge_Standstone_Adventure_0071",
+      "quest": 1000830,
+      "children": [
+        1004728
+      ],
+      "stages": [],
+      "name": "The Fragrance of Darkness",
+      "nameKo": "꽃향을 머금은 어둠"
+    },
+    "1004709": {
+      "key": 1004709,
+      "internalName": "Challenge_Standstone_Adventure_0072",
+      "quest": 1000830,
+      "children": [
+        1004729
+      ],
+      "stages": [],
+      "name": "The Quiet Sea Expanse",
+      "nameKo": "침묵이 흐르는 해저 벌판"
+    },
+    "1004710": {
+      "key": 1004710,
+      "internalName": "Challenge_Standstone_Adventure_0073",
+      "quest": 1000830,
+      "children": [
+        1004730
+      ],
+      "stages": [],
+      "name": "The Darkened Deep Sea",
+      "nameKo": "해저에 드리운 어둠"
+    },
+    "1004711": {
+      "key": 1004711,
+      "internalName": "Challenge_Standstone_Adventure_0074",
+      "quest": 1000830,
+      "children": [
+        1004731
+      ],
+      "stages": [],
+      "name": "The Emerged Searock",
+      "nameKo": "솟아오른 해저 암반"
+    },
+    "1004712": {
+      "key": 1004712,
+      "internalName": "Challenge_Standstone_Adventure_0075",
+      "quest": 1000830,
+      "children": [
+        1004732
+      ],
+      "stages": [],
+      "name": "The Sleeping Colossus Beneath the Waves",
+      "nameKo": "파도 아래 잠든 거대한 생명"
+    },
+    "1004713": {
+      "key": 1004713,
+      "internalName": "Challenge_Standstone_Adventure_0076",
+      "quest": 1000830,
+      "children": [
+        1004733
+      ],
+      "stages": [],
+      "name": "The Deepsea Furnace",
+      "nameKo": "심해의 용광로"
+    },
+    "1004714": {
+      "key": 1004714,
+      "internalName": "Challenge_Standstone_Adventure_0077",
+      "quest": 1000830,
+      "children": [
+        1004734
+      ],
+      "stages": [],
+      "name": "Silence in the Deep",
+      "nameKo": "심연에 잠긴 적막"
+    },
+    "1004715": {
+      "key": 1004715,
+      "internalName": "Challenge_Standstone_Adventure_0078",
+      "quest": 1000830,
+      "children": [
+        1004735
+      ],
+      "stages": [],
+      "name": "The Breathless Blue Ruin",
+      "nameKo": "숨결이 멎은 푸른 폐허"
+    },
+    "1004716": {
+      "key": 1004716,
+      "internalName": "Challenge_Standstone_Adventure_0079",
+      "quest": 1000830,
+      "children": [
+        1004736
+      ],
+      "stages": [],
+      "name": "The Tide-Touched Garden",
+      "nameKo": "물결에 나부끼는 정원"
+    },
+    "1004717": {
+      "key": 1004717,
+      "internalName": "Challenge_Standstone_Adventure_0080",
+      "quest": 1000830,
+      "children": [
+        1004737
+      ],
+      "stages": [],
+      "name": "The Deepest Place",
+      "nameKo": "가장 깊은 곳"
+    },
+    "1004951": {
+      "key": 1004951,
+      "internalName": "Challenge_Standstone_Ocean_Vane_0001",
+      "quest": 1000887,
+      "children": [
+        1004960,
+        1004961
+      ],
+      "stages": [],
+      "name": "Ocean Ruines of {StaticInfo:Knowledge:Knowledge_Node_Ocean_SamoraIsland#Samora Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_SamoraIsland#사모라 섬}의 해양 유적"
+    },
+    "1004952": {
+      "key": 1004952,
+      "internalName": "Challenge_Standstone_Ocean_Statue_0001",
+      "quest": 1000887,
+      "children": [
+        1004962,
+        1004963
+      ],
+      "stages": [],
+      "name": "Rocky Hill Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_IliyaIsland#Iliya Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_IliyaIsland#일리야 섬}의 바위 언덕 해양 유적"
+    },
+    "1004953": {
+      "key": 1004953,
+      "internalName": "Challenge_Standstone_Ocean_Crank_0001",
+      "quest": 1000887,
+      "children": [
+        1004964,
+        1004965
+      ],
+      "stages": [],
+      "name": "Ocean Ruins by {StaticInfo:Knowledge:Knowledge_Node_Ocean_RazanuiIsland#Razanui Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_RazanuiIsland#라자누이 섬} 인근의 해양 유적"
+    },
+    "1004954": {
+      "key": 1004954,
+      "internalName": "Challenge_Standstone_Ocean_Bell_0001",
+      "quest": 1000887,
+      "children": [
+        1004966,
+        1004967
+      ],
+      "stages": [],
+      "name": "Cliff Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_IliyaIsland#Iliya Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_IliyaIsland#일리야 섬}의 절벽 해양 유적"
+    },
+    "1004955": {
+      "key": 1004955,
+      "internalName": "Challenge_Standstone_Ocean_PushSlab_0001",
+      "quest": 1000887,
+      "children": [
+        1004968,
+        1004969
+      ],
+      "stages": [],
+      "name": "Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_PragmaIsland#Phragma Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_PragmaIsland#프라그마 섬}의 해양 유적"
+    },
+    "1004956": {
+      "key": 1004956,
+      "internalName": "Challenge_Standstone_Ocean_Height_0001",
+      "quest": 1000887,
+      "children": [
+        1004970,
+        1004971
+      ],
+      "stages": [],
+      "name": "Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_VergelIsland#Bergel Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_VergelIsland#베르겔 섬}의 해양 유적"
+    },
+    "1004957": {
+      "key": 1004957,
+      "internalName": "Challenge_Standstone_Ocean_Mugunghwa_0001",
+      "quest": 1000887,
+      "children": [
+        1004972,
+        1004973
+      ],
+      "stages": [],
+      "name": "Ocean Ruins by {StaticInfo:Knowledge:Knowledge_Node_Ocean_CarcanoIsland#Carcano Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_CarcanoIsland#카르카노 섬} 인근의 해양 유적"
+    },
+    "1004958": {
+      "key": 1004958,
+      "internalName": "Challenge_Standstone_Ocean_OneTouchDrawing_0001",
+      "quest": 1000887,
+      "children": [
+        1004974,
+        1004975
+      ],
+      "stages": [],
+      "name": "Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_SatyrosIsland#Satyros Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_SatyrosIsland#사티로스 섬}의 해양 유적"
+    },
+    "1004959": {
+      "key": 1004959,
+      "internalName": "Challenge_Standstone_Ocean_JiJeongTa_0001",
+      "quest": 1000887,
+      "children": [
+        1004976,
+        1004977
+      ],
+      "stages": [],
+      "name": "Ocean Ruins of {StaticInfo:Knowledge:Knowledge_Node_Ocean_NirakanIsland#Nirakan Island}",
+      "nameKo": "{StaticInfo:Knowledge:Knowledge_Node_Ocean_NirakanIsland#니라칸 섬}의 해양 유적"
+    },
+    "1004927": {
+      "key": 1004927,
+      "internalName": "Mission_Legendanimal_Pink_Mantaray",
+      "quest": 1001280,
+      "children": [
+        1004930
+      ],
+      "stages": [
+        1049901
+      ],
+      "name": "Pink Manta Ray",
+      "nameKo": "분홍 만타 가오리"
+    },
+    "1004928": {
+      "key": 1004928,
+      "internalName": "Mission_Legendanimal_Gold_Shark",
+      "quest": 1001280,
+      "children": [
+        1004931
+      ],
+      "stages": [
+        1049902
+      ],
+      "name": "Golden Shark",
+      "nameKo": "황금 상어"
+    },
+    "1004929": {
+      "key": 1004929,
+      "internalName": "Mission_Legendanimal_Gold_Marlin",
+      "quest": 1001280,
+      "children": [
+        1004932
+      ],
+      "stages": [
+        1049903
+      ],
+      "name": "Golden Striped Marlin",
+      "nameKo": "황금 청새치"
+    },
+    "1005253": {
+      "key": 1005253,
+      "internalName": "Mission_Legendanimal_Pink_Dolphin",
+      "quest": 1001280,
+      "children": [
+        1005254
+      ],
+      "stages": [
+        1051527
+      ],
+      "name": "Pink Dolphin",
+      "nameKo": "분홍 돌고래"
+    },
+    "1005156": {
+      "key": 1005156,
+      "internalName": "Challenge_Management_I",
+      "quest": 1000972,
+      "children": [
+        1005157
+      ],
+      "stages": [],
+      "name": "A Thriving Business",
+      "nameKo": "문전성시"
+    },
+    "1005300": {
+      "key": 1005300,
+      "internalName": "Challenge_Management_II",
+      "quest": 1000972,
+      "children": [
+        1005303
+      ],
+      "stages": [],
+      "name": "Many Hands at Work",
+      "nameKo": "일터를 채우는 손길"
+    },
+    "1005301": {
+      "key": 1005301,
+      "internalName": "Challenge_Management_III",
+      "quest": 1000972,
+      "children": [
+        1005304
+      ],
+      "stages": [],
+      "name": "Place of Laughter",
+      "nameKo": "웃음이 머무는 자리"
+    },
+    "1005302": {
+      "key": 1005302,
+      "internalName": "Challenge_Management_IV",
+      "quest": 1000972,
+      "children": [
+        1005305
+      ],
+      "stages": [],
+      "name": "Honored Guests",
+      "nameKo": "귀한 발걸음"
+    },
+    "1005311": {
+      "key": 1005311,
+      "internalName": "Challenge_Management_V",
+      "quest": 1000972,
+      "children": [
+        1005318
+      ],
+      "stages": [],
+      "name": "No Seat Left Empty",
+      "nameKo": "빠짐없이 채운 자리"
+    },
+    "1005312": {
+      "key": 1005312,
+      "internalName": "Challenge_Management_VI",
+      "quest": 1000972,
+      "children": [
+        1005319
+      ],
+      "stages": [],
+      "name": "The Value of Harmony",
+      "nameKo": "어울림이 빚은 가치"
+    },
+    "1004818": {
+      "key": 1004818,
+      "internalName": "Mission_MiniGame_Ceelo",
+      "quest": 1000296,
+      "children": [
+        1004819,
+        1004820,
+        1004821,
+        1004822,
+        1004823
+      ],
+      "stages": [],
+      "name": "Three Eyes",
+      "nameKo": "세 개의 눈"
+    },
+    "1004648": {
+      "key": 1004648,
+      "internalName": "Mission_BossRush_Spearman",
+      "quest": 1000764,
+      "children": [
+        1004650
+      ],
+      "stages": [
+        1050136
+      ],
+      "name": "Battlefield Piercers",
+      "nameKo": "전장을 꿰뚫는 자들"
+    },
+    "1004658": {
+      "key": 1004658,
+      "internalName": "Mission_BossRush_Ranged",
+      "quest": 1000764,
+      "children": [
+        1004660
+      ],
+      "stages": [],
+      "name": "The Deathbringers",
+      "nameKo": "죽음을 겨누는 자들"
+    },
+    "1004637": {
+      "key": 1004637,
+      "internalName": "Mission_BossRush_AIMarni",
+      "quest": 1000764,
+      "children": [
+        1004647
+      ],
+      "stages": [],
+      "name": "Marni's Relics",
+      "nameKo": "마르니의 유물들"
+    },
+    "1004649": {
+      "key": 1004649,
+      "internalName": "Mission_BossRush_Troll",
+      "quest": 1000764,
+      "children": [
+        1004651
+      ],
+      "stages": [],
+      "name": "Earth-Trampling Giants",
+      "nameKo": "대지를 짓밟는 거인들"
+    },
+    "1004657": {
+      "key": 1004657,
+      "internalName": "Mission_BossRush_GiantShield",
+      "quest": 1000764,
+      "children": [
+        1004659
+      ],
+      "stages": [],
+      "name": "The Ironbound Warriors",
+      "nameKo": "철벽을 짊어진 전사들"
+    },
+    "1004633": {
+      "key": 1004633,
+      "internalName": "Mission_BossRush_Goblin",
+      "quest": 1000764,
+      "children": [
+        1004643
+      ],
+      "stages": [],
+      "name": "Anomalous Beings",
+      "nameKo": "이형의 존재들"
+    },
+    "1004810": {
+      "key": 1004810,
+      "internalName": "Mission_BossRush_Beast",
+      "quest": 1000764,
+      "children": [
+        1004814
+      ],
+      "stages": [],
+      "name": "Earth-Shattering Beasts",
+      "nameKo": "천지를 메치는 짐승들"
+    },
+    "1004811": {
+      "key": 1004811,
+      "internalName": "Mission_BossRush_Awakening",
+      "quest": 1000764,
+      "children": [
+        1004815
+      ],
+      "stages": [],
+      "name": "The Soul-Consumed",
+      "nameKo": "영혼이 잠식된 자들"
+    },
+    "1004812": {
+      "key": 1004812,
+      "internalName": "Mission_BossRush_Shadow",
+      "quest": 1000764,
+      "children": [
+        1004816
+      ],
+      "stages": [],
+      "name": "The Apparition Bearers",
+      "nameKo": "환영을 거느리는 자들"
+    },
+    "1004813": {
+      "key": 1004813,
+      "internalName": "Mission_BossRush_Death",
+      "quest": 1000764,
+      "children": [
+        1004817
+      ],
+      "stages": [],
+      "name": "Harbingers of Death",
+      "nameKo": "죽음을 부르는 자들"
+    },
+    "1004921": {
+      "key": 1004921,
+      "internalName": "Challenge_Beyond_The_Horizon_I_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005015": {
+      "key": 1005015,
+      "internalName": "Challenge_Beyond_The_Horizon_I_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Catch fish 30 times in the ocean",
+      "nameKo": "대양에서 낚시 30번 성공하기"
+    },
+    "1005016": {
+      "key": 1005016,
+      "internalName": "Challenge_Beyond_The_Horizon_I_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005017": {
+      "key": 1005017,
+      "internalName": "Challenge_Beyond_The_Horizon_II_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005018": {
+      "key": 1005018,
+      "internalName": "Challenge_Beyond_The_Horizon_II_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Travel by boat from Samora Island to Ocula Island in under 10 minutes",
+      "nameKo": "배를 타고, 사모라 섬에서 오쿨라 섬까지 10분 내에 도착하기"
+    },
+    "1005019": {
+      "key": 1005019,
+      "internalName": "Challenge_Beyond_The_Horizon_II_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005020": {
+      "key": 1005020,
+      "internalName": "Challenge_Beyond_The_Horizon_III_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005021": {
+      "key": 1005021,
+      "internalName": "Challenge_Beyond_The_Horizon_III_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Go from Iliya Island to Estra Island in 10 minutes without boarding a ship",
+      "nameKo": "배를 타지 않고, 일리야 섬에서 에스트라 섬까지 10분 내에 도착하기"
+    },
+    "1005022": {
+      "key": 1005022,
+      "internalName": "Challenge_Beyond_The_Horizon_III_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005023": {
+      "key": 1005023,
+      "internalName": "Challenge_Beyond_The_Horizon_IV_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005024": {
+      "key": 1005024,
+      "internalName": "Challenge_Beyond_The_Horizon_IV_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Discover 10 islands in the great ocean",
+      "nameKo": "대양의 섬을 10개 발견하기"
+    },
+    "1005025": {
+      "key": 1005025,
+      "internalName": "Challenge_Beyond_The_Horizon_IV_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005026": {
+      "key": 1005026,
+      "internalName": "Challenge_Beyond_The_Horizon_V_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005027": {
+      "key": 1005027,
+      "internalName": "Challenge_Beyond_The_Horizon_V_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Destroy 5 pirate ships within 3 minutes",
+      "nameKo": "3분 내에 해적선 5척 격파하기"
+    },
+    "1005028": {
+      "key": 1005028,
+      "internalName": "Challenge_Beyond_The_Horizon_V_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005029": {
+      "key": 1005029,
+      "internalName": "Challenge_Beyond_The_Horizon_VI_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005030": {
+      "key": 1005030,
+      "internalName": "Challenge_Beyond_The_Horizon_VI_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Shock 3 enemies in 1 minute",
+      "nameKo": "1분 내에 서로 다른 적에게 충격 3회 성공하기"
+    },
+    "1005031": {
+      "key": 1005031,
+      "internalName": "Challenge_Beyond_The_Horizon_VI_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005032": {
+      "key": 1005032,
+      "internalName": "Challenge_Beyond_The_Horizon_VII_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005033": {
+      "key": 1005033,
+      "internalName": "Challenge_Beyond_The_Horizon_VII_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Sell trade goods to the island's trading merchant",
+      "nameKo": "섬의 무역 상인에게 무역품을 판매하기"
+    },
+    "1005034": {
+      "key": 1005034,
+      "internalName": "Challenge_Beyond_The_Horizon_VII_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005035": {
+      "key": 1005035,
+      "internalName": "Challenge_Beyond_The_Horizon_VIII_0",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005036": {
+      "key": 1005036,
+      "internalName": "Challenge_Beyond_The_Horizon_VIII_1",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Take 10 different ships",
+      "nameKo": "서로 다른 배 10척 획득하기"
+    },
+    "1005037": {
+      "key": 1005037,
+      "internalName": "Challenge_Beyond_The_Horizon_VIII_2",
+      "quest": 1000865,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1004922": {
+      "key": 1004922,
+      "internalName": "Challenge_Underwater_Voyager_I_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005044": {
+      "key": 1005044,
+      "internalName": "Challenge_Underwater_Voyager_I_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Dive for at least 5 minutes continuously",
+      "nameKo": "5분 이상 연속으로 잠수하기"
+    },
+    "1005045": {
+      "key": 1005045,
+      "internalName": "Challenge_Underwater_Voyager_I_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005046": {
+      "key": 1005046,
+      "internalName": "Challenge_Underwater_Voyager_II_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005047": {
+      "key": 1005047,
+      "internalName": "Challenge_Underwater_Voyager_II_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Cling to the Megalodon for two consecutive minutes",
+      "nameKo": "메갈로돈에게 2분 동안 연속으로 매달리기"
+    },
+    "1005048": {
+      "key": 1005048,
+      "internalName": "Challenge_Underwater_Voyager_II_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005049": {
+      "key": 1005049,
+      "internalName": "Challenge_Underwater_Voyager_III_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005050": {
+      "key": 1005050,
+      "internalName": "Challenge_Underwater_Voyager_III_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Catch 3 different types of fish using the harpoon gun within 1 minute",
+      "nameKo": "1분 안에 작살총으로 서로 다른 종류의 물고기 3마리 잡기"
+    },
+    "1005051": {
+      "key": 1005051,
+      "internalName": "Challenge_Underwater_Voyager_III_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005052": {
+      "key": 1005052,
+      "internalName": "Challenge_Underwater_Voyager_IV_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005053": {
+      "key": 1005053,
+      "internalName": "Challenge_Underwater_Voyager_IV_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Cook 10 seafood dishes",
+      "nameKo": "해산물 요리 10개 만들기"
+    },
+    "1005054": {
+      "key": 1005054,
+      "internalName": "Challenge_Underwater_Voyager_IV_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005055": {
+      "key": 1005055,
+      "internalName": "Challenge_Underwater_Voyager_V_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005056": {
+      "key": 1005056,
+      "internalName": "Challenge_Underwater_Voyager_V_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Tame a shark or orca",
+      "nameKo": "상어 또는 범고래 길들이기"
+    },
+    "1005057": {
+      "key": 1005057,
+      "internalName": "Challenge_Underwater_Voyager_V_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005058": {
+      "key": 1005058,
+      "internalName": "Challenge_Underwater_Voyager_VI_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005059": {
+      "key": 1005059,
+      "internalName": "Challenge_Underwater_Voyager_VI_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Ride a sea turtle for 500m in 2 minutes",
+      "nameKo": "바다 거북이를 타고 2분 동안 500m 이동하기"
+    },
+    "1005060": {
+      "key": 1005060,
+      "internalName": "Challenge_Underwater_Voyager_VI_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005061": {
+      "key": 1005061,
+      "internalName": "Challenge_Underwater_Voyager_VII_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005062": {
+      "key": 1005062,
+      "internalName": "Challenge_Underwater_Voyager_VII_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Kill a shark using only a harpoon",
+      "nameKo": "작살만 사용해서 상어 처치하기"
+    },
+    "1005063": {
+      "key": 1005063,
+      "internalName": "Challenge_Underwater_Voyager_VII_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005064": {
+      "key": 1005064,
+      "internalName": "Challenge_Underwater_Voyager_VIII_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005065": {
+      "key": 1005065,
+      "internalName": "Challenge_Underwater_Voyager_VIII_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Sprint on water continuously for 1 minute",
+      "nameKo": "물 위에서 1분 동안 연속으로 달리기"
+    },
+    "1005066": {
+      "key": 1005066,
+      "internalName": "Challenge_Underwater_Voyager_VIII_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005067": {
+      "key": 1005067,
+      "internalName": "Challenge_Underwater_Voyager_IX_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005068": {
+      "key": 1005068,
+      "internalName": "Challenge_Underwater_Voyager_IX_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Reach 300 m below sea level",
+      "nameKo": "해수면 기준 수심 300m에 도달하기"
+    },
+    "1005069": {
+      "key": 1005069,
+      "internalName": "Challenge_Underwater_Voyager_IX_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1005070": {
+      "key": 1005070,
+      "internalName": "Challenge_Underwater_Voyager_X_0",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 획득하기"
+    },
+    "1005071": {
+      "key": 1005071,
+      "internalName": "Challenge_Underwater_Voyager_X_1",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Mine 3 ores underwater within 20 seconds",
+      "nameKo": "물속에서 20초 안에 광석 3개 캐기"
+    },
+    "1005072": {
+      "key": 1005072,
+      "internalName": "Challenge_Underwater_Voyager_X_2",
+      "quest": 1000866,
+      "children": [],
+      "stages": [],
+      "name": "Use the sealed Abyss artifact",
+      "nameKo": "봉인된 어비스 아티팩트 사용하기"
+    },
+    "1004718": {
+      "key": 1004718,
+      "internalName": "Challenge_Standstone_Adventure_0061_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004719": {
+      "key": 1004719,
+      "internalName": "Challenge_Standstone_Adventure_0062_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004720": {
+      "key": 1004720,
+      "internalName": "Challenge_Standstone_Adventure_0063_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004721": {
+      "key": 1004721,
+      "internalName": "Challenge_Standstone_Adventure_0064_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004722": {
+      "key": 1004722,
+      "internalName": "Challenge_Standstone_Adventure_0065_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004723": {
+      "key": 1004723,
+      "internalName": "Challenge_Standstone_Adventure_0066_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004724": {
+      "key": 1004724,
+      "internalName": "Challenge_Standstone_Adventure_0067_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004725": {
+      "key": 1004725,
+      "internalName": "Challenge_Standstone_Adventure_0068_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004726": {
+      "key": 1004726,
+      "internalName": "Challenge_Standstone_Adventure_0069_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004727": {
+      "key": 1004727,
+      "internalName": "Challenge_Standstone_Adventure_0070_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004728": {
+      "key": 1004728,
+      "internalName": "Challenge_Standstone_Adventure_0071_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004729": {
+      "key": 1004729,
+      "internalName": "Challenge_Standstone_Adventure_0072_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004730": {
+      "key": 1004730,
+      "internalName": "Challenge_Standstone_Adventure_0073_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004731": {
+      "key": 1004731,
+      "internalName": "Challenge_Standstone_Adventure_0074_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004732": {
+      "key": 1004732,
+      "internalName": "Challenge_Standstone_Adventure_0075_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004733": {
+      "key": 1004733,
+      "internalName": "Challenge_Standstone_Adventure_0076_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004734": {
+      "key": 1004734,
+      "internalName": "Challenge_Standstone_Adventure_0077_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004735": {
+      "key": 1004735,
+      "internalName": "Challenge_Standstone_Adventure_0078_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004736": {
+      "key": 1004736,
+      "internalName": "Challenge_Standstone_Adventure_0079_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004737": {
+      "key": 1004737,
+      "internalName": "Challenge_Standstone_Adventure_0080_0",
+      "quest": 1000830,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004960": {
+      "key": 1004960,
+      "internalName": "Challenge_Standstone_Ocean_Vane_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004961": {
+      "key": 1004961,
+      "internalName": "Challenge_Standstone_Ocean_Vane_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004962": {
+      "key": 1004962,
+      "internalName": "Challenge_Standstone_Ocean_Statue_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004963": {
+      "key": 1004963,
+      "internalName": "Challenge_Standstone_Ocean_Statue_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004964": {
+      "key": 1004964,
+      "internalName": "Challenge_Standstone_Ocean_Crank_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004965": {
+      "key": 1004965,
+      "internalName": "Challenge_Standstone_Ocean_Crank_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004966": {
+      "key": 1004966,
+      "internalName": "Challenge_Standstone_Ocean_Bell_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004967": {
+      "key": 1004967,
+      "internalName": "Challenge_Standstone_Ocean_Bell_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004968": {
+      "key": 1004968,
+      "internalName": "Challenge_Standstone_Ocean_PushSlab_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004969": {
+      "key": 1004969,
+      "internalName": "Challenge_Standstone_Ocean_PushSlab_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004970": {
+      "key": 1004970,
+      "internalName": "Challenge_Standstone_Ocean_Height_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004971": {
+      "key": 1004971,
+      "internalName": "Challenge_Standstone_Ocean_Height_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004972": {
+      "key": 1004972,
+      "internalName": "Challenge_Standstone_Ocean_Mugunghwa_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004973": {
+      "key": 1004973,
+      "internalName": "Challenge_Standstone_Ocean_Mugunghwa_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004974": {
+      "key": 1004974,
+      "internalName": "Challenge_Standstone_Ocean_OneTouchDrawing_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004975": {
+      "key": 1004975,
+      "internalName": "Challenge_Standstone_Ocean_OneTouchDrawing_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004976": {
+      "key": 1004976,
+      "internalName": "Challenge_Standstone_Ocean_JiJeongTa_0001_0",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Uncover the secret of the ocean ruins",
+      "nameKo": "해양 유적의 비밀 풀기"
+    },
+    "1004977": {
+      "key": 1004977,
+      "internalName": "Challenge_Standstone_Ocean_JiJeongTa_0001_1",
+      "quest": 1000887,
+      "children": [],
+      "stages": [],
+      "name": "Obtain the artifact",
+      "nameKo": "아티팩트 획득하기"
+    },
+    "1004930": {
+      "key": 1004930,
+      "internalName": "Mission_Legendanimal_Pink_Mantaray_0",
+      "quest": 1001280,
+      "children": [],
+      "stages": [],
+      "name": "Tame pink manta rays",
+      "nameKo": "분홍 만타 가오리 길들이기"
+    },
+    "1004931": {
+      "key": 1004931,
+      "internalName": "Mission_Legendanimal_Gold_Shark_0",
+      "quest": 1001280,
+      "children": [],
+      "stages": [],
+      "name": "Tame the legendary golden shark",
+      "nameKo": "전설의 황금 상어 길들이기"
+    },
+    "1004932": {
+      "key": 1004932,
+      "internalName": "Mission_Legendanimal_Gold_Marlin_0",
+      "quest": 1001280,
+      "children": [],
+      "stages": [],
+      "name": "Put the legendary golden striped marlin in the pond",
+      "nameKo": "전설의 황금 청새치 연못에 넣기"
+    },
+    "1005254": {
+      "key": 1005254,
+      "internalName": "Mission_Legendanimal_Pink_Dolphin_0",
+      "quest": 1001280,
+      "children": [],
+      "stages": [],
+      "name": "Tame the legendary pink dolphin",
+      "nameKo": "전설의 분홍 돌고래 길들이기"
+    },
+    "1005157": {
+      "key": 1005157,
+      "internalName": "Challenge_Management_I_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Reach Popularity Lv. 5 for management facilities",
+      "nameKo": "경영 시설 인지도 5Lv 달성하기"
+    },
+    "1005303": {
+      "key": 1005303,
+      "internalName": "Challenge_Management_II_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Learn 30 knowledge of management facilities",
+      "nameKo": "경영 설비 지식 30개 획득하기"
+    },
+    "1005304": {
+      "key": 1005304,
+      "internalName": "Challenge_Management_III_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Satisfy 100 customers",
+      "nameKo": "손님 100명 만족시키기"
+    },
+    "1005305": {
+      "key": 1005305,
+      "internalName": "Challenge_Management_IV_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Satisfy 3 special customers",
+      "nameKo": "특별한 손님 3명 만족시키기"
+    },
+    "1005318": {
+      "key": 1005318,
+      "internalName": "Challenge_Management_V_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Reach Superior Facility Tier",
+      "nameKo": "시설 등급 호화 달성하기"
+    },
+    "1005319": {
+      "key": 1005319,
+      "internalName": "Challenge_Management_VI_0",
+      "quest": 1000972,
+      "children": [],
+      "stages": [],
+      "name": "Sell an item with at least 5 combination effects activated",
+      "nameKo": "조합 효과가 5개 이상 활성화되어 있는 상태에서 제품 판매하기"
+    },
+    "1004819": {
+      "key": 1004819,
+      "internalName": "Mission_MiniGame_Ceelo_0",
+      "quest": 1000296,
+      "children": [],
+      "stages": [],
+      "name": "Win a round of Banker's Dice",
+      "nameKo": "주사위 놀이 1승 하기"
+    },
+    "1004820": {
+      "key": 1004820,
+      "internalName": "Mission_MiniGame_Ceelo_1",
+      "quest": 1000296,
+      "children": [],
+      "stages": [],
+      "name": "Win consecutive rounds of Banker's Dice",
+      "nameKo": "주사위 놀이 연승하기"
+    },
+    "1004821": {
+      "key": 1004821,
+      "internalName": "Mission_MiniGame_Ceelo_2",
+      "quest": 1000296,
+      "children": [],
+      "stages": [],
+      "name": "Win against 1 opponent",
+      "nameKo": "1명을 상대로 승리"
+    },
+    "1004822": {
+      "key": 1004822,
+      "internalName": "Mission_MiniGame_Ceelo_3",
+      "quest": 1000296,
+      "children": [],
+      "stages": [],
+      "name": "Win against 2 opponents",
+      "nameKo": "2명을 상대로 승리"
+    },
+    "1004823": {
+      "key": 1004823,
+      "internalName": "Mission_MiniGame_Ceelo_4",
+      "quest": 1000296,
+      "children": [],
+      "stages": [],
+      "name": "Win against 3 opponents",
+      "nameKo": "3명을 상대로 승리"
+    },
+    "1004650": {
+      "key": 1004650,
+      "internalName": "Mission_BossRush_Spearman_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004660": {
+      "key": 1004660,
+      "internalName": "Mission_BossRush_Ranged_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004647": {
+      "key": 1004647,
+      "internalName": "Mission_BossRush_AIMarni_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004651": {
+      "key": 1004651,
+      "internalName": "Mission_BossRush_Troll_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004659": {
+      "key": 1004659,
+      "internalName": "Mission_BossRush_GiantShield_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004643": {
+      "key": 1004643,
+      "internalName": "Mission_BossRush_Goblin_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004814": {
+      "key": 1004814,
+      "internalName": "Mission_BossRush_Beast_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004815": {
+      "key": 1004815,
+      "internalName": "Mission_BossRush_Awakening_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004816": {
+      "key": 1004816,
+      "internalName": "Mission_BossRush_Shadow_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
+    },
+    "1004817": {
+      "key": 1004817,
+      "internalName": "Mission_BossRush_Death_0",
+      "quest": 1000764,
+      "children": [],
+      "stages": [],
+      "name": "Complete the trial",
+      "nameKo": "시련 완료하기"
     }
   },
   "missionOwners": {
@@ -27954,6 +31520,9 @@
     "1001016": 1001028,
     "1003957": 1000390,
     "1003958": 1000390,
+    "1004549": 1000390,
+    "1004550": 1000390,
+    "1004551": 1000390,
     "1004406": 1000689,
     "1004407": 1000689,
     "1004408": 1000689,
@@ -28857,6 +32426,7 @@
     "1001995": 1000656,
     "1001093": 1000291,
     "1001021": 1000291,
+    "1005158": 1000978,
     "1000020": 1001066,
     "1000072": 1001066,
     "1000073": 1001066,
@@ -29558,6 +33128,7 @@
     "1004624": 1000754,
     "1004625": 1000757,
     "1004332": 1000586,
+    "1005349": 1000102,
     "1003944": 1000372,
     "1003945": 1000372,
     "1003946": 1000372,
@@ -30476,6 +34047,9 @@
     "1003961": 1000390,
     "1004036": 1000390,
     "1004037": 1000390,
+    "1004552": 1000390,
+    "1004553": 1000390,
+    "1004554": 1000390,
     "1004411": 1000689,
     "1004412": 1000689,
     "1004413": 1000689,
@@ -34054,16 +37628,689 @@
     "1003949": 1000372,
     "1004694": 1000829,
     "1004695": 1000829,
-    "1004696": 1000829
+    "1004696": 1000829,
+    "1005359": 1000183,
+    "1005283": 1000183,
+    "1005284": 1000183,
+    "1005285": 1000183,
+    "1005286": 1000183,
+    "1005287": 1000183,
+    "1005309": 1000183,
+    "1005361": 1000183,
+    "1005164": 1000183,
+    "1005165": 1000183,
+    "1005166": 1000183,
+    "1005167": 1000183,
+    "1005168": 1000183,
+    "1005169": 1000183,
+    "1005170": 1000183,
+    "1005171": 1000183,
+    "1005172": 1000183,
+    "1005173": 1000183,
+    "1005174": 1000183,
+    "1005175": 1000183,
+    "1005176": 1000183,
+    "1005177": 1000183,
+    "1005178": 1000183,
+    "1005179": 1000183,
+    "1005180": 1000183,
+    "1005181": 1000183,
+    "1005182": 1000183,
+    "1005183": 1000183,
+    "1005184": 1000183,
+    "1005185": 1000183,
+    "1005186": 1000183,
+    "1005187": 1000183,
+    "1005188": 1000183,
+    "1005189": 1000183,
+    "1005190": 1000183,
+    "1005191": 1000183,
+    "1005192": 1000183,
+    "1005193": 1000183,
+    "1004919": 1000865,
+    "1004997": 1000865,
+    "1004998": 1000865,
+    "1004999": 1000865,
+    "1005000": 1000865,
+    "1005001": 1000865,
+    "1005002": 1000865,
+    "1005003": 1000865,
+    "1004920": 1000866,
+    "1005006": 1000866,
+    "1005007": 1000866,
+    "1005008": 1000866,
+    "1005009": 1000866,
+    "1005010": 1000866,
+    "1005011": 1000866,
+    "1005012": 1000866,
+    "1005013": 1000866,
+    "1005014": 1000866,
+    "1004698": 1000830,
+    "1004699": 1000830,
+    "1004700": 1000830,
+    "1004701": 1000830,
+    "1004702": 1000830,
+    "1004703": 1000830,
+    "1004704": 1000830,
+    "1004705": 1000830,
+    "1004706": 1000830,
+    "1004707": 1000830,
+    "1004708": 1000830,
+    "1004709": 1000830,
+    "1004710": 1000830,
+    "1004711": 1000830,
+    "1004712": 1000830,
+    "1004713": 1000830,
+    "1004714": 1000830,
+    "1004715": 1000830,
+    "1004716": 1000830,
+    "1004717": 1000830,
+    "1004951": 1000887,
+    "1004952": 1000887,
+    "1004953": 1000887,
+    "1004954": 1000887,
+    "1004955": 1000887,
+    "1004956": 1000887,
+    "1004957": 1000887,
+    "1004958": 1000887,
+    "1004959": 1000887,
+    "1004927": 1001280,
+    "1004928": 1001280,
+    "1004929": 1001280,
+    "1005253": 1001280,
+    "1005156": 1000972,
+    "1005300": 1000972,
+    "1005301": 1000972,
+    "1005302": 1000972,
+    "1005311": 1000972,
+    "1005312": 1000972,
+    "1004818": 1000296,
+    "1004648": 1000764,
+    "1004658": 1000764,
+    "1004637": 1000764,
+    "1004649": 1000764,
+    "1004657": 1000764,
+    "1004633": 1000764,
+    "1004810": 1000764,
+    "1004811": 1000764,
+    "1004812": 1000764,
+    "1004813": 1000764,
+    "1005307": 1001247,
+    "1004915": 1000762,
+    "1004743": 1000853,
+    "1004870": 1000853,
+    "1004871": 1000853,
+    "1004872": 1000853,
+    "1004744": 1000854,
+    "1004873": 1000854,
+    "1004874": 1000854,
+    "1004875": 1000854,
+    "1004773": 1000858,
+    "1004876": 1000858,
+    "1004877": 1000858,
+    "1004878": 1000858,
+    "1004781": 1000859,
+    "1004879": 1000859,
+    "1004880": 1000859,
+    "1004881": 1000859,
+    "1004681": 1000826,
+    "1005350": 1000826,
+    "1004680": 1000824,
+    "1005351": 1000824,
+    "1005144": 1000967,
+    "1005145": 1000967,
+    "1005268": 1000998,
+    "1005250": 1000966,
+    "1005089": 1000966,
+    "1005090": 1000966,
+    "1005091": 1000966,
+    "1005092": 1000966,
+    "1005093": 1000966,
+    "1005094": 1000966,
+    "1005095": 1000966,
+    "1005096": 1000966,
+    "1005124": 1000966,
+    "1005125": 1000966,
+    "1005126": 1000966,
+    "1005127": 1000966,
+    "1005146": 1000966,
+    "1005224": 1001026,
+    "1005342": 1001026,
+    "1004419": 1000716,
+    "1004420": 1000716,
+    "1004832": 1000716,
+    "1004825": 1000716,
+    "1004421": 1000716,
+    "1004422": 1000716,
+    "1004423": 1000716,
+    "1004424": 1000716,
+    "1004425": 1000716,
+    "1004474": 1000723,
+    "1004475": 1000723,
+    "1005288": 1000723,
+    "1004477": 1000723,
+    "1004479": 1000723,
+    "1004923": 1000723,
+    "1004480": 1000723,
+    "1004481": 1000723,
+    "1004482": 1000723,
+    "1004627": 1000723,
+    "1004942": 1000723,
+    "1004483": 1000723,
+    "1005363": 1000723,
+    "1004847": 1000852,
+    "1004848": 1000852,
+    "1004849": 1000852,
+    "1005334": 1000852,
+    "1005335": 1000852,
+    "1005336": 1000852,
+    "1004555": 1000740,
+    "1004556": 1000740,
+    "1005230": 1000740,
+    "1004557": 1000746,
+    "1004558": 1000746,
+    "1004559": 1000746,
+    "1004560": 1000746,
+    "1004782": 1000832,
+    "1005270": 1000832,
+    "1004783": 1000833,
+    "1004784": 1000834,
+    "1005271": 1001182,
+    "1005272": 1001182,
+    "1004978": 1000889,
+    "1004911": 1000889,
+    "1005236": 1000889,
+    "1004843": 1000889,
+    "1004844": 1000889,
+    "1004845": 1000889,
+    "1005237": 1000889,
+    "1004785": 1000848,
+    "1004509": 1000732,
+    "1004510": 1000732,
+    "1004511": 1000732,
+    "1004512": 1000732,
+    "1004513": 1000732,
+    "1004516": 1000732,
+    "1004981": 1000732,
+    "1005142": 1000732,
+    "1004517": 1000732,
+    "1004518": 1000732,
+    "1005313": 1001248,
+    "1005314": 1001248,
+    "1005315": 1001248,
+    "1005316": 1001248,
+    "1005317": 1001248,
+    "1005360": 1000183,
+    "1005289": 1000183,
+    "1005290": 1000183,
+    "1005291": 1000183,
+    "1005292": 1000183,
+    "1005293": 1000183,
+    "1005310": 1000183,
+    "1005362": 1000183,
+    "1005194": 1000183,
+    "1005195": 1000183,
+    "1005196": 1000183,
+    "1005197": 1000183,
+    "1005198": 1000183,
+    "1005199": 1000183,
+    "1005200": 1000183,
+    "1005201": 1000183,
+    "1005202": 1000183,
+    "1005203": 1000183,
+    "1005204": 1000183,
+    "1005205": 1000183,
+    "1005206": 1000183,
+    "1005207": 1000183,
+    "1005208": 1000183,
+    "1005209": 1000183,
+    "1005210": 1000183,
+    "1005211": 1000183,
+    "1005212": 1000183,
+    "1005213": 1000183,
+    "1005214": 1000183,
+    "1005215": 1000183,
+    "1005216": 1000183,
+    "1005217": 1000183,
+    "1005218": 1000183,
+    "1005219": 1000183,
+    "1005220": 1000183,
+    "1005221": 1000183,
+    "1005222": 1000183,
+    "1005223": 1000183,
+    "1004921": 1000865,
+    "1005015": 1000865,
+    "1005016": 1000865,
+    "1005017": 1000865,
+    "1005018": 1000865,
+    "1005019": 1000865,
+    "1005020": 1000865,
+    "1005021": 1000865,
+    "1005022": 1000865,
+    "1005023": 1000865,
+    "1005024": 1000865,
+    "1005025": 1000865,
+    "1005026": 1000865,
+    "1005027": 1000865,
+    "1005028": 1000865,
+    "1005029": 1000865,
+    "1005030": 1000865,
+    "1005031": 1000865,
+    "1005032": 1000865,
+    "1005033": 1000865,
+    "1005034": 1000865,
+    "1005035": 1000865,
+    "1005036": 1000865,
+    "1005037": 1000865,
+    "1004922": 1000866,
+    "1005044": 1000866,
+    "1005045": 1000866,
+    "1005046": 1000866,
+    "1005047": 1000866,
+    "1005048": 1000866,
+    "1005049": 1000866,
+    "1005050": 1000866,
+    "1005051": 1000866,
+    "1005052": 1000866,
+    "1005053": 1000866,
+    "1005054": 1000866,
+    "1005055": 1000866,
+    "1005056": 1000866,
+    "1005057": 1000866,
+    "1005058": 1000866,
+    "1005059": 1000866,
+    "1005060": 1000866,
+    "1005061": 1000866,
+    "1005062": 1000866,
+    "1005063": 1000866,
+    "1005064": 1000866,
+    "1005065": 1000866,
+    "1005066": 1000866,
+    "1005067": 1000866,
+    "1005068": 1000866,
+    "1005069": 1000866,
+    "1005070": 1000866,
+    "1005071": 1000866,
+    "1005072": 1000866,
+    "1004718": 1000830,
+    "1004719": 1000830,
+    "1004720": 1000830,
+    "1004721": 1000830,
+    "1004722": 1000830,
+    "1004723": 1000830,
+    "1004724": 1000830,
+    "1004725": 1000830,
+    "1004726": 1000830,
+    "1004727": 1000830,
+    "1004728": 1000830,
+    "1004729": 1000830,
+    "1004730": 1000830,
+    "1004731": 1000830,
+    "1004732": 1000830,
+    "1004733": 1000830,
+    "1004734": 1000830,
+    "1004735": 1000830,
+    "1004736": 1000830,
+    "1004737": 1000830,
+    "1004960": 1000887,
+    "1004961": 1000887,
+    "1004962": 1000887,
+    "1004963": 1000887,
+    "1004964": 1000887,
+    "1004965": 1000887,
+    "1004966": 1000887,
+    "1004967": 1000887,
+    "1004968": 1000887,
+    "1004969": 1000887,
+    "1004970": 1000887,
+    "1004971": 1000887,
+    "1004972": 1000887,
+    "1004973": 1000887,
+    "1004974": 1000887,
+    "1004975": 1000887,
+    "1004976": 1000887,
+    "1004977": 1000887,
+    "1004930": 1001280,
+    "1004931": 1001280,
+    "1004932": 1001280,
+    "1005254": 1001280,
+    "1005157": 1000972,
+    "1005303": 1000972,
+    "1005304": 1000972,
+    "1005305": 1000972,
+    "1005318": 1000972,
+    "1005319": 1000972,
+    "1004819": 1000296,
+    "1004820": 1000296,
+    "1004821": 1000296,
+    "1004822": 1000296,
+    "1004823": 1000296,
+    "1004650": 1000764,
+    "1004660": 1000764,
+    "1004647": 1000764,
+    "1004651": 1000764,
+    "1004659": 1000764,
+    "1004643": 1000764,
+    "1004814": 1000764,
+    "1004815": 1000764,
+    "1004816": 1000764,
+    "1004817": 1000764,
+    "1005308": 1001247,
+    "1004745": 1000853,
+    "1004746": 1000853,
+    "1004747": 1000853,
+    "1004748": 1000853,
+    "1004882": 1000853,
+    "1004883": 1000853,
+    "1004884": 1000853,
+    "1004885": 1000853,
+    "1004886": 1000853,
+    "1004887": 1000853,
+    "1004751": 1000854,
+    "1004752": 1000854,
+    "1004753": 1000854,
+    "1004754": 1000854,
+    "1004888": 1000854,
+    "1004889": 1000854,
+    "1004890": 1000854,
+    "1004891": 1000854,
+    "1004892": 1000854,
+    "1004893": 1000854,
+    "1004894": 1000854,
+    "1004895": 1000854,
+    "1004774": 1000858,
+    "1004775": 1000858,
+    "1004776": 1000858,
+    "1004777": 1000858,
+    "1004896": 1000858,
+    "1004897": 1000858,
+    "1004898": 1000858,
+    "1004899": 1000858,
+    "1004900": 1000858,
+    "1004901": 1000858,
+    "1004902": 1000858,
+    "1004786": 1000859,
+    "1004787": 1000859,
+    "1004788": 1000859,
+    "1004789": 1000859,
+    "1004903": 1000859,
+    "1004904": 1000859,
+    "1004905": 1000859,
+    "1004906": 1000859,
+    "1004907": 1000859,
+    "1004908": 1000859,
+    "1004909": 1000859,
+    "1004910": 1000859,
+    "1004683": 1000826,
+    "1004684": 1000826,
+    "1005353": 1000826,
+    "1005354": 1000826,
+    "1004682": 1000824,
+    "1005355": 1000824,
+    "1005356": 1000824,
+    "1005147": 1000967,
+    "1005148": 1000967,
+    "1005149": 1000967,
+    "1005150": 1000967,
+    "1005151": 1000967,
+    "1005152": 1000967,
+    "1005227": 1000967,
+    "1005228": 1000967,
+    "1005269": 1000998,
+    "1005251": 1000966,
+    "1005252": 1000966,
+    "1005100": 1000966,
+    "1005101": 1000966,
+    "1005103": 1000966,
+    "1005104": 1000966,
+    "1005106": 1000966,
+    "1005107": 1000966,
+    "1005109": 1000966,
+    "1005110": 1000966,
+    "1005112": 1000966,
+    "1005113": 1000966,
+    "1005115": 1000966,
+    "1005116": 1000966,
+    "1005118": 1000966,
+    "1005119": 1000966,
+    "1005121": 1000966,
+    "1005122": 1000966,
+    "1005128": 1000966,
+    "1005129": 1000966,
+    "1005131": 1000966,
+    "1005132": 1000966,
+    "1005134": 1000966,
+    "1005135": 1000966,
+    "1005137": 1000966,
+    "1005138": 1000966,
+    "1005153": 1000966,
+    "1005154": 1000966,
+    "1005225": 1001026,
+    "1005226": 1001026,
+    "1005343": 1001026,
+    "1004426": 1000716,
+    "1004837": 1000716,
+    "1004933": 1000716,
+    "1004934": 1000716,
+    "1004935": 1000716,
+    "1004936": 1000716,
+    "1004937": 1000716,
+    "1004938": 1000716,
+    "1005073": 1000716,
+    "1005074": 1000716,
+    "1005075": 1000716,
+    "1005238": 1000716,
+    "1005239": 1000716,
+    "1004427": 1000716,
+    "1004428": 1000716,
+    "1004833": 1000716,
+    "1004834": 1000716,
+    "1004835": 1000716,
+    "1004836": 1000716,
+    "1004826": 1000716,
+    "1004827": 1000716,
+    "1004828": 1000716,
+    "1004435": 1000716,
+    "1004436": 1000716,
+    "1004437": 1000716,
+    "1004438": 1000716,
+    "1004439": 1000716,
+    "1004440": 1000716,
+    "1004441": 1000716,
+    "1004442": 1000716,
+    "1004443": 1000716,
+    "1004444": 1000716,
+    "1005344": 1000716,
+    "1004445": 1000716,
+    "1004446": 1000716,
+    "1004447": 1000716,
+    "1004449": 1000716,
+    "1004450": 1000716,
+    "1004484": 1000723,
+    "1004485": 1000723,
+    "1004487": 1000723,
+    "1004488": 1000723,
+    "1004489": 1000723,
+    "1005294": 1000723,
+    "1005295": 1000723,
+    "1005296": 1000723,
+    "1005297": 1000723,
+    "1004495": 1000723,
+    "1004496": 1000723,
+    "1004829": 1000723,
+    "1004830": 1000723,
+    "1004499": 1000723,
+    "1004679": 1000723,
+    "1004925": 1000723,
+    "1005079": 1000723,
+    "1005080": 1000723,
+    "1004500": 1000723,
+    "1004501": 1000723,
+    "1004502": 1000723,
+    "1004950": 1000723,
+    "1004990": 1000723,
+    "1005364": 1000723,
+    "1004503": 1000723,
+    "1004991": 1000723,
+    "1004504": 1000723,
+    "1004772": 1000723,
+    "1004869": 1000723,
+    "1004992": 1000723,
+    "1004994": 1000723,
+    "1004628": 1000723,
+    "1004629": 1000723,
+    "1004993": 1000723,
+    "1004995": 1000723,
+    "1004943": 1000723,
+    "1004944": 1000723,
+    "1004945": 1000723,
+    "1004946": 1000723,
+    "1004947": 1000723,
+    "1004948": 1000723,
+    "1004949": 1000723,
+    "1005298": 1000723,
+    "1004505": 1000723,
+    "1004506": 1000723,
+    "1005365": 1000723,
+    "1004863": 1000852,
+    "1004864": 1000852,
+    "1004979": 1000852,
+    "1005337": 1000852,
+    "1004865": 1000852,
+    "1004980": 1000852,
+    "1005242": 1000852,
+    "1005299": 1000852,
+    "1004866": 1000852,
+    "1004867": 1000852,
+    "1005338": 1000852,
+    "1005339": 1000852,
+    "1005366": 1000852,
+    "1005340": 1000852,
+    "1005341": 1000852,
+    "1004561": 1000740,
+    "1004562": 1000740,
+    "1004563": 1000740,
+    "1004564": 1000740,
+    "1005082": 1000740,
+    "1004565": 1000740,
+    "1004566": 1000740,
+    "1004926": 1000740,
+    "1004996": 1000740,
+    "1005159": 1000740,
+    "1005306": 1000740,
+    "1005345": 1000740,
+    "1005231": 1000740,
+    "1005232": 1000740,
+    "1005233": 1000740,
+    "1005234": 1000740,
+    "1005235": 1000740,
+    "1004567": 1000746,
+    "1004571": 1000746,
+    "1004572": 1000746,
+    "1005085": 1000746,
+    "1005086": 1000746,
+    "1004573": 1000746,
+    "1005141": 1000746,
+    "1004574": 1000746,
+    "1004575": 1000746,
+    "1004794": 1000832,
+    "1005273": 1000832,
+    "1005274": 1000832,
+    "1005275": 1000832,
+    "1005276": 1000832,
+    "1005277": 1000832,
+    "1004795": 1000833,
+    "1005346": 1000833,
+    "1004796": 1000834,
+    "1005347": 1000834,
+    "1005278": 1001182,
+    "1005279": 1001182,
+    "1005280": 1001182,
+    "1005281": 1001182,
+    "1005282": 1001182,
+    "1004912": 1000889,
+    "1004913": 1000889,
+    "1004914": 1000889,
+    "1005243": 1000889,
+    "1005244": 1000889,
+    "1005245": 1000889,
+    "1005246": 1000889,
+    "1004850": 1000889,
+    "1004851": 1000889,
+    "1004852": 1000889,
+    "1004853": 1000889,
+    "1004854": 1000889,
+    "1004855": 1000889,
+    "1004856": 1000889,
+    "1004857": 1000889,
+    "1004858": 1000889,
+    "1004859": 1000889,
+    "1005247": 1000889,
+    "1005248": 1000889,
+    "1005249": 1000889,
+    "1004797": 1000848,
+    "1005348": 1000848,
+    "1004519": 1000732,
+    "1004520": 1000732,
+    "1004521": 1000732,
+    "1004939": 1000732,
+    "1004940": 1000732,
+    "1004522": 1000732,
+    "1004523": 1000732,
+    "1004524": 1000732,
+    "1004526": 1000732,
+    "1004528": 1000732,
+    "1004529": 1000732,
+    "1004536": 1000732,
+    "1004537": 1000732,
+    "1004538": 1000732,
+    "1004539": 1000732,
+    "1004540": 1000732,
+    "1004541": 1000732,
+    "1004542": 1000732,
+    "1004543": 1000732,
+    "1004982": 1000732,
+    "1004983": 1000732,
+    "1004984": 1000732,
+    "1004985": 1000732,
+    "1004986": 1000732,
+    "1004987": 1000732,
+    "1004988": 1000732,
+    "1005143": 1000732,
+    "1004545": 1000732,
+    "1004546": 1000732,
+    "1004547": 1000732,
+    "1004548": 1000732,
+    "1005320": 1001248,
+    "1005321": 1001248,
+    "1005322": 1001248,
+    "1005323": 1001248,
+    "1005324": 1001248,
+    "1005325": 1001248,
+    "1005326": 1001248,
+    "1005327": 1001248,
+    "1005328": 1001248,
+    "1005330": 1001248,
+    "1005331": 1001248,
+    "1005332": 1001248,
+    "1005333": 1001248
   },
   "sourceSha256": {
-    "questgroupinfo.staticinfoheader": "15938d260124725fbfe02fa45601ac3f45393ff63180203fc828f138c4e4d4be",
-    "questgroupinfo.staticinfobody": "1b0c4fa168ea15169e13badbc9bf63a2afca67cf7d9c68ec631711155f731cd5",
-    "questinfo.staticinfoheader": "6f6041de4ead63ed87d11cb933afa25603efbe93d397f381b4f7a1f4799de41e",
-    "questinfo.staticinfobody": "b22ec3676b07813b5f228bcc8e4c7e86a491571f00d0116265fc980de5d99b9a",
-    "missioninfo.staticinfoheader": "05f76bfd968530febeeab0ddaf82320c103eee46157dd1d4575224e954a6607d",
-    "missioninfo.staticinfobody": "ebcf94eebed95f1c3cf9fc22621540f10d12db840025953830c3bfb069b278ee",
-    "eng_quest.paloc": "69afa4903ed3d618d93c7af6de2ddf7e203753211dbe1a09e1c6c50a2907cdca",
-    "kor_quest.paloc": "16cd8f6924062bb1193cab61ceaf4e7d52519b4e47b48b442a132e8ac546f5b9"
+    "eng_quest.dlc_01.paloc": "e0f399116a2e665e4cad734a495b4a6e0686a86a3d59e2a1ef0bd237b9028b05",
+    "eng_quest.paloc": "4b8407aa749e822e840ee1f6e63185356863d62752ad5cd79f22bb2e1f0658ed",
+    "kor_quest.dlc_01.paloc": "bda46d940377a70434dd856824cbcc8c13a738ebaf1d42b7e14a8a426cc9c42b",
+    "kor_quest.paloc": "c88372f98bc21234c05657c3911325d7ebe34c30e0c9b83ea44847ebff103548",
+    "missioninfo.dlc_01.staticinfobody": "2f45420e9ce71d29f3067849507f6af71803efde57f43385d364511b1d08b0c9",
+    "missioninfo.dlc_01.staticinfoheader": "397303b73d636d028d25a675e21948ce6991f59c03a0b25c517bd94f334730bf",
+    "missioninfo.staticinfobody": "007795d7362ea0da68378e9568a4019f88fff47fc7128727f0c8278c1c64e68d",
+    "missioninfo.staticinfoheader": "f0453448b04b829214fda45dfe5aade0c9e5422a038dd92676a92a47e32a08f4",
+    "questgroupinfo.dlc_01.staticinfobody": "64bb62cdf6bbcb79c931ac0d4f89d055df253bc28705ea9371b8fdc75112d047",
+    "questgroupinfo.dlc_01.staticinfoheader": "9571d79321b7e83b0291550616098a645b3b28007279bb30a9d43aaeef51937f",
+    "questgroupinfo.staticinfobody": "ade42ab2d6ef503036b989cd1e5e0678de4c51ec2f6c7e4e2f614defbd159f4f",
+    "questgroupinfo.staticinfoheader": "7be297a6920ab423782cb1a4bf04d92ea6c99e19fe59bb3315f9585b2bce6a9c",
+    "questinfo.dlc_01.staticinfobody": "f9f8724e78ae01bed61d89e84cb4b75d44b22608457c0d9c496d89e0e5c4abda",
+    "questinfo.dlc_01.staticinfoheader": "9d1d0e00e68ed6b0d6ef6465d66723c84d95dae1669f9edc71e53840f3bdf0e3",
+    "questinfo.staticinfobody": "4c22ded3d0218fdab637fc12c749b737f51f9768ddb02a85ea207a979f530af0",
+    "questinfo.staticinfoheader": "1bf8909328ee97259dd51ed68a2f1e3844e030e7371a72e96af7a95bd70744da"
   }
 }

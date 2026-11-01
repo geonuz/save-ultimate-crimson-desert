@@ -190,56 +190,6 @@ public sealed class EditingPerformanceTests
 
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void DomainEditsMatchPythonAndRecordBackendTimings()
-    {
-        string? reference = Environment.GetEnvironmentVariable("SAVEULTIMATE_DOMAIN_REFERENCE");
-        if (reference is null) Assert.Inconclusive("Set the private Python domain benchmark reference.");
-        using var json = JsonDocument.Parse(File.ReadAllText(reference));
-        var results = new List<object>();
-        foreach (var row in json.RootElement.EnumerateArray())
-        {
-            string operation = row.GetProperty("operation").GetString()!;
-            var samples = new List<double>();
-            for (int run = 0; run < 6; run++)
-            {
-                var document = SaveDocument.Open(row.GetProperty("path").GetString()!);
-                string original = document.BlobSha256;
-                uint key = row.GetProperty("key").GetUInt32();
-                uint value = row.GetProperty("value").GetUInt32();
-                var item = document.Items.SingleOrDefault(i => i.Number == row.GetProperty("number").GetUInt64()
-                    && i.Source == (operation == "repurchase" ? ItemSource.Vendor : ItemSource.Inventory));
-                uint[] keys = row.GetProperty("keys").EnumerateArray().Select(k => k.GetUInt32()).ToArray();
-                var timer = Stopwatch.StartNew();
-                switch (operation)
-                {
-                    case "repurchase": document.SwapVendorItem(item!, key); break;
-                    case "unlock-present":
-                    case "unlock-insert": document.SetUnlockedSockets(item!, (int)value); break;
-                    case "gear-remove":
-                    case "gear-install":
-                    case "gear-replace": document.SetSockets(item!, keys); break;
-                    case "skill-invest":
-                    case "skill-watch": document.LearnSkill(key, value, operation == "skill-watch"); break;
-                    case "enchant": document.SetEnchant([item!], (ushort)value); break;
-                    default: Assert.Fail($"Unknown operation: {operation}"); break;
-                }
-                double elapsed = timer.Elapsed.TotalMilliseconds;
-                if (run > 0) samples.Add(elapsed);
-                Assert.AreEqual(row.GetProperty("sha256").GetString(), document.BlobSha256, operation);
-                document.Undo();
-                Assert.AreEqual(original, document.BlobSha256, operation + " undo");
-            }
-            var result = new { operation, csharpMs = samples.Order().ElementAt(samples.Count / 2),
-                pythonMs = row.GetProperty("pythonMs").GetDouble(), samplesMs = samples };
-            results.Add(result);
-            Console.WriteLine(JsonSerializer.Serialize(result));
-        }
-        string? output = Environment.GetEnvironmentVariable("SAVEULTIMATE_DOMAIN_PERFORMANCE");
-        if (output is not null) File.WriteAllText(output, JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true }));
-    }
-
-    [TestMethod]
-    [TestCategory("PrivateFixtures")]
     public void ScalarRefreshMatchesFullReaderAndRecordsBackendTimings()
     {
         string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");

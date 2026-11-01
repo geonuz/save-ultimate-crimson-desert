@@ -44,7 +44,8 @@ public partial class SkillPage : UserControl
         if (e.PropertyName == nameof(MainViewModel.Busy)) UpdateDetail();
     }
     private void OnFilter(object sender, SelectionChangedEventArgs e) { if (Tree is not null) Render(); }
-    private void OnSearch(object sender, TextChangedEventArgs e) { if (Tree is not null) Render(); }
+    private TypingDelay? typing;
+    private void OnSearch(object sender, TextChangedEventArgs e) => (typing ??= new(() => { if (Tree is not null) Render(); })).Restart(sender);
     private void Render()
     {
         if (rendering) return;
@@ -173,7 +174,7 @@ public partial class SkillPage : UserControl
             Description.Text = Tr.Name("skill_descriptions", $"{selected}:{target}", level.Description[Tr.Language == "ko" ? 1 : 0]);
             Icon.Source = GameIcon(selected, 64);
             bool invest = current < definition.Levels.Length && level.Routes.Any(r => r.Mode == 3);
-            bool watch = current == 0 && definition.Watch;
+            bool watch = definition.Watch && state?.Observed(selected) != true;
             Invest.Visibility = invest ? Visibility.Visible : Visibility.Collapsed;
             Watch.Visibility = watch ? Visibility.Visible : Visibility.Collapsed;
             var routes = level.Routes.Where(r => r.Mode == 3).ToArray();

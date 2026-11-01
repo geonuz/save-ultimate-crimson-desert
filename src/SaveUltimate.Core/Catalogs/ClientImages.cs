@@ -24,23 +24,36 @@ internal sealed class ImageManifest
 
 internal static class ClientImages
 {
-    public static ImageManifest Extract(string game, GameArchive archive, Func<string, string, byte[]> read, Dictionary<uint, uint[]> icons,
+    public static ImageManifest Extract(GameFiles game, Dictionary<uint, uint[]> icons,
         string stage, SyncManifest previous, IReadOnlySet<string> valid, Dictionary<string, CacheFile> files,
         IProgress<SyncProgress>? report, CancellationToken cancel)
     {
-        (byte[], byte[]) Table(string name) => (read("0008", $"gamedata/binarystaticinfo__/bin/{name}.staticinfoheader"),
-            read("0008", $"gamedata/binarystaticinfo__/bin/{name}.staticinfobody"));
-        Dictionary<uint, ClientRecord> Records(string name) { var (h, b) = Table(name); return ClientTables.Records(h, b); }
-        var (header, body) = Table("stringinfo"); var index = new ClientReader(header);
-        var symbols = new Dictionary<uint, string>(); int count = index.U16();
-        if (index.Remaining != count * 8) throw new InvalidDataException("Invalid symbol index.");
-        for (int i = 0; i < count; i++)
+        Dictionary<uint, ClientRecord> Records(string name) => ClientTables.Records(game.Tables(name));
+        var symbols = new Dictionary<uint, string>();
+        foreach (var (_, header, body) in game.Tables("stringinfo"))
         {
-            uint key = index.U32(); int offset = checked((int)index.U32()); var r = new ClientReader(body, offset);
-            if (r.U32() != key || !r.Take(5).SequenceEqual(new byte[5]) || !symbols.TryAdd(key, r.Text().ToLowerInvariant()))
-                throw new InvalidDataException("Invalid image symbol.");
+            var index = new ClientReader(header); int count = index.U16(); var layer = new HashSet<uint>();
+            if (index.Remaining != count * 8) throw new InvalidDataException("Invalid symbol index.");
+            for (int i = 0; i < count; i++)
+            {
+                uint key = index.U32(); int offset = checked((int)index.U32()); var r = new ClientReader(body, offset);
+                // [key][empty name][0] before 2.04, [empty name][key][0] since.
+                var prefix = r.Take(9); var id = new byte[4]; System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(id, key);
+                bool known = prefix[..4].SequenceEqual(id) && prefix[4..].SequenceEqual(new byte[5]) ||
+                    prefix[..4].SequenceEqual(new byte[4]) && prefix[4..8].SequenceEqual(id) && prefix[8] == 0;
+                if (!known || !layer.Add(key)) throw new InvalidDataException("Invalid image symbol.");
+                symbols[key] = r.Text().ToLowerInvariant();
+            }
         }
-        var paths = archive.Index.Entries.Keys.ToDictionary(p => p.ToLowerInvariant());
+        // DLC archives add icons and replace base files with the same path.
+        var owners = new Dictionary<string, GameArchive>(StringComparer.Ordinal);
+        var paths = new Dictionary<string, string>();
+        foreach (var layer in game.Layers("0012"))
+            foreach (string path in layer.Index.Entries.Keys)
+            {
+                if (paths.Remove(path.ToLowerInvariant(), out var replaced)) owners.Remove(replaced);
+                paths[path.ToLowerInvariant()] = path; owners[path] = layer;
+            }
         var byName = paths.Keys.GroupBy(p => p[(p.LastIndexOf('/') + 1)..]).ToDictionary(g => g.Key, g => g.ToArray());
         string? Resolve(string value)
         {
@@ -53,7 +66,8 @@ internal static class ClientImages
             p.EndsWith(".xml", StringComparison.OrdinalIgnoreCase) &&
             (Path.GetFileName(p).StartsWith("cd_icon_skill_", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(p).StartsWith("cd_image_knowledgeimage_character_", StringComparison.OrdinalIgnoreCase))))
         {
-            string xml = Encoding.UTF8.GetString(read("0012", path)).TrimStart('\uFEFF');
+            cancel.ThrowIfCancellationRequested();
+            string xml = Encoding.UTF8.GetString(owners[path].Extract(path)).TrimStart('\uFEFF');
             using var reader = XmlReader.Create(new StringReader("<Root>" + xml + "</Root>"), new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null });
             foreach (var node in XElement.Load(reader).Elements())
                 if (node.Attribute("Name") is { } name && node.Attribute("Filename") is not null) entries[name.Value.ToLowerInvariant()] = node;
@@ -73,7 +87,8 @@ internal static class ClientImages
         var knowledge = Records("knowledgeinfo");
         foreach (var fish in FishingCatalog.Shared.Fish)
         {
-            var record = knowledge[fish.Key]; var r = new ClientReader(record.Bytes, record.Prefix);
+            // The image symbol opens the record before 2.04 and sits 38 bytes in since.
+            var record = knowledge[fish.Key]; var r = new ClientReader(record.Bytes, record.Prefix + (record.Compact ? 38 : 0));
             entries.TryGetValue(symbols.GetValueOrDefault(r.U32(), ""), out var entry);
             Add($"knowledge/{fish.Key}.png", entry is null ? null : Resolve(entry.Attribute("Filename")!.Value), null, 320, 240);
         }
@@ -101,7 +116,7 @@ internal static class ClientImages
         foreach (var group in result.Records.GroupBy(p => p.Value.Source))
         {
             cancel.ThrowIfCancellationRequested();
-            var entry = archive.Index.Entries[group.Key]; var chunk = new FileInfo(Path.Combine(game, "0012", $"{entry.ChunkId}.paz"));
+            var archive = owners[group.Key]; var entry = archive.Index.Entries[group.Key]; var chunk = new FileInfo(Path.Combine(archive.Root, $"{entry.ChunkId}.paz"));
             string identity = $"{chunk.Length}:{chunk.LastWriteTimeUtc.Ticks}:{entry.Offset}:{entry.CompressedSize}:{entry.UncompressedSize}:{entry.Flags}";
             previous.Images.Sources.TryGetValue(group.Key, out var oldSource);
             byte[]? raw = null;

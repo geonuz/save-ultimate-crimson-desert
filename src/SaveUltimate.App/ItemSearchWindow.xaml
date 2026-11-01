@@ -7,7 +7,7 @@
    <TextBox x:Name="SearchBox" TextChanged="OnFilter" AutomationProperties.Name="{local:Tr 'Search item name or key'}"/>
   </DockPanel>
   <DataGrid x:Name="Results" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelection" MouseDoubleClick="OnDoubleClick">
-   <DataGrid.Columns><DataGridTextColumn Header="{local:Tr 'quest.col_key'}" Binding="{Binding Key}" Width="90"/><DataGridTextColumn Header="{local:Tr 'quest.col_name'}" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="{local:Tr 'fishing.category'}" Binding="{Binding Category}" Width="150"/></DataGrid.Columns>
+   <DataGrid.Columns><DataGridTextColumn Header="{local:Tr 'quest.col_key'}" Binding="{Binding Key}" Width="115"/><DataGridTextColumn Header="{local:Tr 'quest.col_name'}" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="{local:Tr 'fishing.category'}" Binding="{Binding Category}" Width="150"/></DataGrid.Columns>
   </DataGrid>
   <DockPanel Grid.Row="3" Margin="0,10,0,10"><StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><Button x:Name="Previous" Content="{local:Tr 'Previous'}" Click="OnPrevious"/><Button x:Name="Next" Content="{local:Tr 'Next'}" Click="OnNext" Margin="8,0,0,0"/></StackPanel><TextBlock x:Name="Count" VerticalAlignment="Center"/></DockPanel>
   <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"><Button x:Name="Accept" Content="{local:Tr 'Select'}" IsDefault="True" IsEnabled="False" Click="OnAccept"/><Button Content="{local:Tr 'btn.cancel'}" IsCancel="True" Margin="8,0,0,0"/></StackPanel>

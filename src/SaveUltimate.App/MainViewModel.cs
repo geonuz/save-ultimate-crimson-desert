@@ -35,13 +35,15 @@ public sealed record ItemRow(InventoryItem Item, string Name, string Category = 
     };
 }
 
-public partial class StorageFilter(string name, ushort? Bag = null, bool Other = false, ItemSource? Source = null) : ObservableObject
+public partial class StorageFilter(string name, ushort? Bag = null, bool Other = false, ItemSource? Source = null, uint? Owner = null, bool Currency = false) : ObservableObject
 {
     public string Name => Tr.Text(name);
     public void RefreshLanguage() => OnPropertyChanged(nameof(Label));
     public ushort? Bag { get; } = Bag;
     public bool Other { get; } = Other;
     public ItemSource? Source { get; } = Source;
+    public uint? Owner { get; } = Owner;
+    public bool Currency { get; } = Currency;
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(Label))] private int count;
     public string Label => $"{Name} ({Count:N0})";
 }
@@ -52,7 +54,14 @@ public partial class MainViewModel : ObservableObject
     public event Action? ViewReset;
     private SaveDocument? document;
     private bool savedInSession, lastLoadSucceeded;
-    private string gameFolder = SaveLocations.GameFolder(SettingsStore.Current);
+    private string gameFolder = DetectDlc(SaveLocations.GameFolder(SettingsStore.Current));
+    // Steam installs the DLC folder only for owners; without a known install folder every catalog entry stays visible.
+    private static string DetectDlc(string folder)
+    {
+        bool hidden = folder.Length > 0 && Directory.Exists(folder) && !Directory.Exists(Path.Combine(folder, "dlc", "dlc_01"));
+        if (hidden != DlcContent.Hidden) { DlcContent.Hidden = hidden; ItemCatalog.Reset(); }
+        return folder;
+    }
     public string? LoadedPath => document?.SourcePath;
     public bool HasDocument => document is not null;
     public bool HasUnsavedChanges => !Busy && document?.IsDirty == true;
@@ -60,7 +69,7 @@ public partial class MainViewModel : ObservableObject
     public string FileState => Tr.Text(document is null ? "ui.choose_save" : document.IsDirty ? "ui.unsaved" : savedInSession ? "ui.applied" : "ui.saved");
     public string FileTone => document is null ? "" : document.IsDirty ? "warning" : savedInSession ? "success" : "";
     public string SaveFolderText => Tr.Text("ui.save_folder") + ": " + (LoadedPath is null ? Tr.Text("ui.path_not_found") : Path.GetDirectoryName(LoadedPath));
-    public string GameFolderText => Tr.Text("ui.game_folder") + ": " + (gameFolder.Length > 0 ? gameFolder : Tr.Text("ui.path_not_found"));
+    public string GameFolderText => Tr.Text("ui.game_folder") + ": " + (gameFolder.Length > 0 ? gameFolder : Tr.Text("ui.path_not_found")) + (DlcContent.Hidden ? " · " + Tr.Text("ui.no_dlc") : "");
     public string ItemPageTitle => Tr.Text(ItemHelpTopic);
     public string ItemHelpTopic => IsInventory ? "tab.inventory" : IsRepurchase ? "tab.repurchase" : "tab.equipment";
     private ItemRow[] selection = [];
@@ -77,7 +86,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private int pageIndex;
     [ObservableProperty] private int itemPageIndex;
     partial void OnItemPageIndexChanged(int value) { if (IsItems) PageIndex = value == 3 ? 11 : value; }
-    private readonly string[] pageSearches = ["", "", "", "", "", "", "", "", "", "", "", ""];
+    private readonly string[] pageSearches = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
     public bool IsDatabase => PageIndex == 11;
     public bool IsItemEditor => PageIndex < 3;
     public bool IsInventory => PageIndex == 0;
@@ -98,11 +107,11 @@ public partial class MainViewModel : ObservableObject
         if (value < 3) ItemPageIndex = value;
         if (value == 11) ItemPageIndex = 3;
         if (value is 5 or 6 or 7) JournalPageIndex = value - 5;
-        if (value is 9 or 10) NpcPageIndex = value - 9;
+        if (value is 9 or 10 or 12) NpcPageIndex = Array.IndexOf([9, 12, 10], value);
         SetSelection([]); Selected = null;
         Search = pageSearches[value];
         ItemsView.Refresh();
-        foreach (string property in new[] { nameof(IsInventory), nameof(IsRepurchase), nameof(IsEquipment), nameof(HasQuantityEditor), nameof(CountText), nameof(Detail), nameof(PageTitle), nameof(IsBackups), nameof(IsItems), nameof(IsSkills), nameof(IsKnowledge), nameof(IsJournal), nameof(IsChallenges), nameof(IsFishing), nameof(IsMap), nameof(IsNpc), nameof(IsCompanions), nameof(IsFriendship) }) OnPropertyChanged(property);
+        foreach (string property in new[] { nameof(IsInventory), nameof(IsRepurchase), nameof(IsEquipment), nameof(HasQuantityEditor), nameof(CountText), nameof(Detail), nameof(PageTitle), nameof(IsBackups), nameof(IsItems), nameof(IsSkills), nameof(IsKnowledge), nameof(IsJournal), nameof(IsChallenges), nameof(IsFishing), nameof(IsMap), nameof(IsNpc), nameof(IsCompanions), nameof(IsFriendship), nameof(IsPets) }) OnPropertyChanged(property);
         RefreshCommands();
         OnPropertyChanged(nameof(IsDatabase)); OnPropertyChanged(nameof(IsItemEditor));
         // Listing backups is a quick directory read; keep the progress window and status for the explicit refresh button.
@@ -116,7 +125,12 @@ public partial class MainViewModel : ObservableObject
     public IReadOnlyList<StorageFilter> StorageFilters { get; } = [
         new("map.all"), new("Equipment Window", Source: ItemSource.Equipment), new("tab.inventory", 2), new("quest.type_quest", 5), new("Personal Storage", 8), new("Wardrobe", 15),
         new("Collectibles Storage", 18), new("Gathering Storage", 19), new("Food Storage", 16),
-        new("Bank", 10), new("Money", 1), new("Mercenary", Source: ItemSource.Mercenary), new("Other", Other: true)];
+        new("Bank", 10), new("Money", 1, Currency: true), new("Mercenary", Source: ItemSource.Mercenary), new("Other", Other: true)];
+    // Damiane and Oongka carry their gear as mercenaries 4 and 6.
+    public IReadOnlyList<StorageFilter> OwnerFilters { get; } = [new("map.all"), new("skills.character.0", Source: ItemSource.Equipment),
+        new("skills.character.1", Source: ItemSource.Mercenary, Owner: 6), new("skills.character.2", Source: ItemSource.Mercenary, Owner: 4),
+        new("equipment.inventory_storage", Source: ItemSource.Inventory)];
+    [ObservableProperty] private StorageFilter owner;
     [ObservableProperty] private StorageFilter storage;
     [ObservableProperty] private bool busy;
     [ObservableProperty] private string status = Tr.Text("Open a save file. Ctrl+O");
@@ -156,6 +170,7 @@ public partial class MainViewModel : ObservableObject
     {
         this.document = document;
         storage = StorageFilters[0];
+        owner = OwnerFilters[0];
         itemsView = CollectionViewSource.GetDefaultView(Array.Empty<ItemRow>());
         if (document is not null) { Refresh(); Status = Tr.Format("port.inventory_loaded", ("count", document.Items.Count.ToString("N0"))); }
     }
@@ -183,6 +198,7 @@ public partial class MainViewModel : ObservableObject
     }
     partial void OnSearchChanged(string value) => RefreshFilter();
     partial void OnStorageChanged(StorageFilter value) => RefreshFilter();
+    partial void OnOwnerChanged(StorageFilter value) => RefreshFilter();
     private void RefreshFilter()
     {
         bool preserve = IsEquipment && !changingView;
@@ -259,7 +275,7 @@ public partial class MainViewModel : ObservableObject
             document = loaded;
             savedInSession = false; lastLoadSucceeded = true;
             Search = "";
-            Storage = StorageFilters[0];
+            Storage = StorageFilters[0]; Owner = OwnerFilters[0];
             Refresh(resetSelection: true);
             Status = Tr.Format("port.inventory_loaded", ("count", document.Items.Count.ToString("N0")));
             // Like the original prepare_pages: read every page with the save; one unreadable section must not block the rest.
@@ -469,6 +485,7 @@ public partial class MainViewModel : ObservableObject
         var catalog = ItemCatalog.Shared;
         var rows = document?.Items.OrderBy(i => i.RecordOffset).Select(i => new ItemRow(i, catalog.Name(i.Key), catalog.Category(i.Key), catalog.InternalName(i.Key))).ToArray() ?? [];
         foreach (var filter in StorageFilters) filter.Count = document?.Items.Count(i => MatchesStorage(i, filter)) ?? 0;
+        foreach (var filter in OwnerFilters) filter.Count = document?.Items.Count(i => IsGear(i) && MatchesStorage(i, filter)) ?? 0;
         ItemsView = CollectionViewSource.GetDefaultView(rows);
         ItemsView.Filter = row => row is ItemRow item && MatchesPage(item.Item) &&
             (item.Name.Contains(Search.Trim(), StringComparison.OrdinalIgnoreCase) || item.Item.Key.ToString().Contains(Search.Trim()) || item.Category.Contains(Search.Trim(), StringComparison.OrdinalIgnoreCase) || item.InternalName.Contains(Search.Trim(), StringComparison.OrdinalIgnoreCase) || (IsRepurchase ? "Sold to Vendor" : item.Item.Source == ItemSource.Vendor ? "" : item.OwnerText).Contains(Search.Trim(), StringComparison.OrdinalIgnoreCase));
@@ -482,12 +499,12 @@ public partial class MainViewModel : ObservableObject
     }
     public void RefreshAppearance(bool settingsChanged = false)
     {
-        if (settingsChanged) { gameFolder = SaveLocations.GameFolder(SettingsStore.Current); SyncGameDataCommand.NotifyCanExecuteChanged(); }
+        if (settingsChanged) { gameFolder = DetectDlc(SaveLocations.GameFolder(SettingsStore.Current)); SyncGameDataCommand.NotifyCanExecuteChanged(); }
         foreach (string property in new[] { nameof(LoadedPath), nameof(HasDocument), nameof(HasUnsavedChanges), nameof(FileName), nameof(FileState), nameof(FileTone), nameof(SaveFolderText), nameof(GameFolderText), nameof(ItemPageTitle), nameof(ItemHelpTopic) }) OnPropertyChanged(property);
     }
     public void RefreshLanguage()
     {
-        foreach (var filter in StorageFilters) filter.RefreshLanguage();
+        foreach (var filter in StorageFilters.Concat(OwnerFilters)) filter.RefreshLanguage();
         foreach (var row in SocketRows) row.RefreshLanguage();
         SocketInfo = socketTarget is null ? Tr.Text("Select one item to edit sockets.") : SocketText(socketTarget, !ReferenceEquals(socketTarget, Selected?.Item));
         string? backupPath = SelectedBackup?.Path;
@@ -502,11 +519,13 @@ public partial class MainViewModel : ObservableObject
         (target.Sockets.Error ?? Tr.Format("port.socket_info", ("unlocked", target.Sockets.Unlocked), ("capacity", target.Sockets.Capacity), ("limit", SocketState.Limit(target.Key)))) +
         (owned ? Tr.Text("\nApplies to the matching owned inventory item.") : "");
 
-    private bool MatchesPage(InventoryItem item) => IsInventory ? MatchesStorage(item) : IsRepurchase ? item.Source == ItemSource.Vendor : item.EnchantLevel.HasValue || SocketState.Limit(item.Key) > 0;
+    private bool MatchesPage(InventoryItem item) => IsInventory ? MatchesStorage(item) : IsRepurchase ? item.Source == ItemSource.Vendor : IsGear(item) && MatchesStorage(item, Owner);
+    private static bool IsGear(InventoryItem item) => item.EnchantLevel.HasValue || SocketState.Limit(item.Key) > 0;
 
     private bool MatchesStorage(InventoryItem item) => MatchesStorage(item, Storage);
-    private bool MatchesStorage(InventoryItem item, StorageFilter filter) => filter.Source is not null ? filter.Source == item.Source
+    private bool MatchesStorage(InventoryItem item, StorageFilter filter) => filter.Source is not null ? filter.Source == item.Source && (filter.Owner is null || filter.Owner == item.OwnerCharacter)
         : filter.Other ? item.Source == ItemSource.Vendor || item.Source == ItemSource.Inventory && !StorageFilters.Any(f => f.Bag == item.Bag)
-        : filter.Bag is null || item.Source == ItemSource.Inventory && filter.Bag == item.Bag;
+        // Money also lists currencies the game keeps in the inventory, such as copper and the DLC's Ancient Relics.
+        : filter.Bag is null || item.Source == ItemSource.Inventory && (filter.Bag == item.Bag || filter.Currency && ItemCatalog.Shared.IsCurrency(item.Key));
 }
 

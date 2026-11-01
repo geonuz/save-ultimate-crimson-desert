@@ -1587,7 +1587,7 @@
   {
     "key": 1002250,
     "name": "Knowledge_Node_Her_DrakefallWatchtowerArea",
-    "display_name": "Drakesfall Watchtower"
+    "display_name": "Drakesfall Watchtower Zone"
   },
   {
     "key": 1000382,
@@ -2947,7 +2947,7 @@
   {
     "key": 1000147,
     "name": "Knowledge_Node_Dem_Flame_Knights",
-    "display_name": "Flame Knights Castle"
+    "display_name": "Flame Knights' Castle"
   },
   {
     "key": 1002152,
@@ -4212,22 +4212,22 @@
   {
     "key": 1003060,
     "name": "Knowledge_Node_Crim_Watchtower_I",
-    "display_name": "Crimson Mountains Watchtower"
+    "display_name": "Crimson Mountains Watchtower Zone"
   },
   {
     "key": 1003061,
     "name": "Knowledge_Node_Crim_Watchtower_II",
-    "display_name": "Gloomy Forest Watchtower"
+    "display_name": "Gloomy Forest Watchtower Zone"
   },
   {
     "key": 1003064,
     "name": "Knowledge_Node_Crim_Watchtower_V",
-    "display_name": "Fort Manub Cliff Watchtower"
+    "display_name": "Fort Manub Cliff Watchtower Zone"
   },
   {
     "key": 1003065,
     "name": "Knowledge_Node_Crim_Watchtower_VI",
-    "display_name": "Izvatu Fortress Watchtower"
+    "display_name": "Izvatu Fortress Watchtower Zone"
   },
   {
     "key": 1003066,
@@ -4237,22 +4237,22 @@
   {
     "key": 1003067,
     "name": "Knowledge_Node_Crim_Watchtower_VIII",
-    "display_name": "Sandy Peaks Watchtower"
+    "display_name": "Sandy Peaks Watchtower Zone"
   },
   {
     "key": 1003068,
     "name": "Knowledge_Node_Del_Watchtower_I",
-    "display_name": "Coast Windmill Watchtower"
+    "display_name": "Coast Windmill Watchtower Zone"
   },
   {
     "key": 1003069,
     "name": "Knowledge_Node_Del_Watchtower_II",
-    "display_name": "Drywind Valley Watchtower"
+    "display_name": "Drywind Valley Watchtower Zone"
   },
   {
     "key": 1003072,
     "name": "Knowledge_Node_Her_Pervin_WatchTower",
-    "display_name": "Perwin Watchtower"
+    "display_name": "Perwin Watchtower Zone"
   },
   {
     "key": 1003073,
@@ -4277,7 +4277,7 @@
   {
     "key": 1003081,
     "name": "Knowledge_Node_Del_BenusMountain_WatchTower",
-    "display_name": "Mount Benus Watchtower"
+    "display_name": "Mount Benus Watchtower Zone"
   },
   {
     "key": 1003083,
@@ -4877,7 +4877,7 @@
   {
     "key": 1003557,
     "name": "Knowledge_Node_Dem_Flame_Knights_RestArea_0001",
-    "display_name": "Flame Knights Castle Hearth"
+    "display_name": "Flame Knights' Castle Hearth"
   },
   {
     "key": 1003558,
@@ -9672,7 +9672,7 @@
   {
     "key": 1002650,
     "name": "Knowledge_Node_Pailune_Witch",
-    "display_name": "Witch's Hideout"
+    "display_name": "Witch's Hideouts"
   },
   {
     "key": 1002651,
@@ -20807,7 +20807,7 @@
   {
     "key": 1000835,
     "name": "Knowledge_Drawing",
-    "display_name": "Calligraphy"
+    "display_name": "Painting"
   },
   {
     "key": 1000930,
@@ -21447,7 +21447,7 @@
   {
     "key": 1004237,
     "name": "Knowledge_Skill_Drawing_I",
-    "display_name": "Calligraphy"
+    "display_name": "Painting"
   },
   {
     "key": 1004238,
@@ -25247,7 +25247,7 @@
   {
     "key": 2147483516,
     "name": "Knowledge_Dahlia",
-    "display_name": "Dahlia"
+    "display_name": "Dalia"
   },
   {
     "key": 2147483515,
@@ -25322,7 +25322,7 @@
   {
     "key": 2147483503,
     "name": "Knowledge_Noor",
-    "display_name": "Nora"
+    "display_name": "Nour"
   },
   {
     "key": 1002652,
@@ -25757,7 +25757,7 @@
   {
     "key": 2147483435,
     "name": "Knowledge_Stephen",
-    "display_name": "Steven"
+    "display_name": "Stephen"
   },
   {
     "key": 2147483433,
@@ -31612,7 +31612,7 @@
   {
     "key": 1005749,
     "name": "Knowledge_Skill_Ship_Wait",
-    "display_name": "Sailing Ship - Standby"
+    "display_name": "Ship - Standby"
   },
   {
     "key": 1005750,
@@ -31632,22 +31632,22 @@
   {
     "key": 1005753,
     "name": "Knowledge_Skill_Ship_Cannon_Front",
-    "display_name": "Sailing Ship Cannon - Bow"
+    "display_name": "Ship Cannon - Bow"
   },
   {
     "key": 1005754,
     "name": "Knowledge_Skill_Ship_Cannon_Right",
-    "display_name": "Sailing Ship Cannon - Aim to Starboard"
+    "display_name": "Ship Cannon - Starboard"
   },
   {
     "key": 1005755,
     "name": "Knowledge_Skill_Ship_Cannon_Left",
-    "display_name": "Sailing Ship Cannon - Aim to Port"
+    "display_name": "Ship Cannon - Portside"
   },
   {
     "key": 1005756,
     "name": "Knowledge_Skill_Ship_Cannon_Back",
-    "display_name": "Sailing Ship Cannon - Stern"
+    "display_name": "Ship Cannon - Stern"
   },
   {
     "key": 1004595,
@@ -31672,7 +31672,7 @@
   {
     "key": 1005883,
     "name": "Knowledge_Skill_Service_I",
-    "display_name": "Customer Service"
+    "display_name": "Service"
   },
   {
     "key": 1005884,
@@ -31717,7 +31717,7 @@
   {
     "key": 1005671,
     "name": "Knowledge_Service",
-    "display_name": "Customer Service"
+    "display_name": "Service"
   },
   {
     "key": 1005743,
@@ -33157,7 +33157,7 @@
   {
     "key": 1004605,
     "name": "Knowledge_LevelGimmickIcon_rosemary_yellow",
-    "display_name": "Yellow Rosemaries"
+    "display_name": "Yellow Rosemary"
   },
   {
     "key": 1004606,
@@ -33568,5 +33568,4620 @@
     "key": 1005069,
     "name": "Knowledge_Roy",
     "display_name": "Roy"
+  },
+  {
+    "key": 1005579,
+    "name": "Knowledge_Node_Crim_LandSpider_ScrapQueen_Area",
+    "display_name": "Dustwind Plateau"
+  },
+  {
+    "key": 1006890,
+    "name": "Knowledge_Structure_Common_Dock",
+    "display_name": "Anchorage"
+  },
+  {
+    "key": 1005549,
+    "name": "Knowledge_Golden_Jewel_Beetle",
+    "display_name": "Golden Jewel Beetle"
+  },
+  {
+    "key": 1005550,
+    "name": "Knowledge_Golden_Rhinoceros_Beetle",
+    "display_name": "Golden Rhinoceros Beetle"
+  },
+  {
+    "key": 1005551,
+    "name": "Knowledge_Golden_Butterfly",
+    "display_name": "Golden Butterfly"
+  },
+  {
+    "key": 1005495,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_II",
+    "display_name": "Frying Pan II"
+  },
+  {
+    "key": 1005496,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_III",
+    "display_name": "Frying Pan III"
+  },
+  {
+    "key": 1005497,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_IV",
+    "display_name": "Frying Pan IV"
+  },
+  {
+    "key": 1005498,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_V",
+    "display_name": "Frying Pan V"
+  },
+  {
+    "key": 1005499,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_VI",
+    "display_name": "Frying Pan VI"
+  },
+  {
+    "key": 1005500,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_VII",
+    "display_name": "Frying Pan VII"
+  },
+  {
+    "key": 1005501,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_VIII",
+    "display_name": "Frying Pan VIII"
+  },
+  {
+    "key": 1005502,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_IX",
+    "display_name": "Frying Pan IX"
+  },
+  {
+    "key": 1005503,
+    "name": "Knowledge_Recipe_FryingPan_OneHandMace_X",
+    "display_name": "Frying Pan X"
+  },
+  {
+    "key": 1005504,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_II",
+    "display_name": "Frying Pan Lid II"
+  },
+  {
+    "key": 1005505,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_III",
+    "display_name": "Frying Pan Lid III"
+  },
+  {
+    "key": 1005506,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_IV",
+    "display_name": "Frying Pan Lid IV"
+  },
+  {
+    "key": 1005507,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_V",
+    "display_name": "Frying Pan Lid V"
+  },
+  {
+    "key": 1005508,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_VI",
+    "display_name": "Frying Pan Lid VI"
+  },
+  {
+    "key": 1005509,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_VII",
+    "display_name": "Frying Pan Lid VII"
+  },
+  {
+    "key": 1005510,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_VIII",
+    "display_name": "Frying Pan Lid VIII"
+  },
+  {
+    "key": 1005511,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_IX",
+    "display_name": "Frying Pan Lid IX"
+  },
+  {
+    "key": 1005512,
+    "name": "Knowledge_Recipe_FryingPan_Lid_OneHandShield_X",
+    "display_name": "Frying Pan Lid X"
+  },
+  {
+    "key": 1005513,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_II",
+    "display_name": "Ladle II"
+  },
+  {
+    "key": 1005514,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_III",
+    "display_name": "Ladle III"
+  },
+  {
+    "key": 1005515,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_IV",
+    "display_name": "Ladle IV"
+  },
+  {
+    "key": 1005516,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_V",
+    "display_name": "Ladle V"
+  },
+  {
+    "key": 1005517,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_VI",
+    "display_name": "Ladle VI"
+  },
+  {
+    "key": 1005518,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_VII",
+    "display_name": "Ladle VII"
+  },
+  {
+    "key": 1005519,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_VIII",
+    "display_name": "Ladle VIII"
+  },
+  {
+    "key": 1005520,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_IX",
+    "display_name": "Ladle IX"
+  },
+  {
+    "key": 1005521,
+    "name": "Knowledge_Recipe_Ladle_OneHandMace_X",
+    "display_name": "Ladle X"
+  },
+  {
+    "key": 1005522,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_II",
+    "display_name": "Kitchen Knife II"
+  },
+  {
+    "key": 1005523,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_III",
+    "display_name": "Kitchen Knife III"
+  },
+  {
+    "key": 1005524,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_IV",
+    "display_name": "Kitchen Knife IV"
+  },
+  {
+    "key": 1005525,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_V",
+    "display_name": "Kitchen Knife V"
+  },
+  {
+    "key": 1005526,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_VI",
+    "display_name": "Kitchen Knife VI"
+  },
+  {
+    "key": 1005527,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_VII",
+    "display_name": "Kitchen Knife VII"
+  },
+  {
+    "key": 1005528,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_VIII",
+    "display_name": "Kitchen Knife VIII"
+  },
+  {
+    "key": 1005529,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_IX",
+    "display_name": "Kitchen Knife IX"
+  },
+  {
+    "key": 1005530,
+    "name": "Knowledge_Recipe_KitchenKnife_OneHandDagger_X",
+    "display_name": "Kitchen Knife X"
+  },
+  {
+    "key": 1005341,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_II",
+    "display_name": "Jar Lid II"
+  },
+  {
+    "key": 1005342,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_III",
+    "display_name": "Jar Lid III"
+  },
+  {
+    "key": 1005343,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_IV",
+    "display_name": "Jar Lid IV"
+  },
+  {
+    "key": 1005344,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_V",
+    "display_name": "Jar Lid V"
+  },
+  {
+    "key": 1005345,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_VI",
+    "display_name": "Jar Lid VI"
+  },
+  {
+    "key": 1005346,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_VII",
+    "display_name": "Jar Lid VII"
+  },
+  {
+    "key": 1005347,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_VIII",
+    "display_name": "Jar Lid VIII"
+  },
+  {
+    "key": 1005348,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_IX",
+    "display_name": "Jar Lid IX"
+  },
+  {
+    "key": 1005349,
+    "name": "Knowledge_Recipe_Pot_Lid_OneHandShield_X",
+    "display_name": "Jar Lid X"
+  },
+  {
+    "key": 1005471,
+    "name": "Knowledge_Collection_Prop_CatTower",
+    "display_name": "Cat Watchtower"
+  },
+  {
+    "key": 1005531,
+    "name": "Knowledge_Collection_Prop_DogCushion",
+    "display_name": "Puppy Cushion"
+  },
+  {
+    "key": 1005448,
+    "name": "Knowledge_Recipe_Item_cattower_0001_in",
+    "display_name": "Small Pororin Cat Watchtower"
+  },
+  {
+    "key": 1005449,
+    "name": "Knowledge_Recipe_Item_cattower_0002_in",
+    "display_name": "Small Marni Cat Watchtower"
+  },
+  {
+    "key": 1005450,
+    "name": "Knowledge_Recipe_Item_cattower_0003_in",
+    "display_name": "Small Cat Watchtower"
+  },
+  {
+    "key": 1005451,
+    "name": "Knowledge_Recipe_Item_cattower_0003",
+    "display_name": "Pororin Cat Haven"
+  },
+  {
+    "key": 1005452,
+    "name": "Knowledge_Recipe_Item_cattower_0004",
+    "display_name": "Medium Cat Watchtower"
+  },
+  {
+    "key": 1005453,
+    "name": "Knowledge_Recipe_Item_cattower_0005",
+    "display_name": "Large Cat Watchtower"
+  },
+  {
+    "key": 1005454,
+    "name": "Knowledge_Recipe_Item_cattower_0007",
+    "display_name": "Cat Watchtower"
+  },
+  {
+    "key": 1005556,
+    "name": "Knowledge_Recipe_Item_dogcushion_0002_index02",
+    "display_name": "Ancient Tree's Breath Puppy Cushion"
+  },
+  {
+    "key": 1005557,
+    "name": "Knowledge_Recipe_Item_dogcushion_0002_index03",
+    "display_name": "Lavender Remembrance Puppy Cushion"
+  },
+  {
+    "key": 1005558,
+    "name": "Knowledge_Recipe_Item_gimmick_ex_dpf_dogcushion_0002",
+    "display_name": "Lullaby of Waves Puppy Cushion"
+  },
+  {
+    "key": 1005559,
+    "name": "Knowledge_Recipe_Item_gimmick_ex_dpf_dogcushion_0002_index01",
+    "display_name": "Lotus Leaf Fragrance Puppy Cushion"
+  },
+  {
+    "key": 1005560,
+    "name": "Knowledge_Recipe_Item_dogcushion_0001",
+    "display_name": "Sunset-Touched Puppy Cushion"
+  },
+  {
+    "key": 1005561,
+    "name": "Knowledge_Recipe_Item_dogcushion_0001_index01",
+    "display_name": "Dewlit Vineyard Puppy Cushion"
+  },
+  {
+    "key": 1006858,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_000_0101",
+    "display_name": "Golden Front Yard"
+  },
+  {
+    "key": 1006859,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_000_0102",
+    "display_name": "Garden of Morning Dew"
+  },
+  {
+    "key": 1006860,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_000_0103",
+    "display_name": "Flowerbeds of Sunsets"
+  },
+  {
+    "key": 1006861,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_001_0101",
+    "display_name": "Sunflower-Lined Path"
+  },
+  {
+    "key": 1006862,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_001_0102",
+    "display_name": "Flowers Along the Waters"
+  },
+  {
+    "key": 1006863,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_001_0103",
+    "display_name": "A Red-Blossomed Path"
+  },
+  {
+    "key": 1006864,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_002_0101",
+    "display_name": "Sunlit Plot of Land"
+  },
+  {
+    "key": 1006865,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_002_0102",
+    "display_name": "Small Garden Beneath the Giant Tree"
+  },
+  {
+    "key": 1006866,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_002_0103",
+    "display_name": "Beside the Tall Tree"
+  },
+  {
+    "key": 1006867,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_003_0101",
+    "display_name": "Corner-Brightening Blooms"
+  },
+  {
+    "key": 1006868,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_003_0102",
+    "display_name": "Everblue Corners"
+  },
+  {
+    "key": 1006869,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_003_0103",
+    "display_name": "Thorned Corners"
+  },
+  {
+    "key": 1006870,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_004_0101",
+    "display_name": "Sunlight Around the Bend"
+  },
+  {
+    "key": 1006871,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_004_0102",
+    "display_name": "A Sea of Blooms"
+  },
+  {
+    "key": 1006872,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_004_0103",
+    "display_name": "Sunset at the Edges"
+  },
+  {
+    "key": 1006873,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_005_0101",
+    "display_name": "Golden Colony"
+  },
+  {
+    "key": 1006874,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_005_0102",
+    "display_name": "Waves in the Wind"
+  },
+  {
+    "key": 1006875,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Flowerbed_005_0103",
+    "display_name": "A Blaze of Red Blossoms"
+  },
+  {
+    "key": 1005893,
+    "name": "Knowledge_Recipe_Item_wagon_base_0001",
+    "display_name": "Wandering Merchant's Cargo Hold"
+  },
+  {
+    "key": 1005894,
+    "name": "Knowledge_Recipe_Item_wagon_base_0002",
+    "display_name": "Meticulous Carpenter's Cargo Hold"
+  },
+  {
+    "key": 1005895,
+    "name": "Knowledge_Recipe_Item_wagon_base_0003",
+    "display_name": "Seasoned Comrade's Cargo Hold"
+  },
+  {
+    "key": 1005896,
+    "name": "Knowledge_Recipe_Item_wagon_base_0004",
+    "display_name": "Rugged Traveler's Cargo Hold"
+  },
+  {
+    "key": 1005897,
+    "name": "Knowledge_Recipe_Item_wagon_base_0005",
+    "display_name": "The Laughing Marionette's Cargo Hold"
+  },
+  {
+    "key": 1005898,
+    "name": "Knowledge_Recipe_Item_wagon_base_0006",
+    "display_name": "Renowned Magnate's Cargo Hold"
+  },
+  {
+    "key": 1005899,
+    "name": "Knowledge_Recipe_Item_wagon_base_0007",
+    "display_name": "Elegant Noble's Cargo Hold"
+  },
+  {
+    "key": 1005900,
+    "name": "Knowledge_Recipe_Item_wagon_base_0008",
+    "display_name": "Noble Delegation's Cargo Hold"
+  },
+  {
+    "key": 1005964,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0001",
+    "display_name": "Meticulous Carpenter's Wagon Seat"
+  },
+  {
+    "key": 1005901,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0002",
+    "display_name": "The Laughing Marionette's Wagon Seat"
+  },
+  {
+    "key": 1005902,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0003",
+    "display_name": "Seasoned Comrade's Wagon Seat"
+  },
+  {
+    "key": 1005903,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0004",
+    "display_name": "Noble Delegation's Wagon Seat"
+  },
+  {
+    "key": 1005904,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0005",
+    "display_name": "Wandering Merchant's Wagon Seat"
+  },
+  {
+    "key": 1005905,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0006",
+    "display_name": "Renowned Magnate's Wagon Seat"
+  },
+  {
+    "key": 1005906,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0007",
+    "display_name": "Eccentric Doctor's Wagon Seat"
+  },
+  {
+    "key": 1005907,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0008",
+    "display_name": "Eccentric Lord's Wagon Seat"
+  },
+  {
+    "key": 1005908,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_Seat_0009",
+    "display_name": "Elegant Noble's Wagon Seat"
+  },
+  {
+    "key": 1005909,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0001",
+    "display_name": "Seasoned Comrade's Wheel"
+  },
+  {
+    "key": 1005910,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0002",
+    "display_name": "Meticulous Carpenter's Wheel"
+  },
+  {
+    "key": 1005911,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0003",
+    "display_name": "The Laughing Marionette's Wheel"
+  },
+  {
+    "key": 1005912,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0004",
+    "display_name": "Renowned Magnate's Wheel"
+  },
+  {
+    "key": 1005913,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0005",
+    "display_name": "Wandering Merchant's Wheel"
+  },
+  {
+    "key": 1005914,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0006",
+    "display_name": "Elegant Noble's Wheel"
+  },
+  {
+    "key": 1005915,
+    "name": "Knowledge_Recipe_Item_wagon_wheel_0007",
+    "display_name": "Noble Delegation's Wheel"
+  },
+  {
+    "key": 1005916,
+    "name": "Knowledge_Recipe_Item_Wagon_Base_lantern_0001",
+    "display_name": "Wagon Lantern"
+  },
+  {
+    "key": 1006417,
+    "name": "Knowledge_Skill_Ship_MoveDash",
+    "display_name": "MoveDash"
+  },
+  {
+    "key": 1006418,
+    "name": "Knowledge_Skill_Ship_MoveDrift",
+    "display_name": "MoveDrift"
+  },
+  {
+    "key": 1006317,
+    "name": "Knowledge_LevelGimmickIcon_Sawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1006318,
+    "name": "Knowledge_LevelGimmickIcon_Pub",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1006319,
+    "name": "Knowledge_LevelGimmickIcon_Forge",
+    "display_name": "Smithy"
+  },
+  {
+    "key": 1006320,
+    "name": "Knowledge_LevelGimmickIcon_Clothier",
+    "display_name": "Tailor's Shop"
+  },
+  {
+    "key": 1006321,
+    "name": "Knowledge_LevelGimmickIcon_Factory",
+    "display_name": "Factory"
+  },
+  {
+    "key": 1005562,
+    "name": "Knowledge_LevelGimmickIcon_Insectstorage",
+    "display_name": "Insect Enclosure"
+  },
+  {
+    "key": 1006350,
+    "name": "Knowledge_LevelGimmickIcon_Dock",
+    "display_name": "Anchorage"
+  },
+  {
+    "key": 1006558,
+    "name": "Knowledge_ShipCrew_DefaultCrew",
+    "display_name": "Deckhand"
+  },
+  {
+    "key": 1006559,
+    "name": "Knowledge_ShipCrew_Lieutenant",
+    "display_name": "First Mate"
+  },
+  {
+    "key": 1007023,
+    "name": "Knowledge_ShipCrew_Lieutenant_Turtle",
+    "display_name": "First Mate"
+  },
+  {
+    "key": 1006652,
+    "name": "Knowledge_ShipCrew_Topman",
+    "display_name": "Rigger"
+  },
+  {
+    "key": 1006561,
+    "name": "Knowledge_ShipCrew_Scouter",
+    "display_name": "Lookout"
+  },
+  {
+    "key": 1006562,
+    "name": "Knowledge_ShipCrew_Engineer",
+    "display_name": "Carpenter"
+  },
+  {
+    "key": 1006563,
+    "name": "Knowledge_ShipCrew_Gunner",
+    "display_name": "Gunner"
+  },
+  {
+    "key": 1006974,
+    "name": "Knowledge_ShipCrew_Paddle",
+    "display_name": "Old soldier"
+  },
+  {
+    "key": 1006421,
+    "name": "Knowledge_Holden",
+    "display_name": "Holden"
+  },
+  {
+    "key": 1006422,
+    "name": "Knowledge_Camillo",
+    "display_name": "Camillo"
+  },
+  {
+    "key": 1006423,
+    "name": "Knowledge_Jurian",
+    "display_name": "Jurian"
+  },
+  {
+    "key": 1005965,
+    "name": "Knowledge_NHM_Unique_Her_Barber",
+    "display_name": "Dalt"
+  },
+  {
+    "key": 1005966,
+    "name": "Knowledge_NHM_Unique_Cal_Barber",
+    "display_name": "Swalan"
+  },
+  {
+    "key": 1005967,
+    "name": "Knowledge_NHM_Unique_Pai_Barber",
+    "display_name": "Banver"
+  },
+  {
+    "key": 1005968,
+    "name": "Knowledge_NHM_Unique_Dem_Barber",
+    "display_name": "Ortein"
+  },
+  {
+    "key": 1005969,
+    "name": "Knowledge_NHM_Unique_Del_Barber",
+    "display_name": "Bill"
+  },
+  {
+    "key": 1005970,
+    "name": "Knowledge_NHM_Unique_Tom_Barber",
+    "display_name": "Shadi"
+  },
+  {
+    "key": 1005971,
+    "name": "Knowledge_NHM_Unique_Var_Barber",
+    "display_name": "Famoz"
+  },
+  {
+    "key": 1006840,
+    "name": "Knowledge_Boss_Another_Kliff",
+    "display_name": "Goyen"
+  },
+  {
+    "key": 1006766,
+    "name": "Knowledge_MarniDrone_Butler",
+    "display_name": "Marni Butler"
+  },
+  {
+    "key": 1006841,
+    "name": "Knowledge_Unique_Ian",
+    "display_name": "Ian"
+  },
+  {
+    "key": 1006842,
+    "name": "Knowledge_Unique_Milo",
+    "display_name": "Milo"
+  },
+  {
+    "key": 1005726,
+    "name": "Knowledge_Faction_AntiReform",
+    "display_name": "Guardians of Faith"
+  },
+  {
+    "key": 1005727,
+    "name": "Knowledge_Faction_Antumbra_Missionary",
+    "display_name": "Deacons of Antumbra"
+  },
+  {
+    "key": 1005728,
+    "name": "Knowledge_Faction_Armor_Goblin",
+    "display_name": "Executioner of Raging Flame"
+  },
+  {
+    "key": 1005733,
+    "name": "Knowledge_Faction_Void_Knight",
+    "display_name": "Knight of Void"
+  },
+  {
+    "key": 1006424,
+    "name": "Knowledge_Faction_SamoraIsland",
+    "display_name": "Samora Island"
+  },
+  {
+    "key": 1005729,
+    "name": "Knowledge_Faction_Ocean_Island",
+    "display_name": "Keepers of the Abandoned Islands"
+  },
+  {
+    "key": 1005542,
+    "name": "Knowledge_Faction_Satyros",
+    "display_name": "The Satyrs"
+  },
+  {
+    "key": 1005730,
+    "name": "Knowledge_Faction_Reggis",
+    "display_name": "Reggis"
+  },
+  {
+    "key": 1005731,
+    "name": "Knowledge_Faction_Leviathan",
+    "display_name": "Leviakan"
+  },
+  {
+    "key": 1005732,
+    "name": "Knowledge_Faction_Ghost",
+    "display_name": "Ghost"
+  },
+  {
+    "key": 1006565,
+    "name": "Knowledge_WantedPaper_PirateShip_0001",
+    "display_name": "Pirate Ship - The Black Bloom"
+  },
+  {
+    "key": 1006566,
+    "name": "Knowledge_WantedPaper_PirateShip_0002",
+    "display_name": "Pirate Ship - The Crimson Shield"
+  },
+  {
+    "key": 1006567,
+    "name": "Knowledge_WantedPaper_PirateShip_0003",
+    "display_name": "Pirate Ship - The Vengeance"
+  },
+  {
+    "key": 1006568,
+    "name": "Knowledge_WantedPaper_PirateShip_0004",
+    "display_name": "Pirate Ship - Faunus"
+  },
+  {
+    "key": 1006569,
+    "name": "Knowledge_WantedPaper_PirateShip_0005",
+    "display_name": "Pirate Ship - The Grim Wind"
+  },
+  {
+    "key": 1006570,
+    "name": "Knowledge_WantedPaper_PirateShip_0006",
+    "display_name": "Pirate Ship - The Scarlet Widow"
+  },
+  {
+    "key": 1006571,
+    "name": "Knowledge_WantedPaper_PirateShip_0007",
+    "display_name": "Pirate Ship - The Bloodied Stake"
+  },
+  {
+    "key": 1006572,
+    "name": "Knowledge_WantedPaper_PirateShip_0008",
+    "display_name": "Pirate Ship - The Devils' Plunder"
+  },
+  {
+    "key": 1006573,
+    "name": "Knowledge_WantedPaper_PirateShip_0009",
+    "display_name": "Pirate Ship - The Black Curved Blade"
+  },
+  {
+    "key": 1006574,
+    "name": "Knowledge_WantedPaper_PirateShip_0010",
+    "display_name": "Pirate Ship - The Sea's Vengeance"
+  },
+  {
+    "key": 1006575,
+    "name": "Knowledge_WantedPaper_PirateShip_0011",
+    "display_name": "Pirate Ship - The Death Blossom"
+  },
+  {
+    "key": 1006576,
+    "name": "Knowledge_WantedPaper_PirateShip_0012",
+    "display_name": "Pirate Ship - The Siren's Cry"
+  },
+  {
+    "key": 1006650,
+    "name": "Knowledge_WantedPaper_PirateShip_0013",
+    "display_name": "Pirate Ship - The Sea Claw"
+  },
+  {
+    "key": 1006651,
+    "name": "Knowledge_WantedPaper_PirateShip_0014",
+    "display_name": "Pirate Ship - The Drunken Catfish"
+  },
+  {
+    "key": 1006843,
+    "name": "Knowledge_Node_Her_Housing_01",
+    "display_name": "Abandoned Traveler's Old House"
+  },
+  {
+    "key": 1006844,
+    "name": "Knowledge_Node_Her_Housing_02",
+    "display_name": "Abandoned Guard's Old House"
+  },
+  {
+    "key": 1006845,
+    "name": "Knowledge_Node_Her_Housing_03",
+    "display_name": "Old Cobweb House"
+  },
+  {
+    "key": 1006846,
+    "name": "Knowledge_Node_Cal_Housing_01",
+    "display_name": "Abandoned Tanner's Old House"
+  },
+  {
+    "key": 1006847,
+    "name": "Knowledge_Node_Cal_Housing_02",
+    "display_name": "Old Mushroom House"
+  },
+  {
+    "key": 1006848,
+    "name": "Knowledge_Node_Kwe_Housing_01",
+    "display_name": "Old Maple House"
+  },
+  {
+    "key": 1006849,
+    "name": "Knowledge_Node_Kwe_Housing_02",
+    "display_name": "Old Sunstride House"
+  },
+  {
+    "key": 1006850,
+    "name": "Knowledge_Node_Dem_Housing_01",
+    "display_name": "Old Grapescent House"
+  },
+  {
+    "key": 1006851,
+    "name": "Knowledge_Node_Dem_Housing_02",
+    "display_name": "Old Frogchant House"
+  },
+  {
+    "key": 1006852,
+    "name": "Knowledge_Node_Dem_Housing_03",
+    "display_name": "Old Forest House"
+  },
+  {
+    "key": 1006853,
+    "name": "Knowledge_Node_Del_Housing_01",
+    "display_name": "Old Pink Grassweave House"
+  },
+  {
+    "key": 1006854,
+    "name": "Knowledge_Node_Del_Housing_02",
+    "display_name": "Old Bloomscent House"
+  },
+  {
+    "key": 1006855,
+    "name": "Knowledge_Node_Del_Housing_03",
+    "display_name": "Old Railsound House"
+  },
+  {
+    "key": 1005573,
+    "name": "Knowledge_Node_Crim_Dungeon_1",
+    "display_name": "The Forgotten Burial Chamber"
+  },
+  {
+    "key": 1005574,
+    "name": "Knowledge_Node_Crim_Dungeon_2",
+    "display_name": "Dried-Up Canal"
+  },
+  {
+    "key": 1005575,
+    "name": "Knowledge_Node_Crim_Dungeon_3",
+    "display_name": "The Buried Corridor"
+  },
+  {
+    "key": 1005576,
+    "name": "Knowledge_Node_Crim_Dungeon_4",
+    "display_name": "The Room of Brass Shackles"
+  },
+  {
+    "key": 1005577,
+    "name": "Knowledge_Node_Crim_Dungeon_5",
+    "display_name": "Tomb Raider's Hidden Chamber"
+  },
+  {
+    "key": 1005578,
+    "name": "Knowledge_Node_Crim_Antumbra_Temple",
+    "display_name": "The Silent Burial Ground"
+  },
+  {
+    "key": 1005580,
+    "name": "Knowledge_Node_Crim_Village_1",
+    "display_name": "Faraj"
+  },
+  {
+    "key": 1005581,
+    "name": "Knowledge_Node_Crim_Village_2",
+    "display_name": "Maddin"
+  },
+  {
+    "key": 1005582,
+    "name": "Knowledge_Node_Crim_Village_3",
+    "display_name": "Yasmin"
+  },
+  {
+    "key": 1005583,
+    "name": "Knowledge_Node_Crim_Village_4",
+    "display_name": "Lukumiya"
+  },
+  {
+    "key": 1005584,
+    "name": "Knowledge_Node_Crim_Village_5",
+    "display_name": "Hazran"
+  },
+  {
+    "key": 1006856,
+    "name": "Knowledge_Node_Crim_Housing_01",
+    "display_name": "Old Barren Land House"
+  },
+  {
+    "key": 1006857,
+    "name": "Knowledge_Node_Crim_Housing_02",
+    "display_name": "Old Sandswept House"
+  },
+  {
+    "key": 1005869,
+    "name": "Knowledge_Structure_Management_GreymaneCamp_Festival",
+    "display_name": "Howling Hill Festival"
+  },
+  {
+    "key": 1005870,
+    "name": "Knowledge_Structure_Management_Pailune_Festival",
+    "display_name": "Pailune Festival"
+  },
+  {
+    "key": 1005849,
+    "name": "Knowledge_Structure_TimeberhamSawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1005850,
+    "name": "Knowledge_Structure_CalphadeLoggingCamp_Sawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1005851,
+    "name": "Knowledge_Structure_BeighenVillage_Sawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1005852,
+    "name": "Knowledge_Structure_BrookfieldManor_ElemoreSawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1005853,
+    "name": "Knowledge_Structure_HiddenGroveRanchSawmill",
+    "display_name": "Sawmill"
+  },
+  {
+    "key": 1005854,
+    "name": "Knowledge_Structure_Pailune_Pub",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005855,
+    "name": "Knowledge_Structure_VelluaVillage_Restaurnt",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005856,
+    "name": "Knowledge_Structure_CalphadeFarm_Pub",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005857,
+    "name": "Knowledge_Structure_GoldenHoofHorseRace_Restaurnt",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005858,
+    "name": "Knowledge_Structure_DewhavenLoggingCamp_Restaurnt",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005859,
+    "name": "Knowledge_Structure_StarVillage_Pub",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005860,
+    "name": "Knowledge_Structure_Tashkalp_Pub",
+    "display_name": "Restaurant"
+  },
+  {
+    "key": 1005861,
+    "name": "Knowledge_Structure_ZarganTankFactory_Forge",
+    "display_name": "Smithy"
+  },
+  {
+    "key": 1005862,
+    "name": "Knowledge_Structure_CalphadeRefinery_Forge",
+    "display_name": "Smithy"
+  },
+  {
+    "key": 1005863,
+    "name": "Knowledge_Structure_BurhumVillage_Forge",
+    "display_name": "Smithy"
+  },
+  {
+    "key": 1005866,
+    "name": "Knowledge_Structure_SungroveManor_MarcellaClothier",
+    "display_name": "Tailor's Shop"
+  },
+  {
+    "key": 1005867,
+    "name": "Knowledge_Structure_DelesyiaDyehouse_Clothier",
+    "display_name": "Tailor's Shop"
+  },
+  {
+    "key": 1005868,
+    "name": "Knowledge_Structure_CaledoraVillage_Clothier",
+    "display_name": "Tailor's Shop"
+  },
+  {
+    "key": 1006992,
+    "name": "KnowledgeGroup_Ocean_Territory",
+    "display_name": "Great Ocean"
+  },
+  {
+    "key": 1005567,
+    "name": "Knowledge_Node_Ocean_SatyrosIsland",
+    "display_name": "Satyros Island"
+  },
+  {
+    "key": 1006924,
+    "name": "Knowledge_Node_Ocean_SatyrosIsland_WaterfallVillage",
+    "display_name": "Satyros Waterfall Village"
+  },
+  {
+    "key": 1006925,
+    "name": "Knowledge_Node_Ocean_SatyrosIsland_NorthVillage",
+    "display_name": "Satyros Village"
+  },
+  {
+    "key": 1006926,
+    "name": "Knowledge_Node_Ocean_SatyrosIsland_BorderZone",
+    "display_name": "Satyros Outpost"
+  },
+  {
+    "key": 1005670,
+    "name": "Knowledge_Node_Ocean_RazanuiIsland",
+    "display_name": "Razanui Island"
+  },
+  {
+    "key": 1006927,
+    "name": "Knowledge_Node_Ocean_RazanuiIsland_BoneNest",
+    "display_name": "Razanui Bone Nest"
+  },
+  {
+    "key": 1005585,
+    "name": "Knowledge_Node_Ocean_OutlawsRapids",
+    "display_name": "Outlaw's Rapids"
+  },
+  {
+    "key": 1006928,
+    "name": "Knowledge_Node_Ocean_OutlawsRapids_WatchTower",
+    "display_name": "Outlaw's Rapids Watchtower Zone"
+  },
+  {
+    "key": 1006929,
+    "name": "Knowledge_Node_Ocean_OutlawsRapids_BorderZone",
+    "display_name": "Outlaw's Outpost"
+  },
+  {
+    "key": 1006930,
+    "name": "Knowledge_Node_Ocean_RazanuiIsland_Pier",
+    "display_name": "Outlaw's Rapids Dock"
+  },
+  {
+    "key": 1005570,
+    "name": "Knowledge_Node_Ocean_IliyaIsland",
+    "display_name": "Iliya Island"
+  },
+  {
+    "key": 1005571,
+    "name": "Knowledge_Node_Ocean_VergelIsland",
+    "display_name": "Bergel Island"
+  },
+  {
+    "key": 1005572,
+    "name": "Knowledge_Node_Ocean_SamoraIsland",
+    "display_name": "Samora Island"
+  },
+  {
+    "key": 1006809,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_village",
+    "display_name": "Samora"
+  },
+  {
+    "key": 1006810,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_NorthCoast",
+    "display_name": "Northern Coast of Samora"
+  },
+  {
+    "key": 1006811,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_SouthCoast",
+    "display_name": "Southern Coast of Samora"
+  },
+  {
+    "key": 1006812,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_EastCoast",
+    "display_name": "Samora East Coast"
+  },
+  {
+    "key": 1006813,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_Ruins",
+    "display_name": "Samora Ruins"
+  },
+  {
+    "key": 1006814,
+    "name": "Knowledge_Node_Ocean_SamoraIsland_WatchTower",
+    "display_name": "Samora Watchtower Zone"
+  },
+  {
+    "key": 1006017,
+    "name": "Knowledge_Node_Ocean_Island_House_Xamaca",
+    "display_name": "Xamaca Island"
+  },
+  {
+    "key": 1006018,
+    "name": "Knowledge_Node_Ocean_Island_House_Spagnola",
+    "display_name": "Spagnola Island"
+  },
+  {
+    "key": 1006019,
+    "name": "Knowledge_Node_Ocean_Island_House_Dragnar",
+    "display_name": "Drangar Island"
+  },
+  {
+    "key": 1006296,
+    "name": "Knowledge_Node_Ocean_NirakanIsland",
+    "display_name": "Nirakan Island"
+  },
+  {
+    "key": 1006297,
+    "name": "Knowledge_Node_Ocean_SaeonIsland",
+    "display_name": "Saeon Island"
+  },
+  {
+    "key": 1006363,
+    "name": "Knowledge_Node_Ocean_NavraIsland",
+    "display_name": "Navrah Island"
+  },
+  {
+    "key": 1006364,
+    "name": "Knowledge_Node_Ocean_PragmaIsland",
+    "display_name": "Phragma Island"
+  },
+  {
+    "key": 1006365,
+    "name": "Knowledge_Node_Ocean_CarcanoIsland",
+    "display_name": "Carcano Island"
+  },
+  {
+    "key": 1006366,
+    "name": "Knowledge_Node_Ocean_AuronuiIsland",
+    "display_name": "Auronui Island"
+  },
+  {
+    "key": 1006367,
+    "name": "Knowledge_Node_Ocean_ClovenHoofIsland",
+    "display_name": "Cloven Hoof Isle"
+  },
+  {
+    "key": 1006404,
+    "name": "Knowledge_Node_Ocean_OculaIsland",
+    "display_name": "Ocula Island"
+  },
+  {
+    "key": 1006405,
+    "name": "Knowledge_Node_Ocean_EstraIsland",
+    "display_name": "Estra Island"
+  },
+  {
+    "key": 1006971,
+    "name": "Knowledge_Node_Ocean_PragmaIsland_Housing",
+    "display_name": "Seabreeze Old House"
+  },
+  {
+    "key": 1006972,
+    "name": "Knowledge_Node_Ocean_EstraIsland_Housing",
+    "display_name": "Old House Beyond the Sea Fog"
+  },
+  {
+    "key": 1006908,
+    "name": "Knowledge_Node_Island_AncientRuins_Ocean_0001",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006909,
+    "name": "Knowledge_Node_Island_AncientRuins_Ocean_0002",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006910,
+    "name": "Knowledge_Node_Island_AncientRuins_Ocean_0003",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006911,
+    "name": "Knowledge_Node_Island_AncientRuins_Samora",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006912,
+    "name": "Knowledge_Node_Island_AncientRuins_Iliya_0001",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006913,
+    "name": "Knowledge_Node_Island_AncientRuins_Iliya_0002",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006914,
+    "name": "Knowledge_Node_Island_AncientRuins_Pragma",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006915,
+    "name": "Knowledge_Node_Island_AncientRuins_Vergel",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006916,
+    "name": "Knowledge_Node_Island_AncientRuins_Satyros",
+    "display_name": "Ocean Ruins"
+  },
+  {
+    "key": 1006993,
+    "name": "Knowledge_Node_MayaRuins_0001",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006994,
+    "name": "Knowledge_Node_MayaRuins_0002",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006995,
+    "name": "Knowledge_Node_MayaRuins_0003",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006996,
+    "name": "Knowledge_Node_MayaRuins_0004",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006997,
+    "name": "Knowledge_Node_MayaRuins_0005",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006998,
+    "name": "Knowledge_Node_MayaRuins_0006",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1006999,
+    "name": "Knowledge_Node_MayaRuins_0007",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1007000,
+    "name": "Knowledge_Node_MayaRuins_0008",
+    "display_name": "Forgotten Ocean Ruins"
+  },
+  {
+    "key": 1005546,
+    "name": "Knowledge_Domestic_Dalmatian",
+    "display_name": "Dalmatian"
+  },
+  {
+    "key": 1005532,
+    "name": "Knowledge_Rare_Collect_Conch",
+    "display_name": "Conch"
+  },
+  {
+    "key": 1005533,
+    "name": "Knowledge_Rare_Collect_Scallops",
+    "display_name": "Scallop"
+  },
+  {
+    "key": 1005534,
+    "name": "Knowledge_Rare_Collect_Mussel",
+    "display_name": "Mussel"
+  },
+  {
+    "key": 1005535,
+    "name": "Knowledge_Rare_Collect_Abalone",
+    "display_name": "Abalone"
+  },
+  {
+    "key": 1005536,
+    "name": "Knowledge_Rare_Collect_Shortneckclam",
+    "display_name": "Clams"
+  },
+  {
+    "key": 1006515,
+    "name": "Knowledge_Rare_Collect_GiantAbalone",
+    "display_name": "Giant Abalone"
+  },
+  {
+    "key": 1006516,
+    "name": "Knowledge_Rare_Collect_GiantConch",
+    "display_name": "Giant Conch"
+  },
+  {
+    "key": 1006517,
+    "name": "Knowledge_Rare_Collect_GiantStarfish",
+    "display_name": "Giant Starfish"
+  },
+  {
+    "key": 1006518,
+    "name": "Knowledge_Rare_Collect_GiantPenShell",
+    "display_name": "Giant Pen Shell"
+  },
+  {
+    "key": 1006519,
+    "name": "Knowledge_Rare_Collect_GiantSeaCucumber",
+    "display_name": "Giant Sea Cucumber"
+  },
+  {
+    "key": 1006520,
+    "name": "Knowledge_Rare_Collect_GiantSeaPineapple",
+    "display_name": "Giant Sea Pineapple"
+  },
+  {
+    "key": 1006521,
+    "name": "Knowledge_Rare_Collect_GiantSeaSquirt",
+    "display_name": "Giant Stalked Sea Squirt"
+  },
+  {
+    "key": 1005744,
+    "name": "Knowledge_Rare_Collect_seapineapple",
+    "display_name": "Sea Pineapple"
+  },
+  {
+    "key": 1006316,
+    "name": "Knowledge_Rare_Collect_seaurchin",
+    "display_name": "Sea Urchin Roe"
+  },
+  {
+    "key": 1005745,
+    "name": "Knowledge_Ocean_FootballFish",
+    "display_name": "Oceanic Anglerfish"
+  },
+  {
+    "key": 1005746,
+    "name": "Knowledge_Ocean_Big_Rock_Bream",
+    "display_name": "Oceanic Barred Knifejaw"
+  },
+  {
+    "key": 1006356,
+    "name": "Knowledge_Ocean_Blobfish",
+    "display_name": "Blobfish"
+  },
+  {
+    "key": 1005748,
+    "name": "Knowledge_Ocean_Red_Sailfish",
+    "display_name": "Red Sailfish"
+  },
+  {
+    "key": 1005794,
+    "name": "Knowledge_Ocean_MantaRay",
+    "display_name": "Manta Ray"
+  },
+  {
+    "key": 1006357,
+    "name": "Knowledge_Ocean_Angelshark",
+    "display_name": "Angel Shark"
+  },
+  {
+    "key": 1006408,
+    "name": "Knowledge_Ocean_EagleRay",
+    "display_name": "Eagle Ray"
+  },
+  {
+    "key": 1006358,
+    "name": "Knowledge_Ocean_LightningRay",
+    "display_name": "Electric Ray"
+  },
+  {
+    "key": 1005795,
+    "name": "Knowledge_Ocean_Shark",
+    "display_name": "Shark"
+  },
+  {
+    "key": 1006409,
+    "name": "Knowledge_Ocean_hammerhead_shark",
+    "display_name": "Hammerhead Shark"
+  },
+  {
+    "key": 1006410,
+    "name": "Knowledge_Ocean_Giant_Shark",
+    "display_name": "Megalodon"
+  },
+  {
+    "key": 1005796,
+    "name": "Knowledge_Ocean_OceanSunfish",
+    "display_name": "Sunfish"
+  },
+  {
+    "key": 1005797,
+    "name": "Knowledge_Ocean_Orca",
+    "display_name": "Orca"
+  },
+  {
+    "key": 1006323,
+    "name": "Knowledge_Ocean_Dolphin",
+    "display_name": "Dolphin"
+  },
+  {
+    "key": 1005786,
+    "name": "Knowledge_Ocean_YellowTang",
+    "display_name": "Yellow Tang"
+  },
+  {
+    "key": 1005787,
+    "name": "Knowledge_Ocean_AtlanticBlueTang",
+    "display_name": "Dawnwave Blue Tang"
+  },
+  {
+    "key": 1005788,
+    "name": "Knowledge_Ocean_BlueTang",
+    "display_name": "Blue Tang"
+  },
+  {
+    "key": 1006690,
+    "name": "Knowledge_Ocean_RedTang",
+    "display_name": "Red Tang"
+  },
+  {
+    "key": 1006691,
+    "name": "Knowledge_Ocean_AtlanticGreenTang",
+    "display_name": "Dewleaf Green Tang"
+  },
+  {
+    "key": 1006692,
+    "name": "Knowledge_Ocean_purpleTang",
+    "display_name": "Purple Tang"
+  },
+  {
+    "key": 1005789,
+    "name": "Knowledge_Ocean_Discus",
+    "display_name": "Discus"
+  },
+  {
+    "key": 1006110,
+    "name": "Knowledge_Ocean_ClownFish",
+    "display_name": "Clownfish"
+  },
+  {
+    "key": 1006411,
+    "name": "Knowledge_Ocean_lionfish",
+    "display_name": "Lionfish"
+  },
+  {
+    "key": 1006412,
+    "name": "Knowledge_Ocean_Parrotfish",
+    "display_name": "Parrotfish"
+  },
+  {
+    "key": 1006413,
+    "name": "Knowledge_Ocean_Honeycomb_Grouper",
+    "display_name": "Honeycomb Grouper"
+  },
+  {
+    "key": 1006443,
+    "name": "Knowledge_Ocean_Longfin_Batfish",
+    "display_name": "Longfin Batfish"
+  },
+  {
+    "key": 1005790,
+    "name": "Knowledge_Ocean_JellyFish",
+    "display_name": "Jellyfish"
+  },
+  {
+    "key": 1006406,
+    "name": "Knowledge_Ocean_Giant_JellyFish",
+    "display_name": "Giant Jellyfish"
+  },
+  {
+    "key": 1005791,
+    "name": "Knowledge_Ocean_Lightning_JellyFish",
+    "display_name": "Electric Jellyfish"
+  },
+  {
+    "key": 1006359,
+    "name": "Knowledge_Ocean_Giant_Lightning_JellyFish",
+    "display_name": "Giant Electric Jellyfish"
+  },
+  {
+    "key": 1005792,
+    "name": "Knowledge_Ocean_Poison_JellyFish",
+    "display_name": "Venomous Jellyfish"
+  },
+  {
+    "key": 1006360,
+    "name": "Knowledge_Ocean_Giant_Poison_JellyFish",
+    "display_name": "Giant Venomous Jellyfish"
+  },
+  {
+    "key": 1005783,
+    "name": "Knowledge_BlueLobster",
+    "display_name": "Blue Lobster"
+  },
+  {
+    "key": 1005784,
+    "name": "Knowledge_KingCrab",
+    "display_name": "King Crab"
+  },
+  {
+    "key": 1005785,
+    "name": "Knowledge_SnowCrab",
+    "display_name": "Snow Crab"
+  },
+  {
+    "key": 1005798,
+    "name": "Knowledge_Seasnake",
+    "display_name": "Sea Serpent"
+  },
+  {
+    "key": 1005882,
+    "name": "Knowledge_Spotted_Seal",
+    "display_name": "Spotted Seal"
+  },
+  {
+    "key": 1006511,
+    "name": "Knowledge_Giant_Salamander_Ocean",
+    "display_name": "Hydrothermal Salamander"
+  },
+  {
+    "key": 1006512,
+    "name": "Knowledge_Giant_Hydrothermal_Salamander",
+    "display_name": "Giant Hydrothermal Salamander"
+  },
+  {
+    "key": 1006513,
+    "name": "Knowledge_Giant_MantaRay",
+    "display_name": "Giant Manta Ray"
+  },
+  {
+    "key": 1006765,
+    "name": "Knowledge_PearlCrocodile",
+    "display_name": "Pearl Moss Crocodile"
+  },
+  {
+    "key": 1006354,
+    "name": "Knowledge_Hydrothermal_Turtle",
+    "display_name": "Hydrothermal Turtle"
+  },
+  {
+    "key": 1006355,
+    "name": "Knowledge_Vulcanoctopus",
+    "display_name": "Pearl Octopus"
+  },
+  {
+    "key": 1006964,
+    "name": "Knowledge_SwarmpOcotopus",
+    "display_name": "Kraken"
+  },
+  {
+    "key": 1006361,
+    "name": "Knowledge_Hydrothermal_Snail",
+    "display_name": "Scaly-Foot Snail"
+  },
+  {
+    "key": 1006508,
+    "name": "Knowledge_Hercules_Beetle",
+    "display_name": "Great Horned Rhinoceros Beetle"
+  },
+  {
+    "key": 1006509,
+    "name": "Knowledge_Eupatorus_Beetle",
+    "display_name": "Five-Horned Rhinoceros Beetle"
+  },
+  {
+    "key": 1006510,
+    "name": "Knowledge_Mecoptera",
+    "display_name": "Scorpionfly"
+  },
+  {
+    "key": 1006808,
+    "name": "Knowledge_Coral_LandSpider",
+    "display_name": "Coralback Crab"
+  },
+  {
+    "key": 1006514,
+    "name": "Knowledge_Siren",
+    "display_name": "Siren"
+  },
+  {
+    "key": 1006325,
+    "name": "Knowledge_Ocean_PinkMantaRay",
+    "display_name": "Pink Manta Ray"
+  },
+  {
+    "key": 1006326,
+    "name": "Knowledge_Ocean_GoldShark",
+    "display_name": "Golden Shark"
+  },
+  {
+    "key": 1005747,
+    "name": "Knowledge_Ocean_gold_Marlin",
+    "display_name": "Golden Striped Marlin"
+  },
+  {
+    "key": 1006324,
+    "name": "Knowledge_Ocean_Pink_Dolphin",
+    "display_name": "Pink Dolphin"
+  },
+  {
+    "key": 1006033,
+    "name": "Knowledge_Armor_Goblin",
+    "display_name": "Geago the Flamecrazed"
+  },
+  {
+    "key": 1006032,
+    "name": "Knowledge_AntumbraArchon_DualSword",
+    "display_name": "Archon of Antumbra, Kharzek"
+  },
+  {
+    "key": 1006030,
+    "name": "Knowledge_LandSpider_ScrapQueen",
+    "display_name": "Scrap Metal Queen Stoneback Crab"
+  },
+  {
+    "key": 1006031,
+    "name": "Knowledge_LandSpider_ScrapQueen_Goblin",
+    "display_name": "Iron Tyrant Harkan"
+  },
+  {
+    "key": 1006038,
+    "name": "Knowledge_Void_Knight",
+    "display_name": "Knight of Void"
+  },
+  {
+    "key": 1006029,
+    "name": "Knowledge_Leviathan",
+    "display_name": "Leviakan"
+  },
+  {
+    "key": 1006034,
+    "name": "Knowledge_Sandcrawler_MTT",
+    "display_name": "The Dancing Catfish Crusher"
+  },
+  {
+    "key": 1006035,
+    "name": "Knowledge_Satyros",
+    "display_name": "Satyros"
+  },
+  {
+    "key": 1006036,
+    "name": "Knowledge_Wild_Imp_Boss_500051",
+    "display_name": "Reggis the Isleguard"
+  },
+  {
+    "key": 1006037,
+    "name": "Knowledge_Demeniss_Musket_Leader",
+    "display_name": "Rohan Cooper"
+  },
+  {
+    "key": 1006341,
+    "name": "Knowledge_Riding_Small_Ship_Hernand",
+    "display_name": "Small Hernandian Ship"
+  },
+  {
+    "key": 1006345,
+    "name": "Knowledge_Riding_Big_Ship_Hernand",
+    "display_name": "Medium Hernandian Ship"
+  },
+  {
+    "key": 1006349,
+    "name": "Knowledge_Riding_Big_Ship_00_Hernand",
+    "display_name": "Large Hernandian Ship"
+  },
+  {
+    "key": 1006339,
+    "name": "Knowledge_Riding_Small_Ship_Demeniss",
+    "display_name": "Small Demenissian Ship"
+  },
+  {
+    "key": 1006343,
+    "name": "Knowledge_Riding_Big_Ship_Demeniss",
+    "display_name": "Medium Demenissian Ship"
+  },
+  {
+    "key": 1006347,
+    "name": "Knowledge_Riding_Big_Ship_00_Demeniss",
+    "display_name": "Large Demenissian Ship"
+  },
+  {
+    "key": 1006340,
+    "name": "Knowledge_Riding_Small_Ship_Delesyia",
+    "display_name": "Small Delesyian Ship"
+  },
+  {
+    "key": 1006344,
+    "name": "Knowledge_Riding_Big_Ship_Delesyia",
+    "display_name": "Medium Delesyian Ship"
+  },
+  {
+    "key": 1006348,
+    "name": "Knowledge_Riding_Big_Ship_00_Delesyia",
+    "display_name": "Large Delesyian Ship"
+  },
+  {
+    "key": 1006338,
+    "name": "Knowledge_Riding_Small_Ship_Graymane",
+    "display_name": "Small Greymane Ship"
+  },
+  {
+    "key": 1006342,
+    "name": "Knowledge_Riding_Big_Ship_Graymane",
+    "display_name": "Medium Greymane Ship"
+  },
+  {
+    "key": 1006346,
+    "name": "Knowledge_Riding_Big_Ship_00_Graymane",
+    "display_name": "Large Greymane Ship"
+  },
+  {
+    "key": 1006965,
+    "name": "Knowledge_Riding_Ship_Ghost",
+    "display_name": "Phantom Ship"
+  },
+  {
+    "key": 1006966,
+    "name": "Knowledge_Riding_Ship_TurtleShip",
+    "display_name": "Assault Ship of the East"
+  },
+  {
+    "key": 1006967,
+    "name": "Knowledge_Riding_Ship_PanokSeon",
+    "display_name": "Flagship of the East"
+  },
+  {
+    "key": 1006991,
+    "name": "Knowledge_WantedPaper_PirateShip_0014_Riding",
+    "display_name": "The Drunken Catfish"
+  },
+  {
+    "key": 1006564,
+    "name": "Knowledge_Riding_Boat",
+    "display_name": "Rowboat"
+  },
+  {
+    "key": 1006968,
+    "name": "Knowledge_Riding_Ship_Common",
+    "display_name": "Ships"
+  },
+  {
+    "key": 1006969,
+    "name": "Knowledge_PirateShip_Common",
+    "display_name": "Pirate Ships"
+  },
+  {
+    "key": 1006970,
+    "name": "Knowledge_Riding_Ship_Navy",
+    "display_name": "Large Delesyian Naval Ship"
+  },
+  {
+    "key": 1006427,
+    "name": "Knowledge_CoralSea",
+    "display_name": "Coral Sea"
+  },
+  {
+    "key": 1006428,
+    "name": "Knowledge_RockySeabed",
+    "display_name": "Rocky Reef"
+  },
+  {
+    "key": 1006429,
+    "name": "Knowledge_hydrothermalventArea",
+    "display_name": "Hydrothermal Vents"
+  },
+  {
+    "key": 1006430,
+    "name": "Knowledge_DeadCoralSea",
+    "display_name": "Dead Coral Sea"
+  },
+  {
+    "key": 1006431,
+    "name": "Knowledge_SeaSerpentKelpForest",
+    "display_name": "Sea Serpent Kelp Forest"
+  },
+  {
+    "key": 1006432,
+    "name": "Knowledge_VelcrossKelpForest",
+    "display_name": "Belcross Kelp Forest"
+  },
+  {
+    "key": 1006433,
+    "name": "Knowledge_CoralReefColony",
+    "display_name": "Coral Reef Colony"
+  },
+  {
+    "key": 1006434,
+    "name": "Knowledge_AbyssalPlain",
+    "display_name": "Seafloor Plain"
+  },
+  {
+    "key": 1006435,
+    "name": "Knowledge_OceanTrench",
+    "display_name": "Trench"
+  },
+  {
+    "key": 1006525,
+    "name": "Knowledge_CoralReef",
+    "display_name": "Coral Reef"
+  },
+  {
+    "key": 1006437,
+    "name": "Knowledge_SeaOfSilence",
+    "display_name": "Sea of Silence"
+  },
+  {
+    "key": 1006455,
+    "name": "Knowledge_GreatHydrothermalventArea",
+    "display_name": "Great Hydrothermal Vents"
+  },
+  {
+    "key": 1006456,
+    "name": "Knowledge_GreatRockySeabed",
+    "display_name": "Great Rocky Reef"
+  },
+  {
+    "key": 1006457,
+    "name": "Knowledge_GreatOceanTrench",
+    "display_name": "Great Trench"
+  },
+  {
+    "key": 1006436,
+    "name": "Knowledge_GreatCoralSea",
+    "display_name": "Great Coral Reef"
+  },
+  {
+    "key": 1006526,
+    "name": "Knowledge_MidSea",
+    "display_name": "Central Waters"
+  },
+  {
+    "key": 1006577,
+    "name": "Knowledge_Ocean_Cave_0001",
+    "display_name": "Ator's Hidden Underwater Cave"
+  },
+  {
+    "key": 1006578,
+    "name": "Knowledge_Ocean_Cave_0002",
+    "display_name": "Hushed Stone Crab Cave"
+  },
+  {
+    "key": 1006579,
+    "name": "Knowledge_Ocean_Cave_0003",
+    "display_name": "Fissured Underwater Cave"
+  },
+  {
+    "key": 1006580,
+    "name": "Knowledge_Ocean_Cave_0004",
+    "display_name": "Yellow Seaweed Cave"
+  },
+  {
+    "key": 1006581,
+    "name": "Knowledge_Ocean_Cave_0005",
+    "display_name": "Great Ocean's Scar Cave"
+  },
+  {
+    "key": 1006582,
+    "name": "Knowledge_Ocean_Cave_0006",
+    "display_name": "Reef-Strewn Cave"
+  },
+  {
+    "key": 1006583,
+    "name": "Knowledge_Ocean_Cave_0007",
+    "display_name": "Canyon Crevice Cave"
+  },
+  {
+    "key": 1006584,
+    "name": "Knowledge_Ocean_Cave_0008",
+    "display_name": "Seafloor Rift Grotto"
+  },
+  {
+    "key": 1006585,
+    "name": "Knowledge_Ocean_Cave_0009",
+    "display_name": "Coral Pillar Shadow Cave"
+  },
+  {
+    "key": 1006586,
+    "name": "Knowledge_Ocean_Cave_0010",
+    "display_name": "Sunken Ruins Cave"
+  },
+  {
+    "key": 1006587,
+    "name": "Knowledge_Ocean_Cave_0011",
+    "display_name": "Coralwood Grotto"
+  },
+  {
+    "key": 1006588,
+    "name": "Knowledge_Ocean_Cave_0012",
+    "display_name": "Sunken Ancient Ruins Cave"
+  },
+  {
+    "key": 1006589,
+    "name": "Knowledge_Ocean_Cave_0013",
+    "display_name": "Ancient Ruins Cave of Lingering Breath"
+  },
+  {
+    "key": 1006739,
+    "name": "Knowledge_Ocean_Cave_0014",
+    "display_name": "Silent Serpent Shrine Cave"
+  },
+  {
+    "key": 1006740,
+    "name": "Knowledge_Ocean_Cave_0015",
+    "display_name": "Slumbering Tide Ruins Cave"
+  },
+  {
+    "key": 1006590,
+    "name": "Knowledge_Island_Cave_0001",
+    "display_name": "Damp Cave of the Marauders"
+  },
+  {
+    "key": 1006591,
+    "name": "Knowledge_Island_Cave_0002",
+    "display_name": "Mist-Shrouded Pirate Grotto"
+  },
+  {
+    "key": 1006592,
+    "name": "Knowledge_Island_Cave_0003",
+    "display_name": "Glowing Mushroom Cave"
+  },
+  {
+    "key": 1006593,
+    "name": "Knowledge_Island_Cave_0004",
+    "display_name": "Coastal Waterfall Cave"
+  },
+  {
+    "key": 1006594,
+    "name": "Knowledge_Island_Cave_0005",
+    "display_name": "Forgotten Razanui Cave"
+  },
+  {
+    "key": 1006595,
+    "name": "Knowledge_Island_Cave_0006",
+    "display_name": "Suspension Bridge Waterfall Cave"
+  },
+  {
+    "key": 1006596,
+    "name": "Knowledge_Island_Cave_0007",
+    "display_name": "Silent Satyros Cave"
+  },
+  {
+    "key": 1006597,
+    "name": "Knowledge_Island_Cave_0008",
+    "display_name": "Castaway's Secret Shelter"
+  },
+  {
+    "key": 1006741,
+    "name": "Knowledge_Island_Cave_0033",
+    "display_name": "Resounding Waters Cave"
+  },
+  {
+    "key": 1006742,
+    "name": "Knowledge_Island_Cave_0034",
+    "display_name": "Castaway's Shelter"
+  },
+  {
+    "key": 1006693,
+    "name": "Knowledge_Island_Cave_0009",
+    "display_name": "Wave-Swept Dawn Cave"
+  },
+  {
+    "key": 1006694,
+    "name": "Knowledge_Island_Cave_0010",
+    "display_name": "Windpass Coastal Cave"
+  },
+  {
+    "key": 1006695,
+    "name": "Knowledge_Island_Cave_0011",
+    "display_name": "Windblown Cliff Cave"
+  },
+  {
+    "key": 1006696,
+    "name": "Knowledge_Island_Cave_0012",
+    "display_name": "Milky Way Starlight Cave"
+  },
+  {
+    "key": 1006697,
+    "name": "Knowledge_Island_Cave_0013",
+    "display_name": "Outlaw's Secret Cave"
+  },
+  {
+    "key": 1006698,
+    "name": "Knowledge_Island_Cave_0014",
+    "display_name": "Outlaw's Unloading Cave"
+  },
+  {
+    "key": 1006699,
+    "name": "Knowledge_Island_Cave_0015",
+    "display_name": "Forgotten Pirate Cave"
+  },
+  {
+    "key": 1006700,
+    "name": "Knowledge_Island_Cave_0016",
+    "display_name": "Misty Moss Cave"
+  },
+  {
+    "key": 1006701,
+    "name": "Knowledge_Island_Cave_0017",
+    "display_name": "Satyros Mural Cave"
+  },
+  {
+    "key": 1006702,
+    "name": "Knowledge_Island_Cave_0018",
+    "display_name": "Great Tree Root Cave"
+  },
+  {
+    "key": 1006703,
+    "name": "Knowledge_Island_Cave_0019",
+    "display_name": "Wave-Lashed Crevice Cave"
+  },
+  {
+    "key": 1006704,
+    "name": "Knowledge_Island_Cave_0020",
+    "display_name": "Glowing Mushroom Passage"
+  },
+  {
+    "key": 1006705,
+    "name": "Knowledge_Island_Cave_0021",
+    "display_name": "Mushroom Cave of Echoing Waves"
+  },
+  {
+    "key": 1006706,
+    "name": "Knowledge_Island_Cave_0022",
+    "display_name": "Rainsong Cliff Cave"
+  },
+  {
+    "key": 1006707,
+    "name": "Knowledge_Island_Cave_0023",
+    "display_name": "Castaway's Soggy Shelter"
+  },
+  {
+    "key": 1006708,
+    "name": "Knowledge_Island_Cave_0024",
+    "display_name": "Silent Dark Cave"
+  },
+  {
+    "key": 1006709,
+    "name": "Knowledge_Island_Cave_0025",
+    "display_name": "Crumbling Rock Cave"
+  },
+  {
+    "key": 1006710,
+    "name": "Knowledge_Island_Cave_0026",
+    "display_name": "Moonlit Silver Mine"
+  },
+  {
+    "key": 1006711,
+    "name": "Knowledge_Island_Cave_0027",
+    "display_name": "Sunlit Gold Mine"
+  },
+  {
+    "key": 1006712,
+    "name": "Knowledge_Island_Cave_0028",
+    "display_name": "Hoof Cleft Cave"
+  },
+  {
+    "key": 1006713,
+    "name": "Knowledge_Island_Cave_0029",
+    "display_name": "Gentle Sea Breeze Cave"
+  },
+  {
+    "key": 1006714,
+    "name": "Knowledge_Island_Cave_0030",
+    "display_name": "Forsaken Altar Cave"
+  },
+  {
+    "key": 1006715,
+    "name": "Knowledge_Island_Cave_0031",
+    "display_name": "Tranquil Wavesong Cave"
+  },
+  {
+    "key": 1006716,
+    "name": "Knowledge_Island_Cave_0032",
+    "display_name": "Shaded Thicket Cave"
+  },
+  {
+    "key": 1006743,
+    "name": "Knowledge_Island_Cave_0035",
+    "display_name": "Gentle Wavesong Cave"
+  },
+  {
+    "key": 1006744,
+    "name": "Knowledge_Island_Cave_0036",
+    "display_name": "Den of the Skytorns"
+  },
+  {
+    "key": 1006745,
+    "name": "Knowledge_Island_Cave_0037",
+    "display_name": "Soundless Cave"
+  },
+  {
+    "key": 1006746,
+    "name": "Knowledge_Island_Cave_0038",
+    "display_name": "Crimson Cliff Cave"
+  },
+  {
+    "key": 1006747,
+    "name": "Knowledge_Island_Cave_0039",
+    "display_name": "Overgrown Ashen Cave"
+  },
+  {
+    "key": 1006748,
+    "name": "Knowledge_Island_Cave_0040",
+    "display_name": "Fading Wavesong Cave"
+  },
+  {
+    "key": 1006749,
+    "name": "Knowledge_Island_Cave_0041",
+    "display_name": "Brinewind Haven"
+  },
+  {
+    "key": 1006750,
+    "name": "Knowledge_Island_Cave_0042",
+    "display_name": "Cradle of the Lonely Peak"
+  },
+  {
+    "key": 1006751,
+    "name": "Knowledge_Island_Cave_0043",
+    "display_name": "Cozy Shaded Cave"
+  },
+  {
+    "key": 1006752,
+    "name": "Knowledge_Island_Cave_0044",
+    "display_name": "Cave of Passing Sea Breezes"
+  },
+  {
+    "key": 1006753,
+    "name": "Knowledge_Island_Cave_0045",
+    "display_name": "Abandoned Castaway Cave"
+  },
+  {
+    "key": 1006754,
+    "name": "Knowledge_Island_Cave_0046",
+    "display_name": "Hushwave Haven"
+  },
+  {
+    "key": 1006755,
+    "name": "Knowledge_Island_Cave_0047",
+    "display_name": "Haven of the Forgotten Castaway"
+  },
+  {
+    "key": 1006894,
+    "name": "Knowledge_Island_Cave_0048",
+    "display_name": "Wayside Shelter Cave"
+  },
+  {
+    "key": 1006895,
+    "name": "Knowledge_Island_Cave_0049",
+    "display_name": "Plunder Stash Cave"
+  },
+  {
+    "key": 1005742,
+    "name": "Knowledge_Quartz",
+    "display_name": "Shiny Ore"
+  },
+  {
+    "key": 1005793,
+    "name": "Knowledge_MalachiteOre",
+    "display_name": "Malachite"
+  },
+  {
+    "key": 1006301,
+    "name": "Knowledge_Manganese",
+    "display_name": "Manganese"
+  },
+  {
+    "key": 1006987,
+    "name": "Knowledge_Obsidian",
+    "display_name": "Obsidian"
+  },
+  {
+    "key": 1006353,
+    "name": "Knowledge_ambergris",
+    "display_name": "Ambergris"
+  },
+  {
+    "key": 1006362,
+    "name": "Knowledge_hydrothermalmineral",
+    "display_name": "Hydrothermal Mineral Deposit"
+  },
+  {
+    "key": 1006403,
+    "name": "Knowledge_Rare_Collect_Sea_goldencoral",
+    "display_name": "Golden Coral"
+  },
+  {
+    "key": 1006402,
+    "name": "Knowledge_Rare_Collect_Sea_blackcoral",
+    "display_name": "Sea Fan Coral"
+  },
+  {
+    "key": 1006419,
+    "name": "Knowledge_Giant_Salamander_Leather",
+    "display_name": "Giant Hydrothermal Salamander Hide"
+  },
+  {
+    "key": 1006420,
+    "name": "Knowledge_Giant_JellyFish_Skin",
+    "display_name": "Giant Jellyfish Skin"
+  },
+  {
+    "key": 1006527,
+    "name": "Knowledge_Item_gimmick_tool_automata_monkey_0001",
+    "display_name": "Clanging Mischievous Monkey"
+  },
+  {
+    "key": 1005538,
+    "name": "Knowledge_Rare_Collect_Sea_Weed",
+    "display_name": "Seaweed"
+  },
+  {
+    "key": 1005539,
+    "name": "Knowledge_Rare_Collect_Sea_Kelp",
+    "display_name": "Kelp"
+  },
+  {
+    "key": 1005540,
+    "name": "Knowledge_Rare_Collect_Sea_String",
+    "display_name": "Red Seaweed"
+  },
+  {
+    "key": 1005872,
+    "name": "Knowledge_Recipe_Parboiled_Seafood",
+    "display_name": "Assorted Parboiled Seafood"
+  },
+  {
+    "key": 1005873,
+    "name": "Knowledge_Recipe_GrilledClams",
+    "display_name": "Grilled Clams"
+  },
+  {
+    "key": 1005874,
+    "name": "Knowledge_Recipe_Cheese_GrilledClams",
+    "display_name": "Grilled Cheese Clams"
+  },
+  {
+    "key": 1005875,
+    "name": "Knowledge_Recipe_SeaPineapple_Bibimbap",
+    "display_name": "Sea Pineapple Rice Bowl"
+  },
+  {
+    "key": 1005876,
+    "name": "Knowledge_Recipe_SeaString_Seasoned",
+    "display_name": "Seasoned Red Seaweed"
+  },
+  {
+    "key": 1005877,
+    "name": "Knowledge_Recipe_Jellyfish_Salad",
+    "display_name": "Jellyfish Salad"
+  },
+  {
+    "key": 1005878,
+    "name": "Knowledge_Recipe_ManilaClams_NoodleSoup",
+    "display_name": "Knife-Cut Clam Noodles"
+  },
+  {
+    "key": 1005879,
+    "name": "Knowledge_Recipe_Seaweed_Soup",
+    "display_name": "Seaweed Soup"
+  },
+  {
+    "key": 1005880,
+    "name": "Knowledge_Recipe_Abalone_Porridge",
+    "display_name": "Abalone Porridge"
+  },
+  {
+    "key": 1005881,
+    "name": "Knowledge_Recipe_Mussel_Soup",
+    "display_name": "Mussel Soup"
+  },
+  {
+    "key": 1007010,
+    "name": "Knowledge_Recipe_Item_Sea_Coin",
+    "display_name": "Ancient Relic"
+  },
+  {
+    "key": 1007012,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier1_0007",
+    "display_name": "Luftis's Lesser Elixir"
+  },
+  {
+    "key": 1007013,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier1_0008",
+    "display_name": "Fluva's Lesser Elixir"
+  },
+  {
+    "key": 1007014,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier1_0009",
+    "display_name": "Lucaris's Lesser Elixir"
+  },
+  {
+    "key": 1007015,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier2_0007",
+    "display_name": "Luftis's Elixir"
+  },
+  {
+    "key": 1007016,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier2_0008",
+    "display_name": "Fluva's Elixir"
+  },
+  {
+    "key": 1007017,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier2_0009",
+    "display_name": "Lucaris's Elixir"
+  },
+  {
+    "key": 1007018,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier3_0007",
+    "display_name": "Luftis's Greater Elixir"
+  },
+  {
+    "key": 1007019,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier3_0008",
+    "display_name": "Fluva's Greater Elixir"
+  },
+  {
+    "key": 1007020,
+    "name": "Knowledge_Recipe_Potion_StatBuff_Tier3_0009",
+    "display_name": "Lucaris's Greater Elixir"
+  },
+  {
+    "key": 1007011,
+    "name": "Knowledge_Recipe_Diving_BackPack_02",
+    "display_name": "Explorer's Breathing Device"
+  },
+  {
+    "key": 1006918,
+    "name": "Knowledge_Recipe_Diving_Propulsion_BackPack",
+    "display_name": "Propulsion Breathing Device"
+  },
+  {
+    "key": 1006919,
+    "name": "Knowledge_Recipe_Diving_Propulsion_BackPack_I",
+    "display_name": "Enhanced Propulsion Breathing Device"
+  },
+  {
+    "key": 1006256,
+    "name": "Knowledge_Recipe_PetArmor_Diving_Helm",
+    "display_name": "Charter Assistant's Diving Helm"
+  },
+  {
+    "key": 1006257,
+    "name": "Knowledge_Recipe_PetArmor_Diving_Armor",
+    "display_name": "Charter Assistant's Diving Suit"
+  },
+  {
+    "key": 1006278,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Satyros",
+    "display_name": "Eclipsed Thorn"
+  },
+  {
+    "key": 1006279,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Ludvig_OneArmed",
+    "display_name": "Writhebolt"
+  },
+  {
+    "key": 1006280,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_AntumbraArchon",
+    "display_name": "Revelation's End"
+  },
+  {
+    "key": 1006281,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_ScrapQueenGoblin",
+    "display_name": "Magnetic Burst"
+  },
+  {
+    "key": 1006282,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_AwakenCaliburn",
+    "display_name": "Judicator of Ruin"
+  },
+  {
+    "key": 1006283,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_ArmorGoblin",
+    "display_name": "Ashen Blitz"
+  },
+  {
+    "key": 1006284,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Merrick_DefenceCounter",
+    "display_name": "Radiant Flash"
+  },
+  {
+    "key": 1006285,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_MarniKnight_Spear",
+    "display_name": "Power Overload"
+  },
+  {
+    "key": 1006286,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_RedNightmare",
+    "display_name": "Venomous Fangs"
+  },
+  {
+    "key": 1006287,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_CircusMachine",
+    "display_name": "Trial by Fire"
+  },
+  {
+    "key": 1006288,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_LanFord_ChargeShot",
+    "display_name": "Focus Fire"
+  },
+  {
+    "key": 1006289,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_AncientPeople_ChargeShot",
+    "display_name": "Rushing Wind"
+  },
+  {
+    "key": 1006290,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Karanda_Feather",
+    "display_name": "Unfurled Feathers"
+  },
+  {
+    "key": 1006291,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_DrylandsGolem",
+    "display_name": "Guardian's Gaze"
+  },
+  {
+    "key": 1006292,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_MirageFlurry",
+    "display_name": "Mirage Cascade"
+  },
+  {
+    "key": 1006293,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Incarnation",
+    "display_name": "Ascended Incarnate"
+  },
+  {
+    "key": 1006294,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_Ogre_GroundEdge",
+    "display_name": "Earthen Wedge"
+  },
+  {
+    "key": 1006295,
+    "name": "Knowledge_Recipe_Item_Skill_AbyssGear_EchoStrom",
+    "display_name": "Storm's Echo"
+  },
+  {
+    "key": 1006598,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_streetlamp_06",
+    "display_name": "Helms Iron Streetlight"
+  },
+  {
+    "key": 1006599,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_streetlamp_06_on_housing_index0001",
+    "display_name": "Dark Helms Iron Streetlight"
+  },
+  {
+    "key": 1006600,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_marni_streetstand_01",
+    "display_name": "Marni's Streetlight"
+  },
+  {
+    "key": 1006601,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_marni_streetstand_01_housing_index0001",
+    "display_name": "Marni's Dark Streetlight"
+  },
+  {
+    "key": 1006602,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_marni_streetstand_02",
+    "display_name": "Marni's Battery Streetlight"
+  },
+  {
+    "key": 1006603,
+    "name": "Knowledge_Recipe_Item_gimmick_lamp_marni_streetstand_02_index0001",
+    "display_name": "Marni's Dark Battery Streetlight"
+  },
+  {
+    "key": 1006309,
+    "name": "Knowledge_Recipe_Item_Lamp_stand_ocean_0001",
+    "display_name": "Octopus-legged Candlestick"
+  },
+  {
+    "key": 1006372,
+    "name": "Knowledge_Recipe_Item_Lamp_stand_ocean_0002",
+    "display_name": "Pearl Remembrance Lamp"
+  },
+  {
+    "key": 1006373,
+    "name": "Knowledge_Recipe_Item_Lamp_stand_ocean_0003",
+    "display_name": "Blue Coral Lamp"
+  },
+  {
+    "key": 1006374,
+    "name": "Knowledge_Recipe_Item_Lamp_stand_ocean_0004",
+    "display_name": "Moonshell Cluster"
+  },
+  {
+    "key": 1006604,
+    "name": "Knowledge_Recipe_Item_troll_academy_torchlight_01_on",
+    "display_name": "Ancient Runic Stone Sconce"
+  },
+  {
+    "key": 1006605,
+    "name": "Knowledge_Recipe_Item_troll_academy_torchlight_01_on_housing_index0001",
+    "display_name": "Dark Ancient Runic Stone Sconce"
+  },
+  {
+    "key": 1007025,
+    "name": "Knowledge_Recipe_Item_troll_academy_torchlight_01_on_housing_index0002",
+    "display_name": "Red Ancient Runic Stone Sconce"
+  },
+  {
+    "key": 1006606,
+    "name": "Knowledge_Recipe_Item_gimmick_tool_automata_monkey_0001",
+    "display_name": "Clanging Mischievous Monkey"
+  },
+  {
+    "key": 1006375,
+    "name": "Knowledge_Recipe_Item_gimmick_in_dpf_carpet_0017",
+    "display_name": "Captain's Carpet of Dignity"
+  },
+  {
+    "key": 1006376,
+    "name": "Knowledge_Recipe_Item_in_dff_set_bookcase_0001",
+    "display_name": "Rowboat Bookshelf"
+  },
+  {
+    "key": 1006377,
+    "name": "Knowledge_Recipe_Item_in_dff_ocean_bed_0001",
+    "display_name": "Captain's Bed of Dignity"
+  },
+  {
+    "key": 1006378,
+    "name": "Knowledge_Recipe_Item_gimmick_in_dff_chair_0005",
+    "display_name": "Oak Barrel Stool"
+  },
+  {
+    "key": 1006379,
+    "name": "Knowledge_Recipe_Item_gimmick_in_dff_chair_0006",
+    "display_name": "Captain's Chair of Dignity"
+  },
+  {
+    "key": 1006607,
+    "name": "Knowledge_Recipe_Item_gimmick_in_dff_chair_53",
+    "display_name": "Throne of the Northern Warrior"
+  },
+  {
+    "key": 1006380,
+    "name": "Knowledge_Recipe_Item_in_dff_table_0003",
+    "display_name": "Shoreline Memories Table"
+  },
+  {
+    "key": 1006381,
+    "name": "Knowledge_Recipe_Item_in_dpf_seahorsedeco_0001",
+    "display_name": "Seahorse Statue"
+  },
+  {
+    "key": 1006382,
+    "name": "Knowledge_Recipe_Item_in_dpw_fishdeco_0001",
+    "display_name": "Fisherman's Pride"
+  },
+  {
+    "key": 1006383,
+    "name": "Knowledge_Recipe_Item_in_dpw_shiphandle_0001",
+    "display_name": "Fancy Gilded Ship's Wheel"
+  },
+  {
+    "key": 1006384,
+    "name": "Knowledge_Recipe_Item_in_dpw_shipanchor_0001",
+    "display_name": "Fancy Gilded Anchor"
+  },
+  {
+    "key": 1006385,
+    "name": "Knowledge_Recipe_Item_in_dpfo_shipdeco_0001",
+    "display_name": "Golden Bottled Ship"
+  },
+  {
+    "key": 1006608,
+    "name": "Knowledge_Recipe_Item_megastructure_carousel_01_housing",
+    "display_name": "Striped Tent Carousel"
+  },
+  {
+    "key": 1006609,
+    "name": "Knowledge_Recipe_Item_gimmick_circus_ferriswheel_0001_housing",
+    "display_name": "Tricolor Ferris Wheel"
+  },
+  {
+    "key": 1006763,
+    "name": "Knowledge_Recipe_Item_Background_Breakable_Wood_56",
+    "display_name": "Wooden Crane"
+  },
+  {
+    "key": 1006764,
+    "name": "Knowledge_Recipe_Item_Background_Breakable_Wood_56_index0001",
+    "display_name": "Sturdy Wooden Crane"
+  },
+  {
+    "key": 1006263,
+    "name": "Knowledge_Recipe_Item_carpenter_0001",
+    "display_name": "Crude Workstation"
+  },
+  {
+    "key": 1006669,
+    "name": "Knowledge_Recipe_Item_carpenter_0002_housing",
+    "display_name": "Sturdy Workstation"
+  },
+  {
+    "key": 1006762,
+    "name": "Knowledge_Recipe_Item_gimmick_management_clothier_table_01",
+    "display_name": "Sewing Workstation"
+  },
+  {
+    "key": 1006264,
+    "name": "Knowledge_Recipe_Item_gimmick_wood_bench_0001",
+    "display_name": "Crude Wooden Stand"
+  },
+  {
+    "key": 1006670,
+    "name": "Knowledge_Recipe_Item_gimmick_wood_bench_0002",
+    "display_name": "Sturdy Wooden Rack"
+  },
+  {
+    "key": 1006265,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_07",
+    "display_name": "Crude Timber Box"
+  },
+  {
+    "key": 1006671,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_09",
+    "display_name": "Sturdy Timber Box"
+  },
+  {
+    "key": 1006266,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_08",
+    "display_name": "Crude Plank Box"
+  },
+  {
+    "key": 1006672,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_10",
+    "display_name": "Sturdy Plank Crate"
+  },
+  {
+    "key": 1006680,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_11",
+    "display_name": "Meat Box"
+  },
+  {
+    "key": 1006681,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_11_index0001",
+    "display_name": "Seafood Box"
+  },
+  {
+    "key": 1006683,
+    "name": "Knowledge_Recipe_Item_gimmick_box_open_11_index0003",
+    "display_name": "Crops Box"
+  },
+  {
+    "key": 1006267,
+    "name": "Knowledge_Recipe_Item_cd_preset_shop_npctable_sawmill_01",
+    "display_name": "Crude Plank Workbench"
+  },
+  {
+    "key": 1006673,
+    "name": "Knowledge_Recipe_Item_cd_preset_shop_npctable_sawmill_02",
+    "display_name": "Precision Plank Workbench"
+  },
+  {
+    "key": 1006756,
+    "name": "Knowledge_Recipe_Item_cd_product_farm_attach_09",
+    "display_name": "Timber Storage"
+  },
+  {
+    "key": 1006757,
+    "name": "Knowledge_Recipe_Item_cd_product_farm_attach_10",
+    "display_name": "Mineral Storage"
+  },
+  {
+    "key": 1006758,
+    "name": "Knowledge_Recipe_Item_gimmick_management_pass_table_0001",
+    "display_name": "Crude Serving Station"
+  },
+  {
+    "key": 1006674,
+    "name": "Knowledge_Recipe_Item_gimmick_management_pass_table_0001_index0001",
+    "display_name": "Clothed Serving Station"
+  },
+  {
+    "key": 1006759,
+    "name": "Knowledge_Recipe_Item_gimmick_breakable_ex_dff_table_07",
+    "display_name": "Crude Square Four-Seater Table"
+  },
+  {
+    "key": 1006675,
+    "name": "Knowledge_Recipe_Item_breakable_ex_dff_table_08",
+    "display_name": "Clothed Four-Seater Table"
+  },
+  {
+    "key": 1006676,
+    "name": "Knowledge_Recipe_Item_gimmick_craft_cook_oven_0003_index0001",
+    "display_name": "Dark Wooden Cooking Station"
+  },
+  {
+    "key": 1006270,
+    "name": "Knowledge_Recipe_Item_craft_cook_oven_0003",
+    "display_name": "Bright Wooden Cooking Station"
+  },
+  {
+    "key": 1006684,
+    "name": "Knowledge_Recipe_Item_gimmick_craft_blastfurnace_02_index0001",
+    "display_name": "Blast Furnace"
+  },
+  {
+    "key": 1006271,
+    "name": "Knowledge_Recipe_Item_craft_blastfurnace_02",
+    "display_name": "Modified Blast Furnace"
+  },
+  {
+    "key": 1006685,
+    "name": "Knowledge_Recipe_Item_gimmick_management_dye_vat_01",
+    "display_name": "Red Dye Vat"
+  },
+  {
+    "key": 1006686,
+    "name": "Knowledge_Recipe_Item_gimmick_management_dye_vat_02",
+    "display_name": "Yellow Dye Vat"
+  },
+  {
+    "key": 1006687,
+    "name": "Knowledge_Recipe_Item_gimmick_management_dye_vat_03",
+    "display_name": "Blue Dye Vat"
+  },
+  {
+    "key": 1006688,
+    "name": "Knowledge_Recipe_Item_gimmick_in_dff_table_16",
+    "display_name": "Standing Table"
+  },
+  {
+    "key": 1006760,
+    "name": "Knowledge_Recipe_Item_gimmick_management_spinning_wool_01",
+    "display_name": "Spinning Wheel"
+  },
+  {
+    "key": 1006761,
+    "name": "Knowledge_Recipe_Item_gimmick_craft_sewing_01_housing",
+    "display_name": "Loom"
+  },
+  {
+    "key": 1006528,
+    "name": "Knowledge_Recipe_Book_HousingObject_Basic",
+    "display_name": "From the Ground Up"
+  },
+  {
+    "key": 1006529,
+    "name": "Knowledge_Recipe_Book_HousingObject_Door_WoodInterior",
+    "display_name": "Dividing Spaces with Interior Doors"
+  },
+  {
+    "key": 1006530,
+    "name": "Knowledge_Recipe_Book_HousingObject_Door_WoodSide",
+    "display_name": "Long-Lasting Wooden Doors"
+  },
+  {
+    "key": 1006531,
+    "name": "Knowledge_Recipe_Book_HousingObject_Door_MetalSide",
+    "display_name": "The Locked Iron Gate"
+  },
+  {
+    "key": 1006532,
+    "name": "Knowledge_Recipe_Book_HousingObject_Door_Entrance",
+    "display_name": "A Welcoming Front Door"
+  },
+  {
+    "key": 1006533,
+    "name": "Knowledge_Recipe_Book_HousingObject_Door_MainGate",
+    "display_name": "A Grand Door for a Grand House"
+  },
+  {
+    "key": 1006534,
+    "name": "Knowledge_Recipe_Book_HousingObject_Window_Wood",
+    "display_name": "Wooden Windows of the South"
+  },
+  {
+    "key": 1006535,
+    "name": "Knowledge_Recipe_Book_HousingObject_Window_Arch",
+    "display_name": "The Art of Curves"
+  },
+  {
+    "key": 1006536,
+    "name": "Knowledge_Recipe_Book_HousingObject_Window_Estate",
+    "display_name": "Good Windows, Better Homes"
+  },
+  {
+    "key": 1006537,
+    "name": "Knowledge_Recipe_Book_HousingObject_Window_Cathedral",
+    "display_name": "A Window Open to Solumen"
+  },
+  {
+    "key": 1006538,
+    "name": "Knowledge_Recipe_Book_HousingObject_Fence_Wood",
+    "display_name": "One Axe for a Fence"
+  },
+  {
+    "key": 1006539,
+    "name": "Knowledge_Recipe_Book_HousingObject_Fence_Stone",
+    "display_name": "The Hundred-Year Wall"
+  },
+  {
+    "key": 1006540,
+    "name": "Knowledge_Recipe_Book_HousingObject_Pillar",
+    "display_name": "Pillars of Pywel"
+  },
+  {
+    "key": 1006541,
+    "name": "Knowledge_Recipe_Book_HousingObject_Border",
+    "display_name": "One Last Detail"
+  },
+  {
+    "key": 1006542,
+    "name": "Knowledge_Recipe_Book_HousingObject_Roof_Brick",
+    "display_name": "Building Brick Roofs"
+  },
+  {
+    "key": 1006543,
+    "name": "Knowledge_Recipe_Book_HousingObject_Chimney",
+    "display_name": "Building a Maintenance-Free Chimney"
+  },
+  {
+    "key": 1006544,
+    "name": "Knowledge_Recipe_Book_HousingObject_Stair_Wood",
+    "display_name": "Fixing Creaky Stairs"
+  },
+  {
+    "key": 1006545,
+    "name": "Knowledge_Recipe_Book_HousingObject_Stair_Stone",
+    "display_name": "Building Stone Steps"
+  },
+  {
+    "key": 1006546,
+    "name": "Knowledge_Recipe_Book_HousingObject_Plaster",
+    "display_name": "The Art of Plastering"
+  },
+  {
+    "key": 1006547,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Stone_I",
+    "display_name": "Cairn's Apprentice Mason's Guide"
+  },
+  {
+    "key": 1006548,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Stone_II",
+    "display_name": "Building with Hernand Stones"
+  },
+  {
+    "key": 1006549,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Stone_III",
+    "display_name": "A Stonemason's Stonework"
+  },
+  {
+    "key": 1006550,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Wood_I",
+    "display_name": "Why Craftsmen Seek Timberham"
+  },
+  {
+    "key": 1006551,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Wood_II",
+    "display_name": "Beighen's Wood and Walls"
+  },
+  {
+    "key": 1006552,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Wood_III",
+    "display_name": "Dizzying Gap Between the Planks"
+  },
+  {
+    "key": 1006553,
+    "name": "Knowledge_Recipe_Book_HousingObject_Finish_Wood_IV",
+    "display_name": "The Fifth Furniture-Stacking Competition"
+  },
+  {
+    "key": 1006802,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Canopy_I",
+    "display_name": "A Rest in the Shade"
+  },
+  {
+    "key": 1006803,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Canopy_II",
+    "display_name": "Shade Stronger Than Rainstorms"
+  },
+  {
+    "key": 1006804,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Canopy_III",
+    "display_name": "Nature's Humble Shade"
+  },
+  {
+    "key": 1006805,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Canopy_IV",
+    "display_name": "Stone That Weathers the Ages"
+  },
+  {
+    "key": 1006888,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Windmill_Dem",
+    "display_name": "Where Only the Wind Lingers"
+  },
+  {
+    "key": 1006889,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Windmill_SandCrawler",
+    "display_name": "Crimson Wasteland's Rusted Pillars"
+  },
+  {
+    "key": 1005979,
+    "name": "Knowledge_Collection_Prop_Tower",
+    "display_name": "A Sparrow's Perch"
+  },
+  {
+    "key": 1006723,
+    "name": "Knowledge_Collection_Prop_Tower_Tribe",
+    "display_name": "For the Lone Watch"
+  },
+  {
+    "key": 1006724,
+    "name": "Knowledge_Collection_Prop_Tower_North",
+    "display_name": "Shielded Watchtower"
+  },
+  {
+    "key": 1006725,
+    "name": "Knowledge_Collection_Prop_Tower_Canopy",
+    "display_name": "Shelter Under a Canopy"
+  },
+  {
+    "key": 1006726,
+    "name": "Knowledge_Collection_Prop_Tower_Nest",
+    "display_name": "High-Nesting Birds"
+  },
+  {
+    "key": 1006727,
+    "name": "Knowledge_Collection_Prop_Tower_Windmill",
+    "display_name": "The Windwatch Tower"
+  },
+  {
+    "key": 1006728,
+    "name": "Knowledge_Collection_Prop_Tower_Nobility",
+    "display_name": "Watchtowers of Three Factions"
+  },
+  {
+    "key": 1006729,
+    "name": "Knowledge_Collection_Prop_Tower_Fortress",
+    "display_name": "The Stone Sentinel"
+  },
+  {
+    "key": 1006730,
+    "name": "Knowledge_Collection_Prop_Tower_Siege",
+    "display_name": "Take Aim from Above"
+  },
+  {
+    "key": 1006731,
+    "name": "Knowledge_Collection_Prop_Tower_Machine",
+    "display_name": "Strength from Earth and Wind"
+  },
+  {
+    "key": 1005980,
+    "name": "Knowledge_Collection_Prop_Tent",
+    "display_name": "A Night Anywhere"
+  },
+  {
+    "key": 1006732,
+    "name": "Knowledge_Collection_Prop_Tent_Graymane",
+    "display_name": "Greymanes' Camp"
+  },
+  {
+    "key": 1006733,
+    "name": "Knowledge_Collection_Prop_Tent_Military",
+    "display_name": "The Tent Behind the Front"
+  },
+  {
+    "key": 1006734,
+    "name": "Knowledge_Collection_Prop_Tent_Desert",
+    "display_name": "Shade on the Sand"
+  },
+  {
+    "key": 1006735,
+    "name": "Knowledge_Collection_Prop_Tent_Trade",
+    "display_name": "Drawn to the Tent"
+  },
+  {
+    "key": 1006736,
+    "name": "Knowledge_Collection_Prop_Barricade",
+    "display_name": "The First Bulwark"
+  },
+  {
+    "key": 1006554,
+    "name": "Knowledge_Recipe_Book_HousingObject_PatternWallPaper",
+    "display_name": "A Hundred Patterns for Walls"
+  },
+  {
+    "key": 1006555,
+    "name": "Knowledge_Recipe_Book_me_00_str_wallpaper_000_0004_index0005",
+    "display_name": "Moonlit Silver Blossoms"
+  },
+  {
+    "key": 1006556,
+    "name": "Knowledge_Recipe_Book_me_00_str_wallpaper_000_0004_index0006",
+    "display_name": "Furnishing the Throne Room"
+  },
+  {
+    "key": 1006557,
+    "name": "Knowledge_Recipe_Book_me_00_str_wallpaper_000_0004_index0007",
+    "display_name": "Child Sleeping Beneath the Clouds"
+  },
+  {
+    "key": 1006882,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Cart_I",
+    "display_name": "Easing Daily Life"
+  },
+  {
+    "key": 1006883,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Cart_II",
+    "display_name": "Reliable Porter"
+  },
+  {
+    "key": 1006884,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Straw_I",
+    "display_name": "Sun-Dried Fodder"
+  },
+  {
+    "key": 1006885,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Straw_II",
+    "display_name": "Flower-Scented Grass"
+  },
+  {
+    "key": 1006886,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Straw_III",
+    "display_name": "Where the Honey Mead Matures"
+  },
+  {
+    "key": 1006887,
+    "name": "Knowledge_Recipe_Paper_HousingObject_Straw_IV",
+    "display_name": "Barren Hill Honeybee Shelter"
+  },
+  {
+    "key": 1006737,
+    "name": "Knowledge_Collection_Prop_Pinwheel",
+    "display_name": "The Wind's Passing"
+  },
+  {
+    "key": 1006738,
+    "name": "Knowledge_Collection_Prop_Map",
+    "display_name": "Homes Without Dead Ends"
+  },
+  {
+    "key": 1006881,
+    "name": "Knowledge_Collection_Prop_GraymaneFlag",
+    "display_name": "An Unbreakable Will"
+  },
+  {
+    "key": 1006111,
+    "name": "Knowledge_Recipe_item_ship_cannon_0003",
+    "display_name": "Gilded Naval Cannon"
+  },
+  {
+    "key": 1006113,
+    "name": "Knowledge_Recipe_item_ship_cannon_0005",
+    "display_name": "Sea King's Naval Cannon"
+  },
+  {
+    "key": 1006989,
+    "name": "Knowledge_Recipe_Item_ship_cannon_0012",
+    "display_name": "Admiral's Bow Cannon"
+  },
+  {
+    "key": 1007001,
+    "name": "Knowledge_Recipe_Item_ship_cannon_0010_TurtleShip",
+    "display_name": "Dragon Head Prow Cannon"
+  },
+  {
+    "key": 1005924,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001",
+    "display_name": "Pearlescent Voyage Sail"
+  },
+  {
+    "key": 1005927,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index03",
+    "display_name": "Windborne Sail"
+  },
+  {
+    "key": 1006817,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index08",
+    "display_name": "Gently Curved Sail"
+  },
+  {
+    "key": 1006818,
+    "name": "Knowledge_Recipe_item_smallship_sail_open_0001_index14",
+    "display_name": "Pirates' Sail"
+  },
+  {
+    "key": 1006819,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index07",
+    "display_name": "Red Checkered Sail"
+  },
+  {
+    "key": 1006820,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index09",
+    "display_name": "Silver Crescent Sail"
+  },
+  {
+    "key": 1006821,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index11",
+    "display_name": "Greymane Sail"
+  },
+  {
+    "key": 1006822,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index12",
+    "display_name": "Hernandian Sail"
+  },
+  {
+    "key": 1006825,
+    "name": "Knowledge_Recipe_item_smallship_sail_open_0001_index04",
+    "display_name": "The Siren's Cry Pirates' Small Sail"
+  },
+  {
+    "key": 1006826,
+    "name": "Knowledge_Recipe_item_smallship_sail_open_0001_index08",
+    "display_name": "The Sea Claw Pirates' Small Sail"
+  },
+  {
+    "key": 1006827,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index05",
+    "display_name": "The Death Blossom Pirates' Medium Sail"
+  },
+  {
+    "key": 1006828,
+    "name": "Knowledge_Recipe_item_ship_sail_open_0001_index06",
+    "display_name": "The Sea's Vengeance Pirates' Medium Sail"
+  },
+  {
+    "key": 1006829,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index04",
+    "display_name": "The Black Bloom Pirates' Large Sail"
+  },
+  {
+    "key": 1006830,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index05",
+    "display_name": "The Crimson Shield Pirates' Large Sail"
+  },
+  {
+    "key": 1006831,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index06",
+    "display_name": "The Vengeance Pirates' Large Sail"
+  },
+  {
+    "key": 1006832,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index07",
+    "display_name": "Faunus Pirates' Large Sail"
+  },
+  {
+    "key": 1006833,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index08",
+    "display_name": "The Grim Wind Pirates' Large Sail"
+  },
+  {
+    "key": 1006834,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index09",
+    "display_name": "The Scarlet Widow Pirates' Large Sail"
+  },
+  {
+    "key": 1006835,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index10",
+    "display_name": "The Bloodied Stake Pirates' Large Sail"
+  },
+  {
+    "key": 1006836,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index11",
+    "display_name": "The Devils' Plunder Pirates' Large Sail"
+  },
+  {
+    "key": 1006837,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index12",
+    "display_name": "The Black Curved Blade Pirates' Large Sail"
+  },
+  {
+    "key": 1007022,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index24",
+    "display_name": "Large Tidewish Sail"
+  },
+  {
+    "key": 1006838,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index26",
+    "display_name": "Large Delesyian Naval Sail"
+  },
+  {
+    "key": 1006839,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0002",
+    "display_name": "Large Wraithdrift Sail"
+  },
+  {
+    "key": 1005931,
+    "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index03",
+    "display_name": "Large Deathbound Sail"
+  },
+  {
+    "key": 1007003,
+    "name": "Knowledge_Recipe_item_hugeship_sail_open_0001_index02",
+    "display_name": "Giant Golden Compass Sail"
+  },
+  {
+    "key": 1007007,
+    "name": "Knowledge_Recipe_item_turtleship_sail_open_0001_index01",
+    "display_name": "Bluewake Sail"
+  },
+  {
+    "key": 1007008,
+    "name": "Knowledge_Recipe_item_turtleship_sail_open_0001_index02",
+    "display_name": "Four Taegeuk Sail"
+  },
+  {
+    "key": 1005935,
+    "name": "Knowledge_Recipe_item_ship_bowdeco_0004",
+    "display_name": "Skyborne Beast Figurehead"
+  },
+  {
+    "key": 1005937,
+    "name": "Knowledge_Recipe_item_ship_bowdeco_0006",
+    "display_name": "Chain-Breaking Wolf Figurehead"
+  },
+  {
+    "key": 1006719,
+    "name": "Knowledge_Recipe_item_ship_bowdeco_0007",
+    "display_name": "Long-Horned Fish Figurehead"
+  },
+  {
+    "key": 1005936,
+    "name": "Knowledge_Recipe_item_ship_bowdeco_0005",
+    "display_name": "Steam and Clockwork Figurehead"
+  },
+  {
+    "key": 1005941,
+    "name": "Knowledge_Recipe_item_ship_sterndecor_0004",
+    "display_name": "Large Skyborne Beast Stern"
+  },
+  {
+    "key": 1006721,
+    "name": "Knowledge_Recipe_item_ship_sterndecor_0006",
+    "display_name": "Long-Horned Fish Stern"
+  },
+  {
+    "key": 1005942,
+    "name": "Knowledge_Recipe_item_ship_sterndecor_0005",
+    "display_name": "Steam and Clockwork Stern"
+  },
+  {
+    "key": 1006689,
+    "name": "Knowledge_Recipe_item_ship_teleporter_0001",
+    "display_name": "Ship Teleportation Device"
+  },
+  {
+    "key": 1006896,
+    "name": "Knowledge_Recipe_WarRobot_Body_04",
+    "display_name": "A.T.A.G. Marine Exploration Plating"
+  },
+  {
+    "key": 1006897,
+    "name": "Knowledge_Recipe_WarRobot_Backpack_04",
+    "display_name": "A.T.A.G. Marine Exploration Pack"
+  },
+  {
+    "key": 1006898,
+    "name": "Knowledge_Recipe_WarRobot_Foot_04",
+    "display_name": "A.T.A.G. Marine Exploration Feet"
+  },
+  {
+    "key": 1006920,
+    "name": "Knowledge_Recipe_Riding_ghost_Big_Ship_01",
+    "display_name": "Phantom Ship Blueprint "
+  },
+  {
+    "key": 1006921,
+    "name": "Knowledge_Recipe_Riding_Big_Player_ship_PanokSeon",
+    "display_name": "Unfinished Ship Blueprint"
+  },
+  {
+    "key": 1006922,
+    "name": "Knowledge_Recipe_Riding_Player_Big_Ship_TurtleShip",
+    "display_name": "Mysterious Ship Blueprint"
+  },
+  {
+    "key": 1006923,
+    "name": "Knowledge_Recipe_Riding_Big_Monster_ship_02",
+    "display_name": "The Drunken Catfish Blueprint"
+  },
+  {
+    "key": 1006108,
+    "name": "Knowledge_Wavering_Demenis_Colette",
+    "display_name": "Azerian's Whereabouts"
+  },
+  {
+    "key": 1006048,
+    "name": "Knowledge_PoliticianStory_Damian_Clue_TorchAndOil",
+    "display_name": "Clue: Torchlight and Oil"
+  },
+  {
+    "key": 1006049,
+    "name": "Knowledge_PoliticianStory_Damian_Clue_Body_Neck",
+    "display_name": "Clue: Fire's Deepest Scar"
+  },
+  {
+    "key": 1006768,
+    "name": "Knowledge_MarniMuseum_Barrier",
+    "display_name": "Interdimensional Interference Jammer"
+  },
+  {
+    "key": 1006800,
+    "name": "Knowledge_MarniMuseum_FuelTank",
+    "display_name": "Marni's Manor Fuel Tank"
+  },
+  {
+    "key": 1006769,
+    "name": "Knowledge_MarniMuseum_Machinery",
+    "display_name": "Marni's Manor Machinery"
+  },
+  {
+    "key": 1006717,
+    "name": "Knowledge_Management_TimberhamSawmill",
+    "display_name": "Timberham Sawmill For Lease"
+  },
+  {
+    "key": 1006327,
+    "name": "Knowledge_gimmick_tool_paper_scrapqueen_0001",
+    "display_name": "Scrap Metal Stoneback Crab Design Plan"
+  },
+  {
+    "key": 1006052,
+    "name": "Knowledge_Leviathan_Scale",
+    "display_name": "Leviakan Scale"
+  },
+  {
+    "key": 1006053,
+    "name": "Knowledge_Quest_Paper_CroggtheCatfishman_Journal",
+    "display_name": "Sir Catfish's Journal"
+  },
+  {
+    "key": 1006328,
+    "name": "Knowledge_gimmick_tool_paper_sandcrawlermtt_0001",
+    "display_name": "Catfish Siege Weapon Design Plan"
+  },
+  {
+    "key": 1006061,
+    "name": "Knowledge_Quest_Paper_Tank_Request",
+    "display_name": "Siege Weapon Commission Request"
+  },
+  {
+    "key": 1006062,
+    "name": "Knowledge_book_folktales_Satyros_SouthIsland",
+    "display_name": "Southern Island Travelogue"
+  },
+  {
+    "key": 1006063,
+    "name": "Knowledge_book_folktales_Satyros_BloodSoakedBook",
+    "display_name": "Bloodsoaked Book"
+  },
+  {
+    "key": 1006064,
+    "name": "Knowledge_book_folktales_Satyros_OldBook",
+    "display_name": "Old Book"
+  },
+  {
+    "key": 1006065,
+    "name": "Knowledge_Quest_Paper_NoEntry_Order",
+    "display_name": "Mainlander Entry Ban"
+  },
+  {
+    "key": 1006066,
+    "name": "Knowledge_Destroyed_Mechanism",
+    "display_name": "Destroyed Mechanical Device"
+  },
+  {
+    "key": 1006067,
+    "name": "Knowledge_Quest_Paper_Demeniss_Musket_Leader_Diary",
+    "display_name": "Rohan Cooper's Journal"
+  },
+  {
+    "key": 1006068,
+    "name": "Knowledge_Quest_Paper_Servant_Memoir",
+    "display_name": "A Servant's Memoir"
+  },
+  {
+    "key": 1006069,
+    "name": "Knowledge_Quest_Paper_Demeniss_Musket_Leader_Letter",
+    "display_name": "Rohan Cooper's Letter"
+  },
+  {
+    "key": 1006891,
+    "name": "Knowledge_Quest_Paper_CroggtheCatfishman_Letter",
+    "display_name": "A note Rohan Cooper kept tucked inside his coat."
+  },
+  {
+    "key": 1006076,
+    "name": "Knowledge_book_folktales_Wild_Imp_Boss",
+    "display_name": "Reggis Training Log"
+  },
+  {
+    "key": 1006077,
+    "name": "Knowledge_gimmick_warningsign_0003",
+    "display_name": "Signpost"
+  },
+  {
+    "key": 1006054,
+    "name": "Knowledge_book_folktales_LandSpider_ScrapQueen",
+    "display_name": "Harkan's Research Journal"
+  },
+  {
+    "key": 1006055,
+    "name": "Knowledge_Quest_Paper_GoblinMarketCertificate",
+    "display_name": "Goldleaf Goods Verification Form"
+  },
+  {
+    "key": 1006056,
+    "name": "Knowledge_Quest_Paper_Order_Document",
+    "display_name": "Kharzek's Directive"
+  },
+  {
+    "key": 1006057,
+    "name": "Knowledge_Quest_Paper_Void_Knight",
+    "display_name": "Plans for the Vessel of the Void"
+  },
+  {
+    "key": 1006058,
+    "name": "Knowledge_Cursed_Doll",
+    "display_name": "Kliff Cursed Doll"
+  },
+  {
+    "key": 1006059,
+    "name": "Knowledge_Quest_Paper_Diary_Fragment",
+    "display_name": "A Page from a Servant's Diary"
+  },
+  {
+    "key": 1006060,
+    "name": "Knowledge_Quest_Paper_Fire_Report",
+    "display_name": "Manor Fire Investigation Report"
+  },
+  {
+    "key": 1006071,
+    "name": "Knowledge_Quest_Paper_Slave_Contract",
+    "display_name": "Slave Contract"
+  },
+  {
+    "key": 1006072,
+    "name": "Knowledge_Quest_Paper_Mysterious_Plan",
+    "display_name": "A Certain Plan"
+  },
+  {
+    "key": 1006073,
+    "name": "Knowledge_Quest_Paper_Antumbra_Plan",
+    "display_name": "Pact of Antumbra"
+  },
+  {
+    "key": 1006302,
+    "name": "Knowledge_Paper_Anamorphic_Shield",
+    "display_name": "Shield Constellation Poster"
+  },
+  {
+    "key": 1006303,
+    "name": "Knowledge_Paper_Anamorphic_Key",
+    "display_name": "Key Constellation Poster"
+  },
+  {
+    "key": 1006304,
+    "name": "Knowledge_Paper_Anamorphic_Adventurer",
+    "display_name": "Adventurer Constellation Poster"
+  },
+  {
+    "key": 1006975,
+    "name": "Knowledge_MayaTemple_Record_01",
+    "display_name": "Origins of the Honed Light I"
+  },
+  {
+    "key": 1006976,
+    "name": "Knowledge_MayaTemple_Record_02",
+    "display_name": "Origins of the Honed Light II"
+  },
+  {
+    "key": 1006977,
+    "name": "Knowledge_MayaTemple_Record_03",
+    "display_name": "Origins of the Honed Light III"
+  },
+  {
+    "key": 1006978,
+    "name": "Knowledge_MayaTemple_Record_04",
+    "display_name": "Origins of the Honed Light IV"
+  },
+  {
+    "key": 1006979,
+    "name": "Knowledge_MayaTemple_Record_05",
+    "display_name": "Origins of the Honed Light V"
+  },
+  {
+    "key": 1006980,
+    "name": "Knowledge_MayaTemple_Record_06",
+    "display_name": "Origins of the Honed Light VI"
+  },
+  {
+    "key": 1006981,
+    "name": "Knowledge_MayaTemple_Record_07",
+    "display_name": "Origins of the Honed Light VII"
+  },
+  {
+    "key": 1006982,
+    "name": "Knowledge_MayaTemple_BeamSword",
+    "display_name": "Secret of the Honed Light"
+  },
+  {
+    "key": 1005757,
+    "name": "Knowledge_Modesty_Witch_Love_Question_I",
+    "display_name": "Ask about fears"
+  },
+  {
+    "key": 1005758,
+    "name": "Knowledge_Modesty_Witch_Love_Question_II",
+    "display_name": "Ask about cave"
+  },
+  {
+    "key": 1005759,
+    "name": "Knowledge_Modesty_Witch_Love_Question_III",
+    "display_name": "Ask about stars"
+  },
+  {
+    "key": 1005760,
+    "name": "Knowledge_Modesty_Witch_Love_Question_IV",
+    "display_name": "Ask about likes"
+  },
+  {
+    "key": 1005892,
+    "name": "Knowledge_Modesty_Witch_Love_Question_V",
+    "display_name": "Confess feelings"
+  },
+  {
+    "key": 1005761,
+    "name": "Knowledge_Modesty_Witch_Love_Askout",
+    "display_name": "Lyselia's Letter"
+  },
+  {
+    "key": 1005972,
+    "name": "Knowledge_Modesty_Bari_Love_Question_I",
+    "display_name": "Talk of her beauty"
+  },
+  {
+    "key": 1005973,
+    "name": "Knowledge_Modesty_Bari_Love_Question_II",
+    "display_name": "Talk about feelings"
+  },
+  {
+    "key": 1005974,
+    "name": "Knowledge_Modesty_Bari_Love_Question_III",
+    "display_name": "Talk about goodwill"
+  },
+  {
+    "key": 1005975,
+    "name": "Knowledge_Modesty_Bari_Love_Question_IV",
+    "display_name": "Talk of concerns"
+  },
+  {
+    "key": 1005976,
+    "name": "Knowledge_Modesty_Bari_Love_Question_V",
+    "display_name": "Confess feelings"
+  },
+  {
+    "key": 1005977,
+    "name": "Knowledge_Modesty_Bari_Love_Askout",
+    "display_name": "Bari's Letter"
+  },
+  {
+    "key": 1005982,
+    "name": "Knowledge_Modesty_Areciel_Love_Question_I",
+    "display_name": "Talk about free time"
+  },
+  {
+    "key": 1005983,
+    "name": "Knowledge_Modesty_Areciel_Love_Question_II",
+    "display_name": "Ask about romance"
+  },
+  {
+    "key": 1005984,
+    "name": "Knowledge_Modesty_Areciel_Love_Question_III",
+    "display_name": "Talk about power"
+  },
+  {
+    "key": 1005985,
+    "name": "Knowledge_Modesty_Areciel_Love_Question_IV",
+    "display_name": "Talk about strength"
+  },
+  {
+    "key": 1005986,
+    "name": "Knowledge_Modesty_Areciel_Love_Question_V",
+    "display_name": "Confess feelings"
+  },
+  {
+    "key": 1005987,
+    "name": "Knowledge_Modesty_Areciel_Love_Askout",
+    "display_name": "Areciel's Letter"
+  },
+  {
+    "key": 1006011,
+    "name": "Knowledge_Modesty_Elowen_Love_Question_I",
+    "display_name": "Ask about wisdom"
+  },
+  {
+    "key": 1006012,
+    "name": "Knowledge_Modesty_Elowen_Love_Question_II",
+    "display_name": "Talk about emotions"
+  },
+  {
+    "key": 1006013,
+    "name": "Knowledge_Modesty_Elowen_Love_Question_III",
+    "display_name": "Ask about gift"
+  },
+  {
+    "key": 1006014,
+    "name": "Knowledge_Modesty_Elowen_Love_Question_IV",
+    "display_name": "Talk about last time"
+  },
+  {
+    "key": 1006015,
+    "name": "Knowledge_Modesty_Elowen_Love_Question_V",
+    "display_name": "Confess feelings"
+  },
+  {
+    "key": 1006016,
+    "name": "Knowledge_Modesty_Elowen_Love_Askout",
+    "display_name": "Elowen's Letter"
+  },
+  {
+    "key": 1005388,
+    "name": "Knowledge_Letter_Discreet_Message",
+    "display_name": "Secret Letter"
+  },
+  {
+    "key": 1005563,
+    "name": "Knowledge_Letter_Secret_Directive",
+    "display_name": "Secret Orders"
+  },
+  {
+    "key": 1005547,
+    "name": "Knowledge_Paper_Enhanced_HandCannon",
+    "display_name": "Enhanced Blaster Blueprint"
+  },
+  {
+    "key": 1006806,
+    "name": "Knowledge_BossRush_WhiteCrow_Witch_Letter",
+    "display_name": "Garden of Trials"
+  },
+  {
+    "key": 1006109,
+    "name": "Knowledge_Visione_Chip_Colette",
+    "display_name": "Suspicious Traces"
+  },
+  {
+    "key": 1006807,
+    "name": "Knowledge_Visione_Chip_AnotherMarni",
+    "display_name": "Meeting Marni in Another Dimension"
+  },
+  {
+    "key": 1006892,
+    "name": "Knowledge_Visione_Chip_MarniDrone_Butler",
+    "display_name": "Uninvited Guest"
+  },
+  {
+    "key": 1006506,
+    "name": "Knowledge_Visione_Chip_BossRematch_MatthiasEP",
+    "display_name": "Matthias the Indomitable Knight"
+  },
+  {
+    "key": 1006329,
+    "name": "Knowledge_Visione_Chip_BossRematch_Armor_Goblin",
+    "display_name": "Geago the Flamecrazed"
+  },
+  {
+    "key": 1006330,
+    "name": "Knowledge_Visione_Chip_BossRematch_LandSpider_ScrapQueen",
+    "display_name": "Scrap Metal Queen Stoneback Crab"
+  },
+  {
+    "key": 1006331,
+    "name": "Knowledge_Visione_Chip_BossRematch_Void_Knight",
+    "display_name": "Knight of Void"
+  },
+  {
+    "key": 1006332,
+    "name": "Knowledge_Visione_Chip_BossRematch_AntumbraArchon_DualSword",
+    "display_name": "Archon of Antumbra, Kharzek"
+  },
+  {
+    "key": 1006334,
+    "name": "Knowledge_Visione_Chip_BossRematch_Sandcrawler_MTT",
+    "display_name": "The Dancing Catfish Crusher"
+  },
+  {
+    "key": 1006335,
+    "name": "Knowledge_Visione_Chip_BossRematch_Satyros",
+    "display_name": "Satyros"
+  },
+  {
+    "key": 1006336,
+    "name": "Knowledge_Visione_Chip_BossRematch_Wild_Imp_Boss",
+    "display_name": "Reggis the Isleguard"
+  },
+  {
+    "key": 1006337,
+    "name": "Knowledge_Visione_Chip_BossRematch_Musket_Leader",
+    "display_name": "Rohan Cooper"
+  },
+  {
+    "key": 1006305,
+    "name": "Knowledge_book_folktales_Witch_Plant_Encyclopedia",
+    "display_name": "Elowen's Guide to Pywel Flowers"
+  },
+  {
+    "key": 1006306,
+    "name": "Knowledge_book_folktales_Witch_Mineral_Encyclopedia",
+    "display_name": "Bari's Guide to Pywel Minerals"
+  },
+  {
+    "key": 1006307,
+    "name": "Knowledge_Paper_TreasureMap_Diamond",
+    "display_name": "Diamond Map"
+  },
+  {
+    "key": 1006308,
+    "name": "Knowledge_Paper_TreasureMap_Kudzu",
+    "display_name": "Skyroot Map"
+  },
+  {
+    "key": 1006904,
+    "name": "Knowledge_gimmick_tool_paper_flyer_0002",
+    "display_name": "We Forge Tomorrow"
+  },
+  {
+    "key": 1006905,
+    "name": "Knowledge_gimmick_tool_paper_flyer_0003",
+    "display_name": "Notice: Representatives Wanted for the Citizens' Assembly"
+  },
+  {
+    "key": 1006906,
+    "name": "Knowledge_gimmick_tool_paper_flyer_0004",
+    "display_name": "Words alone are not enough to rule a nation."
+  },
+  {
+    "key": 1006907,
+    "name": "Knowledge_gimmick_tool_paper_flyer_0005",
+    "display_name": "Demeniss by Demeniss"
+  },
+  {
+    "key": 1006101,
+    "name": "Knowledge_cd_decals_deferred_boss_0010_dry",
+    "display_name": "Leviakan Legend Mural"
+  },
+  {
+    "key": 1006102,
+    "name": "Knowledge_cd_decals_deferred_boss_0011_dry",
+    "display_name": "Leviakan Legend Mural"
+  },
+  {
+    "key": 1006103,
+    "name": "Knowledge_cd_decals_deferred_boss_0012_dry",
+    "display_name": "Leviakan Legend Mural"
+  },
+  {
+    "key": 1006104,
+    "name": "Knowledge_cd_decals_deferred_boss_0013_dry",
+    "display_name": "The Satyrs' Mural"
+  },
+  {
+    "key": 1006415,
+    "name": "Knowledge_cd_decals_deferred_boss_0015_dry",
+    "display_name": "Kharzek Mural"
+  },
+  {
+    "key": 1006416,
+    "name": "Knowledge_cd_decals_deferred_boss_0016_dry",
+    "display_name": "Kharzek Mural"
+  },
+  {
+    "key": 1005988,
+    "name": "Knowledge_Master",
+    "display_name": "Ascend"
+  },
+  {
+    "key": 1005948,
+    "name": "Knowledge_MoveCutting_Master",
+    "display_name": "Ascended Forward Slash"
+  },
+  {
+    "key": 1005949,
+    "name": "Knowledge_RotationBash_Master",
+    "display_name": "Ascended Turning Slash"
+  },
+  {
+    "key": 1005950,
+    "name": "Knowledge_Rush_Master",
+    "display_name": "Ascended Blinding Flash Finisher"
+  },
+  {
+    "key": 1005951,
+    "name": "Knowledge_CrowWing_Master",
+    "display_name": "Ascended Flight"
+  },
+  {
+    "key": 1005989,
+    "name": "Knowledge_Lunge_Master",
+    "display_name": "Ascended Stab"
+  },
+  {
+    "key": 1005990,
+    "name": "Knowledge_EvadeAttack_Master",
+    "display_name": "Ascended Evasive Slash"
+  },
+  {
+    "key": 1005991,
+    "name": "Knowledge_Wrestle_Master",
+    "display_name": "Ascended Lariat"
+  },
+  {
+    "key": 1005992,
+    "name": "Knowledge_RollCancel_Master",
+    "display_name": "Ascended Evasive Roll"
+  },
+  {
+    "key": 1005993,
+    "name": "Knowledge_ElementalReinforce_Master",
+    "display_name": "Ascended Elements"
+  },
+  {
+    "key": 1006438,
+    "name": "Knowledge_UnArmedMastery_Master",
+    "display_name": "Regeneration"
+  },
+  {
+    "key": 1005994,
+    "name": "Knowledge_Damian_Master",
+    "display_name": "Ascend"
+  },
+  {
+    "key": 1005952,
+    "name": "Knowledge_Damian_HeavenSpear_Master",
+    "display_name": "Ascended Smiting Bolt"
+  },
+  {
+    "key": 1005953,
+    "name": "Knowledge_Damian_RotationBash_Master",
+    "display_name": "Ascended Smiting Strike"
+  },
+  {
+    "key": 1005954,
+    "name": "Knowledge_Damian_Rush_Master",
+    "display_name": "Ascended Reckoning"
+  },
+  {
+    "key": 1005955,
+    "name": "Knowledge_Damian_ShieldGlider_Master",
+    "display_name": "Ascended Flight"
+  },
+  {
+    "key": 1005995,
+    "name": "Knowledge_Damian_Lunge_Master",
+    "display_name": "Ascended Piercing Light"
+  },
+  {
+    "key": 1005996,
+    "name": "Knowledge_Damian_EvadeAttack_Master",
+    "display_name": "Ascended Evasive Smite"
+  },
+  {
+    "key": 1005997,
+    "name": "Knowledge_Damian_Wrestle_Master",
+    "display_name": "Ascended Lariat"
+  },
+  {
+    "key": 1005998,
+    "name": "Knowledge_Damian_RollCancel_Master",
+    "display_name": "Ascended Evasive Roll"
+  },
+  {
+    "key": 1005999,
+    "name": "Knowledge_Damian_ElementalReinforce_Master",
+    "display_name": "Ascended Elements"
+  },
+  {
+    "key": 1006439,
+    "name": "Knowledge_Damian_UnArmedMastery_Master",
+    "display_name": "Regeneration"
+  },
+  {
+    "key": 1006000,
+    "name": "Knowledge_Oongka_Master",
+    "display_name": "Ascend"
+  },
+  {
+    "key": 1005956,
+    "name": "Knowledge_Oongka_GroundSmash_Master",
+    "display_name": "Ascended Rampage"
+  },
+  {
+    "key": 1005957,
+    "name": "Knowledge_Oongka_RotationBash_Master",
+    "display_name": "Ascended Quaking Fury"
+  },
+  {
+    "key": 1005958,
+    "name": "Knowledge_Oongka_Rush_Master",
+    "display_name": "Ascended Devastation"
+  },
+  {
+    "key": 1005959,
+    "name": "Knowledge_Oongka_RocketPack_Master",
+    "display_name": "Ascended Flight"
+  },
+  {
+    "key": 1006001,
+    "name": "Knowledge_Oongka_Lunge_Master",
+    "display_name": "Ascended Slash"
+  },
+  {
+    "key": 1006002,
+    "name": "Knowledge_Oongka_JumpSmash_Master",
+    "display_name": "Ascended Leaping Smash"
+  },
+  {
+    "key": 1006003,
+    "name": "Knowledge_Oongka_Wrestle_Master",
+    "display_name": "Ascended Lariat"
+  },
+  {
+    "key": 1006004,
+    "name": "Knowledge_Oongka_RollCancel_Master",
+    "display_name": "Ascended Evasive Roll"
+  },
+  {
+    "key": 1006005,
+    "name": "Knowledge_Oongka_ElementalReinforce_Master",
+    "display_name": "Ascended Elements"
+  },
+  {
+    "key": 1006440,
+    "name": "Knowledge_Oongka_UnArmedMastery_Master",
+    "display_name": "Regeneration"
+  },
+  {
+    "key": 1005960,
+    "name": "Knowledge_MasterMoveCutting",
+    "display_name": "Ascended Forward Slash"
+  },
+  {
+    "key": 1005961,
+    "name": "Knowledge_MasterRotationBash",
+    "display_name": "Ascended Turning Slash"
+  },
+  {
+    "key": 1005963,
+    "name": "Knowledge_MasterRush",
+    "display_name": "Ascended Blinding Flash Finisher"
+  },
+  {
+    "key": 1005962,
+    "name": "Knowledge_MasterFly",
+    "display_name": "Ascended Flight"
+  },
+  {
+    "key": 1006006,
+    "name": "Knowledge_MasterLunge",
+    "display_name": "Ascended Stab"
+  },
+  {
+    "key": 1006007,
+    "name": "Knowledge_MasterEvadeAttack",
+    "display_name": "Ascended Evasive Slash"
+  },
+  {
+    "key": 1006008,
+    "name": "Knowledge_MasterWrestle",
+    "display_name": "Ascended Grappling"
+  },
+  {
+    "key": 1006009,
+    "name": "Knowledge_MasterRollCancel",
+    "display_name": "Ascended Evasive Roll"
+  },
+  {
+    "key": 1006010,
+    "name": "Knowledge_MasterElementalReinforce",
+    "display_name": "Ascended Elements"
+  },
+  {
+    "key": 1006441,
+    "name": "Knowledge_MasterUnArmedMastery",
+    "display_name": "Ascended Unarmed Combat"
+  },
+  {
+    "key": 1006990,
+    "name": "Knowledge_AchievementBreath",
+    "display_name": "Breath Capacity Challenges"
+  },
+  {
+    "key": 1007021,
+    "name": "Knowledge_AbyssRuins_AbyssIsland_BossRush",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006663,
+    "name": "Knowledge_AbyssRuins_CD_0001_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006931,
+    "name": "Knowledge_AbyssRuins_CD_0002_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006932,
+    "name": "Knowledge_AbyssRuins_CD_0003_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006933,
+    "name": "Knowledge_AbyssRuins_CD_0004_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006934,
+    "name": "Knowledge_AbyssRuins_CD_0005_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006973,
+    "name": "Knowledge_AbyssRuins_CD_0006_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1007024,
+    "name": "Knowledge_AbyssRuins_CD_0007_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006668,
+    "name": "Knowledge_AbyssRuins_Ocean_0001_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006935,
+    "name": "Knowledge_AbyssRuins_Ocean_0002_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006936,
+    "name": "Knowledge_AbyssRuins_Ocean_0003_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006937,
+    "name": "Knowledge_AbyssRuins_Ocean_0004_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006938,
+    "name": "Knowledge_AbyssRuins_Ocean_0005_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006939,
+    "name": "Knowledge_AbyssRuins_Ocean_0006_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006940,
+    "name": "Knowledge_AbyssRuins_Ocean_0007_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006941,
+    "name": "Knowledge_AbyssRuins_Ocean_0008_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006942,
+    "name": "Knowledge_AbyssRuins_Ocean_0009_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006943,
+    "name": "Knowledge_AbyssRuins_Ocean_0010_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006944,
+    "name": "Knowledge_AbyssRuins_Ocean_0011_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006945,
+    "name": "Knowledge_AbyssRuins_Ocean_0012_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006946,
+    "name": "Knowledge_AbyssRuins_Ocean_0013_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006947,
+    "name": "Knowledge_AbyssRuins_Ocean_0014_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006948,
+    "name": "Knowledge_AbyssRuins_Ocean_0015_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006949,
+    "name": "Knowledge_AbyssRuins_Ocean_0016_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006950,
+    "name": "Knowledge_AbyssRuins_Ocean_0017_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006951,
+    "name": "Knowledge_AbyssRuins_Ocean_0018_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006952,
+    "name": "Knowledge_AbyssRuins_Ocean_0019_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006953,
+    "name": "Knowledge_AbyssRuins_Ocean_0020_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006954,
+    "name": "Knowledge_AbyssRuins_Ocean_0021_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006955,
+    "name": "Knowledge_AbyssRuins_Ocean_0022_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006956,
+    "name": "Knowledge_AbyssRuins_Ocean_0023_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006957,
+    "name": "Knowledge_AbyssRuins_Ocean_0024_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006958,
+    "name": "Knowledge_AbyssRuins_Ocean_0025_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006959,
+    "name": "Knowledge_AbyssRuins_Ocean_0026_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006960,
+    "name": "Knowledge_AbyssRuins_Ocean_0027_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006961,
+    "name": "Knowledge_AbyssRuins_Ocean_0028_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006962,
+    "name": "Knowledge_AbyssRuins_Ocean_0029_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006963,
+    "name": "Knowledge_AbyssRuins_Ocean_0030_DLC01",
+    "display_name": "Abyss Nexus"
+  },
+  {
+    "key": 1006426,
+    "name": "Knowledge_LevelGimmickIcon_Castle",
+    "display_name": "Castle"
+  },
+  {
+    "key": 1006458,
+    "name": "Knowledge_LevelGimmickIcon_Quartz",
+    "display_name": "Shiny Ore"
+  },
+  {
+    "key": 1006459,
+    "name": "Knowledge_LevelGimmickIcon_Malachite",
+    "display_name": "Malachite"
+  },
+  {
+    "key": 1006460,
+    "name": "Knowledge_LevelGimmickIcon_Manganese",
+    "display_name": "Manganese"
+  },
+  {
+    "key": 1006461,
+    "name": "Knowledge_LevelGimmickIcon_Ambergris",
+    "display_name": "Ambergris"
+  },
+  {
+    "key": 1006462,
+    "name": "Knowledge_LevelGimmickIcon_Hydrothermalmineral",
+    "display_name": "Hydrothermal Mineral Deposit"
+  },
+  {
+    "key": 1006503,
+    "name": "Knowledge_LevelGimmickIcon_Goldencoral",
+    "display_name": "Golden Coral"
+  },
+  {
+    "key": 1006504,
+    "name": "Knowledge_LevelGimmickIcon_Blackcoral",
+    "display_name": "Sea Fan Coral"
+  },
+  {
+    "key": 1006505,
+    "name": "Knowledge_LevelGimmickIcon_Natural_Pearl",
+    "display_name": "Natural Pearl"
+  },
+  {
+    "key": 1006917,
+    "name": "Knowledge_LevelGimmickIcon_ShinyStone_01",
+    "display_name": "Glowing Seed"
+  },
+  {
+    "key": 1006988,
+    "name": "Knowledge_LevelGimmickIcon_Obsidian",
+    "display_name": "Obsidian"
+  },
+  {
+    "key": 1006816,
+    "name": "Knowledge_Faction_UICard_Graymane_4",
+    "display_name": "Charting the Unknown"
+  },
+  {
+    "key": 1006425,
+    "name": "Knowledge_Faction_Ocean_Request",
+    "display_name": "Great Ocean Commissions"
+  },
+  {
+    "key": 1006610,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0001",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006611,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0002",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006612,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0003",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006613,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0004",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006614,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0005",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006615,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0006",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006616,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0007",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006617,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0008",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006618,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0009",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006619,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0010",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006620,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0011",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006621,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0012",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006622,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0013",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006623,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0014",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006624,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0015",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006625,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0016",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006626,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0017",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006627,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0018",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006628,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0019",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006629,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0020",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006630,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0021",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006631,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0022",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006632,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0023",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006633,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0024",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006634,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0025",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006635,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0026",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006636,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0027",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006637,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0028",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006638,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0029",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006639,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0030",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006640,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0031",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006641,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0032",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006642,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0033",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006643,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0034",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006644,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0035",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006645,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0036",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006646,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0037",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006647,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0038",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006648,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0039",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006649,
+    "name": "Knowledge_Hidden_Ocean_TreasureMap_0040",
+    "display_name": "Ocean Treasure Map"
+  },
+  {
+    "key": 1006893,
+    "name": "Knowledge_Gimmick_DesertMilestone_Corrupted",
+    "display_name": "Corrupted Marker Stone"
+  },
+  {
+    "key": 1006444,
+    "name": "NHM_Unique_GreyMane_Cook",
+    "display_name": "Greymane Cook"
+  },
+  {
+    "key": 1006445,
+    "name": "NHM_Unique_GreyMane_Smithy",
+    "display_name": "Greymane Equipment Shop"
+  },
+  {
+    "key": 1006446,
+    "name": "NHM_Unique_GreyMane_Furniture",
+    "display_name": "Greymane Furniture Shop"
+  },
+  {
+    "key": 1006447,
+    "name": "NHM_Unique_GreyMane_Supplies",
+    "display_name": "Greymane Provisioner's Shop"
+  },
+  {
+    "key": 1006448,
+    "name": "NHM_Unique_GreyMane_Stable",
+    "display_name": "Greymane Stable"
+  },
+  {
+    "key": 1006449,
+    "name": "NHM_Unique_GreyMane_Clothes",
+    "display_name": "Greymane Tailor's Shop"
+  },
+  {
+    "key": 1006450,
+    "name": "NHM_Unique_GreyMane_Dye",
+    "display_name": "Greymane Dyer"
+  },
+  {
+    "key": 1006451,
+    "name": "NHM_Unique_GreyMane_barbershop",
+    "display_name": "Greymane Barber"
+  },
+  {
+    "key": 1006452,
+    "name": "NHM_Unique_GreyMane_Carriage",
+    "display_name": "Greymane Wagonmaster"
+  },
+  {
+    "key": 1006453,
+    "name": "NHM_Unique_GreyMane_jeweler",
+    "display_name": "Greymane Jeweler"
+  },
+  {
+    "key": 1006454,
+    "name": "NHM_Unique_GreyMane_CraftingBlackSmith",
+    "display_name": "Greymane Smithy"
+  },
+  {
+    "key": 1005799,
+    "name": "Knowledge_Lafi",
+    "display_name": "Rafi"
+  },
+  {
+    "key": 1006983,
+    "name": "Knowledge_Kartein",
+    "display_name": "Cartaine"
+  },
+  {
+    "key": 1006984,
+    "name": "Knowledge_Schliven",
+    "display_name": "Sulivan"
+  },
+  {
+    "key": 1006985,
+    "name": "Knowledge_Evander",
+    "display_name": "Evander"
+  },
+  {
+    "key": 1006986,
+    "name": "Knowledge_Leyard",
+    "display_name": "Reyard"
+  },
+  {
+    "key": 1005775,
+    "name": "Knowledge_Trader_0001",
+    "display_name": "Ludic"
+  },
+  {
+    "key": 1005800,
+    "name": "Knowledge_Trader_0002",
+    "display_name": "Killiian"
+  },
+  {
+    "key": 1006352,
+    "name": "Knowledge_Trader_0003",
+    "display_name": "Harris"
+  },
+  {
+    "key": 1006115,
+    "name": "Knowledge_ShipManager_01",
+    "display_name": "Barrett"
+  },
+  {
+    "key": 1006116,
+    "name": "Knowledge_ShipManager_02",
+    "display_name": "Cruise"
+  },
+  {
+    "key": 1006117,
+    "name": "Knowledge_ShipManager_03",
+    "display_name": "Dwight"
+  },
+  {
+    "key": 1006351,
+    "name": "Knowledge_ShipManager_04",
+    "display_name": "Hopkins"
+  },
+  {
+    "key": 1006275,
+    "name": "Knowledge_ShipItemManager_01",
+    "display_name": "Joaquin"
+  },
+  {
+    "key": 1006276,
+    "name": "Knowledge_ShipItemManager_02",
+    "display_name": "Juan"
   }
 ]

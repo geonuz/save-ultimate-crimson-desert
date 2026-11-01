@@ -29,7 +29,7 @@ public sealed class ItemCatalog
         stores = Strings(Read("data/store_names.json"));
         characterInfo = Read("data/character_names.json").EnumerateObject().ToDictionary(p => p.Name, p => p.Value);
         var templates = Read("data/template_keys.json").EnumerateArray().Select(v => v.GetUInt32()).ToHashSet();
-        Choices = items.Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"), templates.Contains(p.Key))).OrderBy(c => c.Key).ToArray();
+        Choices = items.Where(p => !DlcContent.Hidden || !DlcContent.Shared.Items.Contains(p.Key)).Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"), templates.Contains(p.Key))).OrderBy(c => c.Key).ToArray();
         Gems = new[] { new GemChoice(0, Tr.Text("Clear")) }.Concat(Read("data/socket_gems.json").EnumerateArray().Select(g =>
         {
             uint key = g.GetProperty("key").GetUInt32();
@@ -50,6 +50,9 @@ public sealed class ItemCatalog
         if (name.Length == 0) name = Text(group, "name");
         return name.Length == 0 ? Tr.Text("Unclassified") : name;
     }
+    // ItemGroupInfo 18312 is the game's "Currency" group.
+    public bool IsCurrency(uint key) => items.TryGetValue(key, out var row) && row.TryGetProperty("gameClassification", out var group) &&
+        group.TryGetProperty("groupKey", out var groupKey) && groupKey.GetUInt32() == 18312;
     public string CategoryHint(uint key)
     {
         if (!items.TryGetValue(key, out var row) || !row.TryGetProperty("gameClassification", out var group)) return Tr.Text("No verified game classification");

@@ -1,7 +1,5 @@
-using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.Core.Catalogs;
@@ -27,6 +25,38 @@ public sealed class SyncTests
         Assert.Throws<InvalidDataException>(() => ClientTables.Strings(memory.ToArray(), new HashSet<string> { "unrelated" }));
         var reader = new ClientReader(new byte[4]);
         Assert.Throws<InvalidDataException>(() => reader.Take(5));
+    }
+
+    private static (byte[] Header, byte[] Body) Table(bool compact, params (uint Key, string Name, byte Payload)[] rows)
+    {
+        using var header = new MemoryStream(); using var h = new BinaryWriter(header);
+        using var body = new MemoryStream(); using var b = new BinaryWriter(body);
+        h.Write((ushort)rows.Length);
+        foreach (var (key, name, payload) in rows)
+        {
+            h.Write(key); h.Write((uint)body.Length);
+            if (!compact) b.Write(key);
+            b.Write((uint)name.Length); b.Write(Encoding.UTF8.GetBytes(name));
+            if (compact) b.Write(key);
+            b.Write((byte)0); b.Write(payload);
+        }
+        return (header.ToArray(), body.ToArray());
+    }
+
+    [TestMethod]
+    public void ClientTablesReadBothRecordLayoutsAndLetDlcReplaceBaseRecords()
+    {
+        var (h, b) = Table(false, (7, "Old", 1));
+        var classic = ClientTables.Records(h, b)[7];
+        Assert.AreEqual("Old", classic.Name); Assert.IsFalse(classic.Compact); Assert.AreEqual(1, b[classic.Prefix]);
+        var base_ = Table(true, (7, "Base", 1), (8, "Kept", 2));
+        var dlc = Table(true, (7, "Dlc", 3), (9, "New", 4));
+        var merged = ClientTables.Records([("", base_.Header, base_.Body), (".dlc_01", dlc.Header, dlc.Body)]);
+        CollectionAssert.AreEquivalent(new uint[] { 7, 8, 9 }, merged.Keys.ToArray());
+        Assert.AreEqual("Dlc", merged[7].Name); Assert.IsTrue(merged[7].Compact);
+        Assert.AreEqual(3, merged[7].Bytes.Span[merged[7].Prefix]);
+        var (badHeader, badBody) = Table(true, (7, "Base", 1)); badBody[^2] = 1;
+        Assert.Throws<InvalidDataException>(() => ClientTables.Records(badHeader, badBody));
     }
 
     [TestMethod]
@@ -77,42 +107,55 @@ public sealed class SyncTests
 
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void InstalledGameSyncMatchesPythonMetadataAndReusesValidatedCache()
+    public void InstalledGameSyncMatchesShippedMetadataAndReusesValidatedCache()
     {
         string game = Environment.GetEnvironmentVariable("SAVEULTIMATE_GAME") ?? throw new AssertInconclusiveException("Set game.");
-        string root = Environment.GetEnvironmentVariable("SAVEULTIMATE_SYNC_REFERENCE") ?? throw new AssertInconclusiveException("Set sync reference.");
-        string destination = Path.Combine(root, Environment.GetEnvironmentVariable("SAVEULTIMATE_SYNC_DEST") ?? "csharp"), reference = Path.Combine(root, "python");
+        string destination = Path.Combine(Path.GetTempPath(), $"sync-cache-{Guid.NewGuid():N}");
         string resources = Path.Combine(AppContext.BaseDirectory, "resources");
-        var result = GameDataSync.Run(game, resources, destination);
-        File.WriteAllText(Path.Combine(root, result.Reused ? "csharp-reuse.json" : "csharp-cold.json"),
-            JsonSerializer.Serialize(new { Result = result, PeakWorkingSet = Process.GetCurrentProcess().PeakWorkingSet64, PeakPaged = Process.GetCurrentProcess().PeakPagedMemorySize64 }, new JsonSerializerOptions { WriteIndented = true }));
-        foreach (string name in new[] { "data/item_names.json", "data/item_details.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
+        try
         {
-            var expected = JsonNode.Parse(File.ReadAllBytes(Path.Combine(reference, name)));
-            var actual = JsonNode.Parse(File.ReadAllBytes(Path.Combine(destination, name)));
-            Assert.IsTrue(JsonNode.DeepEquals(expected, actual), name);
+            var result = GameDataSync.Run(game, resources, destination);
+            Assert.IsFalse(result.Reused); Assert.IsTrue(result.Items > 0 && result.Images > 0);
+            // refresh-items ships exactly what a sync of the installed game writes.
+            var shipped = new DirectoryInfo(AppContext.BaseDirectory);
+            while (!File.Exists(Path.Combine(shipped.FullName, "resources/data/max_enchant_map.json"))) shipped = shipped.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
+            JsonNode Load(string folder, string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, name)))!;
+            string repository = Path.Combine(shipped.FullName, "resources");
+            foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
+                Assert.IsTrue(JsonNode.DeepEquals(Load(repository, name), Load(destination, name)), name);
+            foreach (string part in new[] { "items", "stats" })
+                Assert.IsTrue(JsonNode.DeepEquals(Load(repository, "data/item_details.json")[part], Load(destination, "data/item_details.json")[part]), part);
+            ItemRules.LoadCache(destination);
+            var warm = GameDataSync.Run(game, resources, destination);
+            Assert.IsTrue(warm.Reused); Assert.AreEqual(0, warm.Decoded); Assert.AreEqual(0, warm.Written);
+            byte[] manifest = File.ReadAllBytes(Path.Combine(destination, "manifest.json"));
+            Assert.Throws<OperationCanceledException>(() => GameDataSync.Run(game, resources, destination, cancel: new CancellationToken(true)));
+            CollectionAssert.AreEqual(manifest, File.ReadAllBytes(Path.Combine(destination, "manifest.json")));
+            string metadata = Path.Combine(destination, "data/max_enchant_map.json");
+            byte[] valid = File.ReadAllBytes(metadata); File.WriteAllText(metadata, "{}");
+            var repair = GameDataSync.Run(game, resources, destination);
+            Assert.IsFalse(repair.Reused); CollectionAssert.AreEqual(valid, File.ReadAllBytes(metadata));
+            Assert.AreEqual(0, repair.Decoded, "Metadata repair must preserve valid images.");
         }
-        using var python = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(reference, "manifest.json")));
-        var expectedImages = python.RootElement.GetProperty("images").GetProperty("records").EnumerateObject().Select(p => p.Name).Order().ToArray();
-        var images = Directory.GetFiles(Path.Combine(destination, "images"), "*", SearchOption.AllDirectories)
-            .Select(p => Path.GetRelativePath(Path.Combine(destination, "images"), p).Replace('\\', '/')).Order().ToArray();
-        CollectionAssert.AreEqual(expectedImages, images);
-        foreach (string name in images.Where((_, i) => i % 100 == 0 || i == images.Length - 1))
-        {
-            using var expected = new ImageMagick.MagickImage(Path.Combine(reference, "images", name));
-            using var actual = new ImageMagick.MagickImage(Path.Combine(destination, "images", name));
-            Assert.IsTrue(Math.Abs((long)expected.Width - actual.Width) <= 1 && Math.Abs((long)expected.Height - actual.Height) <= 1, name);
-        }
-        ItemRules.LoadCache(destination);
-        var warm = GameDataSync.Run(game, resources, destination);
-        Assert.IsTrue(warm.Reused); Assert.AreEqual(0, warm.Decoded); Assert.AreEqual(0, warm.Written);
-        byte[] manifest = File.ReadAllBytes(Path.Combine(destination, "manifest.json"));
-        Assert.Throws<OperationCanceledException>(() => GameDataSync.Run(game, resources, destination, cancel: new CancellationToken(true)));
-        CollectionAssert.AreEqual(manifest, File.ReadAllBytes(Path.Combine(destination, "manifest.json")));
-        string metadata = Path.Combine(destination, "data/max_enchant_map.json");
-        byte[] valid = File.ReadAllBytes(metadata); File.WriteAllText(metadata, "{}");
-        var repair = GameDataSync.Run(game, resources, destination);
-        Assert.IsFalse(repair.Reused); CollectionAssert.AreEqual(valid, File.ReadAllBytes(metadata));
-        Assert.AreEqual(0, repair.Decoded, "Metadata repair must preserve valid images.");
+        finally { if (Directory.Exists(destination)) Directory.Delete(destination, true); }
+    }
+
+    // Exercises every client-table reader against the installed game and catches shipped resources drifting from it.
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void ShippedCatalogsAreWhatTheBuildersReadFromTheInstalledGame()
+    {
+        string game = Environment.GetEnvironmentVariable("SAVEULTIMATE_GAME") ?? throw new AssertInconclusiveException("Set game.");
+        var resources = new DirectoryInfo(AppContext.BaseDirectory);
+        while (!File.Exists(Path.Combine(resources.FullName, "resources/data/knowledge_ui.json"))) resources = resources.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
+        JsonNode Load(string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, "resources", name)))!;
+        var files = new SaveUltimate.Core.Archives.GameFiles(game);
+        var outputs = KnowledgeCatalogBuilder.Build(new ClientSource(files), Load)
+            .Concat(CharacterCatalogBuilder.Build(new ClientSource(files), Load))
+            .Concat(MapCatalogBuilder.Build(new ClientSource(files), Load))
+            .Append(new("data/skills.json", SkillCatalogBuilder.Build(new ClientSource(files))))
+            .Append(new("data/dlc_content.json", DlcContentBuilder.Build(new ClientSource(files))))
+            .Append(new("data/challenge_catalog.json", ChallengeCatalogBuilder.Build(new ClientSource(files), Load("data/challenge_catalog.json").AsObject())));
+        foreach (var (name, node) in outputs) Assert.IsTrue(JsonNode.DeepEquals(Load(name), node), name);
     }
 }

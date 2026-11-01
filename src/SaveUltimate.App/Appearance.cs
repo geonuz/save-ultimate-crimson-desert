@@ -55,7 +55,46 @@ public sealed record ThemeDefinition(string Name, string Description, Dictionary
 public static class Appearance
 {
     public static readonly DependencyProperty RowNumbersProperty = DependencyProperty.RegisterAttached("RowNumbers", typeof(bool), typeof(Appearance),
-        new PropertyMetadata(false, (d, e) => { if (d is DataGrid grid && (bool)e.NewValue) grid.LoadingRow += (_, row) => row.Row.Header = row.Row.GetIndex() + 1; }));
+        new PropertyMetadata(false, (d, e) =>
+        {
+            if (d is not DataGrid grid || !(bool)e.NewValue) return;
+            grid.LoadingRow += (_, row) => row.Row.Header = row.Row.GetIndex() + 1;
+            grid.Loaded += (_, _) => FitColumns(grid);
+        }));
+    // Column widths are tuned for Korean: keep every header readable in the current language, and mark clipped cell text.
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DataGridColumn, object> designMinimum = new();
+    private static void FitColumns(DataGrid grid)
+    {
+        foreach (var column in grid.Columns)
+        {
+            if (!designMinimum.TryGetValue(column, out _))
+            {
+                // A fixed width is the narrowest its values read in; past that the grid scrolls instead of squeezing it.
+                designMinimum.Add(column, column.Width.IsAbsolute ? Math.Max(column.MinWidth, column.Width.Value) : column.MinWidth);
+                System.ComponentModel.DependencyPropertyDescriptor.FromProperty(DataGridColumn.HeaderProperty, typeof(DataGridColumn)).AddValueChanged(column, (_, _) => FitHeader(grid, column));
+                if (column is DataGridTextColumn text)
+                {
+                    var style = new Style(typeof(TextBlock), text.ElementStyle);
+                    style.Setters.Add(new Setter(TextBlock.TextTrimmingProperty, TextTrimming.CharacterEllipsis));
+                    if (!Setters(text.ElementStyle).Any(s => s.Property == FrameworkElement.ToolTipProperty))
+                        style.Setters.Add(new Setter(FrameworkElement.ToolTipProperty, new System.Windows.Data.Binding(nameof(TextBlock.Text)) { RelativeSource = System.Windows.Data.RelativeSource.Self }));
+                    text.ElementStyle = style;
+                }
+            }
+            FitHeader(grid, column);
+        }
+    }
+    private static IEnumerable<Setter> Setters(Style? style) => style is null ? [] : style.Setters.OfType<Setter>().Concat(Setters(style.BasedOn));
+    private static void FitHeader(DataGrid grid, DataGridColumn column)
+    {
+        double minimum = (double)designMinimum.GetValue(column, _ => 0d);
+        if (column.Header is string { Length: > 0 } header)
+            minimum = Math.Max(minimum, Math.Ceiling(new FormattedText(header, System.Globalization.CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
+                new Typeface(grid.FontFamily, grid.FontStyle, FontWeights.Normal, grid.FontStretch), grid.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(grid).PixelsPerDip).WidthIncludingTrailingWhitespace) + 20); // header padding 8+8, border and grip
+        column.MinWidth = minimum;
+        // Raising only MinWidth leaves an already measured fixed header at its old width.
+        if (column.Width.IsAbsolute && column.Width.Value < minimum) column.Width = minimum;
+    }
     public static bool GetRowNumbers(DependencyObject target) => (bool)target.GetValue(RowNumbersProperty);
     public static void SetRowNumbers(DependencyObject target, bool value) => target.SetValue(RowNumbersProperty, value);
     public static readonly Dictionary<string, ThemeDefinition> Themes = JsonSerializer.Deserialize<Dictionary<string, ThemeDefinition>>(

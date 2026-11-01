@@ -35,7 +35,7 @@
      <Canvas Grid.Column="1"><TextBlock Canvas.Right="8" Text="{local:Tr challenge.count}"/></Canvas><TextBlock Grid.Column="2" Text="{local:Tr Status}" Margin="8,0"/>
     </Grid>
     <!-- The default TreeViewItem keeps headers at text width; stretch them so the count/status columns line up. -->
-    <TreeView x:Name="Tree" SelectedItemChanged="OnSelected" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+    <TreeView x:Name="Tree" SelectedItemChanged="OnSelected" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True">
      <TreeView.ItemContainerStyle><Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
       <Setter Property="IsExpanded" Value="{Binding Expanded, Mode=TwoWay}"/><Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}"/>
       <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TreeViewItem">

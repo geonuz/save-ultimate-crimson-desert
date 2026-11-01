@@ -118,6 +118,7 @@ public sealed partial class SaveDocument
     public void SwapVendorItem(InventoryItem item, uint key)
     {
         if (key is 0 or > int.MaxValue) throw new ArgumentOutOfRangeException(nameof(key));
+        DlcContent.Refuse(DlcContent.Shared.Items.Contains(key));
         ValidateSelection([item], requireStackEditable: false);
         if (item.Source != ItemSource.Vendor) throw new InvalidOperationException("Only sold vendor items can be swapped for repurchase.");
         if (key == item.Key) return;

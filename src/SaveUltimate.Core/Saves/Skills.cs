@@ -115,8 +115,16 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
     public static SkillPlan Create(SkillState state, uint key, uint target, bool watch = false)
     {
         if (!SkillCatalog.Shared.Skills.TryGetValue(key, out var definition)) throw new InvalidOperationException("스킬을 선택하세요.");
+        DlcContent.Refuse(DlcContent.Shared.Knowledge.Contains(key));
         uint previous = state.Level(key);
-        if (watch && (previous > 0 || !definition.Watch)) throw new InvalidOperationException("관찰 습득할 수 없는 스킬입니다.");
+        if (watch && !definition.Watch) throw new InvalidOperationException("관찰 습득할 수 없는 스킬입니다.");
+        // A skill learned by investing can still be observed (saves hold invested skills with an observation record); only the
+        // observation is added. Another learn-from record is kept.
+        if (watch && previous > 0)
+        {
+            if (state.Follow.ContainsKey(key)) throw new InvalidOperationException("이미 다른 습득 기록이 있는 스킬입니다.");
+            return new(key, previous, definition.Owner, [], new() { [key] = 7 }, [], 0, 0, 0, new(state.Points));
+        }
         if (target <= previous || target > definition.Levels.Length) throw new InvalidOperationException("현재보다 높은 유효한 단계만 적용할 수 있습니다.");
         var levels = new Dictionary<uint, uint>(state.Levels);
         var changes = new Dictionary<uint, uint>();

@@ -33,7 +33,7 @@ public sealed class ItemDatabasePage : UserControl
         var filters = new DockPanel { Margin = new(0, 12, 0, 12) }; top.Children.Add(filters);
         DockPanel.SetDock(category, Dock.Right); filters.Children.Add(category); filters.Children.Add(search); top.Children.Add(count);
         category.ItemsSource = new[] { Tr.Text("All") }.Concat(ItemCatalog.Shared.Choices.Select(c => c.Category).Distinct().Order()).ToArray(); category.SelectedIndex = 0;
-        foreach (var (label, path, width) in new[] { ("ItemKey", "Key", 90d), ("Name", "Name", 230d), ("Internal Name", "InternalName", 230d), ("Category", "Category", 200d), ("Max Stack", "MaxStack", 110d) })
+        foreach (var (label, path, width) in new[] { ("ItemKey", "Key", 115d), ("Name", "Name", 230d), ("Internal Name", "InternalName", 230d), ("Category", "Category", 200d), ("Max Stack", "MaxStack", 110d) })
             Rows.Columns.Add(new DataGridTextColumn { Header = Tr.Text(label), Binding = new Binding(path), Width = new(width) });
         var image = new FrameworkElementFactory(typeof(Image)); image.SetBinding(Image.SourceProperty, new Binding("Icon")); image.SetValue(Image.WidthProperty, 32d); image.SetValue(Image.HeightProperty, 32d);
         Rows.Columns.Insert(0, new DataGridTemplateColumn { Width = 40, CellTemplate = new DataTemplate { VisualTree = image } });

@@ -1,14 +1,22 @@
 {
   "sourceSha256": "6d2bf125ae04bd5be2de3b70fcc742405ae9838001655572e086e47ad934960e",
   "clientSources": {
-    "questgroupinfo.staticinfoheader": "15938d260124725fbfe02fa45601ac3f45393ff63180203fc828f138c4e4d4be",
-    "questgroupinfo.staticinfobody": "1b0c4fa168ea15169e13badbc9bf63a2afca67cf7d9c68ec631711155f731cd5",
-    "questinfo.staticinfoheader": "6f6041de4ead63ed87d11cb933afa25603efbe93d397f381b4f7a1f4799de41e",
-    "questinfo.staticinfobody": "b22ec3676b07813b5f228bcc8e4c7e86a491571f00d0116265fc980de5d99b9a",
-    "missioninfo.staticinfoheader": "05f76bfd968530febeeab0ddaf82320c103eee46157dd1d4575224e954a6607d",
-    "missioninfo.staticinfobody": "ebcf94eebed95f1c3cf9fc22621540f10d12db840025953830c3bfb069b278ee",
-    "eng_quest.paloc": "69afa4903ed3d618d93c7af6de2ddf7e203753211dbe1a09e1c6c50a2907cdca",
-    "kor_quest.paloc": "16cd8f6924062bb1193cab61ceaf4e7d52519b4e47b48b442a132e8ac546f5b9"
+    "eng_quest.dlc_01.paloc": "e0f399116a2e665e4cad734a495b4a6e0686a86a3d59e2a1ef0bd237b9028b05",
+    "eng_quest.paloc": "4b8407aa749e822e840ee1f6e63185356863d62752ad5cd79f22bb2e1f0658ed",
+    "kor_quest.dlc_01.paloc": "bda46d940377a70434dd856824cbcc8c13a738ebaf1d42b7e14a8a426cc9c42b",
+    "kor_quest.paloc": "c88372f98bc21234c05657c3911325d7ebe34c30e0c9b83ea44847ebff103548",
+    "missioninfo.dlc_01.staticinfobody": "2f45420e9ce71d29f3067849507f6af71803efde57f43385d364511b1d08b0c9",
+    "missioninfo.dlc_01.staticinfoheader": "397303b73d636d028d25a675e21948ce6991f59c03a0b25c517bd94f334730bf",
+    "missioninfo.staticinfobody": "007795d7362ea0da68378e9568a4019f88fff47fc7128727f0c8278c1c64e68d",
+    "missioninfo.staticinfoheader": "f0453448b04b829214fda45dfe5aade0c9e5422a038dd92676a92a47e32a08f4",
+    "questgroupinfo.dlc_01.staticinfobody": "64bb62cdf6bbcb79c931ac0d4f89d055df253bc28705ea9371b8fdc75112d047",
+    "questgroupinfo.dlc_01.staticinfoheader": "9571d79321b7e83b0291550616098a645b3b28007279bb30a9d43aaeef51937f",
+    "questgroupinfo.staticinfobody": "ade42ab2d6ef503036b989cd1e5e0678de4c51ec2f6c7e4e2f614defbd159f4f",
+    "questgroupinfo.staticinfoheader": "7be297a6920ab423782cb1a4bf04d92ea6c99e19fe59bb3315f9585b2bce6a9c",
+    "questinfo.dlc_01.staticinfobody": "f9f8724e78ae01bed61d89e84cb4b75d44b22608457c0d9c496d89e0e5c4abda",
+    "questinfo.dlc_01.staticinfoheader": "9d1d0e00e68ed6b0d6ef6465d66723c84d95dae1669f9edc71e53840f3bdf0e3",
+    "questinfo.staticinfobody": "4c22ded3d0218fdab637fc12c749b737f51f9768ddb02a85ea207a979f530af0",
+    "questinfo.staticinfoheader": "1bf8909328ee97259dd51ed68a2f1e3844e030e7371a72e96af7a95bd70744da"
   },
   "roots": [
     1000066,
@@ -374,8 +382,12 @@
     1002158,
     1000625,
     1002164,
+    1004818,
     1003957,
     1003958,
+    1004549,
+    1004550,
+    1004551,
     1004406,
     1004407,
     1004408,
@@ -384,7 +396,46 @@
     1004472,
     1004465,
     1004466,
-    1004467
+    1004467,
+    1004920,
+    1005006,
+    1005007,
+    1005008,
+    1005009,
+    1005010,
+    1005011,
+    1005012,
+    1005013,
+    1005014,
+    1004698,
+    1004699,
+    1004700,
+    1004701,
+    1004702,
+    1004703,
+    1004704,
+    1004705,
+    1004706,
+    1004707,
+    1004708,
+    1004709,
+    1004710,
+    1004711,
+    1004712,
+    1004713,
+    1004714,
+    1004715,
+    1004716,
+    1004717,
+    1004951,
+    1004952,
+    1004953,
+    1004954,
+    1004955,
+    1004956,
+    1004957,
+    1004958,
+    1004959
   ],
   "missions": {
     "1000066": {
@@ -1428,6 +1479,21 @@
       "branched": true
     },
     "1003958": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004549": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004550": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004551": {
       "_completeCount": null,
       "_uiState": 1,
       "branched": true
@@ -4043,6 +4109,21 @@
       "branched": true
     },
     "1004037": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004552": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004553": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004554": {
       "_completeCount": null,
       "_uiState": 0,
       "branched": true
@@ -6711,6 +6792,571 @@
       "_completeCount": null,
       "_uiState": 1,
       "branched": true
+    },
+    "1004920": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005006": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005007": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005008": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005009": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005010": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005011": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005012": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005013": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005014": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004698": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004699": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004700": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004701": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004702": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004703": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004704": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004705": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004706": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004707": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004708": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004709": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004710": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004711": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004712": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004713": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004714": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004715": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004716": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004717": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": false
+    },
+    "1004951": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004952": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004953": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004954": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004955": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004956": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004957": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004958": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004959": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004818": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004922": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005044": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005045": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005046": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005047": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005048": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005049": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005050": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005051": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005052": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005053": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005054": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005055": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005056": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005057": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005058": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005059": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005060": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005061": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005062": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005063": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005064": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005065": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005066": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005067": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005068": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005069": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005070": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1005071": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1005072": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004718": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004719": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004720": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004721": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004722": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004723": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004724": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004725": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004726": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004727": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004728": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004729": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004730": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004731": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004732": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004733": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004734": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004735": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004736": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004737": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": false
+    },
+    "1004960": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004961": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004962": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004963": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004964": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004965": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004966": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004967": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004968": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004969": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004970": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004971": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004972": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004973": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004974": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004975": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004976": {
+      "_completeCount": null,
+      "_uiState": 0,
+      "branched": true
+    },
+    "1004977": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004819": {
+      "_completeCount": null,
+      "_uiState": null,
+      "branched": true
+    },
+    "1004820": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004821": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004822": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
+    },
+    "1004823": {
+      "_completeCount": null,
+      "_uiState": 1,
+      "branched": true
     }
   },
   "quests": {
@@ -6749,5 +7395,51 @@
     "1000390": 2,
     "1000689": 2,
     "1000717": 2
-  }
+  },
+  "supplementSha256": [
+    "28db7f2825cff6379070db3c904c196aab613f27cba0107686bfef0ca11d2fb2"
+  ],
+  "inferredRoots": [
+    1004818,
+    1004549,
+    1004550,
+    1004551,
+    1005006,
+    1005007,
+    1005008,
+    1005009,
+    1005010,
+    1005011,
+    1005012,
+    1005013,
+    1005014,
+    1004698,
+    1004699,
+    1004700,
+    1004701,
+    1004702,
+    1004703,
+    1004704,
+    1004705,
+    1004706,
+    1004707,
+    1004708,
+    1004709,
+    1004710,
+    1004711,
+    1004712,
+    1004713,
+    1004714,
+    1004715,
+    1004716,
+    1004717,
+    1004952,
+    1004953,
+    1004954,
+    1004955,
+    1004956,
+    1004957,
+    1004958,
+    1004959
+  ]
 }

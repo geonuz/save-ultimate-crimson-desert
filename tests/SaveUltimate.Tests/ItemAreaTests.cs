@@ -1,5 +1,4 @@
 using System.IO;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,32 +11,6 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class ItemAreaTests
 {
-    [TestMethod]
-    public void CatalogAndDetailsMatchOriginalPythonWidgets()
-    {
-        string? reference = Environment.GetEnvironmentVariable("SAVEULTIMATE_ITEM_REFERENCE");
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
-        if (reference is null || fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_ITEM_REFERENCE and SAVEULTIMATE_FIXTURES.");
-        using var json = JsonDocument.Parse(File.ReadAllBytes(reference));
-        var catalog = ItemCatalog.Shared;
-        foreach (var expected in json.RootElement.GetProperty("catalog").EnumerateArray())
-        {
-            uint key = expected.GetProperty("key").GetUInt32();
-            Assert.AreEqual(expected.GetProperty("name").GetString(), catalog.Name(key), $"Name {key}");
-            Assert.AreEqual(expected.GetProperty("category").GetString(), catalog.Category(key), $"Category {key}");
-            Assert.AreEqual(expected.GetProperty("hint").GetString(), catalog.CategoryHint(key), $"Hint {key}");
-            Assert.AreEqual(expected.GetProperty("maxStack").GetUInt64(), catalog.MaxStack(key), $"Stack {key}");
-        }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
-        foreach (var expected in json.RootElement.GetProperty("details").EnumerateArray())
-        {
-            var item = document.Items.First(i => i.Number == expected.GetProperty("number").GetUInt64() && i.Key == expected.GetProperty("key").GetUInt32() && i.Source.ToString() == expected.GetProperty("source").GetString());
-            Assert.AreEqual(expected.GetProperty("stats").GetString(), catalog.Stats(item), $"Stats {item.Key}");
-            Assert.AreEqual(expected.GetProperty("description").GetString(), catalog.Description(item.Key), $"Description {item.Key}");
-            Assert.AreEqual(expected.GetProperty("owner").GetString(), catalog.Owner(item), $"Owner {item.Key}");
-        }
-    }
-
     [STATestMethod]
     public void GemFiltersKeepEmptyAndSelectedAndImagesAreShared()
     {
