@@ -6,8 +6,10 @@ Developed and maintained by geonuz with assistance from AI agents.
 
 The interface supports English, Korean, Japanese and Russian. Game names and
 descriptions use the game's localization data. Version 1.1.1 is verified with
-Crimson Desert 2.04.04 and its first DLC, and still opens 2.03.02 saves; the
-window shows both versions under Settings.
+Crimson Desert 2.04.04 and its first DLC, and still opens 2.03.02, 2.04.00 and
+2.04.03 saves; the window shows both versions under Settings. Without the DLC
+installed (no `dlc/dlc_01` in the game folder), the header says so and DLC
+content is hidden and cannot be edited.
 
 ## Features
 
@@ -15,9 +17,9 @@ window shows both versions under Settings.
 |---|---|
 | Items | Inventory quantities and deletion, repurchase swaps, equipment enchantment, sockets and Abyss Gear, item database |
 | Adventure Journal | Knowledge, challenge and checkpoint completion, fishing records |
-| Skills | Kliff, Damiane and Oongka skill trees, level investment and learning by observation |
-| Maps | Exploration fog and all map discovery actions |
-| NPC | Companion, pet and mount names; NPC friendship |
+| Skills | Kliff, Oongka and Damiane skill trees, level investment and learning by observation |
+| Maps | Exploration fog, map discoveries by category, Abyss Nexus travel and the base game's Abyss Cressets |
+| NPC | Companions (add or remove Grey-0 robot workers); pet and special mount names and order; NPC trust and bond |
 | Backup/Restore | Create, browse and restore save backups |
 
 Opening a save reads every page at once. Edits appear immediately in the editor;
@@ -95,5 +97,6 @@ authorize redistribution of Pearl Abyss assets.
 
 Build, test and packaging instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
 See [CHANGELOG.md](CHANGELOG.md) for release changes. Report bugs through Issues
-with the editor and game versions and steps to reproduce the problem. Do not
+with the editor and game versions, whether the DLC is installed and steps to
+reproduce the problem. Do not
 attach personal saves or credentials.
