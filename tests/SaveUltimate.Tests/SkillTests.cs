@@ -11,6 +11,20 @@ namespace SaveUltimate.Tests;
 public sealed class SkillTests
 {
     [TestMethod]
+    public void SkillDescriptionsNameKeyPromptsAndResolveLabelledLinks()
+    {
+        Assert.AreEqual("Press [Roll] while being hit.", SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("Press {Key:Key_Roll} while being hit."));
+        Assert.AreEqual("[Jump][Run], [Normal Attack] or [Skill 4 Start]",
+            SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("{Key:Key_Jump}{Key:Key_Run}, {Key:Key_NorAttack} or {Key:Key_Skill_4_Start}"));
+        var resources = new DirectoryInfo(AppContext.BaseDirectory);
+        while (!File.Exists(Path.Combine(resources.FullName, "resources/data/skills.json"))) resources = resources.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
+        var skills = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, "resources/data/skills.json")))!["skills"]!.AsObject();
+        var descriptions = skills.SelectMany(s => s.Value!["levels"]!.AsArray()).SelectMany(l => l!["description"]!.AsArray()).Select(d => d!.GetValue<string>()).ToArray();
+        Assert.IsTrue(descriptions.Any(d => d.Contains("[Roll]")));
+        CollectionAssert.AreEqual(Array.Empty<string>(), descriptions.Where(d => d.Contains("  ") || d.Contains('{') || d.Contains("Knowledge_")).ToArray());
+    }
+
+    [TestMethod]
     public void PlansPreserveSharedFundingObservationAndRequirements()
     {
         var state = new SkillState(new Dictionary<uint, uint>(), new Dictionary<uint, SkillPayment>(),

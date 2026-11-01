@@ -14,8 +14,16 @@ public static partial class SkillCatalogBuilder
     private static partial Regex KnowledgeLink();
     [GeneratedRegex(@"<br\s*/?>", RegexOptions.IgnoreCase)]
     private static partial Regex Break();
-    [GeneratedRegex(@"\{Key:[^}]+\}|<[^>]+>|\{[^}]+\}")]
+    [GeneratedRegex(@"<[^>]+>|\{[^}]+\}")]
     private static partial Regex Markup();
+    [GeneratedRegex(@"\{Key:Key_([^}]+)\}")]
+    private static partial Regex KeyPrompt();
+    [GeneratedRegex(@"(?<=[a-z])(?=[A-Z])")]
+    private static partial Regex WordBreak();
+
+    // The game draws the bound key here; name the action instead (Key_KickAttack -> [Kick Attack]).
+    internal static string KeyLabels(string text) => KeyPrompt().Replace(text,
+        m => "[" + WordBreak().Replace(m.Groups[1].Value.Replace("NorAttack", "NormalAttack"), " ").Replace('_', ' ') + "]");
 
     private static string Reference(ClientReader r)
     {
@@ -122,8 +130,13 @@ public static partial class SkillCatalogBuilder
         }
         string Clean(string text, int language)
         {
-            text = KnowledgeLink().Replace(text, m => internalNames.TryGetValue(m.Groups[1].Value, out uint key) ? names[key][language] : m.Groups[1].Value);
-            return Markup().Replace(Break().Replace(text, "\n"), "").Trim();
+            // Links may carry their own label after '#' (Knowledge_Evade_Shot#Evasive Shot).
+            text = KnowledgeLink().Replace(text, m =>
+            {
+                string[] link = m.Groups[1].Value.Split('#', 2);
+                return internalNames.TryGetValue(link[0], out uint key) ? names[key][language] : link[^1];
+            });
+            return Markup().Replace(Break().Replace(KeyLabels(text), "\n"), "").Trim();
         }
         var definitions = records.Values.Where(k => skillIds.Contains(k.Skill)).ToDictionary(k => k.Key, k => Definition(k));
         var skillKeys = definitions.Values.ToDictionary(d => d["skill"]!.GetValue<uint>(), d => d["key"]!.GetValue<uint>());

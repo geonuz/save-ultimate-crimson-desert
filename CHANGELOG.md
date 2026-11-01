@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1]
+
+Skill description fix. Verified with Crimson Desert 2.04.04 and its first DLC.
+
+- Skill descriptions name the action where the game shows a key prompt ("Press [Roll] while being hit") instead of
+  leaving a gap ("Press  while being hit").
+- Links to other skills in descriptions show the skill's name; some showed the raw link, such as
+  "Knowledge_Evade_Shot#Evasive Shot".
+
 ## [1.1.0]
 
 Support for the first DLC (dlc_01) and game updates 2.04.00 to 2.04.04. Verified with Crimson Desert 2.04.04;
