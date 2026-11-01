@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.2]
+
+Native libraries ship beside the executable. Verified with Crimson Desert 2.04.04 and its first DLC.
+
+- The editor's DLLs are now separate files next to `SaveUltimate.exe` instead of being unpacked into
+  `%TEMP%\.net\SaveUltimate` on first run. Some antivirus products blocked the unpacked files, and saves failed to open
+  with "Operation failed: Dll was not found." Keep the `.dll` files beside the executable.
+- Nothing new is written to `%TEMP%` on startup. Folders left there by earlier versions can be deleted.
+
 ## [1.1.1]
 
 Skill description fix. Verified with Crimson Desert 2.04.04 and its first DLC.

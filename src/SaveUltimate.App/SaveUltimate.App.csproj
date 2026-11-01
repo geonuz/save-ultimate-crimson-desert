@@ -6,7 +6,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>../../resources/assets/app_icon.ico</ApplicationIcon>
     <PublishSingleFile>true</PublishSingleFile>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <!-- The analyzer pulls ILLink.Tasks into the locked restore; the app does not use Assembly.Location. -->
     <EnableSingleFileAnalyzer>false</EnableSingleFileAnalyzer>
     <PublishTrimmed>false</PublishTrimmed>

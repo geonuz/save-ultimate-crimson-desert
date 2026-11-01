@@ -8,7 +8,7 @@
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <!-- Crimson Desert version the release was verified against; shown next to the app version. -->
     <GameVersion>2.04.04</GameVersion>
     <Authors>geonuz</Authors>
