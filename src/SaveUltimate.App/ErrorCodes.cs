@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 
 namespace SaveUltimate.App;
@@ -50,11 +51,43 @@ public static class ErrorCodes
             IntPtr handle = LoadLibraryExW(path, IntPtr.Zero, LoadWithAlteredSearchPath);
             if (handle != IntPtr.Zero) { FreeLibrary(handle); continue; }
             int win32 = Marshal.GetLastWin32Error();
+            string reason = $"{win32}: {new Win32Exception(win32).Message}";
+            // 126 for a file that exists means a library it imports is missing, such as a MinGW runtime DLL.
+            if (win32 == 126)
+            {
+                string[] missing = NativeImports(path).Where(dependency => !File.Exists(Path.Combine(directory, dependency)) && !LoadsFromSystem(dependency)).ToArray();
+                return ("SU-106", Tr.Format("error.SU-106", ("file", name), ("missing", missing.Length > 0 ? string.Join(", ", missing) : "?"), ("win32", reason)));
+            }
             // 5 access denied; 225/226 blocked as a threat; 577/1260/4551 code integrity or policy; 193/216 not a valid x64 image.
             string code = win32 switch { 5 => "SU-102", 225 or 226 => "SU-103", 577 or 1260 or 4551 => "SU-104", 193 or 216 => "SU-105", _ => "SU-109" };
-            return (code, Tr.Format("error." + code, ("file", name), ("win32", $"{win32}: {new Win32Exception(win32).Message}")));
+            return (code, Tr.Format("error." + code, ("file", name), ("win32", reason)));
         }
         return ("SU-109", Tr.Format("error.SU-109", ("file", "?"), ("win32", "-")));
+    }
+
+    // Names of the DLLs a PE file imports, read from its import directory.
+    public static IReadOnlyList<string> NativeImports(string path)
+    {
+        using var image = new PEReader(File.OpenRead(path));
+        var names = new List<string>();
+        int descriptor = image.PEHeaders.PEHeader!.ImportTableDirectory.RelativeVirtualAddress;
+        if (descriptor == 0) return names;
+        // Each 20-byte import descriptor holds the RVA of its DLL name at offset 12; a zero name ends the table.
+        for (; ; descriptor += 20)
+        {
+            int nameRva = image.GetSectionData(descriptor + 12).GetReader().ReadInt32();
+            if (nameRva == 0) return names;
+            var reader = image.GetSectionData(nameRva).GetReader();
+            names.Add(reader.ReadUTF8(reader.IndexOf(0)));
+        }
+    }
+
+    private static bool LoadsFromSystem(string library)
+    {
+        IntPtr handle = LoadLibraryExW(library, IntPtr.Zero, LoadLibrarySearchSystem32);
+        if (handle == IntPtr.Zero) return false;
+        FreeLibrary(handle);
+        return true;
     }
 
     private static IEnumerable<string?> Frames(Exception error) =>
@@ -74,6 +107,7 @@ public static class ErrorCodes
     }
 
     private const uint LoadWithAlteredSearchPath = 0x8;
+    private const uint LoadLibrarySearchSystem32 = 0x800;
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     private static extern IntPtr LoadLibraryExW(string path, IntPtr file, uint flags);
     [DllImport("kernel32.dll")]

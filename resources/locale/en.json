@@ -1042,6 +1042,7 @@
   "error.SU-103": "Windows blocked {file} as a threat. (Error {win32})",
   "error.SU-104": "Windows blocked {file} under a code integrity policy. (Error {win32})",
   "error.SU-105": "{file} is damaged or is not a 64-bit Windows library. (Error {win32})",
+  "error.SU-106": "A library that {file} needs is missing: {missing}. (Error {win32})",
   "error.SU-109": "{file} could not be loaded. (Error {win32})",
   "error.SU-201": "A file or folder was not found: {detail}",
   "error.SU-202": "Access to a file or folder was denied: {detail}",

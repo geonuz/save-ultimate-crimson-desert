@@ -41,7 +41,9 @@ the script stops if `native/CMakeLists.txt`, `native/src/` or
 
 After changing those sources, rebuild the DLLs with `-BuildNative` and commit
 `native/bin/` with the change. A different compiler produces different files, so
-use the same GCC where possible:
+use the same GCC where possible. The DLLs link with `-static` and may import only
+Windows libraries; a test fails if one imports anything else, such as the
+`libwinpthread-1.dll` that 1.1.2's DLLs needed and PCs without MinGW lack:
 
 ```powershell
 ./scripts/Build.ps1 -BuildNative -Test

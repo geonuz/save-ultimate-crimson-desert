@@ -5,7 +5,7 @@ x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
 Developed and maintained by geonuz with assistance from AI agents.
 
 The interface supports English, Korean, Japanese and Russian. Game names and
-descriptions use the game's localization data. Version 1.1.3 is verified with
+descriptions use the game's localization data. Version 1.1.4 is verified with
 Crimson Desert 2.04.04 and its first DLC, and still opens 2.03.02, 2.04.00 and
 2.04.03 saves; the window shows both versions under Settings. Without the DLC
 installed (no `dlc/dlc_01` in the game folder), the header says so and DLC
@@ -75,6 +75,7 @@ Errors show a code such as `[SU-101]`, and the full details are appended to
 | SU-103 | Windows blocked a required DLL as a threat |
 | SU-104 | A Windows code integrity policy blocked a required DLL |
 | SU-105 | A required DLL is damaged or is not a 64-bit Windows library |
+| SU-106 | A library that a required DLL needs is missing (the missing file is named) |
 | SU-109 | A required DLL could not be loaded for another reason (the Windows error is shown) |
 | SU-201 | A file or folder was not found |
 | SU-202 | Access to a file or folder was denied |

@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.4]
+
+Cause of "Dll was not found." identified and guarded. Verified with Crimson Desert 2.04.04 and its first DLC.
+
+- The cause of "Operation failed: Dll was not found." was that the `parc_*.dll` files of 1.1.2, and of earlier releases
+  built the same way, needed `libwinpthread-1.dll`, which was not shipped and is missing on PCs without MinGW. 1.1.3's DLLs need only
+  Windows libraries, and 1.1.4 ships the same files.
+- The DLLs now link the MinGW runtime statically with any toolchain, and a test fails the release if one needs a
+  library other than Windows'.
+- A DLL that is present but needs a missing library is reported as `[SU-106]`, naming the missing file.
+
 ## [1.1.3]
 
 Error codes and fixed native libraries. Verified with Crimson Desert 2.04.04 and its first DLC.
