@@ -21,9 +21,39 @@ public static partial class SkillCatalogBuilder
     [GeneratedRegex(@"(?<=[a-z])(?=[A-Z])")]
     private static partial Regex WordBreak();
 
-    // The game draws the bound key here; name the action instead (Key_KickAttack -> [Kick Attack]).
-    internal static string KeyLabels(string text) => KeyPrompt().Replace(text,
-        m => "[" + WordBreak().Replace(m.Groups[1].Value.Replace("NorAttack", "NormalAttack"), " ").Replace('_', ' ') + "]");
+    [GeneratedRegex(@"<Input Name=""Key_(\w+)""(?:[^>/]|/(?!>))*>(.*?)</>", RegexOptions.Singleline)]
+    private static partial Regex InputBlock();
+    [GeneratedRegex(@"<KeyboardMouse\b[^>]*\bKey=""([^""]+)""")]
+    private static partial Regex KeyboardKey();
+    [GeneratedRegex(@"<!--.*?-->", RegexOptions.Singleline)]
+    private static partial Regex XmlComment();
+
+    // Default PC keys of ui/inputmap.xml by action (Skill_17 -> "f mouseR"); the first keyboard binding is the primary one.
+    // Names are matched without underscores: descriptions write Key_FocusMabongpa for the map's Key_Focus_Mabongpa.
+    internal static Dictionary<string, string> KeyBindings(string inputMap)
+    {
+        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (Match input in InputBlock().Matches(XmlComment().Replace(inputMap, "")))
+            if (KeyboardKey().Match(input.Groups[2].Value) is { Success: true } key) result.TryAdd(input.Groups[1].Value.Replace("_", ""), key.Groups[1].Value);
+        return result;
+    }
+    // By language: en, ko, ja, ru.
+    private static readonly Dictionary<string, string[]> KeyNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["mouseL"] = ["Left Click", "좌클릭", "左クリック", "ЛКМ"], ["mouseR"] = ["Right Click", "우클릭", "右クリック", "ПКМ"],
+        ["mouseM"] = ["Middle Click", "휠 클릭", "ホイールクリック", "СКМ"], ["mouseX1"] = ["Mouse 4", "마우스 4", "マウス4", "Мышь 4"],
+        ["mouseX2"] = ["Mouse 5", "마우스 5", "マウス5", "Мышь 5"], ["mouseWheel"] = ["Mouse Wheel", "마우스 휠", "マウスホイール", "Колесо мыши"],
+        ["lshift"] = ["Shift", "Shift", "Shift", "Shift"], ["caps"] = ["Caps Lock", "Caps Lock", "Caps Lock", "Caps Lock"], ["escape"] = ["Esc", "Esc", "Esc", "Esc"]
+    };
+    private static string KeyName(string key, int language) => KeyNames.TryGetValue(key, out var names) ? names[language]
+        : key.Length == 1 || key[0] == 'f' && key[1..].All(char.IsAsciiDigit) ? key.ToUpperInvariant() : char.ToUpperInvariant(key[0]) + key[1..];
+
+    // The game draws the bound key here; show the default PC keys ({Key:Key_Skill_17} -> [F + Right Click]),
+    // or name the action when the map has no keyboard binding (Key_BlackWolfSeal -> [Black Wolf Seal]).
+    internal static string KeyLabels(string text, IReadOnlyDictionary<string, string> bindings, int language) => KeyPrompt().Replace(text,
+        m => "[" + (bindings.TryGetValue(m.Groups[1].Value.Replace("_", ""), out string? keys)
+            ? string.Join(" + ", keys.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(k => KeyName(k, language)))
+            : WordBreak().Replace(m.Groups[1].Value.Replace("NorAttack", "NormalAttack"), " ").Replace('_', ' ')) + "]");
 
     private static string Reference(ClientReader r)
     {
@@ -111,11 +141,15 @@ public static partial class SkillCatalogBuilder
         return nodes;
     }
 
-    public static JsonObject Build(ClientSource source)
+    // data/skills.json (en/ko names and descriptions) and the ja/ru packs' skill_descriptions, keyed "<knowledge>:<level>".
+    public static Dictionary<string, JsonNode> Build(ClientSource source, Func<string, JsonNode> load)
     {
         var records = KnowledgeCatalogBuilder.Records(source, KnowledgeCatalogBuilder.Groups(source).Keys.ToHashSet());
         var tables = ClientTables.Records(source.Tables("skilltreeinfo"));
         var en = source.Strings("eng", "knowledge"); var ko = source.Strings("kor", "knowledge");
+        var ja = source.Strings("jpn", "knowledge"); var ru = source.Strings("rus", "knowledge");
+        var packs = new[] { "ja", "ru" }.Select(c => load($"locale/names_{c}.json").AsObject()).ToArray();
+        var bindings = KeyBindings(System.Text.Encoding.UTF8.GetString(source.Ui("ui/inputmap.xml")));
         var trees = Trees.ToDictionary(t => t.Owner, t => Tree(t.Key, tables[t.Key]));
         var skillIds = trees.Values.SelectMany(n => n).Select(n => n!["skill"]!.GetValue<uint>()).ToHashSet();
 
@@ -134,9 +168,10 @@ public static partial class SkillCatalogBuilder
             text = KnowledgeLink().Replace(text, m =>
             {
                 string[] link = m.Groups[1].Value.Split('#', 2);
-                return internalNames.TryGetValue(link[0], out uint key) ? names[key][language] : link[^1];
+                if (!internalNames.TryGetValue(link[0], out uint key)) return link[^1];
+                return language < 2 ? names[key][language] : packs[language - 2]["knowledge"]?[key.ToString()]?.GetValue<string>() ?? names[key][0];
             });
-            return Markup().Replace(Break().Replace(KeyLabels(text), "\n"), "").Trim();
+            return Markup().Replace(Break().Replace(KeyLabels(text, bindings, language), "\n"), "").Trim();
         }
         var definitions = records.Values.Where(k => skillIds.Contains(k.Skill)).ToDictionary(k => k.Key, k => Definition(k));
         var skillKeys = definitions.Values.ToDictionary(d => d["skill"]!.GetValue<uint>(), d => d["key"]!.GetValue<uint>());
@@ -167,15 +202,26 @@ public static partial class SkillCatalogBuilder
             }
             definition["related"] = related;
         }
-        foreach (var level in definitions.Values.SelectMany(d => d["levels"]!.AsArray()))
-        {
-            string title = level!["name"]!.GetValue<string>(), description = level["description"]!.GetValue<string>();
-            level["name"] = new JsonArray(en.GetValueOrDefault(title, ""), ko.GetValueOrDefault(title, ""));
-            level["description"] = new JsonArray(Clean(en.GetValueOrDefault(description, ""), 0), Clean(ko.GetValueOrDefault(description, ""), 1));
-        }
+        var described = packs.Select(_ => new JsonObject()).ToArray();
+        foreach (var (key, definition) in definitions)
+            foreach (var (level, number) in definition["levels"]!.AsArray().Select((l, i) => (l!, i + 1)))
+            {
+                string title = level["name"]!.GetValue<string>(), description = level["description"]!.GetValue<string>();
+                level["name"] = new JsonArray(en.GetValueOrDefault(title, ""), ko.GetValueOrDefault(title, ""));
+                level["description"] = new JsonArray(Clean(en.GetValueOrDefault(description, ""), 0), Clean(ko.GetValueOrDefault(description, ""), 1));
+                foreach (var (texts, index) in new[] { ja, ru }.Select((t, i) => (t, i)))
+                    if (Clean(texts.GetValueOrDefault(description, ""), index + 2) is { Length: > 0 } text) described[index][$"{key}:{number}"] = text;
+            }
+        for (int i = 0; i < packs.Length; i++) packs[i]["skill_descriptions"] = described[i];
+        // Kliff's Double Jump is learned by watching it in Pororin (saves record FollowManualLockOn), but its data has only
+        // a default route; add the region observation route the game evidently uses.
+        var doubleJump = definitions[1001116]["levels"]![0]!["routes"]!.AsArray();
+        if (!doubleJump.Any(r => r!["mode"]!.GetValue<byte>() is 1 or 2))
+            doubleJump.Add(new JsonObject { ["mode"] = (byte)2, ["items"] = new JsonArray(), ["requires"] = new JsonArray(), ["unlocks"] = new JsonArray(),
+                ["conditions"] = new JsonArray(new JsonArray(1008768u, "")), ["sequencer"] = 0u, ["flag"] = (byte)0 });
         foreach (var definition in definitions.Values)
             definition["watch"] = definition["levels"]!.AsArray().Any(l => l!["routes"]!.AsArray().Any(r => r!["mode"]!.GetValue<byte>() is 1 or 2));
-        return new JsonObject
+        var skills = new JsonObject
         {
             ["version"] = 1,
             ["trees"] = new JsonObject(trees.Select(t => KeyValuePair.Create<string, JsonNode?>(t.Key.ToString(), t.Value))),
@@ -183,5 +229,6 @@ public static partial class SkillCatalogBuilder
             ["names"] = new JsonObject(names.Select(n => KeyValuePair.Create<string, JsonNode?>(n.Key.ToString(), new JsonArray(n.Value[0], n.Value[1])))),
             ["sourceSha256"] = source.Digests()
         };
+        return new() { ["data/skills.json"] = skills, ["locale/names_ja.json"] = packs[0], ["locale/names_ru.json"] = packs[1] };
     }
 }

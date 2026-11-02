@@ -288,8 +288,9 @@ public partial class MainViewModel : ObservableObject
             var pages = await Task.Run(() => (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
                 Challenges: Page("challenges", loaded.ReadChallenges), Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", loaded.ReadMap),
                 Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship)));
-            (Skills, SkillBaseline, Knowledge, Challenges, Fishing, Map, Companions, Friendship) =
-                (pages.Skills, pages.Skills?.Levels, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship);
+            // The baseline goes first: setting Skills renders the tree, which marks every level that differs from it.
+            (SkillBaseline, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship) =
+                (pages.Skills, pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship);
             if (failed.Count > 0) Status += " " + string.Join(" · ", failed);
             if (createPristine)
             {

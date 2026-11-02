@@ -76,7 +76,7 @@ public sealed class LanguageTests
             foreach (string language in new[] { "ko", "en", "ja", "ru" })
             {
                 Tr.SetLanguage(language);
-                var model = new MainViewModel(SaveDocument.Open(Path.Combine(fixtures, "save_v2.04.03_bond.save")));
+                var model = new MainViewModel(SaveDocument.Open(Path.Combine(fixtures, "2.04.03", "2_oongka_add_save.save")));
                 var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
                 window.Show();
                 try

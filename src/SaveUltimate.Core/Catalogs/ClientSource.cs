@@ -7,11 +7,21 @@ namespace SaveUltimate.Core.Catalogs;
 // Client tables and string files for one catalog build, layered base first and tagged "" or ".<dlc>" as in the file
 // names. Every file read is recorded for the catalog's sourceSha256.
 public sealed class ClientSource(Func<string, IEnumerable<(string Tag, byte[] Header, byte[] Body)>> tables,
-    Func<string, string, IEnumerable<(string Tag, byte[] Data)>> strings, Func<string, IEnumerable<(string Tag, byte[] Data)>>? misc = null)
+    Func<string, string, IEnumerable<(string Tag, byte[] Data)>> strings, Func<string, IEnumerable<(string Tag, byte[] Data)>>? misc = null,
+    Func<string, byte[]>? ui = null)
 {
     private readonly SortedDictionary<string, byte[]> read = new(StringComparer.Ordinal);
     public ClientSource(GameFiles game) : this(game.Tables, (language, name) => game.ReadLayers(
-        ClientMetadata.Languages.Values.Single(l => l.Name == language).Group, $"gamedata/stringtable/binary__/{language}/{name}.paloc"), game.Misc) { }
+        ClientMetadata.Languages.Values.Single(l => l.Name == language).Group, $"gamedata/stringtable/binary__/{language}/{name}.paloc"), game.Misc,
+        path => game.Read("0012", path)) { }
+
+    // UI files such as ui/inputmap.xml.
+    internal byte[] Ui(string path)
+    {
+        byte[] data = (ui ?? throw new InvalidOperationException("No UI file source.")).Invoke(path);
+        read[path] = data;
+        return data;
+    }
 
     internal List<(string Tag, byte[] Data)> Misc(string name)
     {

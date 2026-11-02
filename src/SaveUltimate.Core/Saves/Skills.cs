@@ -27,13 +27,31 @@ public sealed record SkillCatalog(Dictionary<uint, SkillDefinition> Skills, Dict
     }
 }
 
+// The game's KnowledgeLearnFromType in its own order (name table in CrimsonDesert.exe); saves keep one per knowledge as
+// _learnFromTypeRaw. Investment writes none.
+public enum LearnFrom : uint
+{
+    Dialog, DialogGlossary, Sequencer, Threat, Region, Cooking, Eavesdrop, FollowComplete, Login, ForceLockOn, Read, Tool, Zoom, Gimmick,
+    Following, FollowManualLockOn, Battle, BattleComplete, Meditation, SkillPoint, LearnedPriorKnowledge, Shop, ResetKnowledgeLevel,
+    RemoveKnowledge, MiniGame, None, Friendly
+}
+
 public sealed record SkillPoints(ulong Current, ulong Total);
 public sealed record SkillPayment(ulong Spent, int Owner);
 public sealed record SkillState(IReadOnlyDictionary<uint, uint> Levels, IReadOnlyDictionary<uint, SkillPayment> Paid,
     IReadOnlyDictionary<int, SkillPoints> Points, IReadOnlyDictionary<uint, uint> Follow, IReadOnlyDictionary<uint, ulong> Inventory)
 {
     public uint Level(uint key) => Levels.GetValueOrDefault(key);
-    public bool Observed(uint key) => SkillCatalog.Shared.Skills[key].Watch && Level(key) > 0 && Follow.GetValueOrDefault(key) is 2 or 7 or 15 or 22;
+    // The record the game writes when observing: FollowManualLockOn for a demonstration in a region (route mode 2, e.g. Wind
+    // Arrow, Pull Up), FollowComplete for a monster or boss in combat (mode 1, e.g. Drop Kick, Gale Slash).
+    internal static uint ObservedFrom(SkillDefinition definition) =>
+        (uint)(definition.Levels[0].Routes.Any(r => r.Mode == 2) ? LearnFrom.FollowManualLockOn : LearnFrom.FollowComplete);
+    // Observed level 1 survives a skill reset, so these count too: Sequencer (Snap Kick and Escape learned in scripted fights)
+    // and ResetKnowledgeLevel (a reset of an observed skill above level 1). LearnedPriorKnowledge or no record is lost on reset.
+    public bool Observed(uint key) => SkillCatalog.Shared.Skills[key].Watch && Level(key) > 0 &&
+        (LearnFrom)Follow.GetValueOrDefault(key, (uint)LearnFrom.None) is LearnFrom.Sequencer or LearnFrom.FollowComplete or LearnFrom.FollowManualLockOn or LearnFrom.ResetKnowledgeLevel;
+    // A pending edit changes the level or the learn-from record (observing a learned skill changes only the record).
+    public bool Changed(SkillState baseline, uint key) => Level(key) != baseline.Level(key) || Follow.GetValueOrDefault(key) != baseline.Follow.GetValueOrDefault(key);
     internal static Dictionary<uint, ulong> InventoryTotals(IEnumerable<InventoryItem> items)
     {
         var result = new Dictionary<uint, ulong>();
@@ -118,12 +136,13 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
         DlcContent.Refuse(DlcContent.Shared.Knowledge.Contains(key));
         uint previous = state.Level(key);
         if (watch && !definition.Watch) throw new InvalidOperationException("관찰 습득할 수 없는 스킬입니다.");
-        // A skill learned by investing can still be observed (saves hold invested skills with an observation record); only the
-        // observation is added. Another learn-from record is kept.
+        // A skill learned another way can still be observed (saves hold invested skills with an observation record); only the
+        // observation is recorded. The save keeps one learn-from record for nearly every knowledge (skills granted with a prior one hold LearnedPriorKnowledge),
+        // so a record that is not an observation is replaced, not treated as one.
         if (watch && previous > 0)
         {
-            if (state.Follow.ContainsKey(key)) throw new InvalidOperationException("이미 다른 습득 기록이 있는 스킬입니다.");
-            return new(key, previous, definition.Owner, [], new() { [key] = 7 }, [], 0, 0, 0, new(state.Points));
+            if (state.Observed(key)) throw new InvalidOperationException("이미 관찰 습득한 스킬입니다.");
+            return new(key, previous, definition.Owner, [], new() { [key] = SkillState.ObservedFrom(definition) }, [], 0, 0, 0, new(state.Points));
         }
         if (target <= previous || target > definition.Levels.Length) throw new InvalidOperationException("현재보다 높은 유효한 단계만 적용할 수 있습니다.");
         var levels = new Dictionary<uint, uint>(state.Levels);
@@ -148,7 +167,7 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
             levels[key] = changes[key] = number;
             foreach (var grant in level.Grants)
                 if (levels.GetValueOrDefault(grant[0]) < grant[1]) levels[grant[0]] = changes[grant[0]] = grant[1];
-            if (observing) follow[key] = 7;
+            if (observing) follow[key] = SkillState.ObservedFrom(definition);
         }
         ulong investment = costs.GetValueOrDefault(75001u), bonds = Math.Min(state.Points[definition.Owner].Current, investment);
         ulong artifacts = investment - bonds;

@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.5]
+
+Skills page fixes. Verified with Crimson Desert 2.04.05 and its first DLC.
+
+- Opening a save no longer marks every skill as changed; only pending edits are marked.
+- Learning a skill by observation that is already learned by level is marked as a change.
+- Observation no longer refuses skills granted by a quest or a prior skill (Evasive Explosive Shot, Repulsion
+  Emblem), and still refuses skills already learned by observation, including ones kept through a skill reset.
+- Observation writes the record the game uses: a region demonstration for skills learned from one, combat
+  observation for the rest. Double Jump can be learned by observation.
+- Skill descriptions in every language show the default keyboard keys, such as "[F + Right Click]", instead of
+  action names or "[Skill N]".
+- The Skills title sits above the character tabs, and the selected tab keeps its fill after switching pages. Hovering
+  a tab only brightens its text.
+- Bundled game data is refreshed for 2.04.05.
+
 ## [1.1.4]
 
 Cause of "Dll was not found." identified and guarded. Verified with Crimson Desert 2.04.04 and its first DLC.

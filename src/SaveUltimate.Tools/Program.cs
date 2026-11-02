@@ -190,7 +190,7 @@ catalogs.SetAction(result =>
     foreach (var (name, node) in KnowledgeCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
     foreach (var (name, node) in CharacterCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
     foreach (var (name, node) in MapCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
-    outputs["data/skills.json"] = SkillCatalogBuilder.Build(new ClientSource(game));
+    foreach (var (name, node) in SkillCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
     outputs["data/dlc_content.json"] = DlcContentBuilder.Build(new ClientSource(game));
     foreach (var (name, node) in outputs) WriteJson(Path.Combine(target, name), node, name is "data/skills.json" or "data/map_actions.json" or "data/map_catalog.json" or "data/dlc_content.json");
     Console.WriteLine($"{outputs["data/knowledge_ui.json"]["itemPaths"]!.AsObject().Count} visible knowledge entries, {outputs["data/fishing_catalog.json"]["fish"]!.AsArray().Count} fish, " +

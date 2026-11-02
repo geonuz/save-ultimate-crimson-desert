@@ -96,7 +96,11 @@
   <local:CompanionPage x:Name="CompanionArea" Grid.Row="3" Visibility="{Binding IsCompanions, Converter={StaticResource BooleanVisibility}}"/>
   <local:CompanionPage x:Name="PetArea" Pets="True" Grid.Row="3" Visibility="{Binding IsPets, Converter={StaticResource BooleanVisibility}}"/>
   <local:ItemDatabasePage x:Name="DatabaseArea" Grid.Row="3" Visibility="{Binding IsDatabase, Converter={StaticResource BooleanVisibility}}"/>
-  <local:SkillsView x:Name="SkillsArea" Grid.Row="1" Grid.RowSpan="3" Margin="20,0,20,16" Visibility="{Binding IsSkills, Converter={StaticResource BooleanVisibility}}"/>
+  <!-- The character tabs are the skills menu's sub-tabs, so they sit under its title. -->
+  <DockPanel Grid.Row="1" Grid.RowSpan="3" Margin="20,8,20,16" Visibility="{Binding IsSkills, Converter={StaticResource BooleanVisibility}}">
+   <local:PageHeader DockPanel.Dock="Top" Title="{local:Tr skills.title}" HelpTopic="skills.title" LoadedState="{Binding Skills, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button Content="{local:Tr ui.load_data}" Command="{Binding LoadSkillsCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
+   <local:SkillsView x:Name="SkillsArea"/>
+  </DockPanel>
   <StackPanel Grid.Row="2" Visibility="{Binding IsItemEditor, Converter={StaticResource BooleanVisibility}}" Margin="20,8,20,12">
    <local:PageHeader Title="{Binding ItemPageTitle}" LoadCommand="{Binding ReloadCommand}" LoadedState="{Binding HasDocument}" HelpTopic="{Binding ItemHelpTopic}" Margin="0,0,0,12"/>
    <DockPanel>

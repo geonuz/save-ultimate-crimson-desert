@@ -1,6 +1,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.App;
 using SaveUltimate.Core.Saves;
@@ -13,15 +14,33 @@ public sealed class SkillTests
     [TestMethod]
     public void SkillDescriptionsNameKeyPromptsAndResolveLabelledLinks()
     {
-        Assert.AreEqual("Press [Roll] while being hit.", SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("Press {Key:Key_Roll} while being hit."));
-        Assert.AreEqual("[Jump][Run], [Normal Attack] or [Skill 4 Start]",
-            SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("{Key:Key_Jump}{Key:Key_Run}, {Key:Key_NorAttack} or {Key:Key_Skill_4_Start}"));
+        var bindings = SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyBindings("""
+            <SubGroup Name="Skill_17"><Input Name="Key_Skill_17"/></SubGroup>
+            <!-- <Input Name="Key_Jump"><KeyboardMouse Key="j"/></> -->
+            <Input Name="Key_Roll"><GamePad Key="buttonB"/><KeyboardMouse Name="OverrideKey1" Key="alt"/><KeyboardMouse Name="OverrideKey2" Key="mouseX2"/></>
+            <Input Name="Key_Skill_17" Consume="True"><KeyboardMouse Name="OverrideKey" Key="f mouseR" Method="press"/></>
+            <Input Name="Key_Focus_Mabongpa"><KeyboardMouse Key="tab"/></>
+            <Input Name="Key_Skill_17"><KeyboardMouse Key="q"/></>
+            """);
+        CollectionAssert.AreEquivalent(new[] { "Roll", "Skill17", "FocusMabongpa" }, bindings.Keys.ToArray());
+        Assert.AreEqual("사용 방법: 달리는 중 [F + 우클릭]", SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("사용 방법: 달리는 중 {Key:Key_Skill_17}", bindings, 1));
+        Assert.AreEqual("[Alt][Tab], [F + Right Click] or [Jump]",
+            SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("{Key:Key_Roll}{Key:Key_FocusMabongpa}, {Key:Key_Skill_17} or {Key:Key_Jump}", bindings, 0));
         var resources = new DirectoryInfo(AppContext.BaseDirectory);
         while (!File.Exists(Path.Combine(resources.FullName, "resources/data/skills.json"))) resources = resources.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
         var skills = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, "resources/data/skills.json")))!["skills"]!.AsObject();
         var descriptions = skills.SelectMany(s => s.Value!["levels"]!.AsArray()).SelectMany(l => l!["description"]!.AsArray()).Select(d => d!.GetValue<string>()).ToArray();
-        Assert.IsTrue(descriptions.Any(d => d.Contains("[Roll]")));
-        CollectionAssert.AreEqual(Array.Empty<string>(), descriptions.Where(d => d.Contains("  ") || d.Contains('{') || d.Contains("Knowledge_")).ToArray());
+        CollectionAssert.AreEqual(Array.Empty<string>(), descriptions.Where(d => d.Contains("  ") || d.Contains('{') || d.Contains("Knowledge_") || d.Contains("[Skill ")).ToArray());
+        Assert.IsTrue(descriptions.Contains("사용 방법: 달리는 중 [F + 우클릭]\n\n달리는 중에 적을 걸어 메친다."));
+        // The ja/ru packs carry every level with the same keys, links resolved to their own names.
+        int levels = skills.Sum(s => s.Value!["levels"]!.AsArray().Count);
+        foreach (var (code, clothesline) in new[] { ("ja", "[F + 右クリック]"), ("ru", "[F + ПКМ]") })
+        {
+            var pack = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, $"resources/locale/names_{code}.json")))!["skill_descriptions"]!.AsObject();
+            Assert.AreEqual(levels, pack.Count, code);
+            StringAssert.Contains(pack["40028:1"]!.GetValue<string>(), clothesline);
+            CollectionAssert.AreEqual(Array.Empty<string>(), pack.Select(p => p.Value!.GetValue<string>()).Where(d => d.Contains('{') || d.Contains("Knowledge_") || d.Contains("[Skill ")).ToArray(), code);
+        }
     }
 
     [TestMethod]
@@ -43,7 +62,22 @@ public sealed class SkillTests
         var learned = state with { Levels = new Dictionary<uint, uint> { [40024] = 1 } };
         var observed = SkillPlan.Create(learned, 40024, 1, true);
         Assert.AreEqual(7u, observed.Follow[40024]); Assert.AreEqual(0, observed.Changes.Count); Assert.AreEqual(0, observed.Costs.Count);
-        Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(learned with { Follow = new Dictionary<uint, uint> { [40024] = 20 } }, 40024, 1, true));
+        // Nearly every knowledge has a learn-from record; only an observation one blocks observing (20: granted with a prior skill).
+        var quest = learned with { Follow = new Dictionary<uint, uint> { [40024] = 20 } };
+        Assert.AreEqual(7u, SkillPlan.Create(quest, 40024, 1, true).Follow[40024]);
+        // Skills shown in a region (route mode 2) are recorded as 15, as the game does for Pull Up and Wind Arrow.
+        Assert.AreEqual(15u, SkillPlan.Create(state, 1003108, 1, true).Follow[1003108]);
+        Assert.AreEqual(15u, SkillPlan.Create(state with { Levels = new Dictionary<uint, uint> { [40065] = 1 } }, 40065, 1, true).Follow[40065]);
+        // Kliff's Double Jump has no observation route in the game data, but saves show it observed in a region.
+        Assert.IsTrue(SkillCatalog.Shared.Skills[1001116].Watch);
+        Assert.AreEqual(15u, SkillPlan.Create(state, 1001116, 1, true).Follow[1001116]);
+        Assert.IsTrue((state with { Levels = new Dictionary<uint, uint> { [1001116] = 2 }, Follow = new Dictionary<uint, uint> { [1001116] = (uint)LearnFrom.ResetKnowledgeLevel } }).Observed(1001116));
+        Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(learned with { Follow = new Dictionary<uint, uint> { [40024] = 22 } }, 40024, 1, true));
+        // Observing a learned skill changes only its record, and that is a pending change too.
+        var observedState = learned with { Follow = new Dictionary<uint, uint> { [40024] = 7 } };
+        Assert.IsTrue(observedState.Changed(quest, 40024)); Assert.IsTrue(observedState.Changed(learned, 40024));
+        Assert.IsFalse(quest.Changed(quest with { }, 40024)); Assert.IsFalse(learned.Changed(learned, 40003));
+        Assert.IsTrue(learned.Changed(state, 40024));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 40001, 1));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 1004772, 1));
         Assert.Throws<InvalidOperationException>(() => SkillPlan.Create(state, 1005840, 1, true));
@@ -58,7 +92,7 @@ public sealed class SkillTests
     public void InvestedSkillCanBeObservedRoundTripAndUndo()
     {
         string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.04.00.save")); string original = document.BlobSha256;
+        var document = SaveDocument.Open(Path.Combine(fixtures, "2.04.00", "1_save.save")); string original = document.BlobSha256;
         var before = document.ReadSkills();
         uint key = SkillCatalog.Shared.Skills.Values.First(d => d.Watch && before.Level(d.Key) > 0 && before.Paid.ContainsKey(d.Key) && !before.Follow.ContainsKey(d.Key)).Key;
         var after = document.LearnSkill(key, 1, true);
@@ -160,6 +194,46 @@ public sealed class SkillTests
         window.Width = 800; window.UpdateLayout();
         Assert.AreEqual(2, Grid.GetRow((ScrollViewer)page.FindName("Details")));
         WindowTests.Capture(window, "skills-narrow");
+        window.Close();
+    }
+
+    [STATestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void SkillPageMarksOnlyPendingEditsUnderItsTitle()
+    {
+        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        var model = new MainViewModel();
+        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        window.Show(); model.PageIndex = 4; window.UpdateLayout();
+        // The page is already on screen when the save loads, so it renders as soon as the skills arrive.
+        WindowTests.Pump(() => model.LoadFileAsync(Path.Combine(fixtures, "2.04.03", "1_bari_quest_save.save")));
+        window.UpdateLayout();
+        var tabs = (SkillsView)window.FindName("SkillsArea");
+        var page = (SkillPage)((TabItem)tabs.SelectedItem).Content;
+        var tree = (Canvas)page.FindName("Tree");
+        string[] Marked() => tree.Children.OfType<TextBlock>().Where(t => t.Text.EndsWith(" *")).Select(t => t.Text).ToArray();
+        CollectionAssert.AreEqual(Array.Empty<string>(), Marked(), "A freshly loaded save has no pending skill edits.");
+        Assert.IsFalse(tree.Children.OfType<Button>().Any(b => b.BorderBrush == Brushes.DeepSkyBlue));
+        // Explosive Evasive Shot came with a prior skill (record 20): it can be observed, and observing it is a visible change.
+        Assert.IsTrue(model.Skills!.Level(1000908) > 0 && !model.Skills.Observed(1000908));
+        WindowTests.Pump(() => model.LearnSkillAsync(1000908, true));
+        Assert.IsTrue(model.Skills!.Observed(1000908));
+        Assert.AreEqual(1, Marked().Length);
+        Assert.AreEqual(Brushes.DeepSkyBlue, tree.Children.OfType<Button>().Single(b => SkillCatalog.Shared.Related((uint)b.Tag).Contains(1000908u)).BorderBrush);
+        // The character tabs are the menu's sub-tabs, under its title.
+        var header = (PageHeader)((DockPanel)tabs.Parent).Children[0];
+        Assert.IsTrue(header.TranslatePoint(new Point(0, header.ActualHeight), window).Y <= tabs.TranslatePoint(new Point(), window).Y);
+        // A selected tab keeps its fill after another menu was shown, without keyboard focus.
+        model.PageIndex = 3; window.UpdateLayout(); model.PageIndex = 4; window.UpdateLayout();
+        var selected = (TabItem)tabs.ItemContainerGenerator.ContainerFromIndex(tabs.SelectedIndex);
+        Assert.IsFalse(selected.IsKeyboardFocused);
+        Assert.AreEqual(((SolidColorBrush)window.FindResource("selected")).Color, ((SolidColorBrush)((Border)selected.Template.FindName("Box", selected)).Background).Color);
+        WindowTests.Capture(window, "skills-loaded");
+        // Undo the edit so closing does not ask to save it.
+        WindowTests.Pump(() => model.UndoCommand.ExecuteAsync(null));
+        Assert.IsFalse(model.HasUnsavedChanges);
         window.Close();
     }
 }

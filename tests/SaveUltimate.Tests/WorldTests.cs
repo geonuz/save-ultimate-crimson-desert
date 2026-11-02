@@ -99,7 +99,7 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void ExtendedDlcFogRevealsAndRoundTrips()
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.04.00.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.00", "1_save.save")); string original = doc.BlobSha256;
         var before = doc.ReadMap().Fog;
         Assert.IsFalse(before.Full);
         Assert.IsTrue(doc.RevealMap().Full);
@@ -146,8 +146,8 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void PerCharacterBondsAndPetOrderRoundTripAndUndo()
     {
-        // save_v2.04.03_bond.save: Elowen holds Kliff 30 and Oongka 10, Tina (an ordinary NPC) Oongka 55; Lyselia_1 counts 1 at bond 20.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.04.03_bond.save")); string original = doc.BlobSha256;
+        // 2.04.03/2_oongka_add_save.save: Elowen holds Kliff 30 and Oongka 10, Tina (an ordinary NPC) Oongka 55; Lyselia_1 counts 1 at bond 20.
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.03", "2_oongka_add_save.save")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         CollectionAssert.AreEqual(new[] { (1u, (ulong?)30), (6u, (ulong?)10) }, npc.Single(r => r.Key == 1002939).Affinity.Select(a => (a.Playable, a.Value)).ToArray());
         Assert.AreEqual(1, npc.Single(r => r.Key == 1002940).Affinity.Length); // Bari's empty Oongka and Damiane slots are hidden
@@ -188,8 +188,8 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void DlcBondAndGreyZeroRosterEditsRoundTripAndUndo()
     {
-        // save_v2.04.00_dlc.save: Bari's bond toward Kliff is 35 and courting; three Grey-0 robots.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.04.00_dlc.save")); string original = doc.BlobSha256;
+        // 2.04.00/1-2_save.save: Bari's bond toward Kliff is 35 and courting; three Grey-0 robots.
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.00", "1-2_save.save")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         // 21 wanted criminals and Corbin only record a threat reward.
         Assert.AreEqual(134, npc.Length); Assert.IsFalse(npc.Any(r => r.Key is 1001875 or 1003530));

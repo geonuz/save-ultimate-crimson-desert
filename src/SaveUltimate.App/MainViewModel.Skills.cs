@@ -8,13 +8,13 @@ public partial class MainViewModel
 {
     public bool IsSkills => PageIndex == 4;
     [ObservableProperty] private SkillState? skills;
-    public IReadOnlyDictionary<uint, uint>? SkillBaseline { get; private set; }
+    public SkillState? SkillBaseline { get; private set; }
 
     [RelayCommand(CanExecute = nameof(CanSave))]
     private async Task LoadSkillsAsync() => await RunAsync(Tr.Text("Reading skills and investment records…"), async () =>
     {
         var state = await Task.Run(() => document!.ReadSkills());
-        SkillBaseline ??= state.Levels;
+        SkillBaseline ??= state;
         Skills = state;
         Status = Tr.Text("Skills and investment records loaded.");
     });

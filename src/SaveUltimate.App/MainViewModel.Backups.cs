@@ -69,7 +69,7 @@ public partial class MainViewModel
                 catch (IOException error) { warning = Tr.Text(" Secondary backup failed: ") + ErrorCodes.Describe(error); }
                 catch (UnauthorizedAccessException error) { warning = Tr.Text(" Secondary backup failed: ") + ErrorCodes.Describe(error); }
             }
-            SkillBaseline = Skills?.Levels;
+            SkillBaseline = Skills;
             savedInSession = true;
             OnPropertyChanged(nameof(SkillBaseline));
             Refresh(); ReadBackups();

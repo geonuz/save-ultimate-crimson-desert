@@ -71,7 +71,7 @@ public partial class SkillPage : UserControl
                 uint[] related = Catalog.Related(nodeKey);
                 uint[] watchKeys = related.Where(k => Catalog.Skills[k].Watch).ToArray();
                 bool observed = state is not null && watchKeys.Length > 0 && watchKeys.All(state.Observed);
-                bool changed = state is not null && related.Any(k => state.Level(k) != model?.SkillBaseline?.GetValueOrDefault(k));
+                bool changed = state is not null && model?.SkillBaseline is { } baseline && related.Any(k => state.Changed(baseline, k));
                 bool available = state is not null && TryPlan(state, nodeKey, false, out _);
                 bool matches = (Filter.SelectedIndex == 0 || watchKeys.Length > 0) && related.Any(k => ItemCatalog.Shared.KnowledgeName(k).Contains(Search.Text, StringComparison.OrdinalIgnoreCase));
                 var image = SkillIcon(nodeKey, 36);

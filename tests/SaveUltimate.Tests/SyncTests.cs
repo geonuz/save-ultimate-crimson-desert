@@ -153,7 +153,7 @@ public sealed class SyncTests
         var outputs = KnowledgeCatalogBuilder.Build(new ClientSource(files), Load)
             .Concat(CharacterCatalogBuilder.Build(new ClientSource(files), Load))
             .Concat(MapCatalogBuilder.Build(new ClientSource(files), Load))
-            .Append(new("data/skills.json", SkillCatalogBuilder.Build(new ClientSource(files))))
+            .Concat(SkillCatalogBuilder.Build(new ClientSource(files), Load))
             .Append(new("data/dlc_content.json", DlcContentBuilder.Build(new ClientSource(files))))
             .Append(new("data/challenge_catalog.json", ChallengeCatalogBuilder.Build(new ClientSource(files), Load("data/challenge_catalog.json").AsObject())));
         foreach (var (name, node) in outputs) Assert.IsTrue(JsonNode.DeepEquals(Load(name), node), name);

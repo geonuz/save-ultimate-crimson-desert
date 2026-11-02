@@ -38296,20 +38296,20 @@
     "1005333": 1001248
   },
   "sourceSha256": {
-    "eng_quest.dlc_01.paloc": "e0f399116a2e665e4cad734a495b4a6e0686a86a3d59e2a1ef0bd237b9028b05",
+    "eng_quest.dlc_01.paloc": "bcfa7f81d91a57dcb1210b229da85c8fecdfcbbe21e56d9c245d5d599d0b43a3",
     "eng_quest.paloc": "4b8407aa749e822e840ee1f6e63185356863d62752ad5cd79f22bb2e1f0658ed",
-    "kor_quest.dlc_01.paloc": "bda46d940377a70434dd856824cbcc8c13a738ebaf1d42b7e14a8a426cc9c42b",
+    "kor_quest.dlc_01.paloc": "62a5b519a6ab9787fb0060520478b5fa6d1ef3bc046c8d98854dfe9f954608e5",
     "kor_quest.paloc": "c88372f98bc21234c05657c3911325d7ebe34c30e0c9b83ea44847ebff103548",
-    "missioninfo.dlc_01.staticinfobody": "2f45420e9ce71d29f3067849507f6af71803efde57f43385d364511b1d08b0c9",
-    "missioninfo.dlc_01.staticinfoheader": "397303b73d636d028d25a675e21948ce6991f59c03a0b25c517bd94f334730bf",
+    "missioninfo.dlc_01.staticinfobody": "044df52276e9d37bd0383abefe7ea7be6844387a9fb6a2ed6957bbc24da22ba0",
+    "missioninfo.dlc_01.staticinfoheader": "f80a57892059e7e20e88b9612dcd6ae805dafc6ec3e825bb653e57499d638503",
     "missioninfo.staticinfobody": "007795d7362ea0da68378e9568a4019f88fff47fc7128727f0c8278c1c64e68d",
     "missioninfo.staticinfoheader": "f0453448b04b829214fda45dfe5aade0c9e5422a038dd92676a92a47e32a08f4",
     "questgroupinfo.dlc_01.staticinfobody": "64bb62cdf6bbcb79c931ac0d4f89d055df253bc28705ea9371b8fdc75112d047",
     "questgroupinfo.dlc_01.staticinfoheader": "9571d79321b7e83b0291550616098a645b3b28007279bb30a9d43aaeef51937f",
     "questgroupinfo.staticinfobody": "ade42ab2d6ef503036b989cd1e5e0678de4c51ec2f6c7e4e2f614defbd159f4f",
     "questgroupinfo.staticinfoheader": "7be297a6920ab423782cb1a4bf04d92ea6c99e19fe59bb3315f9585b2bce6a9c",
-    "questinfo.dlc_01.staticinfobody": "f9f8724e78ae01bed61d89e84cb4b75d44b22608457c0d9c496d89e0e5c4abda",
-    "questinfo.dlc_01.staticinfoheader": "9d1d0e00e68ed6b0d6ef6465d66723c84d95dae1669f9edc71e53840f3bdf0e3",
+    "questinfo.dlc_01.staticinfobody": "d1e4c0b13f1001291552a2d05898dcd688bb8710d8574d0375391fc4fd19aa90",
+    "questinfo.dlc_01.staticinfoheader": "2e087cca478887a63d96230a07664d9760304d1ffbe1ec4fdf2b28fe394fad48",
     "questinfo.staticinfobody": "4c22ded3d0218fdab637fc12c749b737f51f9768ddb02a85ea207a979f530af0",
     "questinfo.staticinfoheader": "1bf8909328ee97259dd51ed68a2f1e3844e030e7371a72e96af7a95bd70744da"
   }
