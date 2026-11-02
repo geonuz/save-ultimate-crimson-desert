@@ -3,11 +3,11 @@
 /artifacts/
 /.tools/
 
-# Build outputs; native DLLs are compiled from native/ by scripts/Build.ps1.
+# Build outputs. native/bin/ holds the released native DLLs and is committed so every release ships the same files.
 **/bin/
 **/obj/
 /native/build/
-/native/bin/
+!/native/bin/
 /releases/
 **/TestResults/
 *.exe

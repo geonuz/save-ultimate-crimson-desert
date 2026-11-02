@@ -20,6 +20,6 @@ Source baseline: preserved `editor` commit `f7b10874d8544e0a4b4095383d85020d5c7d
 
 - `parc_validation` no longer links `parc_engine.cpp`; the validated writer reads the source header directly and parses the file once with the same HMAC and full validation checks. Its diagnostic JSON parse exports remain only in the `parc_parser` oracle. Unused `parc_index_blob`/`parc_block_index` exports were removed from `parc_index`.
 
-Build with CMake 3.24+ and a Windows x64 C++20 compiler. `scripts/Build.ps1` builds the three runtime DLLs from this source. The old `parc_parser` oracle target is not published.
+Build with CMake 3.24+ and a Windows x64 C++20 compiler. `scripts/Build.ps1 -BuildNative` builds the three runtime DLLs from this source into the committed `native/bin/`; ordinary builds reuse them and stop if this source no longer matches `native/bin/native-source.sha256` (see CONTRIBUTING.md). The old `parc_parser` oracle target is not published.
 
 Native file APIs still use the Windows active ANSI code page. The managed boundary rejects paths it cannot represent instead of substituting characters. Full Unicode native-path support remains a migration task.

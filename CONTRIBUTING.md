@@ -28,13 +28,28 @@ From the repository root:
 
 ```powershell
 ./scripts/Build.ps1 -Test
-# With a MinGW toolchain outside PATH:
-./scripts/Build.ps1 -ToolchainDirectory C:/Tools/w64devkit/bin -Test
 ```
 
-The script builds `parc_validation.dll`, `parc_index.dll` and `parc_reader.dll`
-from `native/` into `native/bin/`, restores packages in locked mode, builds the
-solution and runs the tests. Keep `packages.lock.json` files in sync with
+The script restores packages in locked mode, builds the solution and runs the
+tests. It does not compile C++: `native/bin/` holds the committed
+`parc_validation.dll`, `parc_index.dll` and `parc_reader.dll`, and builds and
+releases ship those files unchanged so every release carries the same tested
+DLLs with the same hashes. The current DLLs were built with MinGW-w64 GCC 16.2.0.
+`native/bin/native-source.sha256` records the sources they were built from, and
+the script stops if `native/CMakeLists.txt`, `native/src/` or
+`native/third_party/` no longer match it.
+
+After changing those sources, rebuild the DLLs with `-BuildNative` and commit
+`native/bin/` with the change. A different compiler produces different files, so
+use the same GCC where possible:
+
+```powershell
+./scripts/Build.ps1 -BuildNative -Test
+# With a MinGW toolchain outside PATH:
+./scripts/Build.ps1 -BuildNative -ToolchainDirectory C:/Tools/w64devkit/bin -Test
+```
+
+Keep `packages.lock.json` files in sync with
 `Directory.Packages.props`; restore with `--force-evaluate` after changing a package.
 
 ## Changes and tests
@@ -69,9 +84,10 @@ inherited files retain their existing terms, as listed in [LICENSES.md](LICENSES
 ./scripts/Build.ps1 -Publish -OutputDirectory ../releases/SaveUltimate-x.y.z
 ```
 
-`-Publish` creates a self-contained single-file `SaveUltimate.exe` (no .NET
-installation needed) in `releases/SaveUltimate-<timestamp>/` unless
-`-OutputDirectory` is given. The folder also contains `resources/`, `licenses/`,
+`-Publish` creates a self-contained `SaveUltimate.exe` (no .NET installation
+needed) with its native `.dll` files beside it in
+`releases/SaveUltimate-<timestamp>/` unless `-OutputDirectory` is given. The
+folder also contains `resources/`, `licenses/`,
 this repository's license and change notes, `dependencies.lock.json` and a
 `release-manifest.json` with the SHA-256 of every file. ZIP that folder for
 distribution. Builds are unsigned unless you sign them afterwards; record the

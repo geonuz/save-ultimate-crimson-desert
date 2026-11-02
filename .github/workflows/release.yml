@@ -47,7 +47,7 @@ jobs:
           $tag = "v$version-$($env:GITHUB_SHA.Substring(0, 12))"
           "version=$version" >> $env:GITHUB_OUTPUT
           "tag=$tag" >> $env:GITHUB_OUTPUT
-          $private = git ls-files -- docs artifacts releases game_data '*.save' '*.bak' 'native/bin/*' 'resources/**/*.png' 'resources/**/*.webp' 'resources/**/*.dds'
+          $private = git ls-files -- docs artifacts releases game_data '*.save' '*.bak' 'resources/**/*.png' 'resources/**/*.webp' 'resources/**/*.dds'
           if ($private) { throw "Private data or build output is tracked: $($private -join ', ')" }
           $releases = gh api --paginate "repos/$env:GITHUB_REPOSITORY/releases" --jq '.[] | [.tag_name, .draft, .target_commitish] | @tsv'
           if ($LASTEXITCODE) { throw 'Could not check existing releases' }
@@ -65,19 +65,13 @@ jobs:
           }
           "draft=$([bool]$existing)" >> $env:GITHUB_OUTPUT
           'publish=true' >> $env:GITHUB_OUTPUT
-      - name: Build, test and publish single-file EXE
+      - name: Build, test and publish
         if: steps.release.outputs.publish == 'true'
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          # The runner image ships MinGW-w64 GCC; the native DLLs are built from native/ with it.
-          $candidates = @('C:/mingw64/bin', 'C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin', 'C:/ProgramData/mingw64/mingw64/bin')
-          $gxx = Get-Command g++ -ErrorAction SilentlyContinue
-          if ($gxx) { $candidates = @(Split-Path $gxx.Source) + $candidates }
-          $toolchain = $candidates | Where-Object { (Test-Path "$_/g++.exe") -and (Test-Path "$_/mingw32-make.exe") } | Select-Object -First 1
-          if (!$toolchain) { throw 'MinGW-w64 g++ and mingw32-make were not found on the runner' }
-          & "$toolchain/g++.exe" --version | Select-Object -First 1
-          ./scripts/Build.ps1 -ToolchainDirectory $toolchain -Test -Publish -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION"
+          # Build.ps1 ships the committed native/bin DLLs unchanged, so every release carries the same tested files.
+          ./scripts/Build.ps1 -Test -Publish -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION"
           Compress-Archive -Path "releases/SaveUltimate-$env:RELEASE_VERSION/*" -DestinationPath "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip"
       - name: Upload and publish release
         if: steps.release.outputs.publish == 'true'

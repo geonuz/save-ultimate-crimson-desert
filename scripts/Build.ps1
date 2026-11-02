@@ -3,11 +3,27 @@ param(
     [switch]$Test,
     [switch]$Publish,
     [string]$OutputDirectory,
-    # Reuse the native DLLs already in native/bin (no CMake toolchain needed).
+    # Recompile native/bin from native/; only after native/ changes, then commit native/bin.
+    [switch]$BuildNative,
+    # Accepted for older commands; reusing the committed native/bin is the default.
     [switch]$SkipNative
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot
+$nativeHashFile = Join-Path $root 'native/bin/native-source.sha256'
+# Fingerprint of the native build inputs. Carriage returns are dropped so CRLF and LF checkouts agree.
+function Get-NativeSourceHash {
+    $latin1 = [Text.Encoding]::GetEncoding(28591)
+    $sha = [Security.Cryptography.SHA256]::Create()
+    $hex = { param($bytes) -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') }) }
+    $files = @(Get-Item -LiteralPath (Join-Path $root 'native/CMakeLists.txt')) + @(Get-ChildItem -LiteralPath (Join-Path $root 'native/src'), (Join-Path $root 'native/third_party') -File -Recurse)
+    [string[]]$lines = foreach ($file in $files) {
+        $text = $latin1.GetString([IO.File]::ReadAllBytes($file.FullName)).Replace("`r", '')
+        (& $hex $latin1.GetBytes($text)) + ' ' + $file.FullName.Substring($root.Length + 1).Replace('\', '/')
+    }
+    [Array]::Sort($lines, [StringComparer]::Ordinal)
+    & $hex $latin1.GetBytes($lines -join "`n")
+}
 Push-Location $root
 try {
     $env:DOTNET_CLI_HOME = Join-Path $root '.tools/cli'
@@ -21,10 +37,13 @@ try {
         $toolchain = (Resolve-Path -LiteralPath $ToolchainDirectory).Path
         $env:PATH = $toolchain + ';' + $env:PATH
     }
-    if ($SkipNative) {
+    if (!$BuildNative) {
+        # Releases ship the committed DLLs unchanged so their hashes stay the same; refuse them if native/ moved on.
         foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
-            if (!(Test-Path -LiteralPath "native/bin/$name.dll")) { throw "Missing native/bin/$name.dll; build without -SkipNative." }
+            if (!(Test-Path -LiteralPath "native/bin/$name.dll")) { throw "Missing native/bin/$name.dll; run with -BuildNative." }
         }
+        $built = if (Test-Path -LiteralPath $nativeHashFile) { (Get-Content -Raw -LiteralPath $nativeHashFile).Trim() }
+        if ($built -ne (Get-NativeSourceHash)) { throw 'native/ differs from the sources native/bin was built from; run with -BuildNative and commit native/bin.' }
     }
     else {
         $cmake = (Get-Command cmake -ErrorAction Stop).Source
@@ -40,6 +59,7 @@ try {
             if (!(Test-Path -LiteralPath $binary)) { $binary = Join-Path $root "native/build/Release/$name.dll" }
             Copy-Item -LiteralPath $binary -Destination native/bin
         }
+        [IO.File]::WriteAllText($nativeHashFile, (Get-NativeSourceHash) + "`n")
     }
     & $dotnet restore SaveUltimate.slnx --locked-mode --disable-parallel -m:1
     if ($LASTEXITCODE) { throw 'Locked package restore failed.' }
