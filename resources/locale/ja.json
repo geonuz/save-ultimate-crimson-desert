@@ -1036,5 +1036,22 @@
   "companion.move_up": "上へ移動",
   "companion.move_down": "下へ移動",
   "companion.number": "個体番号",
-  "ui.no_dlc": "DLCなし"
+  "ui.no_dlc": "DLCなし",
+  "error.SU-101": "プログラムフォルダーに必要なファイル {file} がありません。",
+  "error.SU-102": "Windows が {file} へのアクセスを拒否しました。(エラー {win32})",
+  "error.SU-103": "Windows が {file} を脅威としてブロックしました。(エラー {win32})",
+  "error.SU-104": "Windows のコード整合性ポリシーが {file} をブロックしました。(エラー {win32})",
+  "error.SU-105": "{file} が破損しているか、64 ビット Windows ライブラリではありません。(エラー {win32})",
+  "error.SU-109": "{file} を読み込めませんでした。(エラー {win32})",
+  "error.SU-201": "ファイルまたはフォルダーが見つかりません: {detail}",
+  "error.SU-202": "ファイルまたはフォルダーへのアクセスが拒否されました: {detail}",
+  "error.SU-203": "ファイルは別のプログラムで使用中です: {detail}",
+  "error.SU-204": "ディスクの空き容量が不足しています: {detail}",
+  "error.SU-205": "ファイルパスが長すぎるか無効です: {detail}",
+  "error.SU-209": "ファイルを読み書きできませんでした: {detail}",
+  "error.SU-301": "セーブデータを読み込めないか、対応していない形式です: {detail}",
+  "error.SU-302": "ゲームデータを読み込めないか、対応していない形式です: {detail}",
+  "error.SU-303": "この操作は許可されていません: {detail}",
+  "error.SU-401": "メモリが不足しているため操作を完了できません。",
+  "error.SU-901": "予期しないエラー ({type}): {detail}"
 }

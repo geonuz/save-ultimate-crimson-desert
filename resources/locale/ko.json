@@ -2799,5 +2799,22 @@
   "companion.move_up": "위로 이동",
   "companion.move_down": "아래로 이동",
   "companion.number": "개체 번호",
-  "ui.no_dlc": "DLC 없음"
+  "ui.no_dlc": "DLC 없음",
+  "error.SU-101": "프로그램 폴더에 필수 파일 {file}이(가) 없습니다.",
+  "error.SU-102": "Windows가 {file} 접근을 거부했습니다. (오류 {win32})",
+  "error.SU-103": "Windows가 {file}을(를) 위협으로 판단해 차단했습니다. (오류 {win32})",
+  "error.SU-104": "Windows 코드 무결성 정책이 {file}을(를) 차단했습니다. (오류 {win32})",
+  "error.SU-105": "{file}이(가) 손상되었거나 64비트 Windows 라이브러리가 아닙니다. (오류 {win32})",
+  "error.SU-109": "{file}을(를) 불러오지 못했습니다. (오류 {win32})",
+  "error.SU-201": "파일 또는 폴더를 찾을 수 없습니다: {detail}",
+  "error.SU-202": "파일 또는 폴더에 접근할 권한이 없습니다: {detail}",
+  "error.SU-203": "다른 프로그램이 파일을 사용 중입니다: {detail}",
+  "error.SU-204": "디스크 공간이 부족합니다: {detail}",
+  "error.SU-205": "파일 경로가 너무 길거나 올바르지 않습니다: {detail}",
+  "error.SU-209": "파일을 읽거나 쓰지 못했습니다: {detail}",
+  "error.SU-301": "세이브 데이터를 읽을 수 없거나 지원하지 않는 형식입니다: {detail}",
+  "error.SU-302": "게임 데이터를 읽을 수 없거나 지원하지 않는 형식입니다: {detail}",
+  "error.SU-303": "허용되지 않는 작업입니다: {detail}",
+  "error.SU-401": "메모리가 부족해 작업을 완료할 수 없습니다.",
+  "error.SU-901": "예상하지 못한 오류 ({type}): {detail}"
 }

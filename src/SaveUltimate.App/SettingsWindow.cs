@@ -90,7 +90,7 @@ public sealed class SettingsWindow : Window
             CatalogFiles.Reload(); model?.RefreshLanguage();
             syncStatus.Text = Tr.Format("sync.result", ("items", result.Items), ("images", result.Images), ("missing", result.Unresolved), ("seconds", result.Seconds.ToString("F1")));
         }
-        catch (Exception error) { syncStatus.Text = Tr.Text("sync.failed") + " " + error.Message; ThemedMessageBox.Show(this, syncStatus.Text, Tr.Text("Sync Items Local"), MessageBoxButton.OK, MessageBoxImage.Error); }
+        catch (Exception error) { syncStatus.Text = Tr.Text("sync.failed") + " " + ErrorCodes.Describe(error); ThemedMessageBox.Show(this, syncStatus.Text, Tr.Text("Sync Items Local"), MessageBoxButton.OK, MessageBoxImage.Error); }
         finally { if (model is not null) model.Busy = false; IsEnabled = true; synchronizing = false; }
     }
     private static void Scales(ComboBox combo, double value)

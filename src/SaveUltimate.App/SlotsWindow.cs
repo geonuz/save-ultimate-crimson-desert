@@ -69,7 +69,7 @@ public sealed class SlotsWindow : Window
         if (Rows.SelectedItem is not SaveSlot { Category: "manual" } row) return;
         try { SettingsStore.Save(SettingsStore.Current with { RecentSaveFiles = SettingsStore.Current.RecentSaveFiles.Where(p => !string.Equals(Path.GetFullPath(p), row.Path, StringComparison.OrdinalIgnoreCase)).ToArray() }); }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException)
-        { ThemedMessageBox.Show(this, error.Message, Tr.Text("Settings"), MessageBoxButton.OK, MessageBoxImage.Warning); }
+        { ThemedMessageBox.Show(this, ErrorCodes.Describe(error), Tr.Text("Settings"), MessageBoxButton.OK, MessageBoxImage.Warning); }
         Refresh();
     }
     private async Task OpenSelected() { if (Rows.SelectedItem is SaveSlot row && File.Exists(row.Path)) await Open(row.Path); }
@@ -88,7 +88,7 @@ public sealed class SlotsWindow : Window
             {
                 try { SettingsStore.Remember(file); }
                 catch (Exception error) when (error is IOException or UnauthorizedAccessException)
-                { ThemedMessageBox.Show(this, error.Message, Tr.Text("Settings"), MessageBoxButton.OK, MessageBoxImage.Warning); }
+                { ThemedMessageBox.Show(this, ErrorCodes.Describe(error), Tr.Text("Settings"), MessageBoxButton.OK, MessageBoxImage.Warning); }
                 DialogResult = true;
             }
         }

@@ -66,8 +66,8 @@ public partial class MainViewModel
             if (recovery is not null)
             {
                 try { await Task.Run(() => SaveBackups.Mirror(path, recovery, AppContext.BaseDirectory)); }
-                catch (IOException error) { warning = Tr.Text(" Secondary backup failed: ") + error.Message; }
-                catch (UnauthorizedAccessException error) { warning = Tr.Text(" Secondary backup failed: ") + error.Message; }
+                catch (IOException error) { warning = Tr.Text(" Secondary backup failed: ") + ErrorCodes.Describe(error); }
+                catch (UnauthorizedAccessException error) { warning = Tr.Text(" Secondary backup failed: ") + ErrorCodes.Describe(error); }
             }
             SkillBaseline = Skills?.Levels;
             savedInSession = true;

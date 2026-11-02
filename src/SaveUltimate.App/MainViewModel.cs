@@ -283,7 +283,7 @@ public partial class MainViewModel : ObservableObject
             T? Page<T>(string name, Func<T> read) where T : class
             {
                 try { return read(); }
-                catch (Exception error) when (error is not OutOfMemoryException) { failed.Add(name + ": " + error.Message); return null; }
+                catch (Exception error) when (error is not OutOfMemoryException) { failed.Add(name + ": " + ErrorCodes.Describe(error)); return null; }
             }
             var pages = await Task.Run(() => (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
                 Challenges: Page("challenges", loaded.ReadChallenges), Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", loaded.ReadMap),
@@ -294,7 +294,7 @@ public partial class MainViewModel : ObservableObject
             if (createPristine)
             {
                 try { await Task.Run(() => SaveBackups.Pristine(path)); }
-                catch (Exception error) when (error is IOException or UnauthorizedAccessException) { Status += Tr.Text(" PRISTINE backup failed: ") + error.Message; }
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException) { Status += Tr.Text(" PRISTINE backup failed: ") + ErrorCodes.Describe(error); }
             }
             ReadBackups();
         });
@@ -467,7 +467,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception error)
         {
-            Status = Tr.Text("Operation failed: ") + error.Message;
+            Status = Tr.Text("Operation failed: ") + ErrorCodes.Describe(error);
             ThemedMessageBox.Show(Status, "SaveUltimate", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally { progress?.Finish(); Busy = false; }

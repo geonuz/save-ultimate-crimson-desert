@@ -260,7 +260,7 @@ public partial class MainWindow : Window
     {
         if (DataContext is not MainViewModel || IconsToggle.IsChecked == SettingsStore.Current.ShowIcons) return;
         try { SettingsStore.Save(SettingsStore.Current with { ShowIcons = IconsToggle.IsChecked == true }); ApplyAppearance(); }
-        catch (System.IO.IOException error) { ThemedMessageBox.Show(error.Message); }
+        catch (System.IO.IOException error) { ThemedMessageBox.Show(ErrorCodes.Describe(error)); }
     }
     public void ShowSettings(string page = "general")
     {
@@ -268,7 +268,7 @@ public partial class MainWindow : Window
         var dialog = new SettingsWindow(model.LoadedPath, page) { Owner = this };
         if (dialog.ShowDialog() != true || dialog.Result is null) return;
         try { SettingsStore.Save(dialog.Result); Appearance.Apply(dialog.Result); }
-        catch (Exception error) when (error is System.IO.IOException or UnauthorizedAccessException) { ThemedMessageBox.Show(error.Message, Tr.Text("Settings")); }
+        catch (Exception error) when (error is System.IO.IOException or UnauthorizedAccessException) { ThemedMessageBox.Show(ErrorCodes.Describe(error), Tr.Text("Settings")); }
     }
     // Game images and names are not bundled; on first run point the user at the sync instead of leaving icons blank.
     public void RecommendSync()

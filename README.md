@@ -49,9 +49,11 @@ synchronized data in the same folder:
 
 ```text
 SaveUltimate.exe
+*.dll             Native libraries (shipped)
 resources/        Baseline catalogs, translations and artwork (shipped)
 licenses/         Third-party notices (shipped)
 editor_config.json
+error.log         Details of reported errors
 backups/          Copies of your save backups
 game_data/        Synchronized game data and images
 ```
@@ -59,10 +61,32 @@ game_data/        Synchronized game data and images
 Backups are also written to a `backups/` folder beside each save, including a
 `.PRISTINE.bak` copy made the first time a save is opened. Sync again after a
 game update; unchanged data is reused. When updating SaveUltimate, replace the
-EXE, `resources/` and `licenses/` and keep your settings, backups and `game_data/`.
+EXE, the `.dll` files, `resources/` and `licenses/` and keep your settings, backups and `game_data/`.
 
-On first start Windows unpacks the editor's native libraries into
-`%TEMP%\.net\SaveUltimate\`; this is normal for single-file .NET applications.
+## Error codes
+
+Errors show a code such as `[SU-101]`, and the full details are appended to
+`error.log` beside the EXE. Include both when reporting a problem.
+
+| Code | Meaning |
+|---|---|
+| SU-101 | A required DLL is missing from the program folder |
+| SU-102 | Windows denied access to a required DLL |
+| SU-103 | Windows blocked a required DLL as a threat |
+| SU-104 | A Windows code integrity policy blocked a required DLL |
+| SU-105 | A required DLL is damaged or is not a 64-bit Windows library |
+| SU-109 | A required DLL could not be loaded for another reason (the Windows error is shown) |
+| SU-201 | A file or folder was not found |
+| SU-202 | Access to a file or folder was denied |
+| SU-203 | The file is in use by another program |
+| SU-204 | Not enough disk space |
+| SU-205 | The file path is too long or invalid |
+| SU-209 | Another file read or write error |
+| SU-301 | The save data could not be read or is not supported |
+| SU-302 | The game data could not be read or is not supported |
+| SU-303 | The editor refused the operation (the reason is shown) |
+| SU-401 | Not enough memory |
+| SU-901 | Unexpected error (the error type is shown) |
 
 ## Use and copyright
 
