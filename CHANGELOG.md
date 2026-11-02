@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.3]
+
+Error codes and fixed native libraries. Verified with Crimson Desert 2.04.04 and its first DLC.
+
+- Errors show a code such as `[SU-101]` with a message in the interface language, and the full details are appended to
+  `error.log` beside `SaveUltimate.exe`. README lists the codes; include both when reporting a problem.
+- When a DLL fails to load, the message names the file and the reason: missing from the program folder, access denied,
+  blocked as a threat, blocked by a code integrity policy, or damaged. Earlier versions showed only "Dll was not found."
+- Every release now ships the same tested `parc_*.dll` files. Earlier releases recompiled them, so their files changed
+  from one release to the next.
+
 ## [1.1.2]
 
 Native libraries ship beside the executable. Verified with Crimson Desert 2.04.04 and its first DLC.

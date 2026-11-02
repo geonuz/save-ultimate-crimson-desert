@@ -5,7 +5,7 @@ x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
 Developed and maintained by geonuz with assistance from AI agents.
 
 The interface supports English, Korean, Japanese and Russian. Game names and
-descriptions use the game's localization data. Version 1.1.2 is verified with
+descriptions use the game's localization data. Version 1.1.3 is verified with
 Crimson Desert 2.04.04 and its first DLC, and still opens 2.03.02, 2.04.00 and
 2.04.03 saves; the window shows both versions under Settings. Without the DLC
 installed (no `dlc/dlc_01` in the game folder), the header says so and DLC
