@@ -157,7 +157,8 @@ internal static class Inventory
                 var stack = fields.Named("_stackCount");
                 ulong quantity = stack.Scalar(raw, "TStackCount", 8);
                 if (itemKey == 0 && quantity == 0) return;
-                if (itemKey == 0 || itemNumber is 0 or ulong.MaxValue || !positions.Add(stack.StartOffset))
+                // 2.04.05 crew fishing stores fish in the ship's inventory with no item number (all 0xFF); those rows stay read-only.
+                if (itemKey == 0 || itemNumber == 0 || (itemNumber == ulong.MaxValue && source != ItemSource.Mercenary) || !positions.Add(stack.StartOffset))
                     throw new InvalidDataException("Invalid or duplicated physical item.");
                 var enchant = fields.Named("_enchantLevel");
                 ushort level = enchant.Present ? checked((ushort)enchant.Scalar(raw, "TEnchantLevel", 2)) : ushort.MaxValue;

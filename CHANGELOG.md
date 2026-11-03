@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1]
+
+Save loading fix. Verified with Crimson Desert 2.04.05 and its first DLC.
+
+- Saves with fish from crew fishing (new in 2.04.05) open again. The game stores those fish in the ship's inventory
+  without an item number, which was reported as `[SU-301] Invalid or duplicated physical item.` They are listed as
+  read-only items of the ship; items without a number anywhere else are still refused.
+
 ## [1.2.0]
 
 Native parser fix. Verified with Crimson Desert 2.04.05 and its first DLC.
