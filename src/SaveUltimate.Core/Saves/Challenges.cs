@@ -100,13 +100,13 @@ public sealed partial class SaveDocument
             reference.Roots.Any(r => catalog.Descendants(r).Any(k => !reference.Missions.ContainsKey(k))))
             throw new InvalidDataException("Challenge definitions do not match the catalog.");
         if (roots.Length == 0 || roots.Distinct().Count() != roots.Length || roots.Any(k => !reference.Roots.Contains(k)))
-            throw new InvalidOperationException("서로 다른 도전과제를 선택하세요.");
+            throw new InvalidOperationException("Select distinct challenges.");
         var keys = roots.SelectMany(catalog.Descendants).ToHashSet();
         if (checkpoints is not null)
         {
             if (roots.Length != 1 || checkpoints.Length == 0 || checkpoints.Distinct().Count() != checkpoints.Length ||
                 checkpoints.Any(k => !keys.Contains(k) || roots.Contains(k) || catalog.Missions[k].Children.Length != 0))
-                throw new InvalidOperationException("이 도전과제에 속하는 서로 다른 체크포인트를 선택하세요.");
+                throw new InvalidOperationException("Select distinct checkpoints of this challenge.");
             keys = checkpoints.ToHashSet();
         }
         var block = SaveRecords.ReadLists(raw, layout, "QuestSaveData", "_questStateList", "_missionStateList");
@@ -114,7 +114,7 @@ public sealed partial class SaveDocument
         uint[] pending = keys.Where(k => before.Mission.GetValueOrDefault(k)?.State != 5).ToArray();
         if (pending.Length == 0) return ([], before, 0);
         ulong timestamp = before.Quest.Values.Concat(before.Mission.Values).SelectMany(r => new[] { r.Completed ?? 0, r.Branched ?? 0 }).DefaultIfEmpty().Max();
-        if (timestamp == 0 || timestamp >= 1UL << 63) throw new InvalidDataException("사용할 수 있는 퀘스트 시각 기록이 없습니다.");
+        if (timestamp == 0 || timestamp >= 1UL << 63) throw new InvalidDataException("No usable quest timestamp.");
         var missions = new Dictionary<uint, JournalRecord>(before.Mission);
         var quests = new Dictionary<uint, JournalRecord>(before.Quest);
         var changes = new Dictionary<uint, Dictionary<string, ScalarValue>>();

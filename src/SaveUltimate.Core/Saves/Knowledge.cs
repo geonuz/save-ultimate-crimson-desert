@@ -31,7 +31,7 @@ public sealed partial class SaveDocument
         {
             uint key = checked((uint)row.ChildFields.Named("_key").Scalar(raw, "KnowledgeKey", 4));
             uint level = checked((uint)row.ChildFields.Named("_level").Scalar(raw, "TLevel", 4));
-            if (key == 0 || !result.TryAdd(key, level)) throw new InvalidDataException("중복되거나 잘못된 지식 기록입니다.");
+            if (key == 0 || !result.TryAdd(key, level)) throw new InvalidDataException("Duplicate or invalid knowledge record.");
         }
         return result;
     }
@@ -42,7 +42,7 @@ public sealed partial class SaveDocument
         var dlc = DlcContent.Shared.Knowledge;
         uint[] keys = action == KnowledgeAction.AllMaximum ? catalog.ItemPaths.Keys.Where(k => !DlcContent.Hidden || !dlc.Contains(k)).ToArray() : selection.Distinct().ToArray();
         if (!Enum.IsDefined(action) || keys.Any(k => !catalog.ItemPaths.ContainsKey(k)))
-            throw new InvalidOperationException("지원되지 않는 지식입니다.");
+            throw new InvalidOperationException("Unsupported knowledge.");
         DlcContent.Refuse(action != KnowledgeAction.Unlearn && keys.Any(dlc.Contains));
         return EditKnowledgeKeys(keys, action, level);
     }
@@ -54,7 +54,7 @@ public sealed partial class SaveDocument
         var before = KnowledgeLevels(blob, block);
         if (action == KnowledgeAction.Level && (keys.Length != 1 || level < 1 ||
             level > catalog.LevelCounts[keys[0]] || before.GetValueOrDefault(keys[0]) == 0 || before.GetValueOrDefault(keys[0]) > catalog.LevelCounts[keys[0]]))
-            throw new InvalidOperationException("습득한 지식 하나의 지원되는 단계를 선택하세요.");
+            throw new InvalidOperationException("Select a supported level of one learned knowledge entry.");
         var changes = keys.Where(k => action switch
         {
             KnowledgeAction.Learn => before.GetValueOrDefault(k) == 0,
@@ -93,7 +93,7 @@ public sealed partial class SaveDocument
             foreach (var p in changes) expected[p.Key] = p.Value;
             result = (after, SkillState.Read(candidate, current, items));
             if (after.Count != expected.Count || expected.Any(p => !after.TryGetValue(p.Key, out uint value) || value != p.Value))
-                throw new InvalidDataException("지식 변경 검증에 실패했습니다.");
+                throw new InvalidDataException("Knowledge edit verification failed.");
         }, changed: ["KnowledgeSaveData"]);
         undo.Push((null, snapshots.Before, snapshots.After, ["KnowledgeSaveData"]));
         return result;

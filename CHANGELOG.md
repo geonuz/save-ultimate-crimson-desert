@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.6]
+
+Map page fix. Verified with Crimson Desert 2.04.05 and its first DLC.
+
+- The map page opens for saves whose exploration fog was rewritten by another save editor. Those saves store the
+  fog's jump table with 1024 slots instead of one per 64 runs, which was reported as `[SU-301] Invalid fog jump table.`
+  The table is still checked slot by slot.
+- Error messages from save edits are written in English and shown in Korean in the Korean interface, instead of
+  always in Korean.
+
 ## [1.1.5]
 
 Skills page fixes. Verified with Crimson Desert 2.04.05 and its first DLC.

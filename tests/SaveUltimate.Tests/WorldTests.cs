@@ -97,9 +97,11 @@ public sealed class WorldTests
 
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    public void ExtendedDlcFogRevealsAndRoundTrips()
+    [DataRow("2.04.00", "1_save.save")]
+    [DataRow("bug_report", "map_error.save")] // another editor's 1024-slot fog jump table
+    public void ExtendedDlcFogRevealsAndRoundTrips(string folder, string file)
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.00", "1_save.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, folder, file)); string original = doc.BlobSha256;
         var before = doc.ReadMap().Fog;
         Assert.IsFalse(before.Full);
         Assert.IsTrue(doc.RevealMap().Full);

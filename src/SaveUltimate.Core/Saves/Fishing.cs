@@ -53,17 +53,17 @@ public sealed partial class SaveDocument
     public FishingRecord[] SetFishingRecord(uint key, double sizeCm)
     {
         if (!FishingCatalog.Shared.Fish.Any(f => f.Key == key && f.RecordSupported))
-            throw new InvalidOperationException("포획 기록 편집이 확인되지 않은 물고기입니다.");
+            throw new InvalidOperationException("Catch record editing is not verified for this fish.");
         DlcContent.Refuse(DlcContent.Shared.Knowledge.Contains(key));
         if (!double.IsFinite(sizeCm) || sizeCm <= 0 || sizeCm > 1000 || (float)sizeCm <= 0)
-            throw new ArgumentOutOfRangeException(nameof(sizeCm), "크기는 0보다 크고 1000cm 이하여야 합니다.");
+            throw new ArgumentOutOfRangeException(nameof(sizeCm), "Size must be greater than 0 and at most 1000 cm.");
         float size = (float)sizeCm;
         var list = SaveRecords.ReadLists(blob, Layout, "ContentsMiscSaveData", "_miniGameRecords").Fields.Named("_miniGameRecords");
         var records = FishRecords(blob, list);
         var levels = ReadKnowledge();
-        if (levels.GetValueOrDefault(key) == 0) throw new InvalidOperationException("물고기 지식을 먼저 습득하세요.");
+        if (levels.GetValueOrDefault(key) == 0) throw new InvalidOperationException("Learn the fish knowledge first.");
         if (!list.Present || !Layout.Types.Any(t => t.Name == "MiniGameRecordSaveData"))
-            throw new InvalidOperationException("게임에서 물고기 한 마리를 잡고 저장한 뒤 다시 불러오세요.");
+            throw new InvalidOperationException("Catch one fish in game, save, and load the save again.");
         if (records.TryGetValue(key, out var existing))
         {
             // The typed float field was checked above; fixed-size edits preserve all addresses.

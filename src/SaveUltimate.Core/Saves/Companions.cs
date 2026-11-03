@@ -46,13 +46,13 @@ public sealed partial class SaveDocument
         if (name is not null)
         {
             name = name.Trim();
-            if (name.Length == 0 || name.Contains('\0')) throw new ArgumentException("이름을 입력하세요.", nameof(name));
+            if (name.Length == 0 || name.Contains('\0')) throw new ArgumentException("Enter a name.", nameof(name));
         }
         var records = CompanionRecords(blob, Layout);
         var current = records.ToDictionary(r => r.Value.Number);
         if (selected.Count == 0 || selected.Select(r => r.Number).Distinct().Count() != selected.Count ||
             selected.Any(r => !r.Editable || !current.TryGetValue(r.Number, out var found) || found.Value != r))
-            throw new InvalidOperationException("동료 선택이 변경되었거나 읽기 전용입니다.");
+            throw new InvalidOperationException("The companion selection changed or is read-only.");
         var targets = selected.Where(r => r.Name != name).ToArray();
         if (targets.Length == 0) return records.Select(r => r.Value).ToArray();
         var replacements = new List<(int Start, int End, byte[] Bytes)>();
@@ -128,10 +128,10 @@ public sealed partial class SaveDocument
         var before = ReadCompanions();
         ulong NumberOf(SaveField r) => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8);
         var robots = rows.Where(r => r.ChildFields.Named("_characterKey").Scalar(blob, "CharacterKey", 4) == RobotWorker).ToArray();
-        if (robots.Length == 0) throw new InvalidOperationException("Grey-0 용병이 없는 세이브입니다.");
+        if (robots.Length == 0) throw new InvalidOperationException("This save has no Grey-0 mercenary.");
         // Keep one robot so a later addition still has a template.
         if (remove is not null && (remove.Key != RobotWorker || robots.Length < 2 || !before.Contains(remove)))
-            throw new InvalidOperationException("마지막 Grey-0이거나 변경된 선택입니다. 다시 불러오세요.");
+            throw new InvalidOperationException("This is the last Grey-0 or the selection changed. Load the save again.");
         var template = robots[^1];
         // Counts follow Encode in RecordLists: 18-byte headers keep 3 count bytes at 1, 19-byte headers 4 at 2.
         int countStart = list.ListHeaderSize switch { 18 => 1, 19 => 2, _ => throw new InvalidDataException("Unsupported companion list header.") };
@@ -200,7 +200,7 @@ public sealed partial class SaveDocument
     {
         var before = ReadCompanions();
         if (first.Number == second.Number || first.Group != second.Group || first.Group is not ("pet" or "special") || !before.Contains(first) || !before.Contains(second))
-            throw new InvalidOperationException("순서를 바꿀 수 없거나 변경된 선택입니다. 다시 불러오세요.");
+            throw new InvalidOperationException("The order cannot change or the selection changed. Load the save again.");
         var rows = SaveRecords.ReadLists(blob, Layout, "MercenaryClanSaveData", "_mercenaryDataList").Fields.Named("_mercenaryDataList").Elements("MercenarySaveData");
         SaveField Row(Companion c) => rows.Single(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8) == c.Number);
         SaveField a = Row(first), b = Row(second);

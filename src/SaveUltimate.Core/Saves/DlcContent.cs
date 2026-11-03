@@ -6,5 +6,5 @@ public sealed record DlcContent(HashSet<uint> Items, HashSet<uint> Knowledge, Ha
 {
     public static DlcContent Shared { get; } = ChallengeCatalog.Load<DlcContent>("DlcContent.json");
     public static bool Hidden { get; set; }
-    internal static void Refuse(bool dlc) { if (Hidden && dlc) throw new InvalidOperationException("DLC가 설치되지 않은 게임에는 DLC 콘텐츠를 추가할 수 없습니다."); }
+    internal static void Refuse(bool dlc) { if (Hidden && dlc) throw new InvalidOperationException("DLC content cannot be added to a game without the DLC installed."); }
 }

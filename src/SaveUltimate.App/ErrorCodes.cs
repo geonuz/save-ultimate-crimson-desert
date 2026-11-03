@@ -21,7 +21,8 @@ public static class ErrorCodes
 
     public static (string Code, string Message) Classify(Exception error)
     {
-        string detail = error.Message;
+        // Core messages are English; a locale entry keyed by the message translates it, others stay as they are.
+        string detail = Tr.Text(error.Message);
         (string, string) Coded(string code) => (code, Tr.Format("error." + code, ("detail", detail), ("type", error.GetType().Name)));
         return error switch
         {

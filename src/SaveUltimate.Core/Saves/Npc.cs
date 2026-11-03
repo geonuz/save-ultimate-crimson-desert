@@ -105,9 +105,9 @@ public sealed partial class SaveDocument
             => rows.SingleOrDefault(r => r.Key == key) is not { } row ? null : playable is null ? row : row.Affinity.SingleOrDefault(a => a.Playable == playable);
         var before = ReadFriendship();
         var gauge = Find(before, key, playable);
-        if (gauge is null || !gauge.Editable || gauge.Value != expectedValue) throw new InvalidOperationException("편집할 수 없거나 변경된 NPC 친밀도입니다. 다시 불러오세요.");
+        if (gauge is null || !gauge.Editable || gauge.Value != expectedValue) throw new InvalidOperationException("This NPC bond is not editable or changed. Load the save again.");
         // Love-story stages already passed stay complete, so a lower bond would leave the quest ahead of it.
-        if (playable is not null && (ulong)value < expectedValue) throw new InvalidOperationException("친밀도(확장)는 현재 값보다 낮출 수 없습니다.");
+        if (playable is not null && (ulong)value < expectedValue) throw new InvalidOperationException("Bond cannot be lowered below its current value.");
         var patches = gauge.Fields.Prepend(gauge.Global).Where(v => v.Value != (ulong)value)
             .Select(v => CreatePatch(v.Offset, BitConverter.GetBytes((ulong)value)) with { CheckedScalar = true }).ToList();
         var mission = playable == 1 ? LoveStoryCount(blob, key, expectedValue) : null;

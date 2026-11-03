@@ -52,12 +52,16 @@ public sealed partial class SaveDocument
         var codes = Array("_codeList", "uint8", 1);
         var lengths = Array("_lengthList", "uint8", 1);
         if (codes.Bytes.Length != lengths.Bytes.Length || lengths.Bytes.Contains((byte)0)) throw new InvalidDataException("Invalid fog runs.");
+        // Slot k holds the cells expanded after (k+1)×stride runs, the last slot the total. The game strides 64 runs;
+        // another editor writes 1024 slots, so the stride is derived from the slot count.
+        int slots = jumps.Bytes.Length / 4, stride = slots <= lengths.Bytes.Length ? lengths.Bytes.Length / slots : 0;
+        if (stride == 0) throw new InvalidDataException("Invalid fog jump table.");
         var expected = new List<uint>(); uint expanded = 0;
-        for (int i = 0; i < lengths.Bytes.Length; i++) { expanded += lengths.Bytes[i]; if ((i + 1) % 64 == 0) expected.Add(expanded); }
+        for (int i = 0; i < lengths.Bytes.Length; i++) { expanded += lengths.Bytes[i]; if ((i + 1) % stride == 0 && expected.Count < slots) expected.Add(expanded); }
         // 64×64 tiles of 128 cells until 2.03; 2.04 (dlc_01) extends the grid to 109×109 tiles.
-        if (expected.Count == 0 || expanded is not (524288 or 1520768)) throw new InvalidDataException("Unsupported fog dimensions.");
+        if (expanded is not (524288 or 1520768)) throw new InvalidDataException("Unsupported fog dimensions.");
         expected[^1] = expanded;
-        if (jumps.Bytes.Length != expected.Count * 4 || expected.Where((v, i) => v != BinaryPrimitives.ReadUInt32LittleEndian(jumps.Bytes.AsSpan(i * 4))).Any())
+        if (expected.Where((v, i) => v != BinaryPrimitives.ReadUInt32LittleEndian(jumps.Bytes.AsSpan(i * 4))).Any())
             throw new InvalidDataException("Invalid fog jump table.");
         return new(codes.Offset, codes.Bytes);
     }

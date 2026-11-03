@@ -25,6 +25,8 @@ public sealed class ErrorCodeTests
         var save = Thrown(() => SaveContainer.Decode(new byte[200]));
         Assert.AreEqual("SU-301", ErrorCodes.Classify(save).Code);
         StringAssert.Contains(ErrorCodes.Classify(save).Message, save.Message);
+        // Tests run in Korean; an English Core message with a locale entry is shown translated.
+        StringAssert.Contains(ErrorCodes.Classify(new InvalidOperationException("Select a skill.")).Message, "스킬을 선택하세요.");
     }
 
     [TestMethod]

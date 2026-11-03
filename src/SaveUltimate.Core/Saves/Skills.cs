@@ -80,11 +80,11 @@ public sealed record SkillState(IReadOnlyDictionary<uint, uint> Levels, IReadOnl
                 {
                     var field = element.ChildFields.Named(f.Name);
                     if (field.TypeName != f.Type || field.MetaSize != f.Size || field.MetaKind is not 0 and not 2)
-                        throw new InvalidDataException("스킬 기록 형식이 지원되지 않습니다.");
+                        throw new InvalidDataException("Unsupported skill record format.");
                     return field.Present ? field.Scalar(raw, f.Type, f.Size) : 0;
                 }).ToArray();
                 if (row[0] == 0 && fields[0].Type != "SkillPointOwnerType" || !values.TryAdd(checked((uint)row[0]), row[1..]))
-                    throw new InvalidDataException("중복되거나 잘못된 스킬 기록입니다.");
+                    throw new InvalidDataException("Duplicate or invalid skill record.");
             }
             return values;
         }
@@ -98,19 +98,19 @@ public sealed record SkillState(IReadOnlyDictionary<uint, uint> Levels, IReadOnl
         var follow = ReadList("_learnedFollowLearnKnowledge", "FollowLearnElementSaveData", ("_knowledgeKey", "KnowledgeKey", 4),
             ("_learnFromTypeRaw", "uint8", 1)).ToDictionary(p => p.Key, p => (uint)p.Value[0]);
         if (points.Keys.Any(k => k is < 0 or > 2) || paid.Values.Any(p => p.Owner is < 0 or > 2))
-            throw new InvalidDataException("지원되지 않는 스킬 소유자입니다.");
+            throw new InvalidDataException("Unsupported skill owner.");
         for (int owner = 0; owner < 3; owner++)
         {
             points.TryAdd(owner, new(0, 0));
             ulong spent = paid.Values.Where(p => p.Owner == owner).Aggregate(0UL, (sum, p) => checked(sum + p.Spent));
             if (checked(points[owner].Current + spent) != points[owner].Total)
-                throw new InvalidDataException("스킬 투자 기록과 포인트 합계가 일치하지 않습니다.");
+                throw new InvalidDataException("Skill investments do not match the point total.");
         }
-        if (points.Values.Select(p => p.Total).Distinct().Count() != 1) throw new InvalidDataException("캐릭터 간 스킬 포인트 합계가 다릅니다.");
+        if (points.Values.Select(p => p.Total).Distinct().Count() != 1) throw new InvalidDataException("Skill point totals differ between characters.");
         foreach (var (key, definition) in SkillCatalog.Shared.Skills)
         {
             if (levels.GetValueOrDefault(key) > definition.Levels.Length || paid.TryGetValue(key, out var payment) && payment.Owner != definition.Owner)
-                throw new InvalidDataException("스킬 단계 또는 투자 소유자가 잘못되었습니다.");
+                throw new InvalidDataException("Invalid skill level or investment owner.");
             if (definition.Default != 0) levels[key] = Math.Max(1, levels.GetValueOrDefault(key));
         }
         bool changed;
@@ -132,19 +132,19 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
 {
     public static SkillPlan Create(SkillState state, uint key, uint target, bool watch = false)
     {
-        if (!SkillCatalog.Shared.Skills.TryGetValue(key, out var definition)) throw new InvalidOperationException("스킬을 선택하세요.");
+        if (!SkillCatalog.Shared.Skills.TryGetValue(key, out var definition)) throw new InvalidOperationException("Select a skill.");
         DlcContent.Refuse(DlcContent.Shared.Knowledge.Contains(key));
         uint previous = state.Level(key);
-        if (watch && !definition.Watch) throw new InvalidOperationException("관찰 습득할 수 없는 스킬입니다.");
+        if (watch && !definition.Watch) throw new InvalidOperationException("This skill cannot be learned by observation.");
         // A skill learned another way can still be observed (saves hold invested skills with an observation record); only the
         // observation is recorded. The save keeps one learn-from record for nearly every knowledge (skills granted with a prior one hold LearnedPriorKnowledge),
         // so a record that is not an observation is replaced, not treated as one.
         if (watch && previous > 0)
         {
-            if (state.Observed(key)) throw new InvalidOperationException("이미 관찰 습득한 스킬입니다.");
+            if (state.Observed(key)) throw new InvalidOperationException("This skill is already learned by observation.");
             return new(key, previous, definition.Owner, [], new() { [key] = SkillState.ObservedFrom(definition) }, [], 0, 0, 0, new(state.Points));
         }
-        if (target <= previous || target > definition.Levels.Length) throw new InvalidOperationException("현재보다 높은 유효한 단계만 적용할 수 있습니다.");
+        if (target <= previous || target > definition.Levels.Length) throw new InvalidOperationException("Only a valid level above the current one can be applied.");
         var levels = new Dictionary<uint, uint>(state.Levels);
         var changes = new Dictionary<uint, uint>();
         var follow = new Dictionary<uint, uint>();
@@ -154,11 +154,11 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
             bool observing = watch && number == 1;
             var level = definition.Levels[number - 1];
             var routes = level.Routes.Where(r => observing ? r.Mode is 1 or 2 : r.Mode == 3).ToArray();
-            if (routes.Length != 1) throw new InvalidOperationException("게임에서 해금해야 하는 스킬입니다.");
+            if (routes.Length != 1) throw new InvalidOperationException("This skill must be unlocked in game.");
             var route = routes[0];
             foreach (var requirement in route.Requires.Concat(route.Unlocks))
                 if (levels.GetValueOrDefault(requirement[0]) < requirement[1])
-                    throw new InvalidOperationException($"선행 조건: {SkillCatalog.Shared.Name(requirement[0])} {requirement[1]}단계");
+                    throw new InvalidOperationException($"Requires {SkillCatalog.Shared.Name(requirement[0])} level {requirement[1]}");
             foreach (var cost in route.Items)
             {
                 uint item = checked((uint)cost[0]);
@@ -174,13 +174,13 @@ public sealed record SkillPlan(uint Key, uint Target, int Owner, Dictionary<uint
         // The original editor funds missing artifacts; only existing bag-2 artifacts are consumed.
         costs[75001] = Math.Min(artifacts, state.Inventory.GetValueOrDefault(75001u));
         foreach (var (item, need) in costs)
-            if (need > state.Inventory.GetValueOrDefault(item)) throw new InvalidOperationException($"재료 {item} 부족: {need}개 필요");
+            if (need > state.Inventory.GetValueOrDefault(item)) throw new InvalidOperationException($"Not enough material {item}: {need} needed");
         var points = new Dictionary<int, SkillPoints>();
         foreach (var (owner, point) in state.Points)
         {
             ulong current = checked(point.Current + artifacts) - (owner == definition.Owner ? investment : 0);
             ulong total = checked(point.Total + artifacts);
-            if (current > ushort.MaxValue || total > ushort.MaxValue) throw new InvalidOperationException("스킬 포인트 한도를 초과합니다.");
+            if (current > ushort.MaxValue || total > ushort.MaxValue) throw new InvalidOperationException("Exceeds the skill point limit.");
             points[owner] = new(current, total);
         }
         return new(key, target, definition.Owner, changes, follow, costs, artifacts, bonds, investment, points);

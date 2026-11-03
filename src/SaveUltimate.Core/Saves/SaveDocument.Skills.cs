@@ -23,7 +23,7 @@ public sealed partial class SaveDocument
                 if (take == item.Quantity) BinaryPrimitives.WriteUInt32LittleEndian(candidate.AsSpan(item.KeyOffset), 0);
                 remaining -= take;
             }
-            if (remaining != 0) throw new InvalidDataException("스킬 재료 수량이 변경되었습니다.");
+            if (remaining != 0) throw new InvalidDataException("Skill material counts changed.");
         }
         static Dictionary<string, ScalarValue> Level(uint k, uint level) => new()
             { ["_key"] = new("KnowledgeKey", 4, k), ["_level"] = new("TLevel", 4, level) };
@@ -67,7 +67,7 @@ public sealed partial class SaveDocument
                 => a.Count == b.Count && a.All(p => b.TryGetValue(p.Key, out var value) && EqualityComparer<V>.Default.Equals(p.Value, value));
             if (!Equal(after.Levels, expectedLevels) || !Equal(after.Paid, paid) || !Equal(after.Points, plan.Points) || !Equal(after.Follow, expectedFollow) ||
                 before.Inventory.Keys.Union(after.Inventory.Keys).Any(k => after.Inventory.GetValueOrDefault(k) != before.Inventory.GetValueOrDefault(k) - plan.Costs.GetValueOrDefault(k)))
-                throw new InvalidDataException("스킬 변경 검증에 실패했습니다.");
+                throw new InvalidDataException("Skill edit verification failed.");
         }, changed: changed);
         undo.Push((null, snapshots.Before, snapshots.After, changed));
         return after!;
