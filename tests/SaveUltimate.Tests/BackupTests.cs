@@ -41,14 +41,14 @@ public sealed class BackupTests
     [TestMethod]
     public void SaveAndRestoreValidateBackUpAndRejectExternalChanges()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         string root = Path.Combine(Path.GetTempPath(), "saveultimate-write-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
         try
         {
             string source = Path.Combine(root, "slot.save");
-            File.Copy(Path.Combine(fixtures, "save_v2.03.02.save"), source);
+            File.Copy(Path.Combine(fixtures, "editing_baseline_2.03.02.save"), source);
             byte[] original = File.ReadAllBytes(source);
             SaveBackups.Pristine(source);
             var document = SaveDocument.Open(source);
@@ -95,14 +95,14 @@ public sealed class BackupTests
     [TestMethod]
     public void BackupFailureCannotOverwriteTheDestination()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         string root = Path.Combine(Path.GetTempPath(), "saveultimate-failure-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
         try
         {
             string source = Path.Combine(root, "slot.save");
-            File.Copy(Path.Combine(fixtures, "save_v2.03.02.save"), source);
+            File.Copy(Path.Combine(fixtures, "editing_baseline_2.03.02.save"), source);
             byte[] original = File.ReadAllBytes(source);
             var document = SaveDocument.Open(source);
             var item = document.Items.First(i => i.CanEditQuantity);
@@ -122,7 +122,7 @@ public sealed class BackupTests
     [STATestMethod]
     public void BackupTabListsOnlyCurrentSaveAndDisablesMutationsWhileBusy()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
         string root = Path.Combine(Path.GetTempPath(), "saveultimate-backup-ui-" + Guid.NewGuid().ToString("N"));
@@ -130,7 +130,7 @@ public sealed class BackupTests
         try
         {
             string source = Path.Combine(root, "slot.save");
-            File.Copy(Path.Combine(fixtures, "save_v2.03.02.save"), source);
+            File.Copy(Path.Combine(fixtures, "editing_baseline_2.03.02.save"), source);
             SaveBackups.Create(source);
             var model = new MainViewModel(SaveDocument.Open(source));
             var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };

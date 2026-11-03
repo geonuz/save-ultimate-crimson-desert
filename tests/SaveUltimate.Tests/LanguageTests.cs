@@ -68,7 +68,7 @@ public sealed class LanguageTests
     [TestCategory("PrivateFixtures")]
     public void EveryGridHeaderFitsItsColumnInEveryLanguage()
     {
-        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
+        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
         if (System.Windows.Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown; }
         var clipped = new List<string>();
         try
@@ -76,7 +76,7 @@ public sealed class LanguageTests
             foreach (string language in new[] { "ko", "en", "ja", "ru" })
             {
                 Tr.SetLanguage(language);
-                var model = new MainViewModel(SaveDocument.Open(Path.Combine(fixtures, "2.04.03", "2_oongka_add_save.save")));
+                var model = new MainViewModel(SaveDocument.Open(Path.Combine(fixtures, "dlc_bonds_per_character_2.04.03.save")));
                 var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
                 window.Show();
                 try

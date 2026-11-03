@@ -15,10 +15,10 @@ public sealed class WindowTests
     [STATestMethod]
     public void SocketDraftSurvivesTabsAndMatchingSearchButResetsWithSelectionOrSaveChanges()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for socket draft parity.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = document.BlobSha256;
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
@@ -67,10 +67,10 @@ public sealed class WindowTests
     [STATestMethod]
     public void SelectionAndSortSurviveTabsEditsAndUndoButNotAnotherFile()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for selection parity.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string path = Path.Combine(fixtures, "save_v2.03.02.save");
+        string path = Path.Combine(fixtures, "editing_baseline_2.03.02.save");
         var document = SaveDocument.Open(path);
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
@@ -131,8 +131,8 @@ public sealed class WindowTests
     public void WindowLoadsAndCommandsRespectSelectionAndBusyState()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
-        var document = fixtures is null ? null : SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        string? fixtures = FixtureSaves.Scenarios;
+        var document = fixtures is null ? null : SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         Assert.AreEqual(4, window.InputBindings.Count);

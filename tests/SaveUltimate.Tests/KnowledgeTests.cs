@@ -15,9 +15,9 @@ public sealed class KnowledgeTests
     [TestCategory("PrivateFixtures")]
     public void KnowledgeActionsAgreeWithEachOtherAndPreserveUndoAndLedgers()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = document.BlobSha256;
         var skills = document.ReadSkills();
         var levels = document.ReadKnowledge();
@@ -83,10 +83,10 @@ public sealed class KnowledgeTests
     [TestCategory("PrivateFixtures")]
     public void KnowledgeNavigationFilteringSelectionEditingAndUndoStayConnected()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();

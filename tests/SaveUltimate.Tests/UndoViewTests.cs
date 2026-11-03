@@ -13,9 +13,9 @@ public sealed class UndoViewTests
     [TestCategory("PrivateFixtures")]
     public void UndoRefreshesAffectedViewsAndPreservesUnrelatedViews()
     {
-        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
+        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
         if (Application.Current is null) _ = new App.App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-        var doc = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var doc = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = doc.BlobSha256;
         var model = new MainViewModel(doc);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };

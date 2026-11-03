@@ -15,7 +15,7 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void CompanionProjectionPreservesDirectFieldsAndBoundaries()
     {
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(Fixtures, "save_v2.03.02.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"))).Blob;
         var layout = ParcLayout.Parse(raw);
         var full = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", "_mercenaryDataList")
             .Fields.Named("_mercenaryDataList").ListElements;
@@ -35,14 +35,14 @@ public sealed class WorldTests
         Assert.Throws<InvalidDataException>(() => SaveRecords.ReadLists(raw, layout, "QuestSaveData", true, "_questStateList"));
     }
 
-    private static string Fixtures => Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set private fixtures.");
+    private static string Fixtures => FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set private fixtures.");
     [TestMethod]
     [TestCategory("PrivateFixtures")]
     public void MapNpcAndCompanionEditsTouchOnlyTheirRecordsAndUndo()
     {
         static (uint, ulong, ulong, string)[] Items(SaveDocument doc) => doc.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source.ToString())).ToArray();
         // Every map action and the fog reveal on a partly explored save: idempotent, items untouched, undone exactly.
-        var map = SaveDocument.Open(Path.Combine(Fixtures, "save_friendship_not_working2.save")); string original = map.BlobSha256; var items = Items(map);
+        var map = SaveDocument.Open(Path.Combine(Fixtures, "map_partly_explored.save")); string original = map.BlobSha256; var items = Items(map);
         Assert.IsTrue(map.RevealMap().Full); string revealed = map.BlobSha256;
         map.RevealMap(); Assert.AreEqual(revealed, map.BlobSha256);
         map.Undo(); Assert.AreEqual(original, map.BlobSha256);
@@ -54,7 +54,7 @@ public sealed class WorldTests
             if (map.CanUndo) map.Undo();
             Assert.AreEqual(original, map.BlobSha256, MapAction.All[i].Names["en"]); Assert.IsFalse(map.CanUndo);
         }
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save")); original = doc.BlobSha256; items = Items(doc);
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); original = doc.BlobSha256; items = Items(doc);
         var npc = doc.ReadFriendship();
         var friendship = doc.SetFriendship(4009, 5, 95);
         CollectionAssert.AreEqual(npc.Select(r => r.Key == 4009 ? (r.Key, (ulong?)95, false) : (r.Key, r.Value, r.NeedsSync)).ToArray(), friendship.Select(r => (r.Key, r.Value, r.NeedsSync)).ToArray());
@@ -81,7 +81,7 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void InvalidSelectionsAndReadOnlyNpcRecordsNeverCommit()
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship(); var row = npc.First(r => r.Editable);
         Assert.Throws<ArgumentOutOfRangeException>(() => doc.SetFriendship(row.Key, row.Value!.Value, 101));
         Assert.Throws<InvalidOperationException>(() => doc.SetFriendship(row.Key, 999, 50));
@@ -97,11 +97,11 @@ public sealed class WorldTests
 
     [TestMethod]
     [TestCategory("PrivateFixtures")]
-    [DataRow("2.04.00", "1_save.save")]
-    [DataRow("bug_report", "map_error.save")] // another editor's 1024-slot fog jump table
-    public void ExtendedDlcFogRevealsAndRoundTrips(string folder, string file)
+    [DataRow("dlc_fog_and_skill_observe_2.04.00.save")]
+    [DataRow("other_editor_layout.save")] // another editor's 1024-slot fog jump table
+    public void ExtendedDlcFogRevealsAndRoundTrips(string file)
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, folder, file)); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, file)); string original = doc.BlobSha256;
         var before = doc.ReadMap().Fog;
         Assert.IsFalse(before.Full);
         Assert.IsTrue(doc.RevealMap().Full);
@@ -121,7 +121,7 @@ public sealed class WorldTests
     public void HiddenDlcContentNeverReachesABaseGameSave()
     {
         var dlc = DlcContent.Shared;
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); string original = doc.BlobSha256;
         DlcContent.Hidden = true;
         try
         {
@@ -148,8 +148,8 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void PerCharacterBondsAndPetOrderRoundTripAndUndo()
     {
-        // 2.04.03/2_oongka_add_save.save: Elowen holds Kliff 30 and Oongka 10, Tina (an ordinary NPC) Oongka 55; Lyselia_1 counts 1 at bond 20.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.03", "2_oongka_add_save.save")); string original = doc.BlobSha256;
+        // dlc_bonds_per_character_2.04.03.save: Elowen holds Kliff 30 and Oongka 10, Tina (an ordinary NPC) Oongka 55; Lyselia_1 counts 1 at bond 20.
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "dlc_bonds_per_character_2.04.03.save")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         CollectionAssert.AreEqual(new[] { (1u, (ulong?)30), (6u, (ulong?)10) }, npc.Single(r => r.Key == 1002939).Affinity.Select(a => (a.Playable, a.Value)).ToArray());
         Assert.AreEqual(1, npc.Single(r => r.Key == 1002940).Affinity.Length); // Bari's empty Oongka and Damiane slots are hidden
@@ -190,8 +190,8 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void DlcBondAndGreyZeroRosterEditsRoundTripAndUndo()
     {
-        // 2.04.00/1-2_save.save: Bari's bond toward Kliff is 35 and courting; three Grey-0 robots.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "2.04.00", "1-2_save.save")); string original = doc.BlobSha256;
+        // dlc_bond_courting_grey0_2.04.00.save: Bari's bond toward Kliff is 35 and courting; three Grey-0 robots.
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "dlc_bond_courting_grey0_2.04.00.save")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         // 21 wanted criminals and Corbin only record a threat reward.
         Assert.AreEqual(134, npc.Length); Assert.IsFalse(npc.Any(r => r.Key is 1001875 or 1003530));
@@ -230,7 +230,7 @@ public sealed class WorldTests
     public void WorldNavigationFiltersAndUndo()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
+        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"));
         var model = new MainViewModel(doc);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();

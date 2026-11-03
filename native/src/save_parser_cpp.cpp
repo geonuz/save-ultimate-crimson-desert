@@ -485,7 +485,8 @@ struct DynamicArrayResult {
     std::string note;
 };
 
-DynamicArrayResult DecodeDynamicArray(const std::vector<uint8_t>& raw, uint32_t offset, const FieldDef& field, uint32_t tail_cursor) {
+DynamicArrayResult DecodeDynamicArray(const std::vector<uint8_t>& raw, uint32_t offset, const FieldDef& field, uint32_t tail_cursor,
+        bool next_absent = true) {
     if (offset + 5 > tail_cursor) {
         throw std::runtime_error("Dynamic array overruns region");
     }
@@ -527,7 +528,8 @@ DynamicArrayResult DecodeDynamicArray(const std::vector<uint8_t>& raw, uint32_t 
                 4ull +
                 static_cast<uint64_t>(count) * field.meta_size;
             if (count < 0x10000 && end64 <= tail_cursor) {
-                if (end64 < tail_cursor && raw[static_cast<size_t>(end64)] == 1) {
+                // A trailing 0x01 is the next field's absent marker; a present next field starts there instead.
+                if (next_absent && end64 < tail_cursor && raw[static_cast<size_t>(end64)] == 1) {
                     ++end64;
                 }
                 return make_result(static_cast<uint32_t>(end64), marker_end + 5, count,
@@ -1090,7 +1092,8 @@ InlinePayloadResult DecodeInlineObjectPayload(
         }
 
         if (field.meta_kind == 3 && field.meta_size > 0) {
-            auto dyn = DecodeDynamicArray(raw, cursor, field, tail_cursor);
+            auto dyn = DecodeDynamicArray(raw, cursor, field, tail_cursor,
+                index + 1 >= type_def.fields.size() || !FieldPresent(mask_bytes, index + 1));
             target.decode_kind = "dynamic_array";
             target.start_offset = cursor;
             target.end_offset = dyn.end;

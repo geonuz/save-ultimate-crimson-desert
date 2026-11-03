@@ -34,7 +34,8 @@ The script restores packages in locked mode, builds the solution and runs the
 tests. It does not compile C++: `native/bin/` holds the committed
 `parc_validation.dll`, `parc_index.dll` and `parc_reader.dll`, and builds and
 releases ship those files unchanged so every release carries the same tested
-DLLs with the same hashes. The current DLLs were built with MinGW-w64 GCC 16.2.0.
+DLLs with the same hashes. The current DLLs were built with MinGW-w64 GCC 16.2.0
+from w64devkit 2.10.0; 2.11.0 builds the same bytes, 2.9.1 does not.
 `native/bin/native-source.sha256` records the sources they were built from, and
 the script stops if `native/CMakeLists.txt`, `native/src/` or
 `native/third_party/` no longer match it.
@@ -70,7 +71,11 @@ The public suite needs no saves or game installation. Tests marked
 and undoing, and report Inconclusive unless their inputs are configured through
 the environment variables `SAVEULTIMATE_FIXTURES` (a folder of saves) and
 `SAVEULTIMATE_GAME` (the installed game). Those inputs are personal data and
-stay outside Git.
+stay outside Git. The fixture folder has two parts: `collected/` for saves added
+as they come, and `scenarios/` for saves a test names, renamed for what they
+check (such as `scenarios/editing_baseline_2.03.02.save`). A save moves from
+`collected/` to `scenarios/` when a test adopts it. Every save in both is read,
+has every map group activated and is undone exactly.
 
 Keep saves, extracted game files, settings, backups, credentials and research
 outputs out of the repository. `docs/` and `artifacts/` hold private notes and

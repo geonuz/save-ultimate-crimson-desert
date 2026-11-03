@@ -14,9 +14,9 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void IncrementalOwnershipMatchesFullReaderAcrossStructuralEditsAndUndo()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         void Check()
         {
             var raw = (byte[])typeof(SaveDocument).GetField("blob",
@@ -54,9 +54,9 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void DamagedStructuralUndoLeavesDocumentAndHistoryIntact(string snapshotField)
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = document.BlobSha256;
         document.SetSockets(document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218), [0, 0]);
         string edited = document.BlobSha256;
@@ -81,9 +81,9 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void OwnershipReaderKeepsStockCountsWithoutRetainingStockRecords()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "save_v2.03.02.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "editing_baseline_2.03.02.save"))).Blob;
         var store = SaveRecords.Read(raw, ParcLayout.Parse(raw), "StoreSaveData");
         static IEnumerable<SaveField> Walk(IEnumerable<SaveField> fields)
             => fields.SelectMany(f => new[] { f }.Concat(Walk(f.ChildFields)).Concat(Walk(f.ListElements)));
@@ -101,9 +101,9 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void StructuralHistoryRestoresAcrossScalarEditsAndBranching()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         string original = document.BlobSha256;
         document.SetSockets(Target(), [0, 0]);
@@ -129,10 +129,10 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void RecordReaderStageTimings()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var rows = new List<object>();
-        foreach (string name in new[] { "save_fishnot.save", "save_v2.03.02.save" })
+        foreach (string name in new[] { "fishing_no_first_catch.save", "editing_baseline_2.03.02.save" })
         {
             byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, name))).Blob;
             var layout = ParcLayout.Parse(raw);
@@ -159,9 +159,9 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void EqualSizeSocketRelocationAndScalarRefreshSurviveReopening()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         document.SetSockets(Target(), [1002785, 0]);
         string before = document.BlobSha256;
@@ -192,10 +192,10 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void ScalarRefreshMatchesFullReaderAndRecordsBackendTimings()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var results = new List<object>();
-        foreach (string name in new[] { "new.save", "save_fishnot.save", "save_v2.03.02.save" })
+        foreach (string name in new[] { "early_progress_2.03.02.save", "fishing_no_first_catch.save", "editing_baseline_2.03.02.save" })
         {
             string path = Path.Combine(fixtures, name);
             var document = SaveDocument.Open(path);

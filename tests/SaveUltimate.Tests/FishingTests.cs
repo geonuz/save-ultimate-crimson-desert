@@ -10,7 +10,7 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class FishingTests
 {
-    private static string Fixtures => Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set private fixtures.");
+    private static string Fixtures => FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set private fixtures.");
     [TestMethod]
     [TestCategory("PrivateFixtures")]
     public void ExistingAndInsertedRecordsChangeOnlyTheirFishSaveAndUndo()
@@ -18,7 +18,7 @@ public sealed class FishingTests
         // 2006 already has a record; 2001 and 2038 insert small and large values.
         foreach (var (key, size) in new[] { (2006u, 52.125), (2001u, 7.25), (2038u, 150.5) })
         {
-            var document = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
+            var document = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"));
             string original = document.BlobSha256;
             var knowledge = document.ReadKnowledge().OrderBy(p => p.Key).ToArray();
             var items = document.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source)).ToArray();
@@ -50,12 +50,12 @@ public sealed class FishingTests
     [TestCategory("PrivateFixtures")]
     public void MissingFirstCatchInvalidInputAndUnlearnedFishCannotEdit()
     {
-        var empty = SaveDocument.Open(Path.Combine(Fixtures, "save_fishnot.save"));
+        var empty = SaveDocument.Open(Path.Combine(Fixtures, "fishing_no_first_catch.save"));
         Assert.IsTrue(empty.ReadFishing().All(r => !r.RecordTypeAvailable && r.Size is null));
         string original = empty.BlobSha256;
         Assert.Throws<InvalidOperationException>(() => empty.SetFishingRecord(2220, 43.4));
         Assert.AreEqual(original, empty.BlobSha256); Assert.IsFalse(empty.CanUndo);
-        var document = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"));
         original = document.BlobSha256;
         foreach (double value in new[] { double.NaN, double.PositiveInfinity, 0, -1, 1000.001, double.Epsilon })
             Assert.Throws<ArgumentOutOfRangeException>(() => document.SetFishingRecord(2006, value));
@@ -73,7 +73,7 @@ public sealed class FishingTests
     public void SelectionLearnApplyUndoAndFirstCatchBanner()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(Fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();
@@ -105,7 +105,7 @@ public sealed class FishingTests
             WindowTests.Capture(window, "fishing");
             window.Width = 800; window.UpdateLayout(); WindowTests.Capture(window, "fishing-narrow");
             Assert.AreEqual(2, Grid.GetRow((ScrollViewer)page.FindName("Details")), "Original detail panel moves below the table under 900px.");
-            page.DataContext = new MainViewModel(SaveDocument.Open(Path.Combine(Fixtures, "save_fishnot.save")));
+            page.DataContext = new MainViewModel(SaveDocument.Open(Path.Combine(Fixtures, "fishing_no_first_catch.save")));
             WindowTests.Pump(() => ((MainViewModel)page.DataContext).LoadFishingCommand.ExecuteAsync(null));
             rows.SelectedIndex = 0;
             Assert.AreEqual(Visibility.Visible, ((Border)page.FindName("SetupBanner")).Visibility);
@@ -124,7 +124,7 @@ public sealed class FishingTests
     [TestCategory("PrivateFixtures")]
     public void InvalidStoredCatchRecordsCannotBeReadOrEdited(bool duplicate)
     {
-        string source = Path.Combine(Fixtures, "save_v2.03.02.save");
+        string source = Path.Combine(Fixtures, "editing_baseline_2.03.02.save");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
         var rows = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "ContentsMiscSaveData", "_miniGameRecords")
             .Fields.Named("_miniGameRecords").Elements("MiniGameRecordSaveData");

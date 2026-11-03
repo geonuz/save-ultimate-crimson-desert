@@ -74,8 +74,8 @@ public sealed class AppearanceTests
     public void OriginalThemeFontSettingsSlotsAndEveryPageRenderWithoutChangingSave()
     {
         if (Application.Current is null) { var app = new App.App(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
-        var doc = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
+        var doc = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string hash = doc.BlobSha256; var model = new MainViewModel(doc);
         var old = SettingsStore.Current; string oldPath = SettingsStore.FilePath;
         string temporary = Path.Combine(Path.GetTempPath(), "ui-settings-" + Guid.NewGuid().ToString("N") + ".json");

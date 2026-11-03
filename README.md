@@ -5,22 +5,82 @@ x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
 Developed and maintained by geonuz with assistance from AI agents.
 
 The interface supports English, Korean, Japanese and Russian. Game names and
-descriptions use the game's localization data. Version 1.1.6 is verified with
-Crimson Desert 2.04.05 and its first DLC, and still opens 2.03.02, 2.04.00,
-2.04.03 and 2.04.04 saves; the window shows both versions under Settings. Without the DLC
-installed (no `dlc/dlc_01` in the game folder), the header says so and DLC
-content is hidden and cannot be edited.
+descriptions use the game's localization data.
+
+## Supported game versions
+
+| Game version | Status |
+|---|---|
+| 2.04.05 with or without the first DLC | Verified with this release |
+| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.02 to 2.04.04 |
+| 1.x | Not supported; opening a save reports `[SU-301]` |
+
+Settings shows the editor version and the game version it was verified with.
+Without the DLC installed (no `dlc/dlc_01` in the game folder), the header says
+so and DLC items, knowledge, fish, skills, challenges and map places are hidden
+and cannot be edited.
 
 ## Features
 
-| Page | Features |
-|---|---|
-| Items | Inventory quantities and deletion, repurchase swaps, equipment enchantment, sockets and Abyss Gear, item database |
-| Adventure Journal | Knowledge, challenge and checkpoint completion, fishing records |
-| Skills | Kliff, Oongka and Damiane skill trees, level investment and learning by observation |
-| Maps | Exploration fog, map discoveries by category, Abyss Nexus travel and the base game's Abyss Cressets |
-| NPC | Companions (add or remove Grey-0 robot workers); pet and special mount names and order; NPC trust and bond |
-| Backup/Restore | Create, browse and restore save backups |
+### Items
+
+- **Inventory**: set the quantity of one or several items (1 to 999,999,999) or
+  delete them. Items carried by mercenaries are skipped.
+- **Equipment**: set the enchantment level up to the item's game limit, including
+  mercenary equipment; filter by owner.
+- **Sockets**: unlock socket slots up to the equipment's limit and insert,
+  replace or remove Abyss Gear.
+- **Item Swap (Repurchase)**: replace an item in a vendor's buy-back list with
+  another item, then buy it back in the game.
+- **Item Database**: browse every item with its icon, key and localized name.
+
+### Adventure Journal
+
+- **Knowledge**: learn or unlearn selected entries, set the level of a learned
+  entry, or apply maximum levels to many at once.
+- **Challenges**: complete whole challenges, several challenges at once or
+  selected checkpoints. Challenges that need a step in the game first, such as
+  using a sealed artifact, are view-only.
+- **Fishing**: learn fish knowledge and set the size of a recorded catch. One fish
+  caught in the game is needed before records can be edited.
+
+### Skills
+
+Skill trees for Kliff, Oongka and Damiane. Raise a skill one level at a time,
+paying the game's cost in Abyss Artifacts and Abyss Bonds, or learn it by
+observation. Prerequisites and materials are checked first, and levels can only
+be raised.
+
+### Map
+
+- **Exploration fog**: reveal the whole map.
+- **Activate map groups** to add their discoveries and knowledge:
+  - Nodes and places: nodes, regions, hidden spaces, caves, spires, shadow
+    sanctums, witch hideouts, Greymane shrines and the Abyss
+  - Crafting and utility: bonfires, grindstones, cauldrons, special cooking pots
+    and griddles, anvils, wells, looms and workstations
+  - Collectibles: treasure chests, memory fragments and bells
+  - Resources: 13 kinds of ore and mineral deposits
+  - Abyss travel: Abyss Nexus points and the base game's Abyss Cressets
+
+  Items, recipes and resources themselves are not awarded.
+
+### NPC
+
+- **Companions**: view level, skill points and equipment; add or remove Grey-0
+  robot workers (one always remains).
+- **Pets & Special Mounts**: rename them and change their order, which the game
+  does not offer.
+- **NPC Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
+  toward Kliff, Oongka or Damiane. Raising Kliff's bond with a witch also advances
+  her "Improve your bond" mission.
+
+### Backup/Restore
+
+Back up the save before writing it, keep a reference (PRISTINE) copy made the
+first time a save is opened, and restore or delete backups.
+
+### Editing and saving
 
 Opening a save reads every page at once. Edits appear immediately in the editor;
 **Save** writes them to disk. **Ctrl+Z** undoes the last unsaved edit and
@@ -30,6 +90,8 @@ Edits that add, remove or move records are checked against the save's full
 structure before they are applied. Saving validates the edited data, writes it,
 then reads the written file back and validates it again; a file that fails a
 check is never replaced.
+
+The interface offers seven themes and custom colors.
 
 ## Installation
 
@@ -63,32 +125,6 @@ Backups are also written to a `backups/` folder beside each save, including a
 game update; unchanged data is reused. When updating SaveUltimate, replace the
 EXE, the `.dll` files, `resources/` and `licenses/` and keep your settings, backups and `game_data/`.
 
-## Error codes
-
-Errors show a code such as `[SU-101]`, and the full details are appended to
-`error.log` beside the EXE. Include both when reporting a problem.
-
-| Code | Meaning |
-|---|---|
-| SU-101 | A required DLL is missing from the program folder |
-| SU-102 | Windows denied access to a required DLL |
-| SU-103 | Windows blocked a required DLL as a threat |
-| SU-104 | A Windows code integrity policy blocked a required DLL |
-| SU-105 | A required DLL is damaged or is not a 64-bit Windows library |
-| SU-106 | A library that a required DLL needs is missing (the missing file is named) |
-| SU-109 | A required DLL could not be loaded for another reason (the Windows error is shown) |
-| SU-201 | A file or folder was not found |
-| SU-202 | Access to a file or folder was denied |
-| SU-203 | The file is in use by another program |
-| SU-204 | Not enough disk space |
-| SU-205 | The file path is too long or invalid |
-| SU-209 | Another file read or write error |
-| SU-301 | The save data could not be read or is not supported |
-| SU-302 | The game data could not be read or is not supported |
-| SU-303 | The editor refused the operation (the reason is shown) |
-| SU-401 | Not enough memory |
-| SU-901 | Unexpected error (the error type is shown) |
-
 ## Use and copyright
 
 SaveUltimate is unofficial. You assume all responsibility for its use. Correct
@@ -110,7 +146,7 @@ Pearl Abyss.
 - Hahmlet: The Hahmlet Project Authors / Hypertype, Minjoo Ham and Mark Frömberg.
 
 The editor uses .NET and WPF, CommunityToolkit.Mvvm, K4os.Compression.LZ4,
-Magick.NET and LZ4. GCC/MinGW-w64 builds the native save validator. Their
+Magick.NET and LZ4. GCC/MinGW-w64 builds the native save libraries. Their
 notices are included in `licenses/` and Settings → About.
 
 ## License
@@ -123,7 +159,10 @@ authorize redistribution of Pearl Abyss assets.
 ## Development and support
 
 Build, test and packaging instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
-See [CHANGELOG.md](CHANGELOG.md) for release changes. Report bugs through Issues
-with the editor and game versions, whether the DLC is installed and steps to
-reproduce the problem. Do not
-attach personal saves or credentials.
+See [CHANGELOG.md](CHANGELOG.md) for release changes.
+
+Report bugs through Issues with the editor and game versions, whether the DLC is
+installed and steps to reproduce the problem. Errors show a code such as
+`[SU-301]` with an explanation; include the code and `error.log` from the
+program folder, which holds the details. Do not attach personal saves or
+credentials.

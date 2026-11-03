@@ -11,9 +11,9 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void SavedBaselineSurvivesRepeatedEditsAndSaveCopyUndo()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         var target = document.Items.First(i => i.CanEditQuantity);
         InventoryItem Target() => document.Items.Single(i => i.Number == target.Number && i.Source == target.Source && i.KeyOffset == target.KeyOffset);
         string original = document.BlobSha256;
@@ -43,9 +43,9 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void ReparseReusesOnlyUnchangedSchemaAndStillRejectsBrokenToc()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "save_v2.03.02.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "editing_baseline_2.03.02.save"))).Blob;
         var layout = ParcLayout.Parse(raw);
         var candidate = (byte[])raw.Clone();
         Assert.AreSame(layout.Types, layout.Reparse(candidate, raw).Types);
@@ -63,9 +63,9 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void BatchEditsAreAtomicAndDeleteUndoRestoresExactBytes()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for private batch verification.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = document.BlobSha256;
         int count = document.Items.Count;
         Assert.AreEqual(1495, count);
@@ -110,12 +110,12 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void ItemSwapChangesOnlyVendorKeysAndUndoesExactly()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         const uint key = 1002785;
-        foreach (var (file, source, number) in new[] { ("save_v2.00.02.save", ItemSource.Inventory, 334UL), ("save_v2.00.02.save", ItemSource.Equipment, 1000813UL),
-            ("save_v2.00.02.save", ItemSource.Vendor, 1001256UL), ("save_v2.00.02.save", ItemSource.Mercenary, 3043UL), ("save_v2.03.02.save", ItemSource.Inventory, 33UL),
-            ("save_v2.03.02.save", ItemSource.Equipment, 1883UL), ("save_v2.03.02.save", ItemSource.Vendor, 1002441UL), ("save_v2.03.02.save", ItemSource.Mercenary, 3043UL) })
+        foreach (var (file, source, number) in new[] { ("old_version_2.00.02.save", ItemSource.Inventory, 334UL), ("old_version_2.00.02.save", ItemSource.Equipment, 1000813UL),
+            ("old_version_2.00.02.save", ItemSource.Vendor, 1001256UL), ("old_version_2.00.02.save", ItemSource.Mercenary, 3043UL), ("editing_baseline_2.03.02.save", ItemSource.Inventory, 33UL),
+            ("editing_baseline_2.03.02.save", ItemSource.Equipment, 1883UL), ("editing_baseline_2.03.02.save", ItemSource.Vendor, 1002441UL), ("editing_baseline_2.03.02.save", ItemSource.Mercenary, 3043UL) })
         {
             var document = SaveDocument.Open(Path.Combine(fixtures, file));
             InventoryItem Target() => document.Items.Single(i => i.Source == source && i.Number == number);
@@ -163,12 +163,12 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void SocketUnlockHandlesPresentAndOmittedCounts()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         // Item 2069 stores its unlocked count; 1002966 omits it, so unlocking inserts the 1-byte field.
         foreach (var (number, count, inserted) in new[] { (2069UL, 5, 0), (1002966UL, 1, 1) })
         {
-            var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+            var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
             InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == number);
             string original = document.BlobSha256;
             var stale = Target();
@@ -206,9 +206,9 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void EnchantUsesCapsAllowsMercenariesAndUndoesExactly()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for enchant verification.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         string original = document.BlobSha256;
         var mercenary = document.Items.First(i => i.Source == ItemSource.Mercenary && i.EnchantLevel.HasValue && i.MaxEnchant >= 2);
         var nonEquipment = document.Items.First(i => !i.EnchantLevel.HasValue);
@@ -259,13 +259,13 @@ public sealed class SaveIntegrationTests
     [TestMethod]
     public void SavedCopyReopensAndExistingDestinationsSurvive()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for private write verification.");
         string directory = Path.Combine(Path.GetTempPath(), "SaveUltimate-tests-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
         try
         {
-            string source = Path.Combine(fixtures, "save_v2.03.02.save");
+            string source = Path.Combine(fixtures, "editing_baseline_2.03.02.save");
             var document = SaveDocument.Open(source);
             var item = document.Items.First(i => i.Source == ItemSource.Equipment && i.Quantity < 999_999_999);
             document.SetQuantity(item, item.Quantity + 1);

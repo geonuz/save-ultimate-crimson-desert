@@ -26,9 +26,9 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void SelectedListReaderMatchesFullMetadataAndRejectsUnsupportedFields()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "save_fishnot.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "fishing_no_first_catch.save"))).Blob;
         var layout = ParcLayout.Parse(raw);
         var expected = SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list");
         var selected = SaveRecords.ReadLists(raw, layout, "KnowledgeSaveData", "_list");
@@ -44,9 +44,9 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void InvalidClockOrUnknownStateDoesNotCommit(bool invalidClock)
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        string source = Path.Combine(fixtures, "save_도전과제 일부 미완료.save");
+        string source = Path.Combine(fixtures, "challenges_partly_incomplete_2.03.02.save");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
         var block = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_questStateList", "_missionStateList");
         if (invalidClock)
@@ -78,13 +78,13 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void CheckpointsFamiliesAndBatchCompleteOnlyTheirMissionsAndUndoExactly()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         uint[] batch = [1000912, 1000913, 1000915, 1001044, 1001048, 1003194, 1000423, 1003957, 1004406, 1004407, 1004408, 1004409, 1004410];
         // An existing and a missing checkpoint record, one family, and a batch; the counts are what those saves leave incomplete.
         foreach (var (file, roots, checkpoints, completed) in new (string, uint[], uint[]?, int)[] {
-            ("save_도전과제 일부 미완료.save", [1000912], [4294966659], 1), ("new.save", [1000912], [4294966659], 1),
-            ("save_fishnot.save", [1000912], null, 7), ("save_도전과제 일부 미완료.save", batch, null, 38) })
+            ("challenges_partly_incomplete_2.03.02.save", [1000912], [4294966659], 1), ("early_progress_2.03.02.save", [1000912], [4294966659], 1),
+            ("fishing_no_first_catch.save", [1000912], null, 7), ("challenges_partly_incomplete_2.03.02.save", batch, null, 38) })
         {
             string path = Path.Combine(fixtures, file);
             byte[] source = File.ReadAllBytes(path);
@@ -135,10 +135,10 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void ChallengeSelectionUndoAndFiltersStayConnected()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_도전과제 일부 미완료.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "challenges_partly_incomplete_2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();

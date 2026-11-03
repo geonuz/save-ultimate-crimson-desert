@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0]
+
+Native parser fix. Verified with Crimson Desert 2.04.05 and its first DLC.
+
+- Saves where a list of keys is followed directly by a stored record, such as a shop entry in a save edited by
+  another editor, no longer refuse every edit that adds records. Activating map markers failed there with
+  `[SU-301] Unparsed inline pointer; insertion requires parser review`. The parser took the record's first byte for
+  the list's end marker and lost one internal pointer; every other tested save parses exactly as before.
+- The native DLLs are rebuilt from the fixed source with the same toolchain (w64devkit 2.10.0, GCC 16.2.0), so their
+  hashes change in this release.
+- README lists the supported game versions in a table and what each page can edit. The error code table is gone;
+  each error explains its code.
+
 ## [1.1.6]
 
 Map page fix. Verified with Crimson Desert 2.04.05 and its first DLC.

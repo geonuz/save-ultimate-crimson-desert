@@ -91,8 +91,8 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void InvestedSkillCanBeObservedRoundTripAndUndo()
     {
-        string fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES") ?? throw new AssertInconclusiveException("Set fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "2.04.00", "1_save.save")); string original = document.BlobSha256;
+        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
+        var document = SaveDocument.Open(Path.Combine(fixtures, "dlc_fog_and_skill_observe_2.04.00.save")); string original = document.BlobSha256;
         var before = document.ReadSkills();
         uint key = SkillCatalog.Shared.Skills.Values.First(d => d.Watch && before.Level(d.Key) > 0 && before.Paid.ContainsKey(d.Key) && !before.Follow.ContainsKey(d.Key)).Key;
         var after = document.LearnSkill(key, 1, true);
@@ -110,10 +110,10 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void RealSkillRecordsRejectBrokenLedgersAndEditsUndo()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        string[] editable = ["new.save", "save_fishnot.save", "save_friendship_not_working.save", "save_friendship_not_working2.save", "save_memory.save"];
-        foreach (string file in editable.Concat(["save_v2.00.02.save", "save_v2.03.02.save", "save_도전과제 일부 미완료.save"]))
+        string[] editable = ["early_progress_2.03.02.save", "fishing_no_first_catch.save", "skills_ledger_sample.save", "map_partly_explored.save"];
+        foreach (string file in editable.Concat(["old_version_2.00.02.save", "editing_baseline_2.03.02.save", "challenges_partly_incomplete_2.03.02.save"]))
         {
             string path = Path.Combine(fixtures, file);
             byte[] original = File.ReadAllBytes(path);
@@ -161,10 +161,10 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void SkillTreePreservesOriginalInteractionAndSharedUndo()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_fishnot.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "fishing_no_first_catch.save"));
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
         WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
@@ -201,14 +201,14 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void SkillPageMarksOnlyPendingEditsUnderItsTitle()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
         var model = new MainViewModel();
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show(); model.PageIndex = 4; window.UpdateLayout();
         // The page is already on screen when the save loads, so it renders as soon as the skills arrive.
-        WindowTests.Pump(() => model.LoadFileAsync(Path.Combine(fixtures, "2.04.03", "1_bari_quest_save.save")));
+        WindowTests.Pump(() => model.LoadFileAsync(Path.Combine(fixtures, "skills_page_load_2.04.03.save")));
         window.UpdateLayout();
         var tabs = (SkillsView)window.FindName("SkillsArea");
         var page = (SkillPage)((TabItem)tabs.SelectedItem).Content;

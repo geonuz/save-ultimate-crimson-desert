@@ -56,10 +56,10 @@ public sealed class ItemAreaTests
     [STATestMethod]
     public void ItemPanelsMatchSelectionStorageAndWindowWidth()
     {
-        string? fixtures = Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
+        string? fixtures = FixtureSaves.Scenarios;
         if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "save_v2.03.02.save"));
+        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show(); window.UpdateLayout();
