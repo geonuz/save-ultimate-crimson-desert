@@ -695,7 +695,7 @@
   "ui.database_source": "DB version: {version}\nPath: {path}",
   "map.effect_places": "Learns location knowledge, including entries in the Adventure Journal.",
   "map.effect_abyss": "Adds travel-location discoveries and their related knowledge.",
-  "map.effect_cresset": "Cressets also complete 60 Secret Places, 37 Ancient Ruins and 4 Mazes in Challenges. No artifact items are awarded. The DLC's 29 cressets are left out for now: activating them made the game crash at the title screen.",
+  "map.effect_cresset": "Cressets also complete 60 Secret Places, 37 Ancient Ruins and 4 Mazes in Challenges, plus the DLC's 20 Secret Places and 9 Ancient Ruins. No artifact items are awarded.",
   "map.effect_collectibles": "Adds related knowledge and map markers. Collectible items are not awarded.",
   "map.effect_crafting": "Adds crafting-facility discoveries and map knowledge. Recipes and materials are not awarded.",
   "map.effect_resources": "Adds resource-location discoveries and map knowledge. Resources are not awarded.",
@@ -1054,5 +1054,17 @@
   "error.SU-302": "The game data could not be read or is not supported: {detail}",
   "error.SU-303": "This operation is not allowed: {detail}",
   "error.SU-401": "There is not enough memory to complete the operation.",
-  "error.SU-901": "Unexpected error ({type}): {detail}"
+  "error.SU-901": "Unexpected error ({type}): {detail}",
+  "ui.doctor": "Save Doctor (Experimental)",
+  "ui.doctor_intro": "Checks every save slot for mission records that earlier versions of SaveUltimate wrote incorrectly. They can crash the game at the title screen even for a slot you never load. This feature is experimental.",
+  "ui.doctor_status": "Status",
+  "ui.doctor_scanning": "Checking save slots…",
+  "ui.doctor_ok": "OK",
+  "ui.doctor_damaged": "Damaged: {count} mission records",
+  "ui.doctor_summary": "{total} saves checked, {count} damaged.",
+  "ui.doctor_repair": "Repair Damaged Saves",
+  "ui.doctor_game_running": "Close Crimson Desert before repairing saves.",
+  "ui.doctor_confirm": "Repair {count} damaged saves?\nEach save is backed up first and can be restored from Backup/Restore. Only the damaged mission records are rewritten. This feature is experimental.",
+  "ui.doctor_done": "Repair finished. Start the game to confirm it no longer crashes.",
+  "ui.doctor_loaded": "This save has {count} mission records written incorrectly by an earlier version of SaveUltimate. They can crash the game at the title screen. Repair them with File > Save Doctor."
 }

@@ -298,6 +298,9 @@ public partial class MainViewModel : ObservableObject
                 catch (Exception error) when (error is IOException or UnauthorizedAccessException) { Status += Tr.Text(" PRISTINE backup failed: ") + ErrorCodes.Describe(error); }
             }
             ReadBackups();
+            // A damaged slot can crash the game at the title screen even if it is never selected.
+            int damaged = await Task.Run(() => { try { return SaveDocument.Diagnose(path).DamagedRows; } catch (InvalidDataException) { return 0; } });
+            if (damaged > 0) ThemedMessageBox.Show(Tr.Format("ui.doctor_loaded", ("count", damaged.ToString("N0"))), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
         });
     }
 

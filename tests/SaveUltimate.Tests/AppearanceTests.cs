@@ -124,6 +124,8 @@ public sealed class AppearanceTests
             slots.Rows.SelectedItem = slots.Rows.Items.Cast<SaveSlot>().First(r => r.Category == "manual");
             Assert.IsFalse(slots.OpenButton.IsEnabled); Assert.IsTrue(slots.RemoveButton.IsEnabled);
             WindowTests.Capture(slots, "slots"); slots.RemoveRecent(); Assert.AreEqual(0, SettingsStore.Current.RecentSaveFiles.Length); slots.Close();
+            var doctor = Hidden(new DoctorWindow(model) { Owner = window }); doctor.Show();
+            WindowTests.Pump(doctor.Scan); WindowTests.Capture(doctor, "doctor"); doctor.Close();
             foreach (string theme in Appearance.Themes.Keys)
             {
                 Appearance.Apply(settings with { Theme = theme }); WindowTests.Capture(window, "theme-" + theme);

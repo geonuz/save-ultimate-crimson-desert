@@ -3,11 +3,12 @@ using System.Buffers.Binary;
 
 namespace SaveUltimate.Core.Saves;
 
-internal sealed record ScalarValue(string Type, int Size, ulong Value)
+internal sealed record ScalarValue(string Type, int Size, ulong Value, uint[]? Elements = null)
 {
     internal static ScalarValue Remove { get; } = new("", 0, 0);
 }
-internal sealed record ListEdit(SaveField Field, string Type, string Key, Dictionary<uint, Dictionary<string, ScalarValue>> Changes, bool CloneLast = false);
+internal sealed record ListEdit(SaveField Field, string Type, string Key, Dictionary<uint, Dictionary<string, ScalarValue>> Changes, bool CloneLast = false,
+    Func<byte[], ParcType, SaveField, Dictionary<string, ReadOnlyMemory<byte>>>? Salvage = null);
 
 internal static class RecordLists
 {
@@ -65,7 +66,7 @@ internal static class RecordLists
                     if (!records.TryGetValue(key, out var record)) { existing = false; continue; }
                     var target = record.ChildFields.Named(name);
                     if (value == ScalarValue.Remove) { if (target.Present) existing = false; continue; }
-                    if (!target.Present) { existing = false; continue; }
+                    if (!target.Present || value.Elements is not null) { existing = false; continue; }
                     target.Scalar(raw, value.Type, value.Size);
                     patches.Add((target, value));
                 }
@@ -75,6 +76,49 @@ internal static class RecordLists
         raw.CopyTo(result, 0);
         foreach (var (field, value) in patches) Integer(value).CopyTo(result, field.StartOffset);
         return result;
+    }
+
+    // A list that does not round-trip because of its rows, rewritten through edit.Salvage.
+    internal static byte[] Rewritten(byte[] raw, ParcLayout layout, ListEdit edit, int start)
+    {
+        int index = layout.Types.Select((t, i) => (t, i)).Single(p => p.t.Name == edit.Type).i;
+        return Encode(raw, edit, layout.Types[index], index, start);
+    }
+
+    // Field bytes by the game's layout, or null when the row does not follow it. An absent array still takes one byte, 1, in its
+    // place; a present one is 0, u32 count and the elements. The native reader leaves those markers to the following fields.
+    internal static Dictionary<string, ReadOnlyMemory<byte>>? Fields(byte[] raw, ParcType type, SaveField record)
+    {
+        var values = new Dictionary<string, ReadOnlyMemory<byte>>();
+        int cursor = record.ChildPayloadOffset + 4, end = record.EndOffset - 4;
+        for (int i = 0; i < type.Fields.Count; i++)
+        {
+            var f = type.Fields[i];
+            bool present = (raw[record.StartOffset + 2 + i / 8] & (1 << (i % 8))) != 0;
+            int size = f.Size;
+            if (f.Kind == 3)
+            {
+                if (cursor >= end || raw[cursor] != (present ? 0 : 1)) return null;
+                if (!present) { cursor++; continue; }
+                if (cursor + 5 > end) return null;
+                long total = 5L + BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(cursor + 1)) * (long)f.Size;
+                if (total > end - cursor) return null;
+                size = (int)total;
+            }
+            else if (!present) continue;
+            else if (f.Kind is not 0 and not 2 || size <= 0 || cursor + size > end) return null;
+            values.Add(f.Name, raw.AsMemory(cursor, size));
+            cursor += size;
+        }
+        return cursor == end ? values : null;
+    }
+
+    internal static byte[] ArrayBytes(uint[] elements)
+    {
+        byte[] bytes = new byte[5 + elements.Length * 4];
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(1), elements.Length);
+        for (int i = 0; i < elements.Length; i++) BinaryPrimitives.WriteUInt32LittleEndian(bytes.AsSpan(5 + i * 4), elements[i]);
+        return bytes;
     }
 
     private static uint Identity(byte[] raw, SaveField field)
@@ -119,7 +163,6 @@ internal static class RecordLists
         foreach (var (key, record) in records)
         {
             var values = new Dictionary<string, ReadOnlyMemory<byte>>();
-            ReadOnlyMemory<byte> suffix = default;
             int maskSize = (type.Fields.Count + 7) / 8;
             if (record is not null)
             {
@@ -134,25 +177,16 @@ internal static class RecordLists
                     BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(record.ChildPayloadOffset)) != 0 ||
                     BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(record.EndOffset - 4)) != record.EndOffset - 4 - record.ChildPayloadOffset)
                     throw new InvalidDataException("Unsupported inline record header.");
-                int cursor = record.ChildPayloadOffset + 4;
-                foreach (var f in record.ChildFields.Where(f => f.Present))
-                {
-                    if (f.StartOffset != cursor || f.EndOffset < cursor || f.EndOffset > record.EndOffset - 4 ||
-                        f.ChildFields.Length != 0 || f.ListElements.Length != 0 || f.MetaKind is not 0 and not 2 and not 3)
-                        throw new InvalidDataException("Unsupported inline record fields.");
-                    values.Add(f.Name, raw.AsMemory(f.StartOffset, f.EndOffset - f.StartOffset));
-                    cursor = f.EndOffset;
-                }
-                suffix = raw.AsMemory(cursor, record.EndOffset - 4 - cursor);
+                values = Fields(raw, type, record) ?? edit.Salvage?.Invoke(raw, type, record) ?? throw new InvalidDataException("Unsupported inline record fields.");
             }
             if (edit.Changes.TryGetValue(key, out var changes))
                 foreach (var (name, value) in changes)
                 {
                     var f = type.Fields.Single(f => f.Name == name);
                     if (value == ScalarValue.Remove) { values.Remove(name); continue; }
-                    if (f.TypeName != value.Type || f.Kind is not 0 and not 2 || f.Size != value.Size)
+                    if (f.TypeName != value.Type || f.Size != value.Size || (value.Elements is null ? f.Kind is not 0 and not 2 : f.Kind != 3 || f.Size != 4))
                         throw new InvalidDataException("Record scalar schema changed.");
-                    values[name] = Integer(value);
+                    values[name] = value.Elements is null ? Integer(value) : ArrayBytes(value.Elements);
                 }
             byte[] mask = new byte[maskSize];
             using var payload = new MemoryStream();
@@ -163,7 +197,7 @@ internal static class RecordLists
                     mask[i / 8] |= (byte)(1 << (i % 8));
                     payload.Write(value.Span);
                 }
-            payload.Write(suffix.Span);
+                else if (type.Fields[i].Kind == 3) payload.WriteByte(1);
             uint position = checked((uint)(start + output.Length + 17 + maskSize));
             writer.Write(checked((ushort)maskSize)); writer.Write(mask); writer.Write(checked((ushort)typeIndex));
             writer.Write((byte)0); writer.Write(ulong.MaxValue); writer.Write(position);

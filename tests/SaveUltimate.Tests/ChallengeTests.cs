@@ -75,6 +75,165 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    public void CompletedTagsFollowDefinitionsAndLeaveNewPatchTagsToTheGame()
+    {
+        const uint start = 0x872571C6, empty = 0xEAC5E173, complete = 0x599D2AA7, patchDay1 = 0xF4A09B0C, patch2_04_06 = 0x62316B37;
+        CollectionAssert.AreEqual(new[] { start, empty, patchDay1, complete }, ChallengeCatalog.CompletedTags(1000217));
+        CollectionAssert.AreEqual(new[] { start, empty, complete }, ChallengeCatalog.CompletedTags(uint.MaxValue));
+        // Saves show this mission without the empty tag.
+        CollectionAssert.AreEqual(new[] { start, complete }, ChallengeCatalog.CompletedTags(1004951));
+        // The definition names the new patch tag, but no save has recorded it: the game adds such tags to completed rows on load.
+        CollectionAssert.Contains(ChallengeCatalog.Shared.Missions[1004960].Tags, patch2_04_06);
+        CollectionAssert.DoesNotContain(ChallengeCatalog.CompletedTags(1004960), patch2_04_06);
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void DoctorRepairsRowsWithoutArrayMarkersAndKeepsEverythingElse()
+    {
+        string? root = FixtureSaves.Root;
+        if (root is null) Assert.Inconclusive("Set private fixtures.");
+        foreach (var (name, damaged) in new[] { ("mission_rows_inserted_2.03.save", 41), ("mission_rows_inserted_2.04.save", 8) })
+        {
+            string source = Path.Combine(root, "damaged", name);
+            Assert.AreEqual(damaged, SaveDocument.Diagnose(source).DamagedRows, name);
+            var document = SaveDocument.Open(source);
+            var before = document.ReadChallenges();
+            var knowledge = document.ReadKnowledge();
+            byte[] original = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
+            Assert.ThrowsExactly<InvalidDataException>(() => document.CompleteChallenges(ChallengeCatalog.Completion.Roots.Where(r => before.Mission.GetValueOrDefault(r)?.State != 5).Take(1).ToArray(), null));
+            Assert.AreEqual(damaged, document.RepairMissionRows(), name);
+            Assert.AreEqual(0, document.RepairMissionRows(), name);
+            Assert.IsTrue(before.Mission.OrderBy(p => p.Key).SequenceEqual(document.ReadChallenges().Mission.OrderBy(p => p.Key)), name);
+            Assert.IsTrue(knowledge.OrderBy(p => p.Key).SequenceEqual(document.ReadKnowledge().OrderBy(p => p.Key)), name);
+            string directory = Directory.CreateTempSubdirectory().FullName;
+            try
+            {
+                string copy = Path.Combine(directory, "save.save");
+                document.SaveCopy(copy);
+                byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
+                AssertGameLayout(raw);
+                Assert.AreEqual(0, SaveDocument.Diagnose(copy).DamagedRows, name);
+                // Rows the game wrote come through unchanged apart from their absolute payload pointers.
+                var repaired = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
+                var originals = SaveRecords.ReadLists(original, ParcLayout.Parse(original), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
+                Assert.AreEqual(originals.Length, repaired.Length);
+                int same = 0;
+                for (int i = 0; i < repaired.Length; i++)
+                    if (original.AsSpan(originals[i].ChildPayloadOffset, originals[i].EndOffset - originals[i].ChildPayloadOffset)
+                        .SequenceEqual(raw.AsSpan(repaired[i].ChildPayloadOffset, repaired[i].EndOffset - repaired[i].ChildPayloadOffset))) same++;
+                Assert.AreEqual(repaired.Length - damaged, same, name);
+                // Undo returns the damaged bytes; nothing else was touched.
+                document = SaveDocument.Open(source);
+                document.RepairMissionRows();
+                document.Undo();
+                string undone = Path.Combine(directory, "undone.save");
+                document.SaveCopy(undone);
+                CollectionAssert.AreEqual(original, SaveContainer.Decode(File.ReadAllBytes(undone)).Blob, name);
+                // A repaired save can be edited again.
+                document = SaveDocument.Open(copy);
+                var open = ChallengeCatalog.Completion.Roots.Where(r => document.ReadChallenges().Mission.GetValueOrDefault(r)?.State != 5).Take(3).ToArray();
+                Assert.IsTrue(document.CompleteChallenges(open).Completed > 0, name);
+            }
+            finally { Directory.Delete(directory, true); }
+        }
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void DlcCressetsActivateWithTheirMissions()
+    {
+        string? fixtures = FixtureSaves.Scenarios;
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        var document = SaveDocument.Open(Path.Combine(fixtures, "dlc_fog_and_skill_observe_2.04.00.save"));
+        int index = Array.FindIndex(MapAction.All, a => a.ChallengeRoots is { Length: > 0 });
+        var action = MapAction.All[index];
+        var scenes = action.Scenes.Where(DlcContent.Shared.Scenes.Contains).ToArray();
+        var roots = action.ChallengeRoots!.Where(DlcContent.Shared.Missions.Contains).ToArray();
+        Assert.AreEqual(29, scenes.Length);
+        Assert.AreEqual(29, roots.Length);
+        document.ActivateMap(index);
+        var map = document.ReadMap();
+        foreach (string scene in scenes)
+        {
+            byte[] pivot = Convert.FromHexString(map.Discoveries[scene].Pivot!);
+            float x = BitConverter.ToSingle(pivot, 0), z = BitConverter.ToSingle(pivot, 8);
+            Assert.AreEqual(0f, BitConverter.ToSingle(pivot, 4), scene);
+            Assert.IsTrue(x * x + z * z is > 0 and <= 400, scene);
+        }
+        foreach (uint key in roots.SelectMany(ChallengeCatalog.Shared.Descendants)) Assert.AreEqual((byte?)5, map.Progress.Mission[key].State, key.ToString());
+        foreach (uint quest in new uint[] { 1000830, 1000887 }) Assert.AreEqual((byte?)5, map.Progress.Quest[quest].State, quest.ToString());
+        string copy = Path.Combine(Path.GetTempPath(), $"dlc-cressets-{Guid.NewGuid():N}.save");
+        try
+        {
+            document.SaveCopy(copy);
+            AssertGameLayout(SaveContainer.Decode(File.ReadAllBytes(copy)).Blob, roots.SelectMany(ChallengeCatalog.Shared.Descendants).ToHashSet());
+        }
+        finally { File.Delete(copy); }
+    }
+
+    // The layout every game-written row follows: a row one byte off makes the game read the next row's mask as a length and overrun a stack buffer.
+    private static void AssertGameLayout(byte[] raw, ISet<uint>? tagged = null)
+    {
+        var layout = ParcLayout.Parse(raw);
+        var type = layout.Types.Single(t => t.Name == "MissionStateData");
+        foreach (var row in SaveRecords.ReadLists(raw, layout, "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements)
+        {
+            int cursor = row.ChildPayloadOffset + 4, alarm = -1;
+            uint key = BitConverter.ToUInt32(raw, cursor);
+            uint[] tags = [];
+            for (int i = 0; i < type.Fields.Count; i++)
+            {
+                var field = type.Fields[i];
+                bool present = (raw[row.StartOffset + 2 + i / 8] & (1 << (i % 8))) != 0;
+                if (field.Kind == 3)
+                {
+                    Assert.AreEqual(present ? 0 : 1, raw[cursor]);
+                    cursor++;
+                    if (!present) continue;
+                    int count = BitConverter.ToInt32(raw, cursor);
+                    if (field.Name == "_usedTagList") tags = Enumerable.Range(0, count).Select(t => BitConverter.ToUInt32(raw, cursor + 4 + t * 4)).ToArray();
+                    cursor += 4 + count * field.Size;
+                }
+                else if (present)
+                {
+                    if (field.Name == "_newAlarm") alarm = raw[cursor];
+                    cursor += field.Size;
+                }
+            }
+            Assert.AreEqual(row.EndOffset - 4, cursor);
+            Assert.AreEqual(0, alarm);
+            if (row.ChildFields.Named("_completedTime").Present) Assert.IsTrue(tags.Length > 0, "Every completed row the game writes has used tags.");
+            if (tagged?.Contains(key) == true) CollectionAssert.IsSubsetOf(ChallengeCatalog.CompletedTags(key), tags);
+        }
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    public void CompletedMissionRowsKeepTheLayoutTheGameReads()
+    {
+        string? fixtures = FixtureSaves.Scenarios;
+        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
+        var document = SaveDocument.Open(Path.Combine(fixtures, "early_progress_2.03.02.save"));
+        var before = document.ReadChallenges();
+        var after = document.CompleteChallenges(ChallengeCatalog.Completion.Roots.Where(r => before.Mission.GetValueOrDefault(r)?.State != 5).ToArray()).State;
+        var inserted = after.Mission.Keys.Except(before.Mission.Keys).ToHashSet();
+        var completed = after.Mission.Where(p => p.Value.State == 5 && before.Mission.GetValueOrDefault(p.Key)?.State != 5).Select(p => p.Key).ToHashSet();
+        Assert.IsTrue(inserted.Count > 0, "The fixture must be missing mission rows.");
+        Assert.IsTrue(completed.Count > inserted.Count, "The fixture must have started mission rows to complete.");
+        string copy = Path.Combine(Path.GetTempPath(), $"challenge-rows-{Guid.NewGuid():N}.save");
+        try
+        {
+            document.SaveCopy(copy);
+            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
+            AssertGameLayout(raw, completed);
+            var rows = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
+            Assert.IsTrue(inserted.All(k => rows.Any(r => r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4) == k)));
+        }
+        finally { File.Delete(copy); }
+    }
+
+    [TestMethod]
     [TestCategory("PrivateFixtures")]
     public void CheckpointsFamiliesAndBatchCompleteOnlyTheirMissionsAndUndoExactly()
     {

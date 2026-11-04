@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.3.0]
+
+Fixes a crash caused by this editor, and adds a way to repair saves it damaged. Verified with Crimson Desert 2.04.06
+and its first DLC.
+
+- **Fixed: the game could crash at the title screen after completing challenges or activating Abyss Cressets.**
+  Mission records this editor added lacked bytes the game expects, so the game read past them. A single such save
+  crashes the game even if that slot is never loaded. Saves edited with those two features in earlier versions may be
+  affected.
+- **New: File > Save Doctor (Experimental).** It checks every save slot for those records and repairs them. Each save
+  is backed up first and can be restored from Backup/Restore, and only the damaged records are rewritten. Close the
+  game before repairing. Opening a damaged save shows a warning, and challenge or cresset edits on it are refused
+  until it is repaired.
+- Abyss Cressets: the DLC's 29 cressets can be activated again, together with their challenges. They were left out
+  because of the crash above, whose cause was not the cressets. 12 of them use a location offset from other cressets
+  because no save records their own. The challenge records for the DLC cressets follow the base game's series.
+- Completed challenges now record the same used tags as the game does, per mission.
+- Syncing game data works with 2.04.06. The item table layout changed in that update.
+- Bundled game data is refreshed for 2.04.06.
+
 ## [1.2.1]
 
 Save loading fix. Verified with Crimson Desert 2.04.05 and its first DLC.

@@ -15,6 +15,7 @@
    <MenuItem Header="{local:Tr ui.slots}" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"/>
    <Separator/><MenuItem Header="{local:Tr Save}" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
    <MenuItem Header="{local:Tr 'Save As...'}" Command="{Binding SaveAsCommand}" InputGestureText="Ctrl+Shift+S"/>
+   <MenuItem Header="{local:Tr ui.doctor}" Click="OnDoctor"/>
    <MenuItem Header="{local:Tr Settings}" Click="OnSettings"/><Separator/><MenuItem Header="{local:Tr Exit}" Click="OnExit" InputGestureText="Alt+F4"/>
   </MenuItem>
   <MenuItem x:Name="ViewMenu" Header="{local:Tr View}"><MenuItem Header="{local:Tr ui.theme}" Click="OnThemeSettings"/><Separator/></MenuItem>

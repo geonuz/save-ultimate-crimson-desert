@@ -202,19 +202,19 @@ public static class MapCatalogBuilder
     // Abyss Cressets need fog pivots captured from a save and the challenge quests that place them.
     private static void Cressets(JsonObject action, string[] placed, Func<string, JsonNode> load)
     {
-        var pivots = load("data/abyss_cresset_records.json")["pivots"]!.AsObject().DeepClone().AsObject();
+        var records = load("data/abyss_cresset_records.json");
+        var pivots = records["pivots"]!.AsObject().DeepClone().AsObject();
+        // Pivots differ per playthrough, so recorded values serve for the DLC's 29 as well.
+        foreach (var (id, pivot) in records["dlcPivots"]!.AsObject()) pivots[id] = pivot!.DeepClone();
         if (!pivots.All(p => placed.Contains(p.Key)) || pivots.Any(p => Convert.FromHexString(p.Value!.GetValue<string>()).Length != 12))
             throw new InvalidDataException("Abyss Cresset reference does not match the current placement catalog.");
-        // shortcut: the DLC's 29 cressets (Challenge_Standstone_Adventure_II 1000830, _Puzzle_II 1000887) are left out. Activating
-        // them with guessed centred pivots and completed puzzle missions crashed the 2.04 client at the title screen
-        // (reference save_error.save); add them back once a save records all their pivots (two are kept as dlcPivots).
         placed = placed.Where(pivots.ContainsKey).ToArray();
         action["scenes"] = new JsonArray(placed.Select(s => (JsonNode)s).ToArray());
         action["reference_pivots"] = pivots;
         var quests = load("data/challenge_catalog.json")["quests"]!;
         var roots = new List<uint>();
         foreach (var (quest, name, count) in new[] { (1000066u, "Challenge_Standstone_Adventure", 60), (1000860u, "Challenge_Standstone_Puzzle", 37),
-            (1000039u, "Challenge_Maze", 4) })
+            (1000039u, "Challenge_Maze", 4), (1000830u, "Challenge_Standstone_Adventure_II", 20), (1000887u, "Challenge_Standstone_Puzzle_II", 9) })
         {
             var definition = quests[quest.ToString()]!;
             var missions = definition["missions"]!.AsArray().Select(m => m!.GetValue<uint>()).ToArray();

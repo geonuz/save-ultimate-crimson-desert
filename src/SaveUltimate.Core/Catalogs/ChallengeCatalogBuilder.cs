@@ -12,7 +12,23 @@ public static partial class ChallengeCatalogBuilder
     private const uint EmptyKey = 0xEAC5E173;
     private sealed record Group(uint Key, string Internal, int Type, string Label, uint[] Quests);
     private sealed record Quest(uint Key, string Internal, string Label, uint Group, int Category, int Type, uint Faction, string Kind);
-    private sealed record Mission(uint Key, string Internal, uint Quest, uint[] Children, uint[] Stages, string Label, JsonObject? Objective);
+    private sealed record Mission(uint Key, string Internal, uint Quest, uint[] Children, uint[] Stages, string Label, JsonObject? Objective, uint[] Tags);
+
+    // A mission's trigger groups name their tag in a u32-counted array of stringinfo keys. On 1,291 of 1,294 challenge missions completed
+    // in saves this is exactly what _usedTagList holds besides Start, Complete and the empty string; two of the rest gained patch_2_04_06 after those saves.
+    private static uint[] DefinedTags(ClientRecord record, HashSet<uint> strings)
+    {
+        const uint Start = 0x872571C6, Complete = 0x599D2AA7;
+        var bytes = record.Bytes.Span; var tags = new List<uint>();
+        for (int i = record.Prefix; i + 8 <= bytes.Length; i++)
+        {
+            uint count = BitConverter.ToUInt32(bytes[i..(i + 4)]);
+            if (count is < 1 or > 8 || i + 4 + count * 4 > bytes.Length) continue;
+            var keys = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, uint>(bytes.Slice(i + 4, (int)count * 4)).ToArray();
+            if (keys.All(strings.Contains)) tags.AddRange(keys.Where(k => k is not Start and not Complete && !tags.Contains(k)).Distinct());
+        }
+        return tags.ToArray();
+    }
 
     private static string StringRef(ClientReader r)
     {
@@ -56,6 +72,12 @@ public static partial class ChallengeCatalogBuilder
             string kind = groups.GetValueOrDefault(group)?.Type == 3 ? "challenge" : category == 13 ? "main" : category == 12 ? "regional" : "other";
             quests[key] = new(key, record.Name, label, group, category, type, faction, kind);
         }
+        var strings = new HashSet<uint>();
+        foreach (var (_, header, _) in source.Tables("stringinfo"))
+        {
+            var index = new ClientReader(header); int count = index.U16();
+            for (int i = 0; i < count; i++) { strings.Add(index.U32()); index.U32(); }
+        }
         var missions = new Dictionary<uint, Mission>();
         foreach (var (key, record) in ClientTables.Records(source.Tables("missioninfo")))
         {
@@ -77,7 +99,7 @@ public static partial class ChallengeCatalogBuilder
             }
             if (labels.Count > 1) throw new InvalidDataException("Ambiguous mission name.");
             missions[key] = new(key, record.Name, owner, children, stages, labels.FirstOrDefault() ?? "",
-                record.Compact || labelEnd < 0 || children.Length != 0 ? null : FlatObjective(body, labelEnd));
+                record.Compact || labelEnd < 0 || children.Length != 0 ? null : FlatObjective(body, labelEnd), DefinedTags(record, strings));
         }
 
         var parents = new Dictionary<uint, uint>();
@@ -135,6 +157,7 @@ public static partial class ChallengeCatalogBuilder
                 ["name"] = En(m.Label), ["nameKo"] = Ko(m.Label)
             };
             if (objectives.TryGetValue(m.Key, out var objective)) row["objectiveEdit"] = objective.DeepClone();
+            if (m.Tags.Length > 0) row["tags"] = new JsonArray(m.Tags.Select(t => (JsonNode)t).ToArray());
             return row;
         }
         JsonObject QuestJson(Quest q)

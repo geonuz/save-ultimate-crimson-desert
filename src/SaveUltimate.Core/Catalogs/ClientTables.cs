@@ -138,13 +138,15 @@ internal static class ClientTables
             return new(maxStack, name, description, extra, icons, category.U16(), end);
         }
         // 2.04 layout, checked against every 2.03 item: a fixed 152-byte block (stack limit at +2, category at +101)
-        // precedes the references, then the group label, three optional arrays and the icons.
+        // precedes the references, then the group label, three optional arrays and the icons. 2.04.06 grows the 12 bytes after
+        // the label to [4][sound text][sound name text][two hashed keys]; the texts are filled only on ship cannons.
+        // shortcut: only the current client layout is read here, so a sync of a 2.04.00-2.04.05 install reports an error; keep both if that matters.
         r.Take(2); ulong stack = r.U64();
         uint compactCategory = new ClientReader(record.Bytes, record.Prefix + 101).U16();
         r = new ClientReader(record.Bytes, record.Prefix + 152);
         string compactName = r.Reference(7, 0x70, key), compactDescription = r.Reference(7, 0x71, key);
         string compactExtra = r.U8() switch { 0 => "", 1 => r.Reference(7, 0x72, key), _ => throw new InvalidDataException("Invalid item text flag.") };
-        r.SkipText(); r.Take(12);
+        r.SkipText(); r.Take(4); r.SkipText(); r.SkipText(); r.Take(8);
         foreach (int width in new[] { 9, 4, 4 }) Optional(r, width);
         var compactIcons = Icons(r);
         return new(stack, compactName, compactDescription, compactExtra, compactIcons, compactCategory, r.Position);

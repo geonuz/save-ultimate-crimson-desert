@@ -1,20 +1,20 @@
 {
   "sourceSha256": {
     "eng_knowledge.dlc_01.paloc": "f616f4ef2dfee890a8aa9ecd8c090f8a1b905586919d2edf92331c7a1150712b",
-    "eng_knowledge.paloc": "4921e254fd31c136d1eef331311806ec5cff4e588bf4a3755cf7af1607735f04",
+    "eng_knowledge.paloc": "f6837d66b58448f24b1cc43e48e10653b7bc82efe2c5bdd976a96ecbbbc71fcc",
     "jpn_knowledge.dlc_01.paloc": "d69586620d611f2cc53cdbc996955d0d5cdae8d701af8c3ccf02c102999213dc",
     "jpn_knowledge.paloc": "4c61429bb86d8d7c1a86127fab94df12a0b6d8288dc330a33770832d86857503",
-    "knowledgegroupinfo.dlc_01.staticinfobody": "4181f4eb87e0598239d5e0bab4f423544513fb6cd38b355888563e1ffb32804a",
+    "knowledgegroupinfo.dlc_01.staticinfobody": "af1515f30d005143b16de4b2b73345dd9276b444ab218a5550e7b9a30ee19adb",
     "knowledgegroupinfo.dlc_01.staticinfoheader": "13bed2c819790ad6ce4177926b2d4a9142eff5c83292e59d8e7c9c4c8a0fbd91",
-    "knowledgegroupinfo.staticinfobody": "2eeb2a85713b9a271daabdbca07e3624c65f6887c42154c7372cec1e504cee90",
+    "knowledgegroupinfo.staticinfobody": "0715d5822ba1881b91bcbddcc0c75c060c70ebc61ae589f66c3663d1be9218be",
     "knowledgegroupinfo.staticinfoheader": "efd10baf4615a895adcbfdd7695a93ba8c14316e7edeb97d0b141ef0a6809623",
-    "knowledgeinfo.dlc_01.staticinfobody": "cec0c4d190555cc0aa344d53d7327b3497748ab7e45f8997c76e82b070c28992",
+    "knowledgeinfo.dlc_01.staticinfobody": "fca7cac8b1b487a9913728d0459786e3cda70a03cba25ae8a635db8cfffcfb17",
     "knowledgeinfo.dlc_01.staticinfoheader": "980ba13005793aed752211d3f454c2a25f2287c1978d8234a5ac941189af1cf6",
     "knowledgeinfo.staticinfobody": "00a05dbdb2d12a7c5cb49001db211708f82ee820bbd203174644c8fbd9225c38",
     "knowledgeinfo.staticinfoheader": "176ba4a6cb4cc6fb17ac6125733a251f7790ae0aa1d8e23b0525ede71f813f7b",
     "kor_knowledge.dlc_01.paloc": "6a4be529895f7093e16ff6aa768aa23f7724ab19cf5aafdf2fd55490cfa2946f",
     "kor_knowledge.paloc": "a997e8e5801d96a326972b1b7351d3109bfdaf9e378a9b181d0ca4cc1049b486",
-    "rus_knowledge.dlc_01.paloc": "73c54d243470297a9656e742d415ea73c157b57badcbb197cd4517aaafb0cf5d",
+    "rus_knowledge.dlc_01.paloc": "3a477a723c8e548121b16bc7cc8797e697f39f81f7490a109fb4966cc34b35a6",
     "rus_knowledge.paloc": "a0beccba082babcfa72c358e2ede6adc2593e0cd693dc546baf3e2feb7583a5e"
   },
   "items": {
@@ -14739,7 +14739,7 @@
       "descriptionKo": "빛이 나는 꽃이 자라는 신비한 생명 폭포<br/><br/>한 아이가 숲에서 길을 잃고 헤매다가 발을 잘못 디뎌 절벽 아래로 떨어졌다.<br/>아이를 잃은 엄마는 슬픔으로 그 절벽에서 떠나지 않고 눈물을 흘렸다고 한다.<br/>그 눈물은 마르지 않고 오랫동안 흘러,<br/>신께서는 그녀의 눈물을 세상에서 가장 긴 폭포로 만들었다고 한다.<br/>그녀는 밤에도 길을 잃은 이들이 없게 하려고<br/>자신의 눈물로 반짝이는 꽃을 피웠다고 한다."
     },
     "1000718": {
-      "description": "Where the Red Flowers Bloom<br/><br/>One of our ancestors lamented the ever-expanding Crimson Desert. Attempts were made to halt the desert's advance, but it was no easy task. In the end, he used his own body as fertilizer to nurture the Tree of Life and let his blood flow to water it.<br/><br/>Thus, it is said that the trees there still scatter crimson leaves to this day.",
+      "description": "Where Crimson Flowers Bloom<br/><br/>One of our ancestors lamented for the relentless spread of the Crimson Desert. He fought to hold back the shifting sands, but the task was beyond any mortal man.<br/><br/>In the end, he gave his own body to the earth to nourish the tree of life, watering its roots with his very blood. To this day, the trees there still shed leaves of deep crimson in his memory.",
       "descriptionKo": "붉은 꽃이 피는 곳<br/><br/>우리의 선조 중 한 분은 붉은 사막이 점점 넓어지는 것을 괴로워했다.<br/>사막을 막아보려 했으나, 쉽지 않았다.<br/>그는 결국 자신의 육신을 거름 삼아, 생명의 나무를 피우고, 자신의 피로 물을 흐르게 했다고 한다.<br/>주변은 점점 나무가 자라게 되었지만,<br/>그곳에선 지금도 붉은 잎이 흩날린다고 한다."
     },
     "1000722": {
@@ -14747,7 +14747,7 @@
       "descriptionKo": "돌산이 사방을 막고 있는 곳에 숨겨진 버려진 와이번 둥지<br/><br/>돌산이 사방을 막고 있는 천혜의 요새에 세워진 왕국이 있었다.<br/>천 년의 왕국을 이어받을 왕자는 어느 날 한 여인을 만나 사랑에 빠지게 되었다.<br/>왕자는 여인과 결혼하였고 1년이 지난 후, 여인은 아이를 가지게 됐는데...<br/>그녀가 낳은 것은 사람이 아닌 알이었다.<br/>왕자는 여인이 낳은 자기 핏줄이 알이라는 것을 인정하지 않았고, 급기야 깨 버리기까지 했다.<br/>그녀는 눈물을 흘리며 저주를 퍼부었고,<br/>그녀 주위로 몰려온 커다란 새들은 왕국을 모조리 파괴하였다고 한다.<br/>이후 이곳에 사람의 흔적이 조금이라도 보이면 어김없이 큰 새들이 그들을 쫓아낸다고 한다."
     },
     "1000723": {
-      "description": "The Place of No Return, the Desert Border Maze<br/><br/>On a night so dark even the moon hid away, a husband and wife fell from a cliff.<br/><br/>When they opened their eyes, they found themselves surrounded on all sides by sheer rock.<br/>The place was a natural labyrinth, carved by wind and water.<br/><br/>Sadly, the couple could never escape, and it is said that even now, somewhere within that maze, you can still glimpse them lying in eternal slumber.",
+      "description": "The Desert Labyrinth of No Return<br/><br/>On a night so black the moon itself stayed hidden, a man and his wife tumbled over a cliff's edge. They awoke to find themselves entombed by walls of jagged stone, a winding maze hollowed out by the elements.<br/><br/>They never escaped the labyrinth's cold embrace, and legend has it that if you search deep enough, you can still find them sleeping forever in the silence of the stone.",
       "descriptionKo": "들어가면 나올 수 없다는 사막 경계 미로<br/><br/>달마저 숨은 어두운 밤, 한 부부가 절벽에서 떨어졌다.<br/>그들이 눈을 떠보니 사방은 절벽으로 막혀 있었다.<br/>그곳은 바람과 물이 만든 천혜의 미로였고,<br/>안타깝게도 그 부부는 평생 그곳에서 나올 수 없었다고 한다.<br/>지금도 그곳 어디에선가는 그들이 잠든 모습을 볼 수 있다고 한다."
     },
     "1000691": {
@@ -14775,7 +14775,7 @@
       "descriptionKo": "네가 이 편지를 볼 수 있을까...<br/>손이 얼어 글씨가 흐트러진다. 하지만 꼭 남기고 싶다. 나는 여기서 끝을 맞이하지만 걱정하지 마라. 두려움 없이 싸웠다. 너는 나 대신 살아남아라. 따뜻한 곳에서, 네 삶을 살아라. 항상 너를 지켜보마. 형이..."
     },
     "1001433": {
-      "description": "Thanks to you, I was able to set out on my journey once again. <br/><br/>At last, I got the opportunity to leave this place, what with the Bleed Bandits' surveillance weakened. The world is vast, and there are endless places to explore and map. <br/><br/>You've become my compass. I hope we meet again someday. <br/><br/>Yours, Sebastian the Map Maker <br/><br/>P.S. May your path be even more magnifcent than my maps.",
+      "description": "Thanks to you, I was able to set out on my journey once again. <br/><br/>At last, I got the opportunity to leave this place, what with the Bleed Bandits' surveillance weakened. The world is vast, and there are endless places to explore and map. <br/><br/>You've become my compass. I hope we meet again someday. <br/><br/>Yours,<br/>Sebastian the Map Maker <br/>P.S. May your path be even more magnifcent than my maps.",
       "descriptionKo": "덕분에 저는 다시 여행길에 오를 수 있게 되었습니다.<br/>블리드의 감시가 느슨해진 틈을 타,<br/>마침내 이곳을 떠날 기회를 얻었습니다.<br/><br/>세상은 넓고, 그려야 할 곳은 무궁무진합니다.<br/>당신이 제 나침반이 되어 주셨습니다.<br/>언젠간 다시 만날 수 있기를.<br/><br/>지도 제작자<br/><br/>추신. 당신의 길이 제 지도보다 더 넓고 찬란하길."
     },
     "1000064": {
@@ -15007,7 +15007,7 @@
       "descriptionKo": "우르가가 남긴 세 번째 조각.<br/><br/>빛이 오지 않는 그늘 속, 물결이 벽을 어루만지며 오래 머무는 자리."
     },
     "1001430": {
-      "description": "This is both a warning and your judgment.<br/><br/>For years, you have thrived on our blood and sweat, casting the innocent into a pit of starvation and agony.<br/>You ignored our cries while gorging yourselves on greed.<br/>Your actions will no longer go unpunished.<br/><br/>Now, the time has come to pay your debts in blood.<br/><br/>Mark these words: this is only the beginning of our reckoning.",
+      "description": "This is both a warning and your judgment.<br/><br/>For years, you have thrived on our blood and sweat, casting the innocent into a pit of starvation and agony. You ignored our cries while gorging yourselves on greed. It is an arrogance that will no longer go unpunished.<br/><br/>Now, the time has come to pay your debts in blood.<br/><br/>Mark these words: this is only the beginning of our reckoning.",
       "descriptionKo": "이것은 경고이자, 너희를 향한 심판이다.<br/><br/>수년간 우리의 피와 땀을 착취하고,<br/>죄 없는 이들을 굶주림과 고통의 구렁텅이로 내던진 죄...<br/><br/>우리의 울부짖음을 외면한 채,<br/>탐욕스럽게 배를 불리던 너희의 그 오만함...<br/><br/>이제 그 대가를 피로 치를 시간이다.<br/><br/>이것이 처절한 복수의 서막임을 똑똑히 기억하라."
     },
     "1003646": {
@@ -15543,7 +15543,7 @@
       "descriptionKo": "곡괭이질을 잘하는 분을 찾습니다.<br/><br/>대장간 불은 아직 뜨겁지만, 망치 아래 놓을 좋은 광석이 바닥났습니다.<br/>며칠 전, 마을 밖 절벽 아래 바위틈에서 번쩍이는 덩어리를 봤다는 말이 돌았습니다.<br/><br/>팔에 힘이 있고 곡괭이를 다룰 줄 아는 분을 찾고 있습니다.<br/>자신이 있으신 분은 에르난드 대장간 앞으로 찾아오시면 자세한 설명과 곡괭이를 나눠 드리겠습니다.<br/><br/>- 에르난드 장비 상인 레트"
     },
     "1003137": {
-      "description": "Looking for a jar to store grain.<br/><br/>The amount of grain displayed in front of my shop is increasing. I've heard there's a potter in a nearby village who makes excellent jars. If you happen to pass by, I'd appreciate it if you could obtain one of his jars. If it's of good quality, I'll pay you well.<br/><br/>- Delkin, the Grocer of Hernand",
+      "description": "IN SEARCH OF GRAIN JARS<br/><br/>My stock is growing faster than I've got vessels to hold it, and I've heard there's a potter in a village nearby who turns out good work.<br/><br/>If anyone's travels take them that way, I'd be grateful if they could bring me back one. If it's of good make, I'll pay a fair purse.<br/><br/>— Delkin, Hernand Grocer",
       "descriptionKo": "곡물을 담을 항아리가 필요합니다.<br/><br/>가게 앞에 내놓을 곡물이 많아지고 있습니다.<br/>근처 마을에 좋은 항아리를 만든다는 도공이 있다고 들었습니다.<br/>그곳에 들르실 일이 있다면,<br/>그가 만든 항아리를 구해 주시면 감사하겠습니다.<br/><br/>괜찮은 물건이라면 좋은 값을 매겨 드리겠습니다.<br/><br/>- 에르난드 식료품 상인 델킨"
     },
     "1003138": {
@@ -15579,7 +15579,7 @@
       "descriptionKo": "실력 있는 나무꾼을 찾습니다.<br/><br/>망치 손잡이로 쓸 나무가 부족합니다.<br/>최고의 대장장이도 망치 없이는 소용없는 법입니다.<br/><br/>근처 숲에서 곧고 튼튼한 나무를 베어 올 수 있는 분을 찾습니다.<br/><br/>관심 있는 분은 에르난드 대장간으로 오시기 바랍니다.<br/>도끼는 준비되어 있으니 몸만 오시면 됩니다.<br/><br/>- 에르난드 대장장이 투르널리"
     },
     "1001943": {
-      "description": "Looking for someone to help promoting the shop.<br/><br/>The shop hasn't been as lively as before. We need someone who can spread words about our shop and help out. Even better if you are friendly and can strike up a conversation with anyone. If you're interested, come to Hernand Provisioner's Shop for more details.<br/><br/>- Alden, the Provisioner of Hernand",
+      "description": "HELP SPREADING THE WORD<br/><br/>The shop has been somewhat quiet of late, and I am looking for someone to help change that. The work is simply talking to people and letting them know what I stock. Someone with a friendly disposition who can make conversation with ease would suit that task well. Those interested should come by my store for the full details.<br/><br/>— Alden, Hernand Provisioner",
       "descriptionKo": "가게 홍보를 도와주실 분을 찾습니다.<br/><br/>가게 손님이 줄어 장사가 예전만 못합니다.<br/>사람들에게 가게를 알리도록 도움을 주실 수 있는 분을 찾습니다.<br/><br/>친화력이 좋고, 누구와도 쉽게 말을 트는 분이라면 더 좋습니다.<br/>관심 있는 분은 에르난드 잡화점으로 오시면 자세히 설명해 드리겠습니다.<br/><br/>- 에르난드 잡화 상인 알든"
     },
     "1001944": {
@@ -15599,7 +15599,7 @@
       "descriptionKo": "간단한 이야기를 전해 주실 분을 찾습니다.<br/><br/>칼페이드 마을에 전할 말이 있어 대신 가줄 분을 찾습니다.<br/>길이 멀지 않고, 무거운 짐을 나를 일도 없습니다.<br/><br/>사람들과 편안하게 이야기를 풀어낼 줄 알고,<br/>대화 속에서 자연스레 의도를 알아낼 수 있는 분이면 좋겠습니다.<br/><br/>관심 있는 분은 칼페이드 농산물 도매 상점으로 찾아와 주시면 감사하겠습니다.<br/><br/>- 칼페이드 농산물 도매 상인 하베스톤"
     },
     "1001989": {
-      "description": "Help making new saddles.<br/><br/>A saddle isn't just something that goes on your horse, it's an important piece of equipment that accompanies our soldiers throughout their days and battles. I need someone to speak with the soldiers and survey what kind of tack they prefer. If you're interested, come by the Calphade Saddlery for the details.<br/><br/>- Driana, the Saddler of Calphade",
+      "description": "HELP WANTED: SADDLERY SURVEY<br/><br/>A saddle is not merely something to sit on. It is with a soldier through long marches and short, brutal fights alike, and what suits one rider may cripple another. I am working on a new design and need someone to speak with soldiers about what they want from their tack. Anyone willing to do that leg work should come seek me out directly.<br/><br/>— Driana, Calphade Saddler",
       "descriptionKo": "새로운 안장을 만들고 있습니다.<br/><br/>안장은 단순히 말 위에 얹는 도구가 아니라, 병사의 하루와 전투를 함께하는 중요한 장비입니다.<br/>병사들과 이야기를 나누고, 어떤 마구를 선호하는지 조사해 줄 분을 찾습니다.<br/><br/>관심 있는 분은 칼페이드 마구상점으로 찾아와 주시면<br/>자세하게 설명해 드리겠습니다.<br/><br/>- 칼페이드 마구 상인 드리아나"
     },
     "1001990": {
@@ -15607,7 +15607,7 @@
       "descriptionKo": "장비 상점에서 일손을 찾습니다.<br/><br/>카론소 장비 상점에서 가게 일을 도와줄 분을 찾습니다.<br/>부족한 물건을 거래처로부터 받아 오는 간단한 일입니다.<br/><br/>무기와 장비에 관심이 있고, 필요한 물건을 잘 챙겨 올 수 있는 분이면 좋겠습니다.<br/>관심 있는 분은 카론소 장비 상점으로 찾아와 주시면 감사하겠습니다.<br/><br/>- 카론소 장비 상인 노르크"
     },
     "1001991": {
-      "description": "Looking for someone to make simple deliveries.<br/><br/>I need someone to deliver some items since I can't really leave my store empty. They're mostly close by, and the items are not heavy. I'd like to find someone who will complete the job with diligence. If you're interested, please come to Vellua Provisioner's Shop.<br/><br/>- Berto the Provisioner of Vellua",
+      "description": "ERRAND RUNNER WANTED<br/><br/>I cannot be leaving the shop every time something needs delivering, and yet things keep needing delivering. Most of the spots are nearby and nothing you would struggle to carry. What I need is someone reliable who sees a job through to the end. If you're such a person, you're welcome to come by.<br/><br/>— Berto, Vellua Provisioner",
       "descriptionKo": "간단한 물건 전달 일을 하실 분을 찾습니다.<br/><br/>상점을 자주 비울 수 없는 상황이라, 대신 물건을 전해 줄 분을 찾습니다.<br/>대부분 멀지 않은 곳이며, 무겁지 않은 짐들입니다.<br/><br/>성실히 맡은 일을 끝까지 해 주실 분이면 좋겠습니다.<br/>관심 있는 분은 벨루아 잡화점으로 와 주시면 감사하겠습니다.<br/><br/>- 벨루아 잡화 상인 베르도"
     },
     "1002023": {
@@ -15631,7 +15631,7 @@
       "descriptionKo": "옷맵시에 관심 있는 분을 찾습니다.<br/><br/>칼페이드 의상점에서 새로운 차림새를 더 돋보이게 할 방법을 찾고 있습니다.<br/>의복의 품격과 맵시를 살펴볼 줄 아는 안목이 있는 분이라면 더 좋습니다.<br/><br/>옷과 장식, 그리고 차림새를 아름답게 보여 줄 방안을 함께 고민해 주실 분을 찾습니다.<br/>칼페이드 의상점으로 오셔서 상의해 주신다면 큰 도움이 되겠습니다.<br/><br/>- 칼페이드 의상 상인 아델리나"
     },
     "1002032": {
-      "description": "Looking for a strong, trustworthy person.<br/><br/>There's an item that needs to be delivered safely.<br/>The distance isn't far, but you never know what's going to happen on the road without some trustworthy strength.<br/>We'd like someone who will deliver the item safely until the end.<br/>We'll explain the details at the trading post.<br/>- Prox, the Merchant",
+      "description": "IN NEED OF A RELIABLE ESCORT<br/><br/>There are goods that need to reach their destination intact. The distance is not great, but the road has a way of producing surprises, and I would rather not leave things to chance.<br/>What is needed is someone strong enough to discourage trouble and dependable enough not to cause any. Details available at the trading post.<br/><br/>— Prox, Goldleaf Merchant",
       "descriptionKo": "힘 있고 믿음직한 분을 찾습니다.<br/><br/>안전하게 전달해야 할 중요한 물품이 있습니다.<br/>거리가 멀지 않지만, 길 위에서 무슨 일이 생길지 몰라 힘 있고 믿음직한 분을 찾습니다.<br/><br/>맡은 물건을 끝까지 온전하게 전해 주실 분이면 좋겠습니다.<br/>자세한 내용은 무역소로 들러 주시면 설명 드리겠습니다.<br/><br/>- 무역상 프록스"
     },
     "1001222": {
@@ -15639,7 +15639,7 @@
       "descriptionKo": "따뜻한 가죽을 구해 주실 분을 찾습니다.<br/><br/>날이 갈수록 추위가 매서워지고 있습니다.<br/>손이 얼어붙어서 바깥일을 못 하고 있어요.<br/>따뜻한 털장갑을 만들 가죽이 필요합니다.<br/><br/>가죽을 가져와 주시는 분께는 적절한 사례를 하겠습니다.<br/><br/>— 페일룬 마을 잡화점 론하르트"
     },
     "1001247": {
-      "description": "Looking for someone to gather insect-repelling flowers.<br/><br/>Lately, bugs have been swarming around the meat, making storage a real problem. No matter how many times I drive them off, they return in no time, leaving me to wrestle with them all day. I've heard that strongly scented flowers, known to repel insects, bloom around the village. If you can bring me some, I'll reward you with fresh meat.<br/><br/>- Terianne, the Butcher of Pailune",
+      "description": "LOOKING FOR BUG-REPELLING FLOWERS<br/><br/>I have a plague of insects settling on my meat, and it is making my stock impossible to keep. No matter how many I drive off, they are back in moments, leaving me battling the swarms from dawn until dusk.<br/><br/>I have heard there is a strong-scented flower growing near the village that keeps such pests at bay. Bring me a decent bunch of those blooms, and I will trade you a selection of fresh meat for the help.<br/><br/>— Terianne, Pailune Butcher",
       "descriptionKo": "벌레 쫓는 꽃을 구해 주실 분을 찾습니다.<br/><br/>요즘 들어 고기에 벌레들이 꼬여서 보관이 힘듭니다.<br/>아무리 쫓아내도 금세 다시 들러붙어, 하루 종일 벌레와 씨름하고 있습니다.<br/>마을 주변에 벌레를 쫓는 향이 강한 꽃이 핀다 들었습니다.<br/><br/>꽃을 구해 주시면, 신선한 고기를 답례로 드리겠습니다.<br/><br/>— 페일룬 마을 푸줏간 상인 테리난드"
     },
     "1000359": {
@@ -15647,11 +15647,11 @@
       "descriptionKo": "새로운 갑옷 제작에 필요한 재료를 구해 주실 분을 찾습니다.<br/><br/>최근 마을 병사들의 장비가 낡아, 혹독한 환경을 견디기 어려운 상황입니다.<br/>강하고 오래 쓸 수 있는 재료가 절실합니다.<br/><br/>설원에 사는 사슴들은 두껍고 따뜻한 털을 지니고 있으며,<br/>혹한 속에서 자라 그 가죽 또한 매우 단단하다고 합니다.<br/><br/>재료를 가져다주시면, 그에 맞는 보답을 드리겠습니다.<br/><br/>— 스코그혼 마을 장비 상인 고리오"
     },
     "1002517": {
-      "description": "Seeking a courier to deliver items.<br/><br/>I have finished repairing the villagers' tools. Every object I have touched is now sturdy and ready for long-term use.<br/>It is now time for the ritual of returning them to their owners. I am looking for someone who can deliver them quickly and accurately.<br/>You will be well compensated for your efforts.<br/><br/>- Harry, the Blacksmith of Pailune",
+      "description": "DELIVERY RUNNER NEEDED<br/><br/>I have finished sharpening and mending a heap of tools for the folk around the village. They are built to last, but they will not do much good sitting on my bench.<br/><br/>It is time they were returned to their owners. I need someone to get them delivered quickly and to the right hands. I will see you are paid well for the legwork<br/><br/>— Harry, Pailune Blacksmith",
       "descriptionKo": "물건을 대신 전해주실 분을 찾습니다.<br/><br/>마을 사람들의 도구들을 튼튼하게 수리했습니다.<br/>손길이 닿은 모든 물건이 오래도록 쓰일 준비가 되었습니다.<br/><br/>이제 각 주인에게 돌아갈 차례입니다.<br/>빠르고 정확하게 전달해 주실 분을 찾습니다.<br/><br/>수고에 대한 보답은 확실히 드리겠습니다.<br/><br/>— 페일룬 마을 대장장이 앙리"
     },
     "1002518": {
-      "description": "Seeking help gathering materials for village repairs.<br/><br/>Repairs on houses and walls are underway throughout the village. We have plenty of timber, but we are short on the stones needed for a solid foundation.<br/>Your assistance in securing these stones will ensure our villagers have safe and warm homes.<br/><br/>- Bargul, the Equipment Vendor of Odeck",
+      "description": "HELP<br/><br/>Repairs are underway all across the town, from the houses to the outer walls. We have timber enough to frame out a small city, but you cannot build anything meant to last without a solid foundation, and we are running out of stone fast.<br/><br/>We need hands to gather good, solid rock. If you can help lay the groundwork for a safer, warmer village, we will see you paid for the sweat.<br/><br/>— Bargul, Odeck Equipment Vendor",
       "descriptionKo": "마을 보수에 필요한 재료를 구해 주실 분을 찾습니다.<br/><br/>마을 곳곳에서 집과 성벽을 손보는 작업이 한창입니다.<br/>목재는 충분하지만, 기초를 튼튼히 쌓을 석재가 부족한 상황입니다.<br/><br/>석재를 구하는 데 힘을 보태 주신다면,<br/>마을 사람들에게 안전하고 따뜻한 보금자리가 마련될 것입니다.<br/><br/>— 오데크 마을 장비 상인 바르굴"
     },
     "1002524": {
@@ -15675,7 +15675,7 @@
       "descriptionKo": "특별한 약주 재료를 구하고 있습니다.<br/><br/>찬 바람이 불기 시작하며 몸이 허해지는 날이 잦아졌습니다.<br/><br/>이럴 때 힘을 북돋아 주는 특별한 약주를 만들고자 합니다.<br/>약효를 제대로 내려면 귀하고 잡기 어려운 재료가 필요하며,<br/>효능을 더욱 키우려면 여러 마리가 필요하니 넉넉히 구해 주실 분을 찾습니다.<br/><br/>— 베이겐 마을 잡화 상인 리카르트"
     },
     "1001252": {
-      "description": "Looking for a special ingredient from the river with exceptional taste and aroma.<br/><br/>I want to prepare a new menu at the tavern. To do that, I need a fish with plump and glistening meat. I'm seeking someone who can catch this fish from the river in front of the village, and deliver it to the tavern. I urgently need the help of a skilled angler.<br/><br/>- Ava, the Tavernkeep of Pailune Militia Barracks",
+      "description": "WANTED: FRESH FISH <br/><br/>Looking for a special ingredient from the river with exceptional taste and aroma.<br/>I want to prepare a new menu at the tavern. To do that, I need a fish with plump and glistening meat. I'm seeking someone who can catch this fish from the river in front of the village, and deliver it to the tavern. I urgently need the help of a skilled angler.<br/><br/>— Ava, Pailune Tavernkeep",
       "descriptionKo": "맛과 향이 뛰어난 강의 별미를 찾습니다.<br/><br/>저희 주점에서 새로운 요리를 준비하고자 합니다.<br/>살이 두툼하고 윤기가 나는 물고기가 필요합니다.<br/>마을 앞 강에서 싱싱한 물고기를 낚아서 주점으로 전달해 주실 분을 찾습니다.<br/><br/>낚시 실력이 뛰어난 분들의 도움이 절실합니다.<br/><br/>— 페일룬 야영지 주점 에이바"
     },
     "1001407": {
@@ -15703,23 +15703,23 @@
       "descriptionKo": "단단한 호박을 구해 주실 분을 찾습니다.<br/><br/>사람들의 시선을 사로잡을 시연을 준비하고 있습니다.<br/>호박처럼 단단하고 큼직한 것을 한 번에 잘라, 무기의 성능을 보여 줄 계획입니다.<br/>농가에서 단단하고 큼직한 호박을 구해 주시면, 그에 합당한 답례를 드리겠습니다.<br/><br/>— 데메니스 성 장비 상인 카타"
     },
     "1003109": {
-      "description": "Looking for stories to get our patrons smiling again.<br/><br/>The tavern's been quiet lately with only drinks being passed around. I hear some interesting stories are told at village outskirts or alleys, and I'm sure those stories will fill the tavern with smiles and laughter again. I'll tell you more details at the tavern.<br/><br/>- Linda, the Tavernkeep of Demeniss Castle",
+      "description": "IN SEARCH OF A GOOD STORY<br/><br/>The tavern has been quiet of late. People come, they drink, they leave, and nobody's laughing. Word is there are always odd bits of news floating round the village gates and crossroads, the kind that gets a room going again.<br/><br/>Anyone sitting on something worth telling is welcome to come by and share it. Details over a drink. <br/><br/>— Linda, Demeniss Tavernkeep",
       "descriptionKo": "손님들의 웃음을 되찾아줄 이야기를 찾습니다.<br/><br/>요즘 가게가 한산하고, 술잔만 오가는 날이 이어지고 있습니다.<br/>마을 어귀나 길목에선 가끔 재미난 소문이 돈다고 하네요.<br/>그런 이야기라면 이곳을 다시 웃음으로 채울 수 있을 겁니다.<br/><br/>자세한 내용은 주점에서 직접 말씀드리겠습니다.<br/><br/>— 데메니스 성 주점 상인 린다"
     },
     "1003110": {
-      "description": "Making a powerful weapon fit for my name.<br/><br/>To make this masterpiece, I need some solid, high-quality wood to really get my fire burning strong. This weapon forged by my hands will be made of a strong and radiant steel. I'm looking for someone to get me the wood to kick things off.<br/><br/>- Jofroy, the Blacksmith of Demeniss Castle",
+      "description": "QUALITY TIMBER WANTED<br/><br/>There is a piece to be forged, one meant to carry my mark. To work the steel properly requires a hotter fire than usual, and that demands a steady supply of hard, high-quality wood. <br/><br/>Someone is needed to source the timber before the work can begin. Those willing to take that on should come by the Demeniss forge.<br/><br/>— Jofroy, Demeniss Blacksmith",
       "descriptionKo": "제 이름을 걸 만한 강한 무기를 만들고자 합니다.<br/><br/>그 작품을 완성하려면 불길을 더 세게 올려야 하고,<br/>그 불꽃에 힘을 실어줄 단단하고 질 좋은 나무가 필요합니다.<br/>제 손에서 태어날 무기는, 강하고 빛나는 쇠를 품게 될 것입니다.<br/><br/>그 시작을 함께할 나무를 구해 주실 분을 찾습니다.<br/><br/>— 데메니스 성 대장장이 조프루아"
     },
     "1003111": {
-      "description": "Need leather to fix clothing.<br/><br/>The clothes I put on display at the store got all worn out. Lots of people touch them and try them on frequently, so I need some good leather that will last. I have to mend it and put it up again as soon as I can, but I can't leave my shop. If anyone could get me some high-quality leather, that'd be great.<br/><br/>- Marielle, the Tailor of Demeniss Castle",
+      "description": "IN WANT OF DURABLE LEATHER<br/><br/>The garments on my display racks have been handled so much they are wearing completely through. If folks are going to keep tugging at my work, I need a properly sturdy leather to patch the damage. I want to mend them and get them back on display quickly, but I cannot afford to leave the shop unattended. If you know how to source quality hides, come find me for more details.<br/><br/>— Marielle, Demeniss Tailor",
       "descriptionKo": "옷을 고칠 가죽을 구합니다.<br/><br/>가게에 진열해둔 옷이 닳고 닳아 해져버렸습니다.<br/>많은 분들이 만져보고 입어보는 만큼, 이번에는 쉽게 해지지 않는 튼튼한 가죽이 필요합니다.<br/><br/>하루라도 빨리 손질해 다시 걸어두어야 하는데, 가게를 비울 수 없습니다.<br/>질 좋은 가죽을 구해 주실 분을 찾습니다.<br/><br/>— 데메니스 성 의상점 마리엘"
     },
     "1003145": {
-      "description": "Need some liquor for offering.<br/><br/>Every man who fell on the battlefield was somebody's family or friend, and some may have fallen by weapons forged by my own hands. I give them a silent tribute every now and then. This time, I need some liquor, but can't find one in the village. I need someone to bring some to me.<br/><br/>- Khron, the Weapon Vendor of Tariv",
+      "description": "BRING ME A BOTTLE OF GOOD WINE<br/><br/>Every man who falls in battle was someone's family or friend, and I know well enough that some were struck down by weapons I forged. To honor them, I hold a quiet service from time to time.<br/><br/>I need a proper bottle of win for the next rite, but there is none to be had in the village. If you can bring one in from outside town, come see me at my weapon shop.<br/><br/>— Khron, Tariv Weapon Vendor",
       "descriptionKo": "제에 쓸 술이 필요합니다.<br/><br/>전장에서 쓰러진 이들은 누군가에겐 가족이자 친구였을 것이고,<br/>그 중엔 제 손에 벼려진 무기에 쓰러진 이도 있겠죠.<br/>그들을 위해, 때때로 조용히 제를 올립니다.<br/><br/>이번 제에는 술 한 병이 필요하지만, 마을에서는 구할 수 없어,<br/>술을 가져다주실 분을 찾습니다.<br/><br/>— 타리브 마을 무기 상인 코른"
     },
     "1003146": {
-      "description": "Looking for someone to pass on an important item.<br/><br/>Words of special liquor being brewed nearby have reached my ears. I have something ready for it, but can't go and do it myself. I need someone to take it there in my place. I have more details if you visit me.<br/><br/>- Grannard, the Grocer of Brookfield Marketplace",
+      "description": "DELIVERY HELP WANTED<br/><br/>The local winery is preparing a special new vintage, and I have put together a contribution from my stall. It is a rather important opportunity, and truthfully, my nerves make it difficult for me to deliver it myself.<br/><br/>I am looking for a reliable pair of hands to make the drop on my behalf. If you have the time, stop by the grocery in Brookfield Market and I will explain the rest.<br/><br/>— Grannard, Brookfield Grocer",
       "descriptionKo": "중요한 물건을 맡아 전달해 주실 분을 찾습니다.<br/><br/>근처에서 특별한 술을 만든다는 소식이 들려왔습니다.<br/>그 일과 관련해 준비한 것이 있지만, 직접 나서기 어려운 상황입니다.<br/><br/>대신 맡아 전달해 주실 분이 필요합니다.<br/>자세한 이야기는 저를 찾아오시면 말씀드리겠습니다.<br/><br/>— 브룩필드 시장 식료품 상인 그레인하트"
     },
     "1003147": {
@@ -15731,7 +15731,7 @@
       "descriptionKo": "새로 만들 옷을 위한 유행하는 정보가 필요합니다.<br/><br/>작품에 영감을 얻으려면, 그 흐름을 놓쳐서는 안 됩니다.<br/>유행을 살피는 눈과 세심함을 가진 분을 찾습니다.<br/><br/>관심 있으신 분은 데메니스 의상점으로 오시기 바랍니다.<br/><br/>— 데메니스성 의상 상인 올로넬"
     },
     "1003149": {
-      "description": "I need help preparing for a new product to sell.<br/><br/>I'm trying to bring some changes to the shop, and I need an extra set of eyes to inspect the quality thoroughly. It's not easy for me to do it myself, so I need someone trustworthy. Please stop by the Demeniss Castle Provisioner's Shop.<br/><br/>- Kiki, the Provisioner of Demeniss Castle",
+      "description": "TRUSTED HELP WANTED<br/><br/>I am planning some changes to the shop's stock and need someone with a discerning eye to assess quality on my behalf. Getting out to do it myself is not an option at present. Anyone reliable and sharp-eyed is welcome to come and apply at the shop<br/><br/> — Kiki, Demeniss Provisioner",
       "descriptionKo": "새로운 판매를 준비하며, 도움이 필요합니다.<br/><br/>가게에 변화를 주기 위한 시도를 해 보려 합니다.<br/>이번 일은 품질을 꼼꼼히 살필 눈이 필요합니다.<br/>직접 나서기 어려운 상황이라, 믿을 수 있는 분의 도움이 필요합니다.<br/><br/>데메니스성 잡화 상점을 찾아와 주시기 바랍니다.<br/><br/>— 데메니스성 잡화 상인 키케"
     },
     "1003039": {
@@ -15751,11 +15751,11 @@
       "descriptionKo": "멋있는 글을 잘 아시는 분을 찾습니다.<br/><br/>오래도록 남길 물건이 있어, 그에 어울릴 한마디를 찾고 있습니다.<br/>스스로 찾기엔 여건이 맞지 않아, 대신 알아봐 주실 분을 구합니다.<br/><br/>말에 품격을 더할 줄 알고, 상황에 맞는 표현을 고를 수 있는 분이라면 더욱 좋습니다.<br/>자세한 내용은 비석 공방을 찾아와 주시면 알려드리겠습니다.<br/><br/>— 비석 공방 광물 상인 플린트"
     },
     "1001414": {
-      "description": "Looking for fresh fish.<br/><br/>A new dish is in the works for our guests, but we're missing the key ingredient. I seek plump, flavorful fish, flesh firm and rich from the sea breeze and waves. If you can catch such fish at the harbor, bring them to the tavern for a reward.<br/><br/>- Anne, the Tavernkeep of Delesyia Castle",
+      "description": "SEEKING FRESH SEA FISH<br/><br/>A new dish is in the works for our guests, but we're missing the key ingredient. I seek plump, flavorful fish, their flesh firm and rich from the sea breeze and waves. If you can catch such fish at the harbor, bring them to the tavern for a reward.<br/><br/>— Anne, Delesyia Tavernkeep",
       "descriptionKo": "신선한 생선을 구합니다.<br/><br/>손님들께 내놓을 새로운 음식을 준비하고 있습니다.<br/>하지만 요리의 핵심 재료가 빠져 곤란한 상황입니다.<br/>바닷바람과 파도에 단련된 살이 통통하고 맛이 깊은 생선을 찾고 있습니다.<br/>항구에 나가 물고기를 잡아다 주실 수 있는 분은 주점으로 가져와 주시면 됩니다.<br/><br/>— 델레시아 성 주점 상인 난"
     },
     "1001415": {
-      "description": "Looking for someone to gather fragrant herbs.<br/><br/>People have been complaining about the smell coming from the leather in storage. Even after airing it out, the odor quickly returns, making it difficult to handle. I've heard there are herbs near the village with a strong scent that can mask the smell. If you can bring me some of these herbs, I'll reward you with high-quality leather.<br/><br/>- Marin, the Tanner of Delesyia Castle",
+      "description": "PLEASE BRING FRAGRANT HERBS<br/><br/>I am getting constant complaints about the smell of my stored hides. Even after airing them out, the stench creeps right back, and I am struggling to manage it.<br/><br/>I have heard there is a strong-smelling herb growing near the village that can cut through the foulness. Bring me a good bunch of those herbs, and I will trade you a piece of high-quality leather for your trouble.<br/><br/>— Marin, Delesyia Tanner",
       "descriptionKo": "향이 좋은 약초를 구해 주실 분을 찾습니다.<br/><br/>보관 중인 가죽에서 냄새가 난다며 불평이 이어지고 있습니다.<br/>바람에 말려도 금세 냄새가 난다고 해 처리가 쉽지 않습니다.<br/>마을 근처에 향이 진해 냄새를 눌러주는 약초가 난다고 들었습니다.<br/>약초를 구해 주시면, 질 좋은 가죽을 답례로 드리겠습니다.<br/><br/>— 델레시아 성 가죽 상인 마린"
     },
     "1001416": {
@@ -15771,11 +15771,11 @@
       "descriptionKo": "고기를 가져다주실 분을 찾습니다.<br/><br/>대량 주문이 들어와 고기가 부족합니다.<br/>이미 목장에 신선한 고기를 주문해 두었으나, 아직 그대로 보관되어 있습니다.<br/>가게에서 손질해야 할 주문 물량이 많아 직접 가지러 갈 수 없는 상황입니다.<br/>늦기 전에 가져다주시면, 그중에서도 가장 좋은 고기를 넉넉히 드리겠습니다.<br/><br/>— 델레시아 성 푸줏간 상인 낸시"
     },
     "1002033": {
-      "description": "Looking for liquor with good taste and aroma.<br/><br/>I need some liquor for an important business. I'd like to loosen things up even a little. All the better if you know well about liquor. Please come to the equipment shop if you can get one.<br/><br/>- Leore the Equipment Vendor of Delesyia Castle",
+      "description": "FINE WINE WANTED<br/><br/>I am in need of a good bottle of wine for an important meeting. It needs to be something with a pleasant aroma, the sort of drink that goes down easily and helps smooth over that bit of tension. If you have a nose for these things and can source a proper bottle, your assistance would be much appreciated. Stop by the shop if you are willing to help.<br/><br/>— Leore, Delesyia Equipment Vendor",
       "descriptionKo": "향과 맛이 좋은 술을 구합니다.<br/><br/>중요한 자리에 어울릴 만한 술을 찾고 있습니다.<br/>그 자리를 조금이라도 편안하게 만들 수 있으면 좋을 것 같습니다.<br/><br/>마시기 좋은 술을 잘 아는 분이라면 더욱 환영합니다.<br/>구해 주실 수 있는 분은 장비 상점으로 찾아와 주십시오.<br/><br/>— 델레시아 성 장비 상인 리오르"
     },
     "1002034": {
-      "description": "Looking for tasty meat.<br/><br/>I'm preparing a meal for people to get together and share, and I hope to put some heartwarming food on the table. I'd much appreciate it if you know a lot about good meat. Anyone willing to help me with the meat is welcome to visit Delesyia Smithy.<br/><br/>- Renier, the Blacksmith of Delesyia Castle",
+      "description": "LOOKING FOR QUALITY MEAT<br/><br/>I am looking to put together a hearty meal to share with an old friend. I want something choice that can help settle a long-standing grudge and warm the spirits.<br/><br/>If you have a keen eye for good cuts, bring a selection of quality meat by the smithy.<br/><br/>— Renier, Delesyia Blacksmith",
       "descriptionKo": "맛있는 고기를 구합니다.<br/><br/>함께 앉아 나눌 수 있는 한 끼를 준비하려 합니다.<br/>그 자리를 조금이라도 따뜻하게 만들 수 있으면 좋겠습니다.<br/><br/>좋은 고기를 잘 아는 분이라면 더욱 환영합니다.<br/>고기를 구해 주실 수 있는 분은 델레시아 성 대장간으로 찾아와 주십시오.<br/><br/>— 델레시아 성 대장장이 레니에"
     },
     "1003100": {
@@ -15795,7 +15795,7 @@
       "descriptionKo": "소식을 전해주실 분을 찾습니다.<br/><br/>원단과 관련해 전할 말이 있습니다.<br/>빠르고 정확하게 전달해 주실 수 있는 분,<br/><br/>성 밖 마을에 들를 일이 있으시다면 꼭 부탁드리고 싶습니다.<br/>자세한 내용은 델레시아 성 의상점에서 얘기해드리겠습니다.<br/><br/>— 델레시아 성 의상 상인 마르티나"
     },
     "1003191": {
-      "description": "Seeking help to develop a new product.<br/><br/>I'd like to gather opinions on which fruit would be best to use. I'd like someone who can carry on a natural conversation. Those familiar with the marketplace are even more welcome. For more details, please visit the Grocer's Shop.<br/><br/>- Donny, the Grocer of Delesyia Castle",
+      "description": "A KEEN EAR WANTED<br/><br/>I am looking to introduce some new goods to the stall, and I need a bit of help sorting out which fruit the people are truly craving. What I need is someone who can strike up a natural chat around town and gather a few honest opinions without making a fuss of it.<br/><br/>Anyone who knows their way around a busy market would be a fine fit. If you have a knack for listening, come find me at the Delesyia grocer's and we will talk details.<br/><br/>— Donny, Delesyia Grocer",
       "descriptionKo": "새로운 상품을 만들기 위해 도움이 필요합니다.<br/><br/>어떤 과일이 좋을지 결정하는 데 참고할 의견을 모으고자 합니다.<br/>대화를 자연스럽게 이끌어 나갈 수 있는 분이면 좋겠습니다.<br/><br/>시장 분위기에 익숙한 분이라면 더욱 환영합니다.<br/>자세한 내용은 식료품점으로 오시면 말씀드리겠습니다.<br/><br/>— 델레시아 성 식료품 상인 도니"
     },
     "1003192": {
@@ -15823,7 +15823,7 @@
       "descriptionKo": "튼튼한 활 제작에 사용할 뿔을 구합니다.<br/><br/>모래바람 속에서도 견딜 수 있는 강력한 활을 제작 중입니다.<br/>활의 탄력과 힘을 높이기 위해서는 결이 고르고 탄성이 뛰어난 동물의 뿔이 필요합니다.<br/>이 뿔은 단순한 장식이 아니라, 활의 성능과 수명을 좌우하는 핵심 재료입니다.<br/>현재 제작이 진행 중이지만, 필요한 뿔이 없어 작업이 지연되고 있습니다.<br/><br/>조건에 맞는 뿔을 확보하여 전달해 주실 분을 찾습니다.<br/><br/>— 토마소 장비 상인 브룩나르"
     },
     "1001413": {
-      "description": "Looking for a special ore.<br/><br/>Rumor has it that a \"self-moving ore\" has been discovered. They say it gleams like metal aflame when touched by sunlight. As a craftsman, I simply cannot ignore such a find. I'm seeking someone who can bring this mysterious ore.<br/><br/>- Tibo, the Blacksmith of Tommaso",
+      "description": "MYSTERIOUS ORE WANTED<br/><br/>Word has reached me of a \"living stone\"—an ore that seems to move on its own and glows like molten steel in the sunlight. As a smith, I cannot simply let such a curiosity pass me by. <br/><br/>If you can track down a piece of this strange ore and bring it to the Tommaso forge, you will be well rewarded for the discovery.<br/><br/>— Tibo, Tommaso Blacksmith",
       "descriptionKo": "특별한 광석을 찾습니다.<br/><br/>'스스로 움직이는 광석'이 발견되었다는 소문을 들었습니다.<br/>그 광석은 햇빛을 받으면 불꽃 속 금속처럼 아름답게 빛난다고 전해집니다.<br/><br/>이 광석은 장인으로서 결코 간과할 수 없는 존재입니다.<br/><br/>스스로 움직이는 신비한 광석을 가져다주실 분을 찾습니다.<br/><br/>— 토마소 대장간 티보"
     },
     "1003194": {
@@ -15835,15 +15835,15 @@
       "descriptionKo": "잘 여문 곡물이 필요합니다.<br/><br/>햇볕을 듬뿍 받아 알이 굵고 단단하게 여문 곡물이 필요합니다.<br/>껍질이 반질반질하고 속까지 건강한 곡물이면 더욱 좋습니다.<br/>말들을 위한 특제 영양식을 만들 재료로 쓰일 예정입니다.<br/><br/>토마소 마구상점으로 가져다주시면 감사하겠습니다.<br/><br/>— 토마소 마구 상인 아리나"
     },
     "1003196": {
-      "description": "Looking for a shiny ore.<br/><br/>I am in search of a brilliantly shining gem to decorate the handle of a sword with. It must gleam like it's alive, adding true beauty to the piece. This gem will be crucial in raising the quality of my craft. I'll be waiting at the Varnia Smithy. Your help would be greatly appreciated.<br/><br/>- Samir, the Blacksmith of Varnia",
+      "description": "LUSTROUS ORE NEEDED<br/><br/>I am searching for a brilliant, light-catching ore to serve as an inlay for a sword hilt. It must have a true shimmer to it—the kind of stone that gives a masterwork its proper dignity and grace. <br/><br/>If you can find a specimen worthy of a fine blade, I will be waiting at the Varnia forge.<br/><br/>— Samir, Varnia Blacksmith",
       "descriptionKo": "빛나는 광석이 필요합니다.<br/><br/>검 손잡이를 장식할 눈부시게 빛나는 광석을 찾습니다.<br/>빛이 살아 있는 듯 반짝이며, 아름다움을 더할 수 있는 재료여야 합니다.<br/>이 광석은 작품의 품격을 높여주는 중요한 재료가 될 것입니다.<br/><br/>바르니아 대장간에서 기다리고 있겠습니다. 찾아와 주신다면 감사하겠습니다.<br/><br/>— 바르니아 대장장이 사미르"
     },
     "1003197": {
-      "description": "In need of sturdy cloth.<br/><br/>I'm looking for strong cloth that can withstand sandstorms. Cloth without holes and resistant to tearing is especially welcome. It will be used to cover a roof, so larger the better. If you can deliver it to the Varnia Saddlery, it would be a great help.<br/><br/>- Zara, the Saddler of Varnia",
+      "description": "STRONG CLOTH FOR REPAIRS<br/><br/>The desert winds are a curse on my shop. Every time the gales pick up, my covers end up riddled with holes and my goods are left to the mercy of the sand.<br/><br/>I have no wish to replace the whole lot, so I am looking for sturdy, durable cloth to patch the damage. It need not be pretty, so long as it is thick enough to hold against the wind. If you come across any heavy fabric I'd appreciate it if you brought it by.<br/><br/>— Zara, Varnia Saddler",
       "descriptionKo": "튼튼한 천이 필요합니다.<br/><br/>모래바람을 막을 수 있는 튼튼한 천을 구합니다.<br/>구멍이 없고 바람에도 쉽게 찢어지지 않는 것이면 더욱 좋습니다.<br/>지붕을 덮는 데 쓸 재료로, 크기가 넉넉한 천이면 환영합니다.<br/><br/>바르니아 마구상점에 전해 주신다면 큰 도움이 되겠습니다.<br/><br/>— 바르니아 마구 상인 자라"
     },
     "1003198": {
-      "description": "Need fresh desert melons.<br/><br/>I'm preparing a refreshing dish for guests weary from the heat, and I need fresh, ripe desert melons. I only need a few, so if you can bring some it'd be much appreciated, and a great joy to those exhausted by this heat.<br/><br/>- Fatima, the Innkeeper of Varnia",
+      "description": "DESERT MELONS WANTED<br/><br/>I want to prepare something cooling for the guests coming in exhausted from the desert heat. A few fresh, heavy desert melons would be perfect for the job.<br/><br/>If you can bring a small bunch to the Varnia tavern, it would be a great mercy to those worn out by the sun.<br/><br/>— Fatima, Varnia Tavernkeep<br/>",
       "descriptionKo": "싱싱한 사막수박이 필요합니다.<br/><br/>더위에 지친 손님들을 위해 시원한 요리를 준비하려 합니다.<br/>속이 알차고 싱싱한 사막수박이면 더욱 좋습니다.<br/>몇 개만 있어도 충분하니, 전해주신다면 감사히 쓰겠습니다.<br/><br/>바르니아 여관으로 가져오시면 더위에 지친 이들에게 큰 기쁨이 될 것입니다.<br/><br/>— 바르니아 여관 파티마"
     },
     "1003199": {
@@ -15851,7 +15851,7 @@
       "descriptionKo": "물건 전달 일을 하실 분을 찾습니다.<br/><br/>바르니아 의상점에서 급하게 도움을 찾습니다.<br/>가까운 거리로 가벼운 짐을 옮기는 일입니다.<br/><br/>의상에 대한 전문 지식은 없어도 되니 편히 생각해 주세요.<br/><br/>— 바르니아 의상 상인 누르"
     },
     "1003200": {
-      "description": "Looking for a strong and reliable person.<br/><br/>We're looking for someone to safely deliver the merchant guild's goods.<br/>The desert is full of dangers, so we need someone strong and courageous.<br/>We want someone responsible who can see a job through to the end.<br/>For more details, please stop by the Trading Post at the Varnia Saltroad Camp.<br/><br/>- Esford, the Trade Manager",
+      "description": "RELIABLE ESCORT WANTED<br/><br/>The caravans are ready, but the roads through the desert are no place for the faint of heart. I am looking for a reliable hand with the grit and courage to see a shipment delivered safely through the sands. If you have the fortitude for the journey and the will to see a task finished, come and find me at the post in the Varnia Saltroad Camp<br/><br/>— Esperd, Trade Manager",
       "descriptionKo": "힘 있고 믿음직한 분을 찾습니다.<br/><br/>상단의 물건을 안전하게 전달할 사람을 찾습니다.<br/>사막 곳곳에는 위험이 도사리고 있어, 힘과 담력이 있는 분이 필요합니다.<br/>책임감 있게 맡은 일을 끝까지 완수하실 분을 원합니다.<br/><br/>자세한 내용은 바르니아 소금길 캠프의 무역소로 들러 주시면 설명 드리겠습니다.<br/><br/>- 무역 관리인 에스퍼드"
     },
     "1003243": {
@@ -15859,7 +15859,7 @@
       "descriptionKo": "강가의 홍학을 쫓아주세요.<br/><br/>강가에 홍학 무리가 모여 하루 종일 울어대고 있습니다.<br/>소란이 너무 심해 도무지 일을 할 수가 없습니다.<br/><br/>홍학들을 쫓아 강가를 조용히 만들어 주실 분을 찾습니다.<br/>도와주신다면 감사히 보답하겠습니다.<br/><br/>— 무역 관리인 토마스"
     },
     "1003244": {
-      "description": "Looking for someone to deliver a simple item.<br/><br/>I have a request for anyone with plans to go outside the village. It's neither heavy nor valuable - just drop it off along the way. No need to travel far, it's a quick and easy task. If you can help, please come to the shop to discuss.<br/><br/>- Khalid, the Grocer of Varnia",
+      "description": "SIMPLE DELIVERY WORK<br/><br/>There is a simple delivery I need handled by anyone already on their way out of town. The parcel is neither heavy nor overly precious, just a small token of thanks that needs dropping off on the way.<br/><br/>I promise you won't need to go far out of your way. Anyone willing to spare a few moments for an easy errand should come by my stall.<br/><br/>— Khalid, Varnia Grocer",
       "descriptionKo": "간단한 물건 전달 일을 하실 분을 찾습니다.<br/><br/>마을 밖으로 나갈 일이 있는 분께 부탁드릴 일이 있습니다.<br/>무겁거나 귀한 물건이 아니니, 나가는 길에 잠시 들러 전달만 해 주시면 됩니다.<br/>멀리까지 갈 것도 없고, 오래 걸리지 않는 간단한 일입니다.<br/><br/>잠시 도와주실 분은 식료품점으로 오셔서 말씀 나눠 주시길 바랍니다.<br/><br/>— 바르니아 식료품 상인 칼리드"
     },
     "1003255": {
@@ -15879,11 +15879,11 @@
       "descriptionKo": "경고문<br/><br/>최근 벌목꾼들이 벌목 중 멧돼지의 형상을 한 어떤 존재에게 공격을 당해 중상을 입고 있다고 합니다.<br/>이 존재는 나무와 잎으로 몸을 감싸고 있다고 하며, 그 크기가 멧돼지의 몇 배에 이른다고 합니다.<br/>특히나 나무를 많이 베어 몸을 숨길 곳이 없어지면, 반드시 나타나서 공격한다고 하니,<br/>해당 지역 주변을 다니는 분들은 각별히 주의하시기를 바랍니다.<br/><br/>치안사무소"
     },
     "1001449": {
-      "description": "News of the Black Fang's Defeat<br/><br/>Black Fang, the beast that long terrorized Hernand, has finally been slain and Hernand is purged of its shadow forever. With the woods safe at last, we pray our people find peace and return to their lives—free from its grip of terror.<br/><br/>House Celeste",
+      "description": "BLACK FANG SLAIN<br/><br/>The shadow that long strangled the forest has finally been dealt with. The beast called Black Fang is now food for the worms. Never again shall such a predator find purchase within our borders. The forest is yours once more. All those who frequent the woods may return to their leisure and labors with easy hearts knowing that monster no longer stalks the woods.<br/><br/>— House Celeste Huntmaster",
       "descriptionKo": "검은 송곳니 토벌 소식<br/><br/>에르난드를 공포로 몰아넣었던<br/>검은 송곳니가 마침내 토벌되었음을 전합니다.<br/><br/>이제 그와 같은 위협은 다시는 이 땅에 발붙이지 못할 것입니다.<br/><br/>에르난드의 숲은 다시 안전해졌으니,<br/>모든 이가 마음을 놓고 각자의 생업과 일상에 힘쓰기를 바랍니다.<br/><br/>셀레스터 가문"
     },
     "1000526": {
-      "description": "News of the Skull Knight's Defeat<br/><br/>We bring word that Skull Knight, the Frostwarden, has at last been vanquished. The chill that shrouded the Spire of Frost has lifted, and his presence has faded. His soul has been sealed away for eternity, and never again shall he threaten our safety. May all in this land find peace and enjoy tranquility once more.<br/><br/>Beighen Tribe",
+      "description": "THE SKULL KIGHT FALLS<br/><br/>The unnatural winter has at last begun to thaw. I share happy news that the Lord of Hoarfrost, the one they called the Skull Knight, is no more. The killing chill that wreathed the tower has lifted. His icy grip on our lands is severed, and the malice that once froze the very breath in our lungs has vanished into the mountain mist.<br/><br/>The paths are safe. The shiver of dread that followed his name has passed. Go back to your homes and your hearths. Sleep soundly by the fire, for the white death has been driven back into the dark.<br/><br/>— Chief of Beighen",
       "descriptionKo": "스컬나이트 소멸 소식<br/><br/>혹한의 군주, 스컬나이트가<br/>마침내 자취를 감추었음을 전합니다.<br/><br/>혹한의 탑을 감싸던 한기가 걷히고 그의 기운이 사라졌으니,<br/>이제 더 이상 우리의 안전을 위협하지 못할 것입니다.<br/><br/>이 땅의 모든 이가 마음을 놓고 평온한 나날로 돌아가길 바랍니다.<br/><br/>베이겐 부족"
     },
     "1001446": {
@@ -16511,7 +16511,7 @@
       "descriptionKo": "타리브 마을과 채석장 사이에 있는 연못에서 기이한 비석들을 발견하였다.<br/>하늘을 향해 솟아오른 거석들의 배열은 상공에서 내려다보아야만 비로소 그 진가가 드러나는, 마치 거대한 시계와도 같은 형태였다.<br/>이 바위들이 가리키는 규칙을 해독한다면, 왕의 산 정상 유적의 비밀에 관한 실마리를 찾을 수 있을 것이다."
     },
     "1001306": {
-      "description": "I discovered the rocks on the way to the summit of Kingshield Mountains.<br/>The stele sat beneath an arch of jagged rocks, almost like a natural roof.<br/>The moment I unraveled its secret, I could sense that something atop the mountain shifted... as if it had awakened.",
+      "description": "I found a strange stele on the path leading to the summit of the Kingshield Mountains.<br/>Two stone pillars stand tall, with a massive slab balanced precariously across them like a roof.<br/>The structure is far too deliberate to be the work of nature. If I can unravel the secret hidden in this stele, I will be one step closer to the truth concealed by the ruins atop the summit.",
       "descriptionKo": "왕의 산 정상으로 향하는 길목에서 기이한 비석을 발견했다.<br/>두 개의 바위 기둥이 우뚝 솟아 있고, 그 위에는 지붕처럼 거대한 판석이 위태롭게 얹혀 있는 형태다.<br/>자연적으로 만들어졌다기엔 그 구조가 지나치게 인위적이다.<br/>만약 이 비석에 숨겨진 비밀을 풀어낼 수 있다면, 산 정상 유적이 감추고 있는 진실에 한 발짝 더 다가설 수 있을 것이다."
     },
     "1001307": {

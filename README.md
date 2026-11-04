@@ -11,8 +11,8 @@ descriptions use the game's localization data.
 
 | Game version | Status |
 |---|---|
-| 2.04.05 with or without the first DLC | Verified with this release |
-| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.02 to 2.04.04 |
+| 2.04.06 with or without the first DLC | Verified with this release |
+| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.02 to 2.04.05 |
 | 1.x | Not supported; opening a save reports `[SU-301]` |
 
 Settings shows the editor version and the game version it was verified with.
@@ -61,7 +61,7 @@ be raised.
     and griddles, anvils, wells, looms and workstations
   - Collectibles: treasure chests, memory fragments and bells
   - Resources: 13 kinds of ore and mineral deposits
-  - Abyss travel: Abyss Nexus points and the base game's Abyss Cressets
+  - Abyss travel: Abyss Nexus points and Abyss Cressets, including the DLC's
 
   Items, recipes and resources themselves are not awarded.
 
@@ -79,6 +79,13 @@ be raised.
 
 Back up the save before writing it, keep a reference (PRISTINE) copy made the
 first time a save is opened, and restore or delete backups.
+
+### Save Doctor (Experimental)
+
+**File > Save Doctor** checks every save slot for mission records that earlier
+versions of this editor wrote incorrectly and repairs them. Such a record can
+crash the game at the title screen even for a slot that is never loaded. Each
+save is backed up first. Close the game before repairing.
 
 ### Editing and saving
 

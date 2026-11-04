@@ -1,3 +1,5 @@
+using System.Buffers.Binary;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -6,11 +8,12 @@ namespace SaveUltimate.Core.Saves;
 public sealed record ChallengeGroup(uint Key, string Name, string NameKo, string InternalName, uint[] Quests);
 public sealed record ChallengeQuest(uint Key, string Name, string NameKo, string InternalName, uint[]? Missions);
 public sealed record ChallengeObjective(uint Target, uint Artifact, uint[]? Goals);
-public sealed record ChallengeMission(uint Key, uint Quest, string Name, string NameKo, string InternalName, uint[] Children, ChallengeObjective? ObjectiveEdit);
+public sealed record ChallengeMission(uint Key, uint Quest, string Name, string NameKo, string InternalName, uint[] Children, ChallengeObjective? ObjectiveEdit, uint[]? Tags = null);
 public sealed record ChallengeShape(bool Branched,
     [property: JsonPropertyName("_completeCount")] uint? Count,
-    [property: JsonPropertyName("_uiState")] byte? Ui);
-public sealed record ChallengeCompletion(uint[] Roots, Dictionary<uint, ChallengeShape> Missions, Dictionary<uint, byte> Quests, Dictionary<string, string> ClientSources);
+    [property: JsonPropertyName("_uiState")] byte? Ui,
+    bool? EmptyTag = null);
+public sealed record ChallengeCompletion(uint[] Roots, Dictionary<uint, ChallengeShape> Missions, Dictionary<uint, byte> Quests, Dictionary<string, string> ClientSources, uint[]? UsedTags = null);
 public sealed record ChallengeCatalog(ChallengeGroup[] Groups, Dictionary<uint, ChallengeQuest> Quests,
     Dictionary<uint, ChallengeMission> Missions, Dictionary<string, string> SourceSha256)
 {
@@ -21,6 +24,15 @@ public sealed record ChallengeCatalog(ChallengeGroup[] Groups, Dictionary<uint, 
     }
     public static ChallengeCatalog Shared { get; } = Load<ChallengeCatalog>("Challenges.json");
     public static ChallengeCompletion Completion { get; } = Load<ChallengeCompletion>("ChallengeCompletion.json");
+    private static readonly HashSet<uint> usedTags = [.. Completion.UsedTags ?? []];
+    private const uint StartTag = 0x872571C6, EmptyTag = 0xEAC5E173, CompleteTag = 0x599D2AA7;
+    // _usedTagList records which of a mission's trigger groups ran, as stringinfo keys: Start, the empty string, Complete, and tags
+    // missioninfo names such as patch_day1. A tag no reference save holds yet stays out: the game adds new patch tags to completed rows on load.
+    internal static uint[] CompletedTags(uint mission) =>
+    [
+        StartTag, .. Completion.Missions.GetValueOrDefault(mission)?.EmptyTag == false ? Array.Empty<uint>() : [EmptyTag],
+        .. (Shared.Missions.GetValueOrDefault(mission)?.Tags ?? []).Where(usedTags.Contains), CompleteTag
+    ];
     public uint[] Descendants(uint root)
     {
         var result = new List<uint>();
@@ -71,6 +83,19 @@ public sealed partial class SaveDocument
 {
     public ChallengeState ReadChallenges() => ChallengeState.Read(blob, SaveRecords.ReadLists(blob, Layout, "QuestSaveData", "_questStateList", "_missionStateList"));
 
+    // Rows off the game's layout are skipped; Save Doctor repairs them.
+    public IReadOnlyDictionary<uint, uint[]> ReadUsedTags()
+    {
+        var type = Layout.Types.Single(t => t.Name == "MissionStateData");
+        var tags = new Dictionary<uint, uint[]>();
+        foreach (var row in SaveRecords.ReadLists(blob, Layout, "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements)
+            if (RecordLists.Fields(blob, type, row) is { } values)
+                tags[BinaryPrimitives.ReadUInt32LittleEndian(values["_key"].Span)] = UsedTags(values);
+        return tags;
+    }
+    private static uint[] UsedTags(Dictionary<string, ReadOnlyMemory<byte>> values) =>
+        values.TryGetValue("_usedTagList", out var list) ? MemoryMarshal.Cast<byte, uint>(list.Span[5..]).ToArray() : [];
+
     public (ChallengeState State, int Completed) CompleteChallenges(uint[] roots, uint[]? checkpoints = null)
     {
         DlcContent.Refuse(roots.Any(DlcContent.Shared.Missions.Contains));
@@ -118,6 +143,8 @@ public sealed partial class SaveDocument
         var missions = new Dictionary<uint, JournalRecord>(before.Mission);
         var quests = new Dictionary<uint, JournalRecord>(before.Quest);
         var changes = new Dictionary<uint, Dictionary<string, ScalarValue>>();
+        var type = layout.Types.Single(t => t.Name == "MissionStateData");
+        var rows = block.Fields.Named("_missionStateList").ListElements.ToDictionary(r => (uint)r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4));
         foreach (uint key in pending)
         {
             var row = before.Mission.GetValueOrDefault(key);
@@ -131,6 +158,15 @@ public sealed partial class SaveDocument
                 ["_completeCount"] = shape.Count is uint count ? new("uint32", 4, count) : ScalarValue.Remove,
                 ["_uiState"] = shape.Ui is byte ui ? new("MissionUIState", 1, ui) : ScalarValue.Remove
             };
+            // Every mission row in reference saves has _newAlarm, always 0.
+            if (row is null) fields["_newAlarm"] = new("bool", 1, 0);
+            uint[] used = [];
+            if (rows.TryGetValue(key, out var stored))
+            {
+                used = UsedTags(RecordLists.Fields(raw, type, stored) ?? throw new InvalidDataException("Damaged mission row. Repair the save with File > Save Doctor first."));
+            }
+            uint[] tags = used.Union(ChallengeCatalog.CompletedTags(key)).ToArray();
+            if (tags.Length != used.Length) fields["_usedTagList"] = new("StringInfoKey", 4, 0, tags);
             ulong? branched = row?.Branched;
             if (branched is null && shape.Branched) { branched = timestamp; fields["_branchedTime"] = new("uint64", 8, timestamp); }
             changes.Add(key, fields);

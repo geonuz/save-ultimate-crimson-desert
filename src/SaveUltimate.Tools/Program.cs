@@ -92,7 +92,7 @@ challenges.SetAction(result =>
     Console.WriteLine($"{catalog["groups"]!.AsArray().Count} challenge categories, {catalog["missions"]!.AsObject().Count} mission definitions");
 });
 root.Subcommands.Add(challenges);
-var completionCommand = new Command("challenge-completion", "Carry reviewed completion shapes to a new challenge catalog and add shapes from completed saves");
+var completionCommand = new Command("challenge-completion", "Carry reviewed completion shapes to a new challenge catalog and learn from saves played without an editor: new shapes, shapes that replace series inference, used tags");
 var newCatalogPath = new Argument<string>("catalog");
 var oldCatalogPath = new Argument<string>("previous-catalog");
 var oldCompletionPath = new Argument<string>("previous-completion");
@@ -113,13 +113,21 @@ completionCommand.SetAction(result =>
             shapes[key] = shape.DeepClone();
     var quests = old["quests"]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<byte>());
     var supplements = new System.Text.Json.Nodes.JsonArray((old["supplementSha256"]?.AsArray() ?? []).Select(s => s!.DeepClone()).ToArray());
+    var catalogMissions = missions.ToDictionary(p => p.Key, p => p.Value!["children"]!.AsArray().Select(c => c!.GetValue<uint>().ToString()).ToArray());
+    string[] Walk(string key) => [key, .. catalogMissions[key].SelectMany(Walk)];
+    var inferredRoots = (old["inferredRoots"]?.AsArray() ?? []).Select(r => r!.ToString()).Where(missions.ContainsKey).ToArray();
+    var borrowed = inferredRoots.SelectMany(Walk).ToHashSet();
+    var usedTags = (old["usedTags"]?.AsArray() ?? []).Select(t => t!.GetValue<uint>()).ToHashSet();
     foreach (string path in result.GetValue(completedSaves) ?? [])
     {
-        var progress = SaveDocument.Open(path).ReadChallenges(); int added = 0;
+        var document = SaveDocument.Open(path); var progress = document.ReadChallenges(); var saved = document.ReadUsedTags(); int added = 0;
+        foreach (var tags in saved.Values) usedTags.UnionWith(tags);
         foreach (var (key, _) in missions)
-            if (!shapes.ContainsKey(key) && progress.Mission.GetValueOrDefault(uint.Parse(key)) is { State: 5, Completed: not null } row)
+            if ((!shapes.ContainsKey(key) || borrowed.Contains(key)) && progress.Mission.GetValueOrDefault(uint.Parse(key)) is { State: 5, Completed: not null } row)
             {
-                shapes[key] = new System.Text.Json.Nodes.JsonObject { ["_completeCount"] = row.Count, ["_uiState"] = row.Ui, ["branched"] = row.Branched is not null };
+                var shape = new System.Text.Json.Nodes.JsonObject { ["_completeCount"] = row.Count, ["_uiState"] = row.Ui, ["branched"] = row.Branched is not null };
+                if (saved.TryGetValue(uint.Parse(key), out var tags) && tags.Length > 0 && !tags.Contains(0xEAC5E173)) shape["emptyTag"] = false;
+                shapes[key] = shape; borrowed.Remove(key);
                 added++;
             }
         // A quest's final state is only meaningful once every challenge mission of that quest is complete.
@@ -134,7 +142,6 @@ completionCommand.SetAction(result =>
         supplements.Add(Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(path))));
         Console.WriteLine($"{Path.GetFileName(path)}: {added} completion shapes added");
     }
-    var catalogMissions = missions.ToDictionary(p => p.Key, p => p.Value!["children"]!.AsArray().Select(c => c!.GetValue<uint>().ToString()).ToArray());
     bool Covered(string key) => shapes.ContainsKey(key) && catalogMissions[key].All(Covered);
     var roots = catalog["groups"]!.AsArray().SelectMany(g => g!["quests"]!.AsArray())
         .SelectMany(q => catalog["quests"]![q!.ToString()]!["missions"]!.AsArray()).Select(m => m!.GetValue<uint>()).ToArray();
@@ -142,20 +149,21 @@ completionCommand.SetAction(result =>
     // per checkpoint position: on the 374 reviewed 2.03 challenges this predicts 252 of 260 exactly, the rest differing
     // only in _uiState/_branchedTime display fields. An uncovered root borrows the shape only when every covered
     // sibling with the same checkpoint tree agrees.
-    string[] Walk(string key) => [key, .. catalogMissions[key].SelectMany(Walk)];
     string Tree(string key) => "(" + string.Concat(catalogMissions[key].Select(Tree)) + ")";
+    // The empty tag varies between missions of one series, so a borrowed shape does not take it.
+    System.Text.Json.Nodes.JsonObject Shape(string key) { var shape = shapes[key].DeepClone().AsObject(); shape.Remove("emptyTag"); return shape; }
     string Series(string key) => System.Text.RegularExpressions.Regex.Replace(missions[key]!["internalName"]!.GetValue<string>(), @"_(\d+|[IVX]+)$", "");
     string Quest(string key) => missions[key]!["quest"]!.ToString();
     var covered = roots.Select(r => r.ToString()).Where(Covered).ToArray();
     // Carried shapes keep their origin, so a later run still lists challenges whose shape was inferred.
-    var inferred = new System.Text.Json.Nodes.JsonArray((old["inferredRoots"]?.AsArray() ?? []).Where(r => missions.ContainsKey(r!.ToString())).Select(r => r!.DeepClone()).ToArray());
+    var inferred = new System.Text.Json.Nodes.JsonArray(inferredRoots.Where(r => Walk(r).Any(borrowed.Contains)).Select(r => (System.Text.Json.Nodes.JsonNode)uint.Parse(r)).ToArray());
     foreach (string root in roots.Select(r => r.ToString()).Where(r => !Covered(r)).ToArray())
     {
         var siblings = covered.Where(c => (Quest(c) == Quest(root) || Series(c) == Series(root)) && Tree(c) == Tree(root)).ToArray();
-        var patterns = siblings.Select(c => string.Join("|", Walk(c).Select(k => shapes[k].ToJsonString()))).Distinct().ToArray();
+        var patterns = siblings.Select(c => string.Join("|", Walk(c).Select(k => Shape(k).ToJsonString()))).Distinct().ToArray();
         if (patterns.Length != 1) continue;
         foreach (var (target, source) in Walk(root).Zip(Walk(siblings[0])))
-            shapes.TryAdd(target, shapes[source].DeepClone());
+            shapes.TryAdd(target, Shape(source));
         inferred.Add(uint.Parse(root));
     }
     Console.WriteLine($"{inferred.Count} challenges take the completion shape of their series");
@@ -168,6 +176,7 @@ completionCommand.SetAction(result =>
         ["missions"] = new System.Text.Json.Nodes.JsonObject(shapes.Where(p => missions.ContainsKey(p.Key)).Select(p => KeyValuePair.Create<string, System.Text.Json.Nodes.JsonNode?>(p.Key, p.Value))),
         ["quests"] = new System.Text.Json.Nodes.JsonObject(quests.Where(p => catalog["quests"]![p.Key] is not null).Select(p => KeyValuePair.Create<string, System.Text.Json.Nodes.JsonNode?>(p.Key, p.Value)))
     };
+    output["usedTags"] = new System.Text.Json.Nodes.JsonArray(usedTags.Order().Select(t => (System.Text.Json.Nodes.JsonNode)t).ToArray());
     if (supplements.Count > 0) output["supplementSha256"] = supplements;
     if (inferred.Count > 0) output["inferredRoots"] = inferred;
     WriteJson(result.GetValue(completionOutput)!, output);

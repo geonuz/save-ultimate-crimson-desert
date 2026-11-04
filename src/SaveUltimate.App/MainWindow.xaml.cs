@@ -283,6 +283,10 @@ public partial class MainWindow : Window
             MessageBoxImage.Information, MessageBoxResult.OK, labels) != MessageBoxResult.OK) return;
         if (ready) model.SyncGameDataCommand.Execute(null); else ShowSettings();
     }
+    private void OnDoctor(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel { Busy: false } model) new DoctorWindow(model) { Owner = this }.ShowDialog();
+    }
     private void OnSettings(object sender, RoutedEventArgs e) => ShowSettings();
     private void OnThemeSettings(object sender, RoutedEventArgs e) => ShowSettings("theme");
     private void OnExit(object sender, RoutedEventArgs e) => Close();

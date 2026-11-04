@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "items": [
     {
       "itemKey": 1,
@@ -170451,7 +170451,7 @@
     },
     {
       "itemKey": 1006942,
-      "name": "Branch",
+      "name": "Tree Branch",
       "internalName": "Quest_Wood_Branch_01",
       "category": "Quest",
       "maxStack": 1,
@@ -172691,6 +172691,116 @@
         "detailKey": 18303,
         "detail": "Crafting Manual",
         "detailKo": "제작서"
+      }
+    },
+    {
+      "itemKey": 1007075,
+      "name": "Goldleaves' Cloth Armor",
+      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅲ",
+      "category": "Equipment",
+      "maxStack": 1,
+      "socketLimit": 0,
+      "gameClassification": {
+        "categoryKey": 413,
+        "indices": [
+          2,
+          1,
+          2
+        ],
+        "groupKey": 18328,
+        "name": "Provision",
+        "nameKo": "잡화",
+        "detailKey": 18328,
+        "detail": "Provision",
+        "detailKo": "잡화"
+      }
+    },
+    {
+      "itemKey": 1007076,
+      "name": "Goldleaves' Cloth Cloak",
+      "internalName": "Goblin_Merchant_Fabric_Cloak_Ⅳ",
+      "category": "Misc",
+      "maxStack": 1,
+      "socketLimit": 0,
+      "gameClassification": {
+        "categoryKey": 413,
+        "indices": [
+          2,
+          1,
+          2
+        ],
+        "groupKey": 18328,
+        "name": "Provision",
+        "nameKo": "잡화",
+        "detailKey": 18328,
+        "detail": "Provision",
+        "detailKo": "잡화"
+      }
+    },
+    {
+      "itemKey": 1007077,
+      "name": "Goldleaves' Cloth Armor",
+      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅵ",
+      "category": "Equipment",
+      "maxStack": 1,
+      "socketLimit": 0,
+      "gameClassification": {
+        "categoryKey": 413,
+        "indices": [
+          2,
+          1,
+          2
+        ],
+        "groupKey": 18328,
+        "name": "Provision",
+        "nameKo": "잡화",
+        "detailKey": 18328,
+        "detail": "Provision",
+        "detailKo": "잡화"
+      }
+    },
+    {
+      "itemKey": 1007078,
+      "name": "Goldleaves' Cloth Cloak",
+      "internalName": "Goblin_Merchant_Fabric_Cloak_Ⅵ",
+      "category": "Misc",
+      "maxStack": 1,
+      "socketLimit": 0,
+      "gameClassification": {
+        "categoryKey": 413,
+        "indices": [
+          2,
+          1,
+          2
+        ],
+        "groupKey": 18328,
+        "name": "Provision",
+        "nameKo": "잡화",
+        "detailKey": 18328,
+        "detail": "Provision",
+        "detailKo": "잡화"
+      }
+    },
+    {
+      "itemKey": 1007079,
+      "name": "Nibrak Cloth Armor",
+      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅳ",
+      "category": "Equipment",
+      "maxStack": 1,
+      "socketLimit": 3,
+      "gameClassification": {
+        "categoryKey": 413,
+        "indices": [
+          2,
+          1,
+          2
+        ],
+        "groupKey": 17420,
+        "name": "Armor",
+        "nameKo": "방어구",
+        "detailKey": 18286,
+        "detail": "Armor",
+        "detailKo": "갑옷"
       }
     },
     {
