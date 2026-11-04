@@ -3,10 +3,6 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:local="clr-namespace:SaveUltimate.App">
  <UserControl.Resources>
-  <Style x:Key="StatusText" TargetType="TextBlock">
-   <Setter Property="Foreground" Value="{DynamicResource warning}"/>
-   <Style.Triggers><DataTrigger Binding="{Binding Done}" Value="True"><Setter Property="Foreground" Value="{DynamicResource success}"/></DataTrigger></Style.Triggers>
-  </Style>
   <Style x:Key="TreeExpander" TargetType="ToggleButton">
    <Setter Property="Focusable" Value="False"/>
    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">

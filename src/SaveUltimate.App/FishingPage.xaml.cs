@@ -17,6 +17,7 @@ public sealed class FishingRow(FishingRecord record) : ObservableObject
     public string Category => KnowledgePage.GroupName(KnowledgeCatalog.Shared.Groups.Single(g => g.Key == Record.Fish.GroupKey));
     public string Level => $"{Record.Level} / {KnowledgeCatalog.Shared.LevelCounts[Key]}";
     public string Size => Record.Size?.ToString("F3", CultureInfo.InvariantCulture) ?? Tr.Text("fishing.missing");
+    public bool Done => Record.Size is not null;
     public string Availability => Record.Level == 0 ? Tr.Text("fishing.unlearned") : "";
     internal void Update(FishingRecord value) { Record = value; OnPropertyChanged(""); }
 }

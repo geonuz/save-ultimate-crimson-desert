@@ -28,8 +28,7 @@ public sealed class ItemCatalog
         details = Read("data/item_details.json").GetProperty("items").EnumerateObject().ToDictionary(p => p.Name, p => p.Value);
         stores = Strings(Read("data/store_names.json"));
         characterInfo = Read("data/character_names.json").EnumerateObject().ToDictionary(p => p.Name, p => p.Value);
-        var templates = Read("data/template_keys.json").EnumerateArray().Select(v => v.GetUInt32()).ToHashSet();
-        Choices = items.Where(p => !DlcContent.Hidden || !DlcContent.Shared.Items.Contains(p.Key)).Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"), templates.Contains(p.Key))).OrderBy(c => c.Key).ToArray();
+        Choices = items.Where(p => !DlcContent.Hidden || !DlcContent.Shared.Items.Contains(p.Key)).Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"))).OrderBy(c => c.Key).ToArray();
         Gems = new[] { new GemChoice(0, Tr.Text("Clear")) }.Concat(Read("data/socket_gems.json").EnumerateArray().Select(g =>
         {
             uint key = g.GetProperty("key").GetUInt32();

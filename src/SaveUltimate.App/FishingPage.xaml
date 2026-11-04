@@ -18,7 +18,7 @@
      <DataGridTextColumn Header="{local:Tr fishing.fish}" Binding="{Binding Name}" Width="*" MinWidth="130"/>
      <DataGridTextColumn Header="{local:Tr fishing.category}" Binding="{Binding Category}" Width="Auto" MinWidth="140"/>
      <DataGridTextColumn Header="{local:Tr fishing.level}" Binding="{Binding Level}" Width="Auto" MinWidth="80"/>
-     <DataGridTextColumn Header="{local:Tr fishing.maximum}" Binding="{Binding Size}" Width="Auto" MinWidth="110"/>
+     <DataGridTextColumn Header="{local:Tr fishing.maximum}" Binding="{Binding Size}" Width="Auto" MinWidth="110" ElementStyle="{StaticResource StatusText}"/>
      <DataGridTextColumn Header="{local:Tr fishing.availability}" Binding="{Binding Availability}" Width="Auto" MinWidth="50"/>
     </DataGrid.Columns>
    </DataGrid>

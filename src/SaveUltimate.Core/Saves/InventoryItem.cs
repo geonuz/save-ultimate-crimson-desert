@@ -25,6 +25,19 @@ public sealed class InventoryItem
     public int MaxEnchant => EnchantLimits.Get(Key);
     internal int EnchantOffset { get; init; }
     public SocketState Sockets { get; internal init; } = SocketState.Empty;
+    internal bool HoldsGearState { get; init; }
+    internal bool HoldsStackState { get; init; }
+    internal bool HoldsContents { get; init; }
+    // All item records share the same base fields, so a swap only needs the record's own state to fit the new item.
+    // In 36 saves: sharpness and dye sit on gear, average price and conversion data on stacks, and worn durability on a few tools.
+    public bool CanBecome(uint key)
+    {
+        int enchant = EnchantLimits.Get(key), sockets = SocketState.Limit(key);
+        ulong stack = StackLimits.Get(key);
+        return stack > 0 && Quantity <= stack && (!HoldsStackState || stack > 1) && !HoldsContents && Endurance == ushort.MaxValue &&
+            (EnchantLevel is not ushort level || level <= enchant) && (!HoldsGearState || enchant >= 0) &&
+            Sockets.Error is null && Sockets.Unlocked <= sockets && Sockets.Slots.Count(s => s.HasGem) <= sockets;
+    }
     internal int QuantityOffset { get; }
     internal int KeyOffset { get; }
     internal int NumberOffset { get; init; }
@@ -41,6 +54,7 @@ public sealed class InventoryItem
         StoreKey = StoreKey, OwnerNumber = OwnerNumber, OwnerCharacter = OwnerCharacter, OwnerName = OwnerName, OwnerSlot = OwnerSlot,
         Slot = Slot, Endurance = Endurance, Sharpness = Sharpness, Sockets = sockets ?? (delta == 0 ? Sockets : Sockets.Relocate(delta)),
         NumberOffset = NumberOffset + delta, RecordStart = RecordStart + delta, RecordEnd = RecordEnd + delta,
+        HoldsGearState = HoldsGearState, HoldsStackState = HoldsStackState, HoldsContents = HoldsContents,
         EnchantOffset = EnchantOffset == 0 ? 0 : EnchantOffset + delta,
         EnchantLevel = EnchantLevel.HasValue ? BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(EnchantOffset + delta)) : null
     };
@@ -170,9 +184,24 @@ internal static class Inventory
                     EnchantLevel = level == ushort.MaxValue ? null : level, EnchantOffset = enchant.StartOffset,
                     NumberOffset = number.StartOffset, RecordStart = record.StartOffset, RecordEnd = record.EndOffset,
                     Slot = Value("_slotNo", "TItemSlotNo"), Endurance = Value("_endurance", "TEndurance"), Sharpness = Value("_sharpness", "TEndurance"),
-                    Sockets = SocketState.Read(raw, record)
+                    Sockets = SocketState.Read(raw, record),
+                    HoldsGearState = fields.Named("_sharpness").Present || fields.Named("_itemDyeDataList").Present,
+                    HoldsStackState = fields.Named("_averagePrice").Present || fields.Named("_characterConversionData").Present,
+                    HoldsContents = fields.Named("_dropResultSubSaveItemList").Present
                 });
         }
+    }
+}
+
+internal static class StackLimits
+{
+    private static Dictionary<uint, ulong> Limits = Load();
+    internal static void SetLimits(Dictionary<uint, ulong>? values) => Limits = values ?? Load();
+    public static ulong Get(uint key) => Limits.GetValueOrDefault(key);
+    private static Dictionary<uint, ulong> Load()
+    {
+        using var stream = typeof(StackLimits).Assembly.GetManifestResourceStream("ItemCatalog.json")!;
+        return SaveUltimate.Core.Catalogs.ItemRules.ReadStackLimits(stream);
     }
 }
 

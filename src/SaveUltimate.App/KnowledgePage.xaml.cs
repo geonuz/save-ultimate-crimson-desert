@@ -10,6 +10,7 @@ namespace SaveUltimate.App;
 public sealed record KnowledgeRow(uint Key, string Name, string InternalName, string Category, uint Level, uint Limit)
 {
     public bool Learned => Level > 0;
+    public bool Done => Learned;
     public string Status => Tr.Text(Learned ? "Learned" : "Unlearned");
     public string LevelText => $"{Level} / {Limit}";
     public string InternalLabel => InternalName.Replace("Knowledge_", "").Replace('_', ' ');

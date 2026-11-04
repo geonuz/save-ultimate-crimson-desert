@@ -17,7 +17,7 @@
     <AssemblyMetadata Include="GameVersion" Value="$(GameVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <ProjectReference Include="../SaveUltimate.Core/SaveUltimate.Core.csproj" />
-    <Content Include="../../resources/data/knowledge_keys_all.json;../../resources/data/knowledge_details.json;../../resources/data/item_names.json;../../resources/data/item_details.json;../../resources/data/character_names.json;../../resources/data/store_names.json;../../resources/data/socket_gems.json;../../resources/data/template_keys.json" Link="resources/data/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../resources/data/knowledge_keys_all.json;../../resources/data/knowledge_details.json;../../resources/data/item_names.json;../../resources/data/item_details.json;../../resources/data/character_names.json;../../resources/data/store_names.json;../../resources/data/socket_gems.json" Link="resources/data/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../resources/locale/*.json" Link="resources/locale/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../resources/data/ui_themes.json;../../resources/data/ui_icons.json" Link="resources/data/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="../../resources/assets/fonts/hahmlet/*.ttf" Link="fonts/%(Filename)%(Extension)" />

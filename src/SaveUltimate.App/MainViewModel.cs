@@ -328,7 +328,7 @@ public partial class MainViewModel : ObservableObject
     private async Task SwapAsync()
     {
         var item = SelectedItems()[0];
-        var dialog = new ItemSearchWindow() { Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) };
+        var dialog = new ItemSearchWindow(item) { Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) };
         if (dialog.ShowDialog() != true || dialog.SelectedKey is not uint key) return;
         await RunAsync(Tr.Text("Validating items and linked references…"), async () =>
         {

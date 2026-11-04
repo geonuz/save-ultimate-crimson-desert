@@ -3,6 +3,11 @@
  <Style TargetType="Window"><Setter Property="FontFamily" Value="{StaticResource BodyFont}"/><Setter Property="FontSize" Value="{DynamicResource BodySize}"/><Setter Property="Background" Value="{DynamicResource bg}"/><Setter Property="Foreground" Value="{DynamicResource text}"/><Setter Property="UseLayoutRounding" Value="True"/><Setter Property="TextOptions.TextFormattingMode" Value="Display"/></Style>
  <Style TargetType="UserControl"><Setter Property="FontFamily" Value="{StaticResource BodyFont}"/><Setter Property="FontSize" Value="{DynamicResource BodySize}"/><Setter Property="Foreground" Value="{DynamicResource text}"/></Style>
  <Style TargetType="TextBlock"/>
+ <!-- Table status text: rows expose Done for the green state. -->
+ <Style x:Key="StatusText" TargetType="TextBlock">
+  <Setter Property="Foreground" Value="{DynamicResource warning}"/>
+  <Style.Triggers><DataTrigger Binding="{Binding Done}" Value="True"><Setter Property="Foreground" Value="{DynamicResource success}"/></DataTrigger></Style.Triggers>
+ </Style>
  <!-- Missing game images (before sync) leave no blank frame. -->
  <Style TargetType="Image"><Style.Triggers><Trigger Property="Source" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></Trigger></Style.Triggers></Style>
  <Style x:Key="SecondaryText" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="Foreground" Value="{DynamicResource text_dim}"/><Setter Property="FontSize" Value="{DynamicResource SmallSize}"/></Style>

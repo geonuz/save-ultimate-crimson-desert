@@ -1,20 +1,21 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
 
 public partial class ItemSearchWindow : Window
 {
-    public sealed record Choice(uint Key, string Name, string Category, string InternalName, bool HasTemplate);
+    public sealed record Choice(uint Key, string Name, string Category, string InternalName);
     private readonly Choice[] choices;
     private Choice[] filtered = [];
     private int page;
     public uint? SelectedKey => (Results.SelectedItem as Choice)?.Key;
 
-    public ItemSearchWindow()
+    public ItemSearchWindow(InventoryItem item)
     {
-        choices = ItemCatalog.Shared.Choices;
+        choices = ItemCatalog.Shared.Choices.Where(c => item.CanBecome(c.Key)).ToArray();
         InitializeComponent();
         Filter();
     }
@@ -23,8 +24,7 @@ public partial class ItemSearchWindow : Window
     private void Filter()
     {
         string query = SearchBox.Text.Trim();
-        filtered = choices.Where(c => (TemplatesOnly.IsChecked != true || c.HasTemplate) &&
-            (c.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || c.Key.ToString().Contains(query) || c.InternalName.Contains(query, StringComparison.OrdinalIgnoreCase))).ToArray();
+        filtered = choices.Where(c => c.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || c.Key.ToString().Contains(query) || c.InternalName.Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
         page = 0; ShowPage();
     }
     private void ShowPage()

@@ -122,6 +122,7 @@ public sealed partial class SaveDocument
         ValidateSelection([item], requireStackEditable: false);
         if (item.Source != ItemSource.Vendor) throw new InvalidOperationException("Only sold vendor items can be swapped for repurchase.");
         if (key == item.Key) return;
+        if (!item.CanBecome(key)) throw new InvalidOperationException("The sold item's quantity, enchant level, gems or other state do not fit the replacement item.");
         string[] blocks = ["InventorySaveData", "EquipmentSaveData", "StoreSaveData", "MercenaryClanSaveData",
             "InventoryItemContentsSaveData", "GameEventSaveData", "FieldSaveData", "FriendlySaveData"];
         var offsets = new HashSet<int>();
