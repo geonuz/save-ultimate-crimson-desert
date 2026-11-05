@@ -295,9 +295,13 @@ public partial class MainViewModel : ObservableObject
                 try { return read(); }
                 catch (Exception error) when (error is not OutOfMemoryException) { failed.Add(name + ": " + ErrorCodes.Describe(error)); return null; }
             }
-            var pages = await Task.Run(() => (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
-                Challenges: Page("challenges", loaded.ReadChallenges), Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", loaded.ReadMap),
-                Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship)));
+            var pages = await Task.Run(() =>
+            {
+                var challenges = Page("challenges", loaded.ReadChallenges);
+                return (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
+                    Challenges: challenges, Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", () => loaded.ReadMap(challenges)),
+                    Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship));
+            });
             // The baseline goes first: setting Skills renders the tree, which marks every level that differs from it.
             (SkillBaseline, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship) =
                 (pages.Skills, pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship);

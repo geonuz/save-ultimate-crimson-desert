@@ -128,7 +128,7 @@ internal static class RecordLists
     // The layout table in ParcReader, written: a row holds its fields in schema order, and a mask bit says which are there.
     private static void WriteRow(MemoryStream output, int start, ParcType type, int typeIndex, IReadOnlyDictionary<string, ReadOnlyMemory<byte>> values)
     {
-        int maskSize = (type.Fields.Count + 7) / 8;
+        int maskSize = type.MaskSize;
         byte[] mask = new byte[maskSize];
         using var payload = new MemoryStream();
         payload.Write(new byte[4]);

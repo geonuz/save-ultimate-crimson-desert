@@ -46,7 +46,7 @@ public static class CharacterCatalogBuilder
             {
                 ["sourceSha256"] = digests.DeepClone(), ["characters"] = companions,
                 ["types"] = new JsonObject(types.Select(t => KeyValuePair.Create<string, JsonNode?>(t.Key.ToString(), t.Value.Name))),
-                ["method"] = "Owned CharacterInfo localization reference 0x32; MercenaryInfo key before it (2.03) or at +214 (2.04). Unresolved keys omitted."
+                ["method"] = "Owned CharacterInfo localization reference 0x32; MercenaryInfo key at +214. Unresolved keys omitted."
             },
             ["data/npc_catalog.json"] = new JsonObject { ["sourceSha256"] = digests.DeepClone(), ["characters"] = links, ["npcs"] = npcRows }
         };

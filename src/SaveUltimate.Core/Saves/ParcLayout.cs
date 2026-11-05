@@ -3,8 +3,11 @@ using SaveUltimate.Core.Binary;
 
 namespace SaveUltimate.Core.Saves;
 
-public sealed record ParcField(string Name, string TypeName, ushort Kind, ushort Size, uint Auxiliary);
-public sealed record ParcType(string Name, IReadOnlyList<ParcField> Fields);
+public sealed record ParcField(string Name, string TypeName, ushort Kind, ushort Size, uint Auxiliary, int Index);
+public sealed record ParcType(string Name, IReadOnlyList<ParcField> Fields)
+{
+    public int MaskSize => (Fields.Count + 7) / 8;
+}
 public sealed record ParcBlock(int Index, int TypeIndex, string Name, int Offset, int Size);
 public sealed record ParcLayout(IReadOnlyList<ParcType> Types, IReadOnlyList<ParcBlock> Blocks, int SchemaEnd)
 {
@@ -30,7 +33,7 @@ public sealed record ParcLayout(IReadOnlyList<ParcType> Types, IReadOnlyList<Par
             int fields = reader.U16();
             var definitions = new List<ParcField>();
             for (int j = 0; j < fields; j++)
-                definitions.Add(new(reader.String(), reader.String(), reader.U16(), reader.U16(), reader.U32()));
+                definitions.Add(new(reader.String(), reader.String(), reader.U16(), reader.U16(), reader.U32(), j));
             types.Add(new(name, definitions));
             if (i + 1 != count) name = reader.String();
         }

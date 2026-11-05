@@ -96,7 +96,7 @@ public sealed partial class SaveDocument
     }
     private static SaveField DiscoveryList(byte[] raw, ParcLayout layout) => SaveRecords.Read(raw, layout,
         "DiscoveredLevelGimmickSceneObjectSaveData").Fields.Named("_discoveredLevelGimmickSceneObjectSaveDataList");
-    public MapState ReadMap() => new(ReadFog(blob, Layout), ReadDiscoveries(blob, DiscoveryList(blob, Layout)), ReadKnowledge(), ReadChallenges());
+    public MapState ReadMap(ChallengeState? challenges = null) => new(ReadFog(blob, Layout), ReadDiscoveries(blob, DiscoveryList(blob, Layout)), ReadKnowledge(), challenges ?? ReadChallenges());
     public MapFog RevealMap()
     {
         var fog = ReadFog(blob, Layout);

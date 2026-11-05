@@ -5,16 +5,20 @@ namespace SaveUltimate.Core.Saves;
 
 internal sealed class SaveField
 {
-    public string Name { get; set; } = "";
-    public string TypeName { get; set; } = "";
-    public int MetaKind { get; set; }
-    public int MetaSize { get; set; }
-    public int FieldIndex { get; set; }
-    public int ChildMaskByteCount { get; set; }
+    private static readonly ParcField NoDefinition = new("", "", 0, 0, 0, 0);
+    // List rows have no definition. The schema's values are not copied here: one block can hold hundreds of thousands of these.
+    public ParcField Definition { get; init; } = NoDefinition;
+    public string Name => Definition.Name;
+    public string TypeName => Definition.TypeName;
+    public int MetaKind => Definition.Kind;
+    public int MetaSize => Definition.Size;
+    public int FieldIndex => Definition.Index;
     public bool Present { get; set; }
     public int StartOffset { get; set; }
     public int EndOffset { get; set; }
-    public string ChildTypeName { get; set; } = "";
+    public ParcType? ChildType { get; set; }
+    public string ChildTypeName => ChildType?.Name ?? "";
+    public int ChildMaskByteCount => ChildType?.MaskSize ?? 0;
     public int ChildPayloadOffset { get; set; }
     public SaveField[] ChildFields { get; set; } = [];
     public SaveField[] ListElements { get; set; } = [];

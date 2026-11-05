@@ -34,10 +34,11 @@ public sealed class BinaryTests
     [TestCategory("Unit")]
     public void FieldLookupRejectsMissingAndDuplicateNames()
     {
-        SaveField[] fields = [new() { Name = "key" }, new() { Name = "value" }];
+        static SaveField Field(string name) => new() { Definition = new(name, "", 0, 0, 0, 0) };
+        SaveField[] fields = [Field("key"), Field("value")];
         Assert.AreSame(fields[0], fields.Named("key"));
         Assert.Throws<InvalidDataException>(() => fields.Named("absent"));
-        Assert.Throws<InvalidDataException>(() => fields.Concat([new SaveField { Name = "key" }]).Named("key"));
+        Assert.Throws<InvalidDataException>(() => fields.Concat([Field("key")]).Named("key"));
     }
 
     [TestMethod]

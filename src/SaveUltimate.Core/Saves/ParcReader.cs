@@ -58,7 +58,6 @@ internal sealed class ParcReader
         }
     }
 
-    private static int MaskSize(ParcType type) => (type.Fields.Count + 7) / 8;
     private ushort U16(int position) => BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(position));
     private uint U32(int position) => BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(position));
     private static void Need(int position, long size, int limit, string what)
@@ -75,7 +74,7 @@ internal sealed class ParcReader
     private SaveField[] Block(ParcBlock block)
     {
         var type = layout.Types[block.TypeIndex];
-        int end = block.Offset + block.Size, mask = block.Offset + 2, maskSize = MaskSize(type);
+        int end = block.Offset + block.Size, mask = block.Offset + 2, maskSize = type.MaskSize;
         Need(block.Offset, 2L + maskSize + 4, end, type.Name);
         if (U16(block.Offset) != maskSize || U32(mask + maskSize) != 0) throw new InvalidDataException($"Invalid {type.Name} block header at {block.Offset}.");
         int stop = Fields(type, mask, mask + maskSize + 4, end, 0, out var fields);
@@ -93,7 +92,7 @@ internal sealed class ParcReader
         int typeIndex = U16(header);
         if (typeIndex >= layout.Types.Count) throw new InvalidDataException($"Object at {start} has an unknown type.");
         var type = layout.Types[typeIndex];
-        if (maskSize != MaskSize(type) || raw[header + 2] != 0 || (!indexed && !raw.AsSpan(header + 3, 8).SequenceEqual(EmptyId)) ||
+        if (maskSize != type.MaskSize || raw[header + 2] != 0 || (!indexed && !raw.AsSpan(header + 3, 8).SequenceEqual(EmptyId)) ||
             U32(payload - 4) != (uint)payload || U32(payload) != 0)
             throw new InvalidDataException($"Invalid {type.Name} header at {start}.");
         return type;
@@ -101,17 +100,12 @@ internal sealed class ParcReader
 
     private static void Fill(SaveField holder, ParcType type, int payload, SaveField[] fields)
     {
-        holder.ChildTypeName = type.Name;
-        holder.ChildMaskByteCount = MaskSize(type);
+        holder.ChildType = type;
         holder.ChildPayloadOffset = payload;
         holder.ChildFields = fields;
     }
 
-    private static SaveField New(ParcField definition, int index, bool present, int cursor) => new()
-    {
-        Name = definition.Name, TypeName = definition.TypeName, MetaKind = definition.Kind, MetaSize = definition.Size,
-        FieldIndex = index, Present = present, StartOffset = cursor, EndOffset = cursor
-    };
+    private static SaveField New(ParcField definition, bool present, int cursor) => new() { Definition = definition, Present = present, StartOffset = cursor, EndOffset = cursor };
 
     private int Object(int start, int limit, bool indexed, int depth, SaveField? holder)
     {
@@ -145,7 +139,7 @@ internal sealed class ParcReader
         {
             var definition = type.Fields[i];
             bool present = (raw[mask + i / 8] & (1 << (i % 8))) != 0;
-            fields[i] = New(definition, i, present, cursor);
+            fields[i] = New(definition, present, cursor);
             if (!present) continue;
             // A field with no room or no fixed size leaves the position of everything after it unknown.
             lost |= definition.Kind is not 0 and not 2 || definition.Size == 0 || definition.Size > end - cursor;
@@ -163,7 +157,7 @@ internal sealed class ParcReader
         {
             var definition = definitions[i];
             bool present = (raw[mask + i / 8] & (1 << (i % 8))) != 0;
-            var field = build ? New(definition, i, present, cursor) : null;
+            var field = build ? New(definition, present, cursor) : null;
             int Marker(byte expected)
             {
                 NeedField(cursor, 1, limit, type, definition);
@@ -230,12 +224,11 @@ internal sealed class ParcReader
         var elements = field is null ? [] : new SaveField[count];
         for (int i = 0; i < count; i++)
         {
-            var element = field is null ? null : new SaveField { Present = true, FieldIndex = i, StartOffset = cursor };
+            var element = field is null ? null : new SaveField { Present = true, StartOffset = cursor };
             try { cursor = Object(cursor, limit, indexed, depth + 1, element); }
             catch (InvalidDataException) when (Header(cursor, limit, indexed, out _, out _).Name == "MissionStateData") { cursor = MarkerlessRow(cursor, limit, element); }
             if (element is not null)
             {
-                element.TypeName = element.ChildTypeName;
                 element.EndOffset = cursor;
                 elements[i] = element;
             }
