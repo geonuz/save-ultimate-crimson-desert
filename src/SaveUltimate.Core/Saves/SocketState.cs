@@ -98,10 +98,7 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
             BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(maskOffset - 2)) != maskLength ||
             (raw[maskOffset + valid.FieldIndex / 8] & (1 << (valid.FieldIndex % 8))) != 0)
             throw new InvalidDataException("Unsupported omitted socket count layout.");
-        using var packet = new MemoryStream();
-        using var writer = new BinaryWriter(packet);
-        writer.Write((uint)maximum.EndOffset); writer.Write((uint)maximum.EndOffset); writer.Write(1u); writer.Write((byte)count);
-        byte[] result = RecordLists.Relocate(raw, packet.ToArray(), bufferForEdit);
+        byte[] result = RecordLists.Relocate(raw, [(maximum.EndOffset, maximum.EndOffset, [(byte)count])], bufferForEdit);
         result[maskOffset + valid.FieldIndex / 8] |= (byte)(1 << (valid.FieldIndex % 8));
         return result;
     }
@@ -127,8 +124,7 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
                 }
             return candidate;
         }
-        using var packet = new MemoryStream();
-        using var writer = new BinaryWriter(packet, Encoding.UTF8, true);
+        var regions = new List<(int Start, int End, byte[] Value)>();
         int delta = 0;
         for (int slot = 0; slot < gems.Length; slot++)
         {
@@ -154,11 +150,10 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
                 BinaryPrimitives.WriteUInt32LittleEndian(replacement.AsSpan(24), key);
             }
             BinaryPrimitives.WriteUInt32LittleEndian(replacement.AsSpan(replacement.Length - 4), (uint)replacement.Length - 22);
-            writer.Write((uint)start); writer.Write((uint)end); writer.Write((uint)replacement.Length); writer.Write(replacement);
+            regions.Add((start, end, replacement));
             delta += replacement.Length - (end - start);
         }
-        if (packet.Length == 0) return raw;
-        return RecordLists.Relocate(raw, packet.ToArray(), bufferForEdit);
+        return regions.Count == 0 ? raw : RecordLists.Relocate(raw, regions, bufferForEdit);
     }
 
 }

@@ -45,7 +45,7 @@ public sealed class ErrorCodeTests
             Assert.AreEqual("SU-105", damaged.Code);
             StringAssert.Contains(damaged.Message, "193");
             // With the real libraries laid out as in a release, all load and the probe finds nothing to blame.
-            foreach (string name in new[] { "parc_validation.dll", "parc_reader.dll", "parc_index.dll" })
+            foreach (string name in new[] { "parc_validation.dll", "parc_reader.dll" })
                 File.Copy(Path.Combine(AppContext.BaseDirectory, name), Path.Combine(directory, name), true);
             File.Copy(Path.Combine(AppContext.BaseDirectory, "runtimes", "win-x64", "native", "Magick.Native-Q8-x64.dll"), Path.Combine(directory, "Magick.Native-Q8-x64.dll"));
             var loaded = ErrorCodes.DiagnoseNative(directory);
@@ -74,7 +74,7 @@ public sealed class ErrorCodeTests
     {
         // A MinGW runtime import such as libwinpthread-1.dll is absent on PCs without MinGW, so saves would not open there.
         string[] system = ["kernel32.dll", "msvcrt.dll", "bcrypt.dll", "ucrtbase.dll"];
-        foreach (string name in new[] { "parc_validation.dll", "parc_index.dll", "parc_reader.dll" })
+        foreach (string name in new[] { "parc_validation.dll", "parc_reader.dll" })
         {
             var imports = ErrorCodes.NativeImports(Path.Combine(AppContext.BaseDirectory, name));
             CollectionAssert.Contains(imports.Select(i => i.ToLowerInvariant()).ToList(), "kernel32.dll", name);

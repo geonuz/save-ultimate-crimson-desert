@@ -21,6 +21,5 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="../../native/bin/parc_validation.dll" Link="parc_validation.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="../../native/bin/parc_index.dll" Link="parc_index.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

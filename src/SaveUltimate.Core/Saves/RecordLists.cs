@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using System.Buffers.Binary;
 
 namespace SaveUltimate.Core.Saves;
@@ -27,22 +26,20 @@ internal static class RecordLists
 
     internal static byte[] RewriteRegions(byte[] raw, Func<int, byte[]> bufferForEdit, IEnumerable<(int Start, int End, Func<int, byte[]> Encode)> regions)
     {
-        using var packet = new MemoryStream();
-        using var writer = new BinaryWriter(packet);
+        var replacements = new List<(int Start, int End, byte[] Value)>();
         int delta = 0, previous = 0;
         foreach (var (start, end, encode) in regions.OrderBy(r => r.Start))
         {
             if (start < previous || end < start || end > raw.Length) throw new InvalidDataException("Invalid replacement boundaries.");
             byte[] value = encode(checked(start + delta));
-            writer.Write((uint)start); writer.Write((uint)end); writer.Write((uint)value.Length); writer.Write(value);
+            replacements.Add((start, end, value));
             delta = checked(delta + value.Length - (end - start)); previous = end;
         }
-        return packet.Length == 0 ? raw : Relocate(raw, packet.ToArray(), bufferForEdit);
+        return replacements.Count == 0 ? raw : Relocate(raw, replacements, bufferForEdit);
     }
     internal static byte[] Rewrite(byte[] raw, ParcLayout layout, Func<int, byte[]> bufferForEdit, params ListEdit[] edits)
     {
-        using var packet = new MemoryStream();
-        using var writer = new BinaryWriter(packet);
+        var replacements = new List<(int Start, int End, byte[] Value)>();
         int delta = 0, end = 0;
         var patches = new List<(SaveField Field, ScalarValue Value)>();
         bool existing = true;
@@ -57,7 +54,7 @@ internal static class RecordLists
             if (!original.AsSpan().SequenceEqual(raw.AsSpan(field.StartOffset, field.EndOffset - field.StartOffset)))
                 throw new InvalidDataException("Record list does not round-trip.");
             byte[] encoded = Encode(raw, edit, layout.Types[typeIndex], typeIndex, field.StartOffset + delta);
-            writer.Write((uint)field.StartOffset); writer.Write((uint)field.EndOffset); writer.Write((uint)encoded.Length); writer.Write(encoded);
+            replacements.Add((field.StartOffset, field.EndOffset, encoded));
             delta += encoded.Length - (field.EndOffset - field.StartOffset);
             var records = field.ListElements.ToDictionary(r => Identity(raw, r.ChildFields.Named(edit.Key)), r => r);
             foreach (var (key, values) in edit.Changes)
@@ -71,7 +68,7 @@ internal static class RecordLists
                     patches.Add((target, value));
                 }
         }
-        if (!existing) return Relocate(raw, packet.ToArray(), bufferForEdit);
+        if (!existing) return Relocate(raw, replacements, bufferForEdit);
         byte[] result = bufferForEdit(raw.Length);
         raw.CopyTo(result, 0);
         foreach (var (field, value) in patches) Integer(value).CopyTo(result, field.StartOffset);
@@ -205,22 +202,82 @@ internal static class RecordLists
         }
         return output.ToArray();
     }
-    internal static byte[] Relocate(byte[] raw, byte[] input, Func<int, byte[]> bufferForEdit)
+    private static int UpperBound(int[] sorted, int value)
     {
-        if (parc_index_version() != 4) throw new InvalidDataException("Unsupported relocation backend.");
-        int code = parc_replace_regions(raw, checked((uint)raw.Length), input, checked((uint)input.Length), out var output, out uint length);
-        try
+        int low = 0, high = sorted.Length;
+        while (low < high)
         {
-            if (output == IntPtr.Zero) throw new InvalidDataException($"Record relocation failed ({code}).");
-            if (code != 0) throw new InvalidDataException(Marshal.PtrToStringUTF8(output, checked((int)length)));
-            byte[] result = bufferForEdit(checked((int)length));
-            Marshal.Copy(output, result, 0, result.Length);
-            return result;
+            int middle = (low + high) / 2;
+            if (sorted[middle] <= value) low = middle + 1; else high = middle;
         }
-        finally { if (output != IntPtr.Zero) parc_index_free(output); }
+        return low;
     }
 
-    [DllImport("parc_index.dll", CallingConvention = CallingConvention.Cdecl)] private static extern uint parc_index_version();
-    [DllImport("parc_index.dll", CallingConvention = CallingConvention.Cdecl)] private static extern int parc_replace_regions(byte[] raw, uint size, byte[] packet, uint packetSize, out IntPtr output, out uint length);
-    [DllImport("parc_index.dll", CallingConvention = CallingConvention.Cdecl)] private static extern void parc_index_free(IntPtr output);
+    // Replaces byte ranges, sorted by position, then points every record address, record size, block bound and the stream size
+    // at where their targets moved. What lies inside a replacement is the replacement's own business.
+    internal static byte[] Relocate(byte[] raw, IReadOnlyList<(int Start, int End, byte[] Value)> regions, Func<int, byte[]> bufferForEdit)
+    {
+        var layout = ParcLayout.Parse(raw);
+        var (pointers, sizes, _) = ParcReader.Validate(raw, layout);
+        int table = checked(layout.SchemaEnd + 12), cursor = 0;
+        int[] starts = new int[regions.Count], ends = new int[regions.Count];
+        long[] shifts = new long[regions.Count + 1];
+        for (int i = 0; i < regions.Count; i++)
+        {
+            var (start, end, value) = regions[i];
+            if (start < cursor || end < start || end > raw.Length || start < table + 20L * layout.Blocks.Count || (i > 0 && start == starts[i - 1]))
+                throw new InvalidDataException("Overlapping or invalid record replacements.");
+            (starts[i], ends[i], cursor) = (start, end, end);
+            shifts[i + 1] = shifts[i] + value.Length - (end - start);
+        }
+        long length = raw.Length + shifts[^1];
+        if (length <= 0 || length > Array.MaxLength) throw new InvalidDataException("Invalid relocated stream size.");
+        byte[] result = bufferForEdit((int)length);
+        cursor = 0;
+        int written = 0;
+        for (int i = 0; i < regions.Count; i++)
+        {
+            var (start, end, value) = regions[i];
+            raw.AsSpan(cursor, start - cursor).CopyTo(result.AsSpan(written));
+            written += start - cursor;
+            value.CopyTo(result, written);
+            written += value.Length;
+            cursor = end;
+        }
+        raw.AsSpan(cursor).CopyTo(result.AsSpan(written));
+
+        bool Inside(int position)
+        {
+            int region = UpperBound(starts, position);
+            return region != 0 && position < ends[region - 1];
+        }
+        int Moved(int position)
+        {
+            long moved = position + shifts[UpperBound(ends, position)];
+            if (moved < 0 || moved > length) throw new InvalidDataException("Invalid relocated address.");
+            return (int)moved;
+        }
+        void Write(int position, int value)
+        {
+            if (position > length - 4) throw new InvalidDataException("Relocation outside the stream.");
+            BinaryPrimitives.WriteInt32LittleEndian(result.AsSpan(position), value);
+        }
+        for (int i = 0; i < pointers.Length; i++)
+        {
+            int pointer = pointers[i], payload = pointer + 4, size = sizes[i];
+            if ((!Inside(pointer) || !Inside(size)) && Inside(payload)) throw new InvalidDataException("A record reaches into a replaced range.");
+            if (!Inside(pointer)) Write(Moved(pointer), Moved(payload));
+            if (!Inside(size)) Write(Moved(size), Moved(size) - Moved(payload));
+        }
+        for (int i = 0; i < layout.Blocks.Count; i++)
+        {
+            var block = layout.Blocks[i];
+            int start = Moved(block.Offset), end = Moved(block.Offset + block.Size), entry = table + 20 * i;
+            if (end < start) throw new InvalidDataException("Invalid relocated block size.");
+            Write(entry + 12, start);
+            Write(entry + 16, end - start);
+        }
+        Write(layout.SchemaEnd + 8, (int)length);
+        return result;
+    }
 }

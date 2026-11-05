@@ -126,7 +126,7 @@ public sealed class EditingPerformanceTests
                 for (int run = 0; run < 4; run++)
                 {
                     var timer = Stopwatch.StartNew();
-                    if (stage == "validate") NativeSave.ValidateBlob(raw);
+                    if (stage == "validate") ParcReader.Validate(raw, layout);
                     else SaveRecords.Read(raw, layout, stage);
                     if (run > 0) samples.Add(timer.Elapsed.TotalMilliseconds);
                 }
@@ -199,7 +199,7 @@ public sealed class EditingPerformanceTests
                 timer.Restart();
                 byte[] candidate = (byte[])raw.Clone();
                 BinaryPrimitives.WriteUInt64LittleEndian(candidate.AsSpan(target.QuantityOffset), target.Quantity + 1);
-                NativeSave.ValidateBlob(candidate);
+                ParcReader.Validate(candidate, ParcLayout.Parse(candidate));
                 var read = Inventory.Read(candidate, ParcLayout.Parse(candidate), Guid.NewGuid());
                 elapsed = timer.Elapsed.TotalMilliseconds;
                 if (run > 0) full.Add(elapsed);

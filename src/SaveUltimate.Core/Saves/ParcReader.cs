@@ -25,31 +25,35 @@ internal sealed class ParcReader
     private readonly ParcLayout layout;
     private readonly bool build;
     private readonly List<int>? pointers;
+    private readonly List<int>? sizes;
+    private int damagedRows;
 
-    private ParcReader(byte[] raw, ParcLayout layout, bool build, List<int>? pointers)
-        => (this.raw, this.layout, this.build, this.pointers) = (raw, layout, build, pointers);
-
-    internal static SaveObject Read(byte[] raw, ParcLayout layout, ParcBlock block)
+    private ParcReader(byte[] raw, ParcLayout layout, bool build)
     {
-        var reader = new ParcReader(raw, layout, build: true, pointers: null);
-        return new() { ClassName = block.Name, Fields = reader.Block(block) };
+        (this.raw, this.layout, this.build) = (raw, layout, build);
+        if (!build) (pointers, sizes) = ([], []);
     }
 
-    // Checks every block without keeping the records. A pointer no record accounts for means this reader missed something.
-    internal static void Validate(byte[] raw, ParcLayout layout)
+    internal static SaveObject Read(byte[] raw, ParcLayout layout, ParcBlock block)
+        => new() { ClassName = block.Name, Fields = new ParcReader(raw, layout, build: true).Block(block) };
+
+    // Checks every block without keeping the records, and returns where each record keeps the address of its payload and its size,
+    // sorted by address, with how many rows break the layout the way MarkerlessRow describes. A pointer no record accounts for
+    // means this reader missed something.
+    internal static (int[] Pointers, int[] Sizes, int DamagedRows) Validate(byte[] raw, ParcLayout layout)
     {
-        var pointers = new List<int>();
-        var reader = new ParcReader(raw, layout, build: false, pointers);
+        var reader = new ParcReader(raw, layout, build: false);
         foreach (var block in layout.Blocks) reader.Block(block);
-        // The walk runs in file order, so the list is sorted.
+        int[] pointers = reader.pointers!.ToArray(), sizes = reader.sizes!.ToArray();
+        Array.Sort(pointers, sizes);
         var span = raw.AsSpan();
         for (int at = layout.SchemaEnd; ; at++)
         {
             int found = span[at..].IndexOf(EmptyId);
-            if (found < 0) return;
+            if (found < 0) return (pointers, sizes, reader.damagedRows);
             at += found;
             int address = at + EmptyId.Length;
-            if (address <= raw.Length - 4 && reader.U32(address) == (uint)address + 4 && pointers.BinarySearch(address) < 0)
+            if (address <= raw.Length - 4 && reader.U32(address) == (uint)address + 4 && Array.BinarySearch(pointers, address) < 0)
                 throw new InvalidDataException($"Record pointer at {address} belongs to no record.");
         }
     }
@@ -108,22 +112,27 @@ internal sealed class ParcReader
     {
         if (depth >= MaximumDepth) throw new InvalidDataException("Record nesting is too deep.");
         var type = Header(start, limit, indexed, out int mask, out int payload);
-        pointers?.Add(payload - 4);
         int end = Fields(type, mask, payload + 4, limit, depth, out var fields);
         Need(end, 4, limit, type.Name);
         uint size = U32(end);
         if (size != (uint)(end - payload)) throw new InvalidDataException($"{type.Name} at {start} does not end after its last field.");
+        pointers?.Add(payload - 4);
+        sizes?.Add(end);
         if (holder is not null) Fill(holder, type, payload, size, fields);
         return end + 4;
     }
 
     // Released versions inserted mission rows that hold only their present scalars, without the markers of absent arrays, and only
-    // the payload size still ends them. Read keeps what they hold so Save Doctor can repair them; Validate refuses them.
-    private int MarkerlessRow(int start, int limit, SaveField row)
+    // the payload size still ends them. Read keeps what they hold so Save Doctor can repair them; Validate counts them.
+    private int MarkerlessRow(int start, int limit, SaveField? row)
     {
         var type = Header(start, limit, false, out int mask, out int payload);
         int end = payload + 4;
         for (Need(end, 4, limit, type.Name); U32(end) != (uint)(end - payload); Need(++end, 4, limit, type.Name)) { }
+        damagedRows++;
+        pointers?.Add(payload - 4);
+        sizes?.Add(end);
+        if (row is null) return end + 4;
         var fields = new SaveField[type.Fields.Count];
         int cursor = payload + 4;
         bool lost = false;
@@ -219,7 +228,7 @@ internal sealed class ParcReader
         {
             var element = field is null ? null : new SaveField { Present = true, FieldIndex = i, StartOffset = cursor };
             try { cursor = Object(cursor, limit, indexed, depth + 1, element); }
-            catch (InvalidDataException) when (element is not null && Header(cursor, limit, indexed, out _, out _).Name == "MissionStateData") { cursor = MarkerlessRow(cursor, limit, element); }
+            catch (InvalidDataException) when (Header(cursor, limit, indexed, out _, out _).Name == "MissionStateData") { cursor = MarkerlessRow(cursor, limit, element); }
             if (element is not null)
             {
                 element.TypeName = element.ChildTypeName;

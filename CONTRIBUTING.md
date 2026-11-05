@@ -32,7 +32,7 @@ From the repository root:
 
 The script restores packages in locked mode, builds the solution and runs the
 tests. It does not compile C++: `native/bin/` holds the committed
-`parc_validation.dll`, `parc_index.dll` and `parc_reader.dll`, and builds and
+`parc_validation.dll` and `parc_reader.dll`, and builds and
 releases ship those files unchanged so every release carries the same tested
 DLLs with the same hashes. The current DLLs were built with MinGW-w64 GCC 16.2.0
 from w64devkit 2.10.0; 2.11.0 builds the same bytes, 2.9.1 does not.

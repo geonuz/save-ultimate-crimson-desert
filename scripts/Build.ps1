@@ -39,7 +39,7 @@ try {
     }
     if (!$BuildNative) {
         # Releases ship the committed DLLs unchanged so their hashes stay the same; refuse them if native/ moved on.
-        foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
+        foreach ($name in 'parc_validation', 'parc_reader') {
             if (!(Test-Path -LiteralPath "native/bin/$name.dll")) { throw "Missing native/bin/$name.dll; run with -BuildNative." }
         }
         $built = if (Test-Path -LiteralPath $nativeHashFile) { (Get-Content -Raw -LiteralPath $nativeHashFile).Trim() }
@@ -51,10 +51,10 @@ try {
         if (Get-Command g++ -ErrorAction SilentlyContinue) { $configure += @('-G', 'MinGW Makefiles') }
         & $cmake @configure
         if ($LASTEXITCODE) { throw 'Native configuration failed.' }
-        & $cmake --build native/build --config Release --target parc_validation parc_index parc_reader --parallel 4
+        & $cmake --build native/build --config Release --target parc_validation parc_reader --parallel 4
         if ($LASTEXITCODE) { throw 'Native compilation failed.' }
         New-Item -ItemType Directory -Force native/bin | Out-Null
-        foreach ($name in 'parc_validation', 'parc_index', 'parc_reader') {
+        foreach ($name in 'parc_validation', 'parc_reader') {
             $binary = Join-Path $root "native/build/$name.dll"
             if (!(Test-Path -LiteralPath $binary)) { $binary = Join-Path $root "native/build/Release/$name.dll" }
             Copy-Item -LiteralPath $binary -Destination native/bin

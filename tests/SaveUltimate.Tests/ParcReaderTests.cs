@@ -283,10 +283,10 @@ public sealed class ParcReaderTests
 
     [TestMethod]
     [TestCategory("Unit")]
-    public void ReadKeepsMarkerlessMissionRowsAndValidateRefusesThem()
+    public void ReadKeepsMarkerlessMissionRowsAndValidateCountsThem()
     {
         byte[] raw = MissionRows();
-        Refused(raw);
+        Assert.AreEqual(2, ParcReader.Validate(raw, ParcLayout.Parse(raw)).DamagedRows);
         var rows = Read(raw).Named("_list").ListElements;
         Assert.AreEqual(3, rows.Length);
         Assert.AreEqual(77ul, rows[0].ChildFields.Named("_key").Scalar(raw, "MissionKey", 4));
@@ -305,7 +305,11 @@ public sealed class ParcReaderTests
         {
             byte[] copy = (byte[])raw.Clone();
             copy[random.Next(start, copy.Length)] = (byte)random.Next(256);
-            try { ParcReader.Read(copy, layout, layout.Blocks.Single()); }
+            try
+            {
+                ParcReader.Validate(copy, layout);
+                ParcReader.Read(copy, layout, layout.Blocks.Single());
+            }
             catch (InvalidDataException) { }
         }
     }
@@ -327,6 +331,49 @@ public sealed class ParcReaderTests
         Assert.IsFalse(seen.IsEmpty);
     }
 
+    [TestMethod]
+    [TestCategory("Unit")]
+    public void RelocationMovesAddressesSizesAndBoundsAndRefusesBrokenRanges()
+    {
+        byte[] raw = Sample();
+        var array = Read(raw).Named("_array");
+        int before = Read(raw).Named("_after").StartOffset;
+        byte[] longer = [0, 3, 0, 0, 0, 5, 0, 0, 0, 6, 0, 0, 0, 7, 0, 0, 0];
+        byte[] Relocated(params (int, int, byte[])[] regions) => RecordLists.Relocate(raw, regions, size => new byte[size]);
+
+        byte[] moved = Relocated((array.StartOffset, array.EndOffset, longer));
+        int shift = longer.Length - (array.EndOffset - array.StartOffset);
+        var layout = ParcLayout.Parse(moved);
+        ParcReader.Validate(moved, layout);
+        Assert.AreEqual(raw.Length + shift, moved.Length);
+        Assert.AreEqual(ParcLayout.Parse(raw).Blocks.Single().Size + shift, layout.Blocks.Single().Size);
+        var fields = Read(moved);
+        Assert.AreEqual(before + shift, fields.Named("_after").StartOffset);
+        Assert.AreEqual(longer.Length, fields.Named("_array").EndOffset - fields.Named("_array").StartOffset);
+        Assert.AreEqual(6ul, fields.Named("_after").Scalar(moved, "uint16", 2));
+
+        var list = Read(raw).Named("_list");
+        Assert.ThrowsExactly<InvalidDataException>(() => Relocated((list.ListElements[0].ChildPayloadOffset, list.EndOffset, [])));
+        Assert.ThrowsExactly<InvalidDataException>(() => Relocated((array.StartOffset, array.EndOffset, longer), (array.StartOffset, array.EndOffset, longer)));
+        Assert.ThrowsExactly<InvalidDataException>(() => Relocated((0, 1, [])));
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    [TestCategory("Contract")]
+    public void AnEditMayNotAddDamagedRowsButUndoMayBringThemBack()
+    {
+        string path = FixtureSaves.Named("mission_rows_8");
+        byte[] damaged = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
+        var document = SaveDocument.Open(path);
+        string original = document.BlobSha256;
+        Assert.AreEqual(8, document.RepairMissionRows());
+        Assert.ThrowsExactly<InvalidDataException>(() => document.Commit(damaged));
+        document.Undo();
+        Assert.AreEqual(original, document.BlobSha256);
+        Assert.AreEqual(8, document.RepairMissionRows());
+    }
+
     private static string[] Saves() => Directory.GetFiles(FixtureSaves.Root ?? throw new AssertInconclusiveException("Set SAVEULTIMATE_FIXTURES."), "*.save", SearchOption.AllDirectories);
     private static bool Damaged(string path) => Path.GetFileName(Path.GetDirectoryName(path)) == "damaged";
 
@@ -341,19 +388,13 @@ public sealed class ParcReaderTests
             byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
             var layout = ParcLayout.Parse(raw);
             string name = Path.GetFileName(path);
-            if (!Damaged(path))
-            {
-                try { ParcReader.Validate(raw, layout); }
-                catch (InvalidDataException e) { failures.Add($"{name}: {e.Message}"); }
-                return;
-            }
             try
             {
-                ParcReader.Validate(raw, layout);
-                failures.Add($"{name}: its damaged mission rows were not noticed.");
+                int damaged = ParcReader.Validate(raw, layout).DamagedRows;
+                if ((damaged != 0) != Damaged(path)) failures.Add($"{name}: {damaged} damaged rows.");
             }
-            catch (InvalidDataException e) when (e.Message.Contains("MissionStateData")) { }
             catch (InvalidDataException e) { failures.Add($"{name}: {e.Message}"); }
+            if (!Damaged(path)) return;
             foreach (var block in layout.Blocks)
                 try { ParcReader.Read(raw, layout, block); }
                 catch (InvalidDataException e) { failures.Add($"{name} {block.Name}: {e.Message}"); }

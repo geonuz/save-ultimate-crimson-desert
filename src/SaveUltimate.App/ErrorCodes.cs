@@ -9,7 +9,7 @@ namespace SaveUltimate.App;
 // Stable codes users can quote in reports; the full exception goes to error.log beside the executable.
 public static class ErrorCodes
 {
-    private static readonly string[] nativeLibraries = ["parc_validation.dll", "parc_reader.dll", "parc_index.dll", "Magick.Native-Q8-x64.dll"];
+    private static readonly string[] nativeLibraries = ["parc_validation.dll", "parc_reader.dll", "Magick.Native-Q8-x64.dll"];
     public static string LogPath { get; set; } = Path.Combine(AppContext.BaseDirectory, "error.log");
 
     public static string Describe(Exception error)

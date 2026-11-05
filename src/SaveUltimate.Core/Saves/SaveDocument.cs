@@ -13,6 +13,9 @@ public sealed partial class SaveDocument
     private byte[]? editBuffer;
     private readonly MemoryStream snapshotBuffer = new();
     private Guid snapshot = Guid.NewGuid();
+    private int damagedRows;
+    // shortcut: a save off the layout rule stays editable only where the native parser can check it; goes with the native reader.
+    private readonly bool offLayout;
     private sealed record Patch(int Offset, byte[] Before, byte[] After, bool CheckedScalar = false);
     private sealed record Snapshot(byte[] Packed, int Length)
     {
@@ -64,6 +67,13 @@ public sealed partial class SaveDocument
         blob = raw;
         savedBlob = raw;
         Layout = ParcLayout.Parse(raw);
+        try { damagedRows = ParcReader.Validate(raw, Layout).DamagedRows; }
+        catch (InvalidDataException error)
+        {
+            ReaderFallback?.Invoke(error);
+            NativeSave.ValidateBlob(raw);
+            offLayout = true;
+        }
         RefuseOldGameVersion(raw, Layout);
         Items = Inventory.Read(raw, Layout, snapshot);
     }
@@ -81,9 +91,7 @@ public sealed partial class SaveDocument
     public static SaveDocument Open(string path)
     {
         byte[] file = File.ReadAllBytes(path);
-        var container = SaveContainer.Decode(file);
-        NativeSave.ValidateBlob(container.Blob);
-        return new(path, file, container.Blob);
+        return new(path, file, SaveContainer.Decode(file).Blob);
     }
 
     public void SetQuantity(InventoryItem item, ulong value)
@@ -216,28 +224,28 @@ public sealed partial class SaveDocument
         .Where(b => patches.Any(p => p.Offset >= b.Offset && p.Offset + p.After.Length <= b.Offset + b.Size))
         .Select(b => b.Name).Distinct().ToArray();
 
-    private void Commit(byte[] candidate, Action<IReadOnlyList<InventoryItem>>? verify = null, InventoryItem? fixedSockets = null, string[]? changed = null, bool validate = true)
+    internal void Commit(byte[] candidate, Action<IReadOnlyList<InventoryItem>>? verify = null, InventoryItem? fixedSockets = null, string[]? changed = null, bool restoring = false)
     {
         if (fixedSockets is not null && candidate.Length != blob.Length)
             throw new InvalidDataException("Scalar socket edit changed the layout.");
         Guid next = Guid.NewGuid();
-        var layout = Layout;
-        InventoryItem[] items;
-        // Both readers use the immutable candidate; neither may commit before full validation completes.
-        var validation = fixedSockets is null && validate ? Task.Run(() => NativeSave.ValidateBlob(candidate)) : null;
-        try
+        var layout = fixedSockets is null ? Layout.Reparse(candidate, blob) : Layout;
+        int damaged = damagedRows;
+        if (fixedSockets is null && offLayout) NativeSave.ValidateBlob(candidate);
+        else if (fixedSockets is null)
         {
-            layout = fixedSockets is null ? Layout.Reparse(candidate, blob) : Layout;
-            var sockets = fixedSockets?.Sockets.RefreshScalars(candidate);
-            items = fixedSockets is null ? changed is null ? Inventory.Read(candidate, layout, next)
-                : Inventory.Refresh(blob, candidate, Layout, layout, Items, next, changed)
-                : Items.Select(i => i.RefreshScalars(candidate, next, ReferenceEquals(i, fixedSockets) ? sockets : null)).ToArray();
-            verify?.Invoke(items);
+            damaged = ParcReader.Validate(candidate, layout).DamagedRows;
+            // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
+            if (!restoring && damaged > damagedRows) throw new InvalidDataException("The edit would damage mission rows.");
         }
-        finally { validation?.GetAwaiter().GetResult(); }
+        var sockets = fixedSockets?.Sockets.RefreshScalars(candidate);
+        var items = fixedSockets is null ? changed is null ? Inventory.Read(candidate, layout, next)
+            : Inventory.Refresh(blob, candidate, Layout, layout, Items, next, changed)
+            : Items.Select(i => i.RefreshScalars(candidate, next, ReferenceEquals(i, fixedSockets) ? sockets : null)).ToArray();
+        verify?.Invoke(items);
         // Retire the old blob only after validation; it can serve the next edit or Undo.
         editBuffer = ReferenceEquals(candidate, editBuffer) || ReferenceEquals(candidate, savedBlob) ? blob : null;
-        (blob, snapshot, Items, Layout) = (candidate, next, items, layout);
+        (blob, snapshot, Items, Layout, damagedRows) = (candidate, next, items, layout, damaged);
     }
 
     public InventoryItem SocketTarget(InventoryItem item)
@@ -298,8 +306,7 @@ public sealed partial class SaveDocument
             if (!edit.After!.Matches(blob)) throw new InvalidOperationException("Undo snapshot mismatch.");
             var before = edit.Before!;
             // Returning to the saved bytes can reuse that immutable buffer without expanding another full copy.
-            // Before holds the exact bytes of a state that already passed full validation; zlib's checksum still rejects damage.
-            Commit(undo.Count == 1 && before.Matches(savedBlob) ? savedBlob : before.Expand(EditBuffer(before.Length)), changed: edit.Changed, validate: false);
+            Commit(undo.Count == 1 && before.Matches(savedBlob) ? savedBlob : before.Expand(EditBuffer(before.Length)), changed: edit.Changed, restoring: true);
         }
         undo.Pop();
         if (undo.Count == 0)
