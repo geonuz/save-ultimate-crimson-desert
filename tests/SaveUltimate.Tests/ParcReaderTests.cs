@@ -351,7 +351,7 @@ public sealed class ParcReaderTests
         var document = SaveDocument.Open(path);
         string original = document.BlobSha256;
         Assert.AreEqual(8, document.RepairMissionRows());
-        Assert.ThrowsExactly<InvalidDataException>(() => document.Commit(damaged));
+        Assert.ThrowsExactly<InvalidDataException>(() => document.Transact(damaged, ["QuestSaveData"]));
         document.Undo();
         Assert.AreEqual(original, document.BlobSha256);
         Assert.AreEqual(8, document.RepairMissionRows());

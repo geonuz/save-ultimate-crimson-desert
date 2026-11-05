@@ -130,7 +130,7 @@ public sealed class FishingTests
     {
         string source = FixtureSaves.Named("editing_baseline");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
-        var rows = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "ContentsMiscSaveData", "_miniGameRecords")
+        var rows = SaveRecords.Read(raw, ParcLayout.Parse(raw), "ContentsMiscSaveData")
             .Fields.Named("_miniGameRecords").Elements("MiniGameRecordSaveData");
         var field = rows[1].ChildFields.Named(duplicate ? "_key" : "_record");
         uint value = duplicate ? (uint)rows[0].ChildFields.Named("_key").Scalar(raw, "KnowledgeKey", 4) : BitConverter.SingleToUInt32Bits(float.NaN);

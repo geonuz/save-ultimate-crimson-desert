@@ -25,23 +25,6 @@ public sealed class ChallengeTests
 
     [TestMethod]
     [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
-    public void SelectedListReaderMatchesFullMetadataAndRejectsUnsupportedFields()
-    {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("fishing_no_first_catch"))).Blob;
-        var layout = ParcLayout.Parse(raw);
-        var expected = SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list");
-        var selected = SaveRecords.ReadLists(raw, layout, "KnowledgeSaveData", "_list");
-        Assert.AreEqual(1, selected.Fields.Length);
-        Assert.AreEqual(JsonSerializer.Serialize(expected), JsonSerializer.Serialize(selected.Fields[0]));
-        Assert.Throws<InvalidDataException>(() => SaveRecords.ReadLists(raw, layout, "KnowledgeSaveData", "_not_a_list"));
-        Assert.Throws<InvalidDataException>(() => SaveRecords.ReadLists(raw, layout, "KnowledgeSaveData", "_list", "_list"));
-    }
-
-    [TestMethod]
-    [TestCategory("Scenario")]
     [DataRow(false)]
     [DataRow(true)]
     [TestCategory("PrivateFixtures")]
@@ -51,7 +34,7 @@ public sealed class ChallengeTests
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         string source = FixtureSaves.Named("challenges_partly_incomplete");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
-        var block = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_questStateList", "_missionStateList");
+        var block = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData");
         if (invalidClock)
         {
             foreach (var field in block.Fields.SelectMany(f => f.ListElements).SelectMany(r => r.ChildFields)
@@ -120,8 +103,8 @@ public sealed class ChallengeTests
                 AssertGameLayout(raw);
                 Assert.AreEqual(0, SaveDocument.Diagnose(copy).DamagedRows, name);
                 // Rows the game wrote come through unchanged apart from their absolute payload pointers.
-                var repaired = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
-                var originals = SaveRecords.ReadLists(original, ParcLayout.Parse(original), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
+                var repaired = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
+                var originals = SaveRecords.Read(original, ParcLayout.Parse(original), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
                 Assert.AreEqual(originals.Length, repaired.Length);
                 int same = 0;
                 for (int i = 0; i < repaired.Length; i++)
@@ -184,7 +167,7 @@ public sealed class ChallengeTests
     {
         var layout = ParcLayout.Parse(raw);
         var type = layout.Types.Single(t => t.Name == "MissionStateData");
-        foreach (var row in SaveRecords.ReadLists(raw, layout, "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements)
+        foreach (var row in SaveRecords.Read(raw, layout, "QuestSaveData").Fields.Named("_missionStateList").ListElements)
         {
             int cursor = row.ChildPayloadOffset + 4, alarm = -1;
             uint key = BitConverter.ToUInt32(raw, cursor);
@@ -235,7 +218,7 @@ public sealed class ChallengeTests
             document.SaveCopy(copy);
             byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
             AssertGameLayout(raw, completed);
-            var rows = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements;
+            var rows = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
             Assert.IsTrue(inserted.All(k => rows.Any(r => r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4) == k)));
         }
         finally { File.Delete(copy); }

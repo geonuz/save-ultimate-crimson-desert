@@ -14,7 +14,7 @@ public sealed partial class SaveDocument
     private readonly MemoryStream snapshotBuffer = new();
     private Guid snapshot = Guid.NewGuid();
     private int damagedRows;
-    private sealed record Patch(int Offset, byte[] Before, byte[] After, bool CheckedScalar = false);
+    private sealed record Patch(int Offset, byte[] Before, byte[] After);
     private sealed record Snapshot(byte[] Packed, int Length)
     {
         public static Snapshot Capture(byte[] raw, MemoryStream output)
@@ -48,7 +48,7 @@ public sealed partial class SaveDocument
             return stream.ReadByte() == -1;
         }
     }
-    private readonly Stack<(Patch[]? Patches, Snapshot? Before, Snapshot? After, string[]? Changed)> undo = new();
+    private readonly Stack<(Patch[]? Patches, Snapshot? Before, Snapshot? After, string[] Changed)> undo = new();
     public string SourcePath { get; private set; }
     public ParcLayout Layout { get; private set; }
     public bool IsDirty => !blob.AsSpan().SequenceEqual(savedBlob);
@@ -141,7 +141,6 @@ public sealed partial class SaveDocument
         foreach (string name in blocks.Where(name => Layout.Blocks.Any(b => b.Name == name)))
             foreach (var record in SaveRecords.ItemReferences(blob, Layout, name, item))
             {
-                SaveRecords.ValidateItem(blob, record);
                 var fields = record.ChildFields;
                 var version = fields.Named("_saveVersion");
                 var field = fields.Named("_itemKey");
@@ -171,67 +170,62 @@ public sealed partial class SaveDocument
         return candidate;
     }
 
-    private (Snapshot Before, Snapshot After) PrepareSnapshots(byte[] before, byte[] after)
-        // The last structural edit's result is this edit's input unless a scalar edit intervened.
-        => (undo.TryPeek(out var previous) && previous.Patches is null ? previous.After! : Snapshot.Capture(before, snapshotBuffer),
-            Snapshot.Capture(after, snapshotBuffer));
-
     private void Edit(IEnumerable<Patch> changes)
     {
         var patches = changes.Where(p => !p.Before.AsSpan().SequenceEqual(p.After)).ToArray();
         if (patches.Length == 0) return;
-        Apply(patches, reverse: false);
-        undo.Push((patches, null, null, null));
-    }
-
-    private void Apply(Patch[] patches, bool reverse)
-    {
         byte[] candidate = CopyForEdit();
-        foreach (var patch in patches)
-        {
-            var before = reverse ? patch.After : patch.Before;
-            var after = reverse ? patch.Before : patch.After;
-            if (!candidate.AsSpan(patch.Offset, before.Length).SequenceEqual(before))
-                throw new InvalidOperationException("Edit snapshot mismatch.");
-            after.CopyTo(candidate, patch.Offset);
-        }
-        var scalarFields = Items.Select(i => (i.QuantityOffset, 8))
-            .Concat(Items.Where(i => i.EnchantLevel.HasValue).Select(i => (i.EnchantOffset, 2)))
-            .Concat(Items.SelectMany(i => i.Sockets.ScalarFields)).ToHashSet();
-        if (patches.All(p => p.CheckedScalar && p.Before.Length == p.After.Length || scalarFields.Contains((p.Offset, p.After.Length))))
-        {
-            // Fixed-size typed scalars preserve the validated layout; structural edits and writes still validate the full blob.
-            Guid next = Guid.NewGuid();
-            var changed = patches.Select(p => p.Offset).ToHashSet();
-            var items = Items.Select(i => i.RefreshScalars(candidate, next,
-                i.Sockets.ScalarFields.Any(f => changed.Contains(f.Offset)) ? i.Sockets.RefreshScalars(candidate) : null)).ToArray();
-            (editBuffer, blob, snapshot, Items) = (blob, candidate, next, items);
-        }
-        else Commit(candidate, changed: PatchBlocks(patches));
+        foreach (var patch in patches) patch.After.CopyTo(candidate, patch.Offset);
+        Transact(candidate, Layout.Blocks.Where(b => patches.Any(p => p.Offset >= b.Offset && p.Offset + p.After.Length <= b.Offset + b.Size)).Select(b => b.Name).Distinct().ToArray());
     }
 
-    private string[] PatchBlocks(Patch[] patches) => Layout.Blocks
-        .Where(b => patches.Any(p => p.Offset >= b.Offset && p.Offset + p.After.Length <= b.Offset + b.Size))
-        .Select(b => b.Name).Distinct().ToArray();
-
-    internal void Commit(byte[] candidate, Action<IReadOnlyList<InventoryItem>>? verify = null, InventoryItem? fixedSockets = null, string[]? changed = null, bool restoring = false)
+    // The byte runs that differ, or null when the edit changed the size and nothing lines up.
+    private Patch[]? Difference(byte[] candidate)
     {
-        if (fixedSockets is not null && candidate.Length != blob.Length)
-            throw new InvalidDataException("Scalar socket edit changed the layout.");
-        Guid next = Guid.NewGuid();
-        var layout = fixedSockets is null ? Layout.Reparse(candidate, blob) : Layout;
-        int damaged = damagedRows;
-        if (fixedSockets is null)
+        if (candidate.Length != blob.Length) return null;
+        var patches = new List<Patch>();
+        ReadOnlySpan<byte> before = blob, after = candidate;
+        for (int at = before.CommonPrefixLength(after); at < before.Length; at += before[at..].CommonPrefixLength(after[at..]))
         {
-            damaged = ParcReader.Validate(candidate, layout).DamagedRows;
-            // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
-            if (!restoring && damaged > damagedRows) throw new InvalidDataException("The edit would damage mission rows.");
+            int start = at;
+            while (at < before.Length && before[at] != after[at]) at++;
+            patches.Add(new(start, before[start..at].ToArray(), after[start..at].ToArray()));
         }
-        var sockets = fixedSockets?.Sockets.RefreshScalars(candidate);
-        var items = fixedSockets is null ? changed is null ? Inventory.Read(candidate, layout, next)
-            : Inventory.Refresh(blob, candidate, Layout, layout, Items, next, changed)
-            : Items.Select(i => i.RefreshScalars(candidate, next, ReferenceEquals(i, fixedSockets) ? sockets : null)).ToArray();
-        verify?.Invoke(items);
+        return patches.ToArray();
+    }
+
+    // Every edit ends here: the candidate replaces the document only if it passes all checks, and Undo can always return from it.
+    // changed names the blocks the edit means to touch; verify is the edit's own check of its result.
+    internal void Transact(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify = null)
+    {
+        var patches = Difference(candidate);
+        // The last structural edit's result is this edit's input unless another edit intervened.
+        var before = patches is not null ? null : undo.TryPeek(out var previous) && previous.Patches is null ? previous.After! : Snapshot.Capture(blob, snapshotBuffer);
+        var after = patches is not null ? null : Snapshot.Capture(candidate, snapshotBuffer);
+        Adopt(candidate, changed, verify, restoring: false);
+        if (patches is not { Length: 0 }) undo.Push((patches, before, after, changed));
+    }
+
+    private void Adopt(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify, bool restoring)
+    {
+        Guid next = Guid.NewGuid();
+        var layout = Layout.Reparse(candidate, blob);
+        int damaged = ParcReader.Validate(candidate, layout).DamagedRows;
+        var items = Inventory.Read(candidate, layout, next);
+        if (!restoring)
+        {
+            // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
+            if (damaged > damagedRows) throw new InvalidDataException("The edit would damage mission rows.");
+            if (!candidate.AsSpan(0, layout.SchemaEnd).SequenceEqual(blob.AsSpan(0, Layout.SchemaEnd)) ||
+                !layout.Blocks.Select(b => (b.Name, b.TypeIndex)).SequenceEqual(Layout.Blocks.Select(b => (b.Name, b.TypeIndex))))
+                throw new InvalidDataException("Edit changed the save schema.");
+            if (Layout.Blocks.Zip(layout.Blocks).Any(p => !changed.Contains(p.First.Name) && p.First.Size != p.Second.Size))
+                throw new InvalidDataException("Edit changed an unrelated block layout.");
+            static IEnumerable<(ItemSource, ulong, uint, ulong)> Others(IEnumerable<InventoryItem> all, string[] changed) => all
+                .Where(i => !changed.Contains(Inventory.ClassName(i.Source))).Select(i => (i.Source, i.Number, i.Key, i.Quantity));
+            if (!Others(Items, changed).SequenceEqual(Others(items, changed))) throw new InvalidDataException("Edit changed an unrelated item.");
+        }
+        verify?.Invoke(layout, items);
         // Retire the old blob only after validation; it can serve the next edit or Undo.
         editBuffer = ReferenceEquals(candidate, editBuffer) || ReferenceEquals(candidate, savedBlob) ? blob : null;
         (blob, snapshot, Items, Layout, damagedRows) = (candidate, next, items, layout, damaged);
@@ -248,26 +242,19 @@ public sealed partial class SaveDocument
     {
         item = SocketTarget(item);
         uint[] gems = values.ToArray();
-        byte[] candidate = item.Sockets.Replace(blob, item.Key, gems, EditBuffer);
-        bool fixedLayout = gems.Select((key, i) => (key != 0) == item.Sockets.Slots[i].HasGem).All(same => same);
-        CommitSockets(item, candidate, item.Sockets.Unlocked, gems, fixedLayout);
+        CommitSockets(item, item.Sockets.Replace(blob, Layout, item.Key, gems, EditBuffer), item.Sockets.Unlocked, gems);
     }
 
     public void SetUnlockedSockets(InventoryItem item, int count)
     {
         item = SocketTarget(item);
-        CommitSockets(item, item.Sockets.SetUnlocked(blob, item.Key, count, EditBuffer), count, [], item.Sockets.HasUnlockedField);
+        CommitSockets(item, item.Sockets.SetUnlocked(blob, item.Key, count, EditBuffer), count, []);
     }
 
-    private void CommitSockets(InventoryItem item, byte[] candidate, int unlocked, uint[] gems, bool fixedLayout)
+    private void CommitSockets(InventoryItem item, byte[] candidate, int unlocked, uint[] gems)
     {
-        byte[] before = blob;
-        if (ReferenceEquals(before, candidate)) return;
-        var patches = fixedLayout ? item.Sockets.ScalarFields
-            .Select(f => CreatePatch(f.Offset, candidate.AsSpan(f.Offset, f.Size).ToArray()))
-            .Where(p => !p.Before.AsSpan().SequenceEqual(p.After)).ToArray() : null;
-        var snapshots = fixedLayout ? default : PrepareSnapshots(before, candidate);
-        Commit(candidate, items =>
+        if (ReferenceEquals(blob, candidate)) return;
+        Transact(candidate, [Inventory.ClassName(item.Source)], (_, items) =>
         {
             var updated = items.Single(i => i.Source == item.Source && i.Number == item.Number && i.Key == item.Key && i.OwnerNumber == item.OwnerNumber).Sockets;
             var previous = item.Sockets;
@@ -281,22 +268,30 @@ public sealed partial class SaveDocument
                 if (updated.Slots[i].Key != key || updated.Slots[i].HasGem != hasGem || updated.Slots[i].Endurance != endurance)
                     throw new InvalidDataException("Socket value verification failed.");
             }
-        }, fixedLayout ? item : null, [Inventory.ClassName(item.Source)]);
-        undo.Push((patches, snapshots.Before, snapshots.After, [Inventory.ClassName(item.Source)]));
+        });
     }
 
     public string[] Undo()
     {
         if (!undo.TryPeek(out var edit)) return [];
-        var changed = edit.Changed ?? (edit.Patches is not null ? PatchBlocks(edit.Patches) : Layout.Blocks.Select(b => b.Name).Distinct().ToArray());
-        if (edit.Patches is not null) Apply(edit.Patches, reverse: true);
+        byte[] candidate;
+        if (edit.Patches is not null)
+        {
+            candidate = CopyForEdit();
+            foreach (var patch in edit.Patches)
+            {
+                if (!candidate.AsSpan(patch.Offset, patch.After.Length).SequenceEqual(patch.After)) throw new InvalidOperationException("Edit snapshot mismatch.");
+                patch.Before.CopyTo(candidate, patch.Offset);
+            }
+        }
         else
         {
             if (!edit.After!.Matches(blob)) throw new InvalidOperationException("Undo snapshot mismatch.");
             var before = edit.Before!;
             // Returning to the saved bytes can reuse that immutable buffer without expanding another full copy.
-            Commit(undo.Count == 1 && before.Matches(savedBlob) ? savedBlob : before.Expand(EditBuffer(before.Length)), changed: edit.Changed, restoring: true);
+            candidate = undo.Count == 1 && before.Matches(savedBlob) ? savedBlob : before.Expand(EditBuffer(before.Length));
         }
+        Adopt(candidate, edit.Changed, null, restoring: true);
         undo.Pop();
         if (undo.Count == 0)
         {
@@ -308,7 +303,7 @@ public sealed partial class SaveDocument
                 blob = savedBlob;
             }
         }
-        return changed;
+        return edit.Changed;
     }
 
     public void SaveCopy(string destination)

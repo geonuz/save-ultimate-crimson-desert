@@ -16,26 +16,8 @@ internal sealed class SaveField
     public int EndOffset { get; set; }
     public string ChildTypeName { get; set; } = "";
     public int ChildPayloadOffset { get; set; }
-    public int ChildSizeU32 { get; set; }
-    public int ListCount { get; set; }
-    public int ListHeaderSize { get; set; }
-    public string? Note { get; set; }
     public SaveField[] ChildFields { get; set; } = [];
     public SaveField[] ListElements { get; set; } = [];
-    public int[][] ChildUndecodedRanges { get; set; } = [];
-
-    internal SaveField Relocate(int delta)
-    {
-        if (delta == 0) return this;
-        var copy = (SaveField)MemberwiseClone();
-        copy.StartOffset = StartOffset == 0 ? 0 : checked(StartOffset + delta);
-        copy.EndOffset = EndOffset == 0 ? 0 : checked(EndOffset + delta);
-        copy.ChildPayloadOffset = ChildPayloadOffset == 0 ? 0 : checked(ChildPayloadOffset + delta);
-        copy.ChildFields = ChildFields.Select(f => f.Relocate(delta)).ToArray();
-        copy.ListElements = ListElements.Select(f => f.Relocate(delta)).ToArray();
-        copy.ChildUndecodedRanges = ChildUndecodedRanges.Select(r => r.Select(p => checked(p + delta)).ToArray()).ToArray();
-        return copy;
-    }
 
     public ulong Scalar(byte[] raw, string type, int size)
     {
@@ -54,7 +36,7 @@ internal sealed class SaveField
     public SaveField[] Elements(string type)
     {
         if (!Present) return [];
-        if (ListElements.Length != ListCount || ListElements.Any(f => f.ChildTypeName != type || f.ChildFields.Length == 0))
+        if (ListElements.Any(f => f.ChildTypeName != type || f.ChildFields.Length == 0))
             throw new InvalidDataException($"Incomplete or unsupported {Name} records.");
         return ListElements;
     }
@@ -73,7 +55,6 @@ internal sealed class SaveObject
 {
     public string ClassName { get; set; } = "";
     public SaveField[] Fields { get; set; } = [];
-    public int[][] UndecodedRanges { get; set; } = [];
 }
 
 internal static class SaveRecords
@@ -90,33 +71,8 @@ internal static class SaveRecords
         return match ?? throw new InvalidDataException($"Missing or ambiguous field: {name}");
     }
 
-    internal static void ValidateItem(byte[] raw, SaveField record)
-    {
-        if (record.ChildTypeName != "ItemSaveData" || record.ChildFields.Length == 0) throw new InvalidDataException("Incomplete item record.");
-        var fields = record.ChildFields;
-        int end = checked(record.ChildPayloadOffset + record.ChildSizeU32);
-        if (record.ChildUndecodedRanges.Length != 0 || end < record.ChildPayloadOffset || end > raw.Length - 4 || end + 4 != record.EndOffset ||
-            System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(end)) != record.ChildSizeU32)
-            throw new InvalidDataException("Invalid item record boundary.");
-        foreach (var field in fields.Where(f => f.Present))
-            if (field.StartOffset < record.ChildPayloadOffset + 4 || field.StartOffset >= field.EndOffset || field.EndOffset > end)
-                throw new InvalidDataException("Incomplete item field.");
-        int tail = fields.Where(f => f.Present).Max(f => f.EndOffset);
-        for (int i = tail; i < end; i++)
-            if (raw[i] != 1) throw new InvalidDataException("Unrecognized item tail.");
-    }
-
     public static SaveObject Read(byte[] raw, ParcLayout layout, string name)
         => ReadObjects(raw, layout, name).Single();
-
-    internal static SaveObject ReadLists(byte[] raw, ParcLayout layout, string name, params string[] lists)
-    {
-        var fields = layout.Types[Blocks(layout, name)[0].TypeIndex].Fields;
-        if (lists.Length == 0 || lists.Distinct().Count() != lists.Length ||
-            lists.Any(n => fields.Count(f => f.Name == n && f.Kind is 6 or 7) != 1))
-            throw new InvalidDataException("Missing or unsupported selected list.");
-        return new() { ClassName = name, Fields = Read(raw, layout, name).Fields.Where(f => lists.Contains(f.Name)).ToArray() };
-    }
 
     private static ParcBlock[] Blocks(ParcLayout layout, string name)
     {

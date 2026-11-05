@@ -53,12 +53,10 @@ public sealed partial class SaveDocument
                 { ["_knowledgeKey"] = new("KnowledgeKey", 4, p.Key), ["_learnFromTypeRaw"] = new("uint8", 1, p.Value) })));
         candidate = RecordLists.Rewrite(candidate, Layout, EditBuffer, edits.ToArray());
         SkillState? after = null;
-        byte[] previous = blob;
-        var snapshots = PrepareSnapshots(previous, candidate);
         string[] changed = plan.Costs.Count == 0 ? ["KnowledgeSaveData"] : ["KnowledgeSaveData", "InventorySaveData"];
-        Commit(candidate, items =>
+        Transact(candidate, changed, (layout, items) =>
         {
-            after = SkillState.Read(candidate, Layout.Reparse(candidate, blob), items);
+            after = SkillState.Read(candidate, layout, items);
             var expectedLevels = new Dictionary<uint, uint>(before.Levels);
             foreach (var entry in plan.Changes) expectedLevels[entry.Key] = entry.Value;
             var expectedFollow = new Dictionary<uint, uint>(before.Follow);
@@ -68,8 +66,7 @@ public sealed partial class SaveDocument
             if (!Equal(after.Levels, expectedLevels) || !Equal(after.Paid, paid) || !Equal(after.Points, plan.Points) || !Equal(after.Follow, expectedFollow) ||
                 before.Inventory.Keys.Union(after.Inventory.Keys).Any(k => after.Inventory.GetValueOrDefault(k) != before.Inventory.GetValueOrDefault(k) - plan.Costs.GetValueOrDefault(k)))
                 throw new InvalidDataException("Skill edit verification failed.");
-        }, changed: changed);
-        undo.Push((null, snapshots.Before, snapshots.After, changed));
+        });
         return after!;
     }
 }

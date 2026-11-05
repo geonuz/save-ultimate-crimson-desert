@@ -12,7 +12,7 @@ public sealed partial class SaveDocument
     {
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
         var layout = ParcLayout.Parse(raw);
-        var list = SaveRecords.ReadLists(raw, layout, "QuestSaveData", "_questStateList", "_missionStateList").Fields.Named("_missionStateList");
+        var list = SaveRecords.Read(raw, layout, "QuestSaveData").Fields.Named("_missionStateList");
         var type = layout.Types.Single(t => t.Name == "MissionStateData");
         return new(list.ListElements.Length, list.ListElements.Count(r => RecordLists.Fields(raw, type, r) is null));
     }
@@ -27,28 +27,23 @@ public sealed partial class SaveDocument
 
     public int RepairMissionRows()
     {
-        var block = SaveRecords.ReadLists(blob, Layout, "QuestSaveData", "_questStateList", "_missionStateList");
+        var block = SaveRecords.Read(blob, Layout, "QuestSaveData");
         var list = block.Fields.Named("_missionStateList");
         var type = Layout.Types.Single(t => t.Name == "MissionStateData");
         int damaged = list.ListElements.Count(r => RecordLists.Fields(blob, type, r) is null);
         if (damaged == 0) return 0;
         var before = ChallengeState.Read(blob, block);
         var edit = new ListEdit(list, type.Name, "_key", [], Salvage: Salvage);
-        byte[] raw = blob;
-        var layout = Layout;
-        byte[] candidate = RecordLists.RewriteRegions(raw, EditBuffer, [(list.StartOffset, list.EndOffset, start => RecordLists.Rewritten(raw, layout, edit, start))]);
-        var snapshots = PrepareSnapshots(raw, candidate);
-        Commit(candidate, _ =>
+        byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, edit);
+        Transact(candidate, ["QuestSaveData"], (layout, _) =>
         {
-            var reparsed = Layout.Reparse(candidate, raw);
-            var after = SaveRecords.ReadLists(candidate, reparsed, "QuestSaveData", "_questStateList", "_missionStateList");
+            var after = SaveRecords.Read(candidate, layout, "QuestSaveData");
             var state = ChallengeState.Read(candidate, after);
             if (after.Fields.Named("_missionStateList").ListElements.Any(r => RecordLists.Fields(candidate, type, r) is null) ||
                 !before.Quest.OrderBy(p => p.Key).SequenceEqual(state.Quest.OrderBy(p => p.Key)) ||
                 !before.Mission.OrderBy(p => p.Key).SequenceEqual(state.Mission.OrderBy(p => p.Key)))
                 throw new InvalidDataException("Mission row repair verification failed.");
-        }, changed: ["QuestSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["QuestSaveData"]));
+        });
         return damaged;
     }
 

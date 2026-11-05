@@ -13,7 +13,7 @@ public sealed class EditingPerformanceTests
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    public void IncrementalOwnershipMatchesFullReaderAcrossStructuralEditsAndUndo()
+    public void EditsKeepOwnershipCurrentAndRefuseUnrelatedChanges()
     {
         string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
@@ -27,17 +27,17 @@ public sealed class EditingPerformanceTests
             for (int i = 0; i < full.Length; i++)
             {
                 var a = full[i]; var b = document.Items[i];
-                Assert.AreEqual((a.KeyOffset, a.QuantityOffset, a.EnchantOffset, a.NumberOffset, a.RecordStart, a.RecordEnd),
-                    (b.KeyOffset, b.QuantityOffset, b.EnchantOffset, b.NumberOffset, b.RecordStart, b.RecordEnd));
-                CollectionAssert.AreEqual(a.Sockets.ScalarFields.ToArray(), b.Sockets.ScalarFields.ToArray());
+                Assert.AreEqual((a.KeyOffset, a.QuantityOffset, a.EnchantOffset, a.RecordOffset), (b.KeyOffset, b.QuantityOffset, b.EnchantOffset, b.RecordOffset));
                 Assert.AreEqual(JsonSerializer.Serialize(a.Sockets.Slots.Select(s => s.Record)),
                     JsonSerializer.Serialize(b.Sockets.Slots.Select(s => s.Record)));
             }
             var corrupt = (byte[])raw.Clone();
             var item = document.Items.First();
             corrupt[item.KeyOffset] ^= 1;
-            Assert.Throws<InvalidDataException>(() => Inventory.Refresh(raw, corrupt, document.Layout, document.Layout,
-                document.Items, Guid.NewGuid(), ["KnowledgeSaveData"]));
+            Assert.Throws<InvalidDataException>(() => document.Transact(corrupt, ["KnowledgeSaveData"]));
+            byte[] schema = (byte[])raw.Clone();
+            schema[20 + 4] ^= 1;
+            Assert.Throws<InvalidDataException>(() => document.Transact(schema, ["KnowledgeSaveData"]));
         }
         var stale = document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         document.SetSockets(stale, [0, 0]);

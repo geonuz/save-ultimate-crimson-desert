@@ -93,12 +93,11 @@ internal sealed class ParcReader
         return type;
     }
 
-    private static void Fill(SaveField holder, ParcType type, int payload, uint size, SaveField[] fields)
+    private static void Fill(SaveField holder, ParcType type, int payload, SaveField[] fields)
     {
         holder.ChildTypeName = type.Name;
         holder.ChildMaskByteCount = MaskSize(type);
         holder.ChildPayloadOffset = payload;
-        holder.ChildSizeU32 = (int)size;
         holder.ChildFields = fields;
     }
 
@@ -118,7 +117,7 @@ internal sealed class ParcReader
         if (size != (uint)(end - payload)) throw new InvalidDataException($"{type.Name} at {start} does not end after its last field.");
         pointers?.Add(payload - 4);
         sizes?.Add(end);
-        if (holder is not null) Fill(holder, type, payload, size, fields);
+        if (holder is not null) Fill(holder, type, payload, fields);
         return end + 4;
     }
 
@@ -146,7 +145,7 @@ internal sealed class ParcReader
             lost |= definition.Kind is not 0 and not 2 || definition.Size == 0 || definition.Size > end - cursor;
             if (!lost) fields[i].EndOffset = cursor += definition.Size;
         }
-        Fill(row, type, payload, (uint)(end - payload), fields);
+        Fill(row, type, payload, fields);
         return end + 4;
     }
 
@@ -239,8 +238,6 @@ internal sealed class ParcReader
         if (field is not null)
         {
             field.ListElements = elements;
-            field.ListCount = (int)count;
-            field.ListHeaderSize = ListHeaderSize;
         }
         return cursor;
     }

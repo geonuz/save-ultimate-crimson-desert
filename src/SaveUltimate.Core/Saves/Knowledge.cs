@@ -73,29 +73,27 @@ public sealed partial class SaveDocument
         {
             var patches = list.Elements("KnowledgeElementSaveData").Where(r => changes.ContainsKey((uint)r.ChildFields.Named("_key").Scalar(blob, "KnowledgeKey", 4)))
                 .Select(r => CreatePatch(r.ChildFields.Named("_level").StartOffset,
-                    BitConverter.GetBytes(changes[(uint)r.ChildFields.Named("_key").Scalar(blob, "KnowledgeKey", 4)])) with { CheckedScalar = true }).ToArray();
+                    BitConverter.GetBytes(changes[(uint)r.ChildFields.Named("_key").Scalar(blob, "KnowledgeKey", 4)]))).ToArray();
             byte[] fixedCandidate = CopyForEdit();
             foreach (var patch in patches) patch.After.CopyTo(fixedCandidate, patch.Offset);
-            // Typed four-byte edits preserve all addresses; validate dependent skills before committing.
+            // Validate dependent skills before committing.
             var levels = KnowledgeLevels(fixedCandidate, block);
             var skills = SkillState.Read(fixedCandidate, block, Items);
             Edit(patches);
             return (levels, skills);
         }
         byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, KnowledgeEdit(Layout, list, changes));
-        var snapshots = PrepareSnapshots(blob, candidate);
         (IReadOnlyDictionary<uint, uint> Levels, SkillState Skills) result = default;
-        Commit(candidate, items =>
+        Transact(candidate, ["KnowledgeSaveData"], (layout, items) =>
         {
-            var current = SaveRecords.Read(candidate, Layout.Reparse(candidate, blob), "KnowledgeSaveData");
+            var current = SaveRecords.Read(candidate, layout, "KnowledgeSaveData");
             var after = KnowledgeLevels(candidate, current);
             var expected = new Dictionary<uint, uint>(before);
             foreach (var p in changes) expected[p.Key] = p.Value;
             result = (after, SkillState.Read(candidate, current, items));
             if (after.Count != expected.Count || expected.Any(p => !after.TryGetValue(p.Key, out uint value) || value != p.Value))
                 throw new InvalidDataException("Knowledge edit verification failed.");
-        }, changed: ["KnowledgeSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["KnowledgeSaveData"]));
+        });
         return result;
     }
     private static ListEdit KnowledgeEdit(ParcLayout layout, SaveField list, Dictionary<uint, uint> changes)

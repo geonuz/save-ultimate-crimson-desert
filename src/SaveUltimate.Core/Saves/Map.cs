@@ -37,7 +37,7 @@ public sealed partial class SaveDocument
     private static MapFog ReadFog(byte[] raw, ParcLayout layout)
     {
         var parent = SaveRecords.Read(raw, layout, "FogSaveData").Fields.Named("_fogRLESaveData");
-        if (!parent.Present || parent.ChildUndecodedRanges.Length != 0) throw new InvalidDataException("Unsupported fog record.");
+        if (!parent.Present) throw new InvalidDataException("Unsupported fog record.");
         (int Offset, byte[] Bytes) Array(string name, string type, int size)
         {
             var f = parent.ChildFields.Named(name);
@@ -94,14 +94,14 @@ public sealed partial class SaveDocument
         }
         return result;
     }
-    private static SaveField DiscoveryList(byte[] raw, ParcLayout layout) => SaveRecords.ReadLists(raw, layout,
-        "DiscoveredLevelGimmickSceneObjectSaveData", "_discoveredLevelGimmickSceneObjectSaveDataList").Fields.Named("_discoveredLevelGimmickSceneObjectSaveDataList");
+    private static SaveField DiscoveryList(byte[] raw, ParcLayout layout) => SaveRecords.Read(raw, layout,
+        "DiscoveredLevelGimmickSceneObjectSaveData").Fields.Named("_discoveredLevelGimmickSceneObjectSaveDataList");
     public MapState ReadMap() => new(ReadFog(blob, Layout), ReadDiscoveries(blob, DiscoveryList(blob, Layout)), ReadKnowledge(), ReadChallenges());
     public MapFog RevealMap()
     {
         var fog = ReadFog(blob, Layout);
         if (fog.Full) return fog;
-        var patch = CreatePatch(fog.Offset, Enumerable.Repeat((byte)255, fog.Codes.Length).ToArray()) with { CheckedScalar = true };
+        var patch = CreatePatch(fog.Offset, Enumerable.Repeat((byte)255, fog.Codes.Length).ToArray());
         byte[] candidate = CopyForEdit(); patch.After.CopyTo(candidate, patch.Offset);
         var after = ReadFog(candidate, Layout);
         if (!after.Full) throw new InvalidDataException("Fog verification failed.");
@@ -116,61 +116,41 @@ public sealed partial class SaveDocument
         var missing = action.Scenes.Except(before.Keys).Order(StringComparer.Ordinal).ToArray();
         var repair = action.Scenes.Where(s => before.TryGetValue(s, out var r) && r.Pivot is null && action.Pivots?.ContainsKey(s) == true).ToHashSet();
         if (missing.Length == 0 && repair.Count == 0) return ([], before);
-        int index = layout.Types.Select((t, i) => (t, i)).Single(p => p.t.Name == "LevelGimmickSceneObjectElementSaveData").i;
+        int index = layout.TypeIndex("LevelGimmickSceneObjectElementSaveData");
         var type = layout.Types[index];
         if (!type.Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(new[]
             { ("_levelGimmickSceneObjectInfoKey", "LevelGimmickSceneObjectInfoKey", 0, 4), ("_sceneObjectUuid", "uint4", 0, 16),
-              ("_fogPivotPosition", "float3", 0, 12), ("_isCompleted", "bool", 0, 1), ("_isDiscoverd", "bool", 0, 1) }) ||
-            list.ListHeaderSize != 18 || !string.IsNullOrEmpty(list.Note) || before.Count + missing.Length > 0xffffff)
+              ("_fogPivotPosition", "float3", 0, 12), ("_isCompleted", "bool", 0, 1), ("_isDiscoverd", "bool", 0, 1) }))
             throw new InvalidDataException("Unsupported discovery insertion layout.");
-        byte[] header = raw.AsSpan(list.StartOffset, 18).ToArray();
-        if (header[0] != 0 || header.Skip(4).Any(b => b != 0) || (header[1] | header[2] << 8 | header[3] << 16) != before.Count)
-            throw new InvalidDataException("Unsupported discovery header.");
         var expected = new Dictionary<string, MapDiscovery>(before);
-        var chunks = new List<byte[]>();
+        var rows = new List<Dictionary<string, ReadOnlyMemory<byte>>>();
         foreach (var row in list.ListElements)
         {
-            int start = row.StartOffset, end = row.EndOffset;
-            if (row.ChildMaskByteCount != 1 || row.ChildPayloadOffset != start + 18 || row.ChildUndecodedRanges.Length != 0 ||
-                BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(start)) != 1 || BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(start + 3)) != index ||
-                raw[start + 5] != 0 || raw.AsSpan(start + 6, 8).ToArray().Any(b => b != 255) ||
-                BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(start + 14)) != start + 18 ||
-                BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(end - 4)) != end - start - 22)
-                throw new InvalidDataException("Unsupported discovery record.");
-            var uuid = row.ChildFields.Named("_sceneObjectUuid");
-            string id = $"{row.ChildFields.Named("_levelGimmickSceneObjectInfoKey").Scalar(raw, "LevelGimmickSceneObjectInfoKey", 4)}:{Convert.ToHexString(raw.AsSpan(uuid.StartOffset, 16)).ToLowerInvariant()}";
-            byte[] chunk = raw.AsSpan(start, end - start).ToArray();
+            var values = RecordLists.Fields(raw, type, row) ?? throw new InvalidDataException("Unsupported discovery record.");
+            string id = $"{BinaryPrimitives.ReadUInt32LittleEndian(values["_levelGimmickSceneObjectInfoKey"].Span)}:{Convert.ToHexString(values["_sceneObjectUuid"].Span).ToLowerInvariant()}";
             if (repair.Contains(id))
             {
-                int offset = uuid.EndOffset - start;
                 byte[] pivot = Convert.FromHexString(action.Pivots![id]);
                 if (pivot.Length != 12) throw new InvalidDataException("Invalid reference pivot.");
-                chunk = [.. chunk.AsSpan(0, offset), .. pivot, .. chunk.AsSpan(offset)];
-                chunk[2] |= 4;
-                BinaryPrimitives.WriteUInt32LittleEndian(chunk.AsSpan(chunk.Length - 4), (uint)chunk.Length - 22);
+                values["_fogPivotPosition"] = pivot;
                 expected[id] = expected[id] with { Pivot = action.Pivots[id] };
             }
-            chunks.Add(chunk);
+            rows.Add(values);
         }
         foreach (string id in missing)
         {
             var parts = id.Split(':'); byte[] uuid = Convert.FromHexString(parts[1]);
             byte[] pivot = action.Pivots?.TryGetValue(id, out var p) == true ? Convert.FromHexString(p) : [];
             if (uuid.Length != 16 || pivot.Length is not 0 and not 12) throw new InvalidDataException("Invalid map identity.");
-            using var stream = new MemoryStream(); using var writer = new BinaryWriter(stream);
-            writer.Write((ushort)1); writer.Write((byte)(pivot.Length == 0 ? 3 : 7)); writer.Write((ushort)index);
-            writer.Write((byte)0); writer.Write(ulong.MaxValue); writer.Write(0u); writer.Write(0u);
-            writer.Write(uint.Parse(parts[0], System.Globalization.CultureInfo.InvariantCulture)); writer.Write(uuid); writer.Write(pivot); writer.Write((uint)(24 + pivot.Length));
-            chunks.Add(stream.ToArray()); expected.Add(id, new(null, null, pivot.Length == 0 ? null : Convert.ToHexString(pivot).ToLowerInvariant()));
+            var values = new Dictionary<string, ReadOnlyMemory<byte>>
+            {
+                ["_levelGimmickSceneObjectInfoKey"] = BitConverter.GetBytes(uint.Parse(parts[0], System.Globalization.CultureInfo.InvariantCulture)), ["_sceneObjectUuid"] = uuid
+            };
+            if (pivot.Length != 0) values["_fogPivotPosition"] = pivot;
+            rows.Add(values);
+            expected.Add(id, new(null, null, pivot.Length == 0 ? null : Convert.ToHexString(pivot).ToLowerInvariant()));
         }
-        int count = before.Count + missing.Length; for (int i = 0; i < 3; i++) header[1 + i] = (byte)(count >> (8 * i));
-        byte[] Encode(int start)
-        {
-            using var stream = new MemoryStream(); stream.Write(header);
-            foreach (var chunk in chunks) { BinaryPrimitives.WriteUInt32LittleEndian(chunk.AsSpan(14), checked((uint)(start + stream.Length + 18))); stream.Write(chunk); }
-            return stream.ToArray();
-        }
-        return ([(list.StartOffset, list.EndOffset, Encode)], expected);
+        return ([(list.StartOffset, list.EndOffset, start => RecordLists.ListBytes(start, type, index, rows))], expected);
     }
 
     public (IReadOnlyDictionary<uint, uint> Levels, SkillState Skills) LearnMapLocations(int actionIndex)
@@ -205,16 +185,12 @@ public sealed partial class SaveDocument
         if (regions.Count == 0) return (ReadMap(), ReadSkills());
         byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
         foreach (var p in changes) levels[p.Key] = p.Value;
-        regions.Clear(); edits.Clear();
-        var snapshots = PrepareSnapshots(blob, candidate);
         (MapState Map, SkillState Skills) result = default;
-        string[] classes = ["KnowledgeSaveData", "QuestSaveData", "DiscoveredLevelGimmickSceneObjectSaveData"];
-        Commit(candidate, items =>
+        Transact(candidate, ["KnowledgeSaveData", "QuestSaveData", "DiscoveredLevelGimmickSceneObjectSaveData"], (layout, items) =>
         {
-            var layout = Layout.Reparse(candidate, blob);
             var block = SaveRecords.Read(candidate, layout, "KnowledgeSaveData");
             var afterKnowledge = KnowledgeLevels(candidate, block);
-            var progress = ChallengeState.Read(candidate, SaveRecords.ReadLists(candidate, layout, "QuestSaveData", "_questStateList", "_missionStateList"));
+            var progress = ChallengeState.Read(candidate, SaveRecords.Read(candidate, layout, "QuestSaveData"));
             var after = new MapState(ReadFog(candidate, layout), ReadDiscoveries(candidate, DiscoveryList(candidate, layout)), afterKnowledge, progress);
             if (!levels.OrderBy(p => p.Key).SequenceEqual(afterKnowledge.OrderBy(p => p.Key)) ||
                 !discoveries.OrderBy(p => p.Key).SequenceEqual(after.Discoveries.OrderBy(p => p.Key)) ||
@@ -222,8 +198,7 @@ public sealed partial class SaveDocument
                     !expectedProgress.Mission.OrderBy(p => p.Key).SequenceEqual(progress.Mission.OrderBy(p => p.Key))))
                 throw new InvalidDataException("Map transaction verification failed.");
             result = (after, SkillState.Read(candidate, block, items));
-        }, changed: classes);
-        undo.Push((null, snapshots.Before, snapshots.After, classes));
+        });
         return result;
     }
 }

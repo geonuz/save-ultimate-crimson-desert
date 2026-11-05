@@ -23,20 +23,17 @@ public sealed partial class SaveDocument
 {
     private static (Companion Value, int MaskOffset, int NameIndex, int Start, int End)[] CompanionRecords(byte[] raw, ParcLayout layout)
     {
-        var list = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", "_mercenaryDataList").Fields.Named("_mercenaryDataList");
+        var list = SaveRecords.Read(raw, layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
         var seen = new HashSet<ulong>();
         return list.Elements("MercenarySaveData").Select(row =>
         {
             uint key = (uint)row.ChildFields.Named("_characterKey").Scalar(raw, "CharacterKey", 4);
             ulong number = row.ChildFields.Named("_mercenaryNo").Scalar(raw, "MercenaryNo", 8);
             var name = row.ChildFields.Named("_mercenaryName");
-            if (!seen.Add(number) || row.ChildUndecodedRanges.Length != 0 || name.TypeName != "staticstringA" || name.MetaKind != 1 ||
-                row.ChildPayloadOffset != row.StartOffset + 17 + row.ChildMaskByteCount)
+            if (!seen.Add(number) || name.TypeName != "staticstringA" || name.MetaKind != 1)
                 throw new InvalidDataException("Unsupported companion record.");
-            int insert = name.StartOffset;
-            if (insert < row.ChildPayloadOffset + 4 || insert > row.EndOffset - 4) throw new InvalidDataException("Invalid companion name position.");
             return (new Companion(number, key, name.Present ? name.Text(raw) : null),
-                row.StartOffset + 2 + name.FieldIndex / 8, name.FieldIndex, insert, name.Present ? name.EndOffset : insert);
+                row.StartOffset + 2 + name.FieldIndex / 8, name.FieldIndex, name.StartOffset, name.EndOffset);
         }).ToArray();
     }
     public Companion[] ReadCompanions() => CompanionRecords(blob, Layout).Select(r => r.Value).ToArray();
@@ -54,43 +51,24 @@ public sealed partial class SaveDocument
             throw new InvalidOperationException("The companion selection changed or is read-only.");
         var targets = selected.Where(r => r.Name != name).ToArray();
         if (targets.Length == 0) return records.Select(r => r.Value).ToArray();
-        var replacements = new List<(int Start, int End, byte[] Bytes)>();
-        var masks = new List<(int Offset, byte Bit, bool Present)>();
+        byte[] bytes = name is null ? [] : new UTF8Encoding(false, true).GetBytes(name);
+        if (name is not null) bytes = [.. BitConverter.GetBytes(bytes.Length), .. bytes];
+        var regions = new List<(int Start, int End, Func<int, byte[]> Encode)>();
         foreach (var target in targets)
         {
             var row = current[target.Number];
-            byte[] bytes = name is null ? [] : new UTF8Encoding(false, true).GetBytes(name);
-            if (name is not null) bytes = [.. BitConverter.GetBytes(bytes.Length), .. bytes];
-            replacements.Add((row.Start, row.End, bytes));
-            masks.Add((row.MaskOffset, (byte)(1 << (row.NameIndex % 8)), name is not null));
+            byte bit = (byte)(1 << (row.NameIndex % 8)), mask = name is not null ? (byte)(blob[row.MaskOffset] | bit) : (byte)(blob[row.MaskOffset] & ~bit);
+            regions.Add((row.MaskOffset, row.MaskOffset + 1, _ => [mask]));
+            regions.Add((row.Start, row.End, _ => bytes));
         }
         var expected = records.Select(r => targets.Any(t => t.Number == r.Value.Number) ? r.Value with { Name = name } : r.Value).ToArray();
-        bool fixedSize = replacements.All(r => r.End - r.Start == r.Bytes.Length);
-        byte[] candidate;
-        if (fixedSize)
-        {
-            candidate = CopyForEdit();
-            foreach (var r in replacements) r.Bytes.CopyTo(candidate, r.Start);
-        }
-        else candidate = RecordLists.RewriteRegions(blob, EditBuffer, replacements.Select(r => (r.Start, r.End, (Func<int, byte[]>)(_ => r.Bytes))));
-        foreach (var mask in masks)
-        {
-            int offset = mask.Offset + replacements.Where(r => r.End <= mask.Offset).Sum(r => r.Bytes.Length - (r.End - r.Start));
-            candidate[offset] = mask.Present ? (byte)(candidate[offset] | mask.Bit) : (byte)(candidate[offset] & ~mask.Bit);
-        }
+        byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
         Companion[] after = [];
-        void Verify()
+        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
         {
-            after = CompanionRecords(candidate, fixedSize ? Layout : Layout.Reparse(candidate, blob)).Select(r => r.Value).ToArray();
+            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
             if (!after.SequenceEqual(expected)) throw new InvalidDataException("Companion name verification failed.");
-        }
-        if (fixedSize) { Verify(); Edit(replacements.Select(r => CreatePatch(r.Start, r.Bytes) with { CheckedScalar = true })); }
-        else
-        {
-            var snapshots = PrepareSnapshots(blob, candidate);
-            Commit(candidate, _ => Verify(), changed: ["MercenaryClanSaveData"]);
-            undo.Push((null, snapshots.Before, snapshots.After, ["MercenaryClanSaveData"]));
-        }
+        });
         return after;
     }
 }
@@ -101,13 +79,12 @@ public sealed partial class SaveDocument
 {
     public const uint RobotWorker = 1000006;
 
-    public Dictionary<ulong, CompanionDetail> ReadCompanionDetails() => SaveRecords.ReadLists(blob, Layout, "MercenaryClanSaveData", "_mercenaryDataList")
+    public Dictionary<ulong, CompanionDetail> ReadCompanionDetails() => SaveRecords.Read(blob, Layout, "MercenaryClanSaveData")
         .Fields.Named("_mercenaryDataList").Elements("MercenarySaveData").ToDictionary(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8), r => Detail(r.ChildFields));
 
     private CompanionDetail Detail(SaveField[] row)
     {
-        // Mercenary HP and MP are present but empty in game saves; only stored values are shown.
-        ulong? Value(string name, string type, int size) => row.Named(name) is { Present: true } f && f.EndOffset - f.StartOffset == size ? f.Scalar(blob, type, size) : null;
+        ulong? Value(string name, string type, int size) => row.Named(name) is { Present: true } f ? f.Scalar(blob, type, size) : null;
         var level = row.Named("_levelData");
         var levels = level.Present ? level.ChildFields : [];
         return new(levels.FirstOrDefault(f => f.Name == "_level" && f.Present)?.Scalar(blob, "TLevel", 4) is ulong l ? (uint)l : null,
@@ -122,7 +99,7 @@ public sealed partial class SaveDocument
     // Grey-0 robot workers are records that nothing else references, so a copy or removal touches only this list.
     private Companion[] EditRobotWorkers(Companion? remove)
     {
-        var list = SaveRecords.ReadLists(blob, Layout, "MercenaryClanSaveData", "_mercenaryDataList").Fields.Named("_mercenaryDataList");
+        var list = SaveRecords.Read(blob, Layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
         var rows = list.Elements("MercenarySaveData");
         var before = ReadCompanions();
         ulong NumberOf(SaveField r) => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8);
@@ -132,14 +109,9 @@ public sealed partial class SaveDocument
         if (remove is not null && (remove.Key != RobotWorker || robots.Length < 2 || !before.Contains(remove)))
             throw new InvalidOperationException("This is the last Grey-0 or the selection changed. Load the save again.");
         var template = robots[^1];
-        // Counts follow Encode in RecordLists: 18-byte headers keep 3 count bytes at 1, 19-byte headers 4 at 2.
-        int countStart = list.ListHeaderSize switch { 18 => 1, 19 => 2, _ => throw new InvalidDataException("Unsupported companion list header.") };
-        int countSize = list.ListHeaderSize - 15;
-        uint count = 0;
-        for (int i = 0; i < countSize; i++) count |= (uint)blob[list.StartOffset + countStart + i] << (8 * i);
-        if (count != rows.Length) throw new InvalidDataException("Unsupported companion list count.");
-        byte[] countBytes = BitConverter.GetBytes(remove is null ? count + 1 : count - 1)[..countSize];
-        var regions = new List<(int Start, int End, Func<int, byte[]> Encode)> { (list.StartOffset + countStart, list.StartOffset + countStart + countSize, _ => countBytes) };
+        // A list header holds the marker byte, then the count.
+        byte[] countBytes = BitConverter.GetBytes(rows.Length + (remove is null ? 1 : -1));
+        var regions = new List<(int Start, int End, Func<int, byte[]> Encode)> { (list.StartOffset + 1, list.StartOffset + 5, _ => countBytes) };
         Companion[] expected;
         if (remove is null)
         {
@@ -157,14 +129,12 @@ public sealed partial class SaveDocument
             expected = before.Where(c => c.Number != remove.Number).ToArray();
         }
         byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
-        var snapshots = PrepareSnapshots(blob, candidate);
         Companion[] after = [];
-        Commit(candidate, _ =>
+        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
         {
-            after = CompanionRecords(candidate, Layout.Reparse(candidate, blob)).Select(r => r.Value).ToArray();
+            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
             if (!after.SequenceEqual(expected)) throw new InvalidDataException("Grey-0 verification failed.");
-        }, changed: ["MercenaryClanSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["MercenaryClanSaveData"]));
+        });
         return after;
     }
 
@@ -176,14 +146,8 @@ public sealed partial class SaveDocument
         void Walk(SaveField field)
         {
             if (!field.Present) return;
-            if (field.ChildUndecodedRanges.Length != 0 || field.ListElements.Length != field.ListCount) throw new InvalidDataException("Unsupported companion record.");
             if (field.ChildPayloadOffset != 0)
-            {
-                int pointer = field.ChildPayloadOffset - 4;
-                if (pointer < record.StartOffset || pointer + 4 > record.EndOffset || BinaryPrimitives.ReadUInt32LittleEndian(blob.AsSpan(pointer)) != field.ChildPayloadOffset)
-                    throw new InvalidDataException("Unsupported companion record.");
-                BinaryPrimitives.WriteUInt32LittleEndian(copy.AsSpan(pointer - record.StartOffset), checked((uint)(field.ChildPayloadOffset + start - record.StartOffset)));
-            }
+                BinaryPrimitives.WriteUInt32LittleEndian(copy.AsSpan(field.ChildPayloadOffset - 4 - record.StartOffset), checked((uint)(field.ChildPayloadOffset + start - record.StartOffset)));
             foreach (var child in field.ChildFields) Walk(child);
             foreach (var element in field.ListElements) Walk(element);
         }
@@ -200,20 +164,18 @@ public sealed partial class SaveDocument
         var before = ReadCompanions();
         if (first.Number == second.Number || first.Group != second.Group || first.Group is not ("pet" or "special") || !before.Contains(first) || !before.Contains(second))
             throw new InvalidOperationException("The order cannot change or the selection changed. Load the save again.");
-        var rows = SaveRecords.ReadLists(blob, Layout, "MercenaryClanSaveData", "_mercenaryDataList").Fields.Named("_mercenaryDataList").Elements("MercenarySaveData");
+        var rows = SaveRecords.Read(blob, Layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList").Elements("MercenarySaveData");
         SaveField Row(Companion c) => rows.Single(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8) == c.Number);
         SaveField a = Row(first), b = Row(second);
         byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer,
             [(a.StartOffset, a.EndOffset, start => MovedRecord(b, start, first.Number)), (b.StartOffset, b.EndOffset, start => MovedRecord(a, start, second.Number))]);
         var expected = before.Select(c => c.Number == first.Number ? second with { Number = first.Number } : c.Number == second.Number ? first with { Number = second.Number } : c).ToArray();
-        var snapshots = PrepareSnapshots(blob, candidate);
         Companion[] after = [];
-        Commit(candidate, _ =>
+        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
         {
-            after = CompanionRecords(candidate, Layout.Reparse(candidate, blob)).Select(r => r.Value).ToArray();
+            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
             if (!after.SequenceEqual(expected)) throw new InvalidDataException("Companion order verification failed.");
-        }, changed: ["MercenaryClanSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["MercenaryClanSaveData"]));
+        });
         return after;
     }
 }

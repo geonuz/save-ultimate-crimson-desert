@@ -19,12 +19,7 @@ public sealed partial class SaveDocument
     private static Dictionary<uint, (float Size, SaveField Field)> FishRecords(byte[] raw, SaveField list)
     {
         var result = new Dictionary<uint, (float, SaveField)>();
-        if (!list.Present)
-        {
-            if (list.EndOffset - list.StartOffset != 1 || raw[list.StartOffset] != 1)
-                throw new InvalidDataException("Unsupported absent catch list.");
-            return result;
-        }
+        if (!list.Present) return result;
         foreach (var row in list.Elements("MiniGameRecordSaveData"))
         {
             uint key = checked((uint)row.ChildFields.Named("_key").Scalar(raw, "KnowledgeKey", 4));
@@ -46,7 +41,7 @@ public sealed partial class SaveDocument
 
     public FishingRecord[] ReadFishing()
     {
-        var list = SaveRecords.ReadLists(blob, Layout, "ContentsMiscSaveData", "_miniGameRecords").Fields.Named("_miniGameRecords");
+        var list = SaveRecords.Read(blob, Layout, "ContentsMiscSaveData").Fields.Named("_miniGameRecords");
         return FishRows(Layout, list, FishRecords(blob, list), ReadKnowledge());
     }
 
@@ -58,7 +53,7 @@ public sealed partial class SaveDocument
         if (!double.IsFinite(sizeCm) || sizeCm <= 0 || sizeCm > 1000 || (float)sizeCm <= 0)
             throw new ArgumentOutOfRangeException(nameof(sizeCm), "Size must be greater than 0 and at most 1000 cm.");
         float size = (float)sizeCm;
-        var list = SaveRecords.ReadLists(blob, Layout, "ContentsMiscSaveData", "_miniGameRecords").Fields.Named("_miniGameRecords");
+        var list = SaveRecords.Read(blob, Layout, "ContentsMiscSaveData").Fields.Named("_miniGameRecords");
         var records = FishRecords(blob, list);
         var levels = ReadKnowledge();
         if (levels.GetValueOrDefault(key) == 0) throw new InvalidOperationException("Learn the fish knowledge first.");
@@ -66,33 +61,29 @@ public sealed partial class SaveDocument
             throw new InvalidOperationException("Catch one fish in game, save, and load the save again.");
         if (records.TryGetValue(key, out var existing))
         {
-            // The typed float field was checked above; fixed-size edits preserve all addresses.
-            Edit([CreatePatch(existing.Field.StartOffset, BitConverter.GetBytes(size)) with { CheckedScalar = true }]);
+            Edit([CreatePatch(existing.Field.StartOffset, BitConverter.GetBytes(size))]);
             records[key] = (size, existing.Field);
             return FishRows(Layout, list, records, levels);
         }
         var type = Layout.Types.Single(t => t.Name == "MiniGameRecordSaveData");
         if (!type.Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(new[]
-            { ("_key", "KnowledgeKey", 0, 4), ("_record", "float", 0, 4) }) || list.ListHeaderSize != 18)
+            { ("_key", "KnowledgeKey", 0, 4), ("_record", "float", 0, 4) }))
             throw new InvalidDataException("Unsupported catch record insertion layout.");
         byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer,
             new ListEdit(list, "MiniGameRecordSaveData", "_key", new()
             {
                 [key] = new() { ["_key"] = new("KnowledgeKey", 4, key), ["_record"] = new("float", 4, BitConverter.SingleToUInt32Bits(size)) }
             }));
-        var snapshots = PrepareSnapshots(blob, candidate);
         FishingRecord[] result = [];
-        Commit(candidate, _ =>
+        Transact(candidate, ["ContentsMiscSaveData"], (layout, _) =>
         {
-            var layout = Layout.Reparse(candidate, blob);
-            var current = SaveRecords.ReadLists(candidate, layout, "ContentsMiscSaveData", "_miniGameRecords").Fields.Named("_miniGameRecords");
+            var current = SaveRecords.Read(candidate, layout, "ContentsMiscSaveData").Fields.Named("_miniGameRecords");
             var after = FishRecords(candidate, current);
             if (after.Count != records.Count + 1 || after.GetValueOrDefault(key).Size != size ||
                 records.Any(p => !after.TryGetValue(p.Key, out var value) || value.Size != p.Value.Size))
                 throw new InvalidDataException("Catch record verification failed.");
             result = FishRows(layout, current, after, levels);
-        }, changed: ["ContentsMiscSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["ContentsMiscSaveData"]));
+        });
         return result;
     }
 }

@@ -34,7 +34,7 @@ public sealed partial class SaveDocument
     {
         static FriendshipValue Value(byte[] raw, SaveField parent)
         {
-            if (!parent.Present || parent.ChildTypeName != "ExperienceLevelSaveData" || parent.ChildUndecodedRanges.Length != 0)
+            if (!parent.Present || parent.ChildTypeName != "ExperienceLevelSaveData")
                 throw new InvalidDataException("Unsupported friendship level.");
             var level = parent.ChildFields.Named("_level"); var exp = parent.ChildFields.Named("_exp");
             return new(level.Present ? (uint)level.Scalar(raw, "TLevel", 4) : null,
@@ -59,7 +59,6 @@ public sealed partial class SaveDocument
         if (layout.Blocks.Any(b => b.Name == "FieldNPCSaveData"))
             foreach (var npc in SaveRecords.ReadObjects(raw, layout, "FieldNPCSaveData"))
             {
-                if (npc.UndecodedRanges.Length != 0) throw new InvalidDataException("Incomplete field NPC.");
                 uint key = (uint)npc.Fields.Named("_characterKey").Scalar(raw, "CharacterKey", 4);
                 if (!local.TryGetValue(key, out var values)) local[key] = values = [];
                 values.Add(Value(raw, npc.Fields.Named("_friendly")));
@@ -90,7 +89,7 @@ public sealed partial class SaveDocument
     private (uint Key, int Offset)? LoveStoryCount(byte[] raw, uint key, ulong bond)
     {
         if (!LoveStoryMissions.TryGetValue(key, out var keys)) return null;
-        var list = SaveRecords.ReadLists(raw, Layout, "QuestSaveData", "_questStateList", "_missionStateList").Fields.Named("_missionStateList");
+        var list = SaveRecords.Read(raw, Layout, "QuestSaveData").Fields.Named("_missionStateList");
         var matches = list.Elements("MissionStateData").Select(r => (Row: r, Key: (uint)r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4)))
             .Where(r => keys.Contains(r.Key) && r.Row.ChildFields.Named("_state") is { Present: true } state && state.Scalar(raw, "QuestStateType", 1) == 2 &&
                 r.Row.ChildFields.Named("_completeCount") is { Present: true } count && count.Scalar(raw, "uint32", 4) == bond).ToArray();
@@ -109,16 +108,16 @@ public sealed partial class SaveDocument
         // Love-story stages already passed stay complete, so a lower bond would leave the quest ahead of it.
         if (playable is not null && (ulong)value < expectedValue) throw new InvalidOperationException("Bond cannot be lowered below its current value.");
         var patches = gauge.Fields.Prepend(gauge.Global).Where(v => v.Value != (ulong)value)
-            .Select(v => CreatePatch(v.Offset, BitConverter.GetBytes((ulong)value)) with { CheckedScalar = true }).ToList();
+            .Select(v => CreatePatch(v.Offset, BitConverter.GetBytes((ulong)value))).ToList();
         var mission = playable == 1 ? LoveStoryCount(blob, key, expectedValue) : null;
         uint count = mission is { } target && BondForty.Contains(target.Key) ? (uint)Math.Min(value, 40) : (uint)value;
-        if (mission is { } m) patches.Add(CreatePatch(m.Offset, BitConverter.GetBytes(count)) with { CheckedScalar = true });
+        if (mission is { } m) patches.Add(CreatePatch(m.Offset, BitConverter.GetBytes(count)));
         if (patches.Count == 0) return before;
         byte[] candidate = CopyForEdit(); foreach (var p in patches) p.After.CopyTo(candidate, p.Offset);
         var after = ReadFriendship(candidate, Layout);
         var changed = Find(after, key, playable)!;
         if (changed.Value != (ulong)value || changed.NeedsSync) throw new InvalidDataException("NPC synchronization failed.");
-        if (mission is { } synced && ChallengeState.Read(candidate, SaveRecords.ReadLists(candidate, Layout, "QuestSaveData", "_questStateList", "_missionStateList")).Mission[synced.Key].Count != count) throw new InvalidDataException("Love-story mission synchronization failed.");
+        if (mission is { } synced && ChallengeState.Read(candidate, SaveRecords.Read(candidate, Layout, "QuestSaveData")).Mission[synced.Key].Count != count) throw new InvalidDataException("Love-story mission synchronization failed.");
         Edit(patches); return after;
     }
 }

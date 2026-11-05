@@ -8,6 +8,13 @@ public sealed record ParcType(string Name, IReadOnlyList<ParcField> Fields);
 public sealed record ParcBlock(int Index, int TypeIndex, string Name, int Offset, int Size);
 public sealed record ParcLayout(IReadOnlyList<ParcType> Types, IReadOnlyList<ParcBlock> Blocks, int SchemaEnd)
 {
+    internal int TypeIndex(string name)
+    {
+        for (int i = 0; i < Types.Count; i++)
+            if (Types[i].Name == name) return i;
+        throw new InvalidDataException($"The save has no {name} type.");
+    }
+
     public static ParcLayout Parse(ReadOnlySpan<byte> blob)
     {
         var reader = new ByteReader(blob);

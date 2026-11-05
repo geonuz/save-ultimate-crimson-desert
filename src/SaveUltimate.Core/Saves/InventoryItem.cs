@@ -40,24 +40,10 @@ public sealed class InventoryItem
     }
     internal int QuantityOffset { get; }
     internal int KeyOffset { get; }
-    internal int NumberOffset { get; init; }
-    internal int RecordStart { get; init; }
-    public int RecordOffset => RecordStart;
-    internal int RecordEnd { get; init; }
+    public int RecordOffset { get; internal init; }
     internal Guid Snapshot { get; }
     internal InventoryItem(ulong number, uint key, ulong quantity, ushort bag, ItemSource source, int offset, int keyOffset, Guid snapshot)
         => (Number, Key, Quantity, Bag, Source, QuantityOffset, KeyOffset, Snapshot) = (number, key, quantity, bag, source, offset, keyOffset, snapshot);
-
-    internal InventoryItem RefreshScalars(byte[] raw, Guid snapshot, SocketState? sockets = null, int delta = 0) => new(Number, Key,
-        BinaryPrimitives.ReadUInt64LittleEndian(raw.AsSpan(QuantityOffset + delta)), Bag, Source, QuantityOffset + delta, KeyOffset + delta, snapshot)
-    {
-        StoreKey = StoreKey, OwnerNumber = OwnerNumber, OwnerCharacter = OwnerCharacter, OwnerName = OwnerName, OwnerSlot = OwnerSlot,
-        Slot = Slot, Endurance = Endurance, Sharpness = Sharpness, Sockets = sockets ?? (delta == 0 ? Sockets : Sockets.Relocate(delta)),
-        NumberOffset = NumberOffset + delta, RecordStart = RecordStart + delta, RecordEnd = RecordEnd + delta,
-        HoldsGearState = HoldsGearState, HoldsStackState = HoldsStackState, HoldsContents = HoldsContents,
-        EnchantOffset = EnchantOffset == 0 ? 0 : EnchantOffset + delta,
-        EnchantLevel = EnchantLevel.HasValue ? BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(EnchantOffset + delta)) : null
-    };
 }
 
 internal static class Inventory
@@ -69,40 +55,9 @@ internal static class Inventory
         _ => throw new ArgumentOutOfRangeException(nameof(source))
     };
 
-    internal static InventoryItem[] Refresh(byte[] before, byte[] after, ParcLayout oldLayout, ParcLayout layout,
-        IReadOnlyList<InventoryItem> previous, Guid snapshot, string[] changed)
-    {
-        if (oldLayout.SchemaEnd != layout.SchemaEnd || !before.AsSpan(0, oldLayout.SchemaEnd).SequenceEqual(after.AsSpan(0, layout.SchemaEnd)) ||
-            oldLayout.Blocks.Count != layout.Blocks.Count)
-            throw new InvalidDataException("Edit changed the save schema.");
-        foreach (var (old, next) in oldLayout.Blocks.Zip(layout.Blocks))
-            if (old.Name != next.Name || old.TypeIndex != next.TypeIndex || (!changed.Contains(old.Name) && old.Size != next.Size))
-                throw new InvalidDataException("Edit changed an unrelated block layout.");
-        var items = new List<InventoryItem>(previous.Count);
-        foreach (var item in previous.Where(i => !changed.Contains(ClassName(i.Source))))
-        {
-            var block = oldLayout.Blocks.Single(b => b.Name == ClassName(item.Source) &&
-                b.Offset <= item.RecordStart && item.RecordEnd <= b.Offset + b.Size);
-            int delta = layout.Blocks[block.Index].Offset - block.Offset;
-            foreach (var (offset, size, value) in new[] { (item.NumberOffset, 8, item.Number), (item.KeyOffset, 4, (ulong)item.Key), (item.QuantityOffset, 8, item.Quantity) })
-            {
-                if (offset < item.RecordStart || offset > item.RecordEnd - size)
-                    throw new InvalidDataException("Stale item field boundary.");
-                ulong Read(byte[] bytes, int pos) => size == 8 ? BinaryPrimitives.ReadUInt64LittleEndian(bytes.AsSpan(pos))
-                    : BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(pos));
-                if (Read(before, offset) != value || Read(after, offset + delta) != value)
-                    throw new InvalidDataException("Edit changed an unrelated item.");
-            }
-            items.Add(item.RefreshScalars(after, snapshot, delta: delta));
-        }
-        items.AddRange(Read(after, layout, snapshot, changed));
-        return items.OrderBy(i => i.Source).ThenBy(i => i.KeyOffset).ToArray();
-    }
-
     public static InventoryItem[] Read(byte[] raw, ParcLayout layout, Guid snapshot, string[]? classes = null)
     {
         var items = new List<InventoryItem>();
-        var positions = new HashSet<int>();
         if (classes is null || classes.Contains("InventorySaveData"))
         {
             var block = SaveRecords.Read(raw, layout, "InventorySaveData");
@@ -165,14 +120,13 @@ internal static class Inventory
                 }
                 if (fields.Named("_saveVersion").Scalar(raw, "uint32", 4) != 1)
                     throw new InvalidDataException("Unsupported item save version.");
-                SaveRecords.ValidateItem(raw, record);
                 uint itemKey = checked((uint)key.Scalar(raw, "ItemKey", 4));
                 ulong itemNumber = number.Scalar(raw, "ItemNo", 8);
                 var stack = fields.Named("_stackCount");
                 ulong quantity = stack.Scalar(raw, "TStackCount", 8);
                 if (itemKey == 0 && quantity == 0) return;
                 // 2.04.05 crew fishing stores fish in the ship's inventory with no item number (all 0xFF); those rows stay read-only.
-                if (itemKey == 0 || itemNumber == 0 || (itemNumber == ulong.MaxValue && source != ItemSource.Mercenary) || !positions.Add(stack.StartOffset))
+                if (itemKey == 0 || itemNumber == 0 || (itemNumber == ulong.MaxValue && source != ItemSource.Mercenary))
                     throw new InvalidDataException("Invalid or duplicated physical item.");
                 var enchant = fields.Named("_enchantLevel");
                 ushort level = enchant.Present ? checked((ushort)enchant.Scalar(raw, "TEnchantLevel", 2)) : ushort.MaxValue;
@@ -182,7 +136,7 @@ internal static class Inventory
                     StoreKey = storeKey, OwnerNumber = ownerNumber, OwnerCharacter = ownerCharacter,
                     OwnerName = ownerName, OwnerSlot = ownerSlot,
                     EnchantLevel = level == ushort.MaxValue ? null : level, EnchantOffset = enchant.StartOffset,
-                    NumberOffset = number.StartOffset, RecordStart = record.StartOffset, RecordEnd = record.EndOffset,
+                    RecordOffset = record.StartOffset,
                     Slot = Value("_slotNo", "TItemSlotNo"), Endurance = Value("_endurance", "TEndurance"), Sharpness = Value("_sharpness", "TEndurance"),
                     Sockets = SocketState.Read(raw, record),
                     HoldsGearState = fields.Named("_sharpness").Present || fields.Named("_itemDyeDataList").Present,

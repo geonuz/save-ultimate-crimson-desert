@@ -14,7 +14,7 @@ public sealed class PageBaselineTests
     private static string ItemLine(InventoryItem i) =>
         $"{i.Source} no={i.Number} key={i.Key} qty={i.Quantity} bag={i.Bag} store={i.StoreKey} owner={i.OwnerNumber}/{i.OwnerCharacter}/{i.OwnerName}/{i.OwnerSlot} " +
         $"slot={i.Slot} endurance={i.Endurance} sharpness={i.Sharpness} enchant={i.EnchantLevel} state={i.HoldsGearState}/{i.HoldsStackState}/{i.HoldsContents} " +
-        $"at={i.RecordStart}-{i.RecordEnd} no@{i.NumberOffset} key@{i.KeyOffset} qty@{i.QuantityOffset} enchant@{(i.EnchantLevel.HasValue ? i.EnchantOffset : 0)} " +
+        $"at={i.RecordOffset} key@{i.KeyOffset} qty@{i.QuantityOffset} enchant@{(i.EnchantLevel.HasValue ? i.EnchantOffset : 0)} " +
         $"sockets={i.Sockets.Capacity}/{i.Sockets.Unlocked}/{string.Join(',', i.Sockets.Slots.Select(s => $"{s.Key}:{s.Endurance}:{s.HasGem}"))}/{i.Sockets.Error}";
 
     private static string Friendship(NpcFriendship row)

@@ -81,14 +81,14 @@ public sealed record ChallengeState(IReadOnlyDictionary<uint, JournalRecord> Que
 
 public sealed partial class SaveDocument
 {
-    public ChallengeState ReadChallenges() => ChallengeState.Read(blob, SaveRecords.ReadLists(blob, Layout, "QuestSaveData", "_questStateList", "_missionStateList"));
+    public ChallengeState ReadChallenges() => ChallengeState.Read(blob, SaveRecords.Read(blob, Layout, "QuestSaveData"));
 
     // Rows off the game's layout are skipped; Save Doctor repairs them.
     public IReadOnlyDictionary<uint, uint[]> ReadUsedTags()
     {
         var type = Layout.Types.Single(t => t.Name == "MissionStateData");
         var tags = new Dictionary<uint, uint[]>();
-        foreach (var row in SaveRecords.ReadLists(blob, Layout, "QuestSaveData", "_missionStateList").Fields.Named("_missionStateList").ListElements)
+        foreach (var row in SaveRecords.Read(blob, Layout, "QuestSaveData").Fields.Named("_missionStateList").ListElements)
             if (RecordLists.Fields(blob, type, row) is { } values)
                 tags[BinaryPrimitives.ReadUInt32LittleEndian(values["_key"].Span)] = UsedTags(values);
         return tags;
@@ -102,16 +102,14 @@ public sealed partial class SaveDocument
         var (edits, expected, count) = PlanChallenges(blob, Layout, roots, checkpoints);
         if (count == 0) return (expected, 0);
         byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, edits.ToArray());
-        var snapshots = PrepareSnapshots(blob, candidate);
         ChallengeState after = null!;
-        Commit(candidate, _ =>
+        Transact(candidate, ["QuestSaveData"], (layout, _) =>
         {
-            after = ChallengeState.Read(candidate, SaveRecords.ReadLists(candidate, Layout.Reparse(candidate, blob), "QuestSaveData", "_questStateList", "_missionStateList"));
+            after = ChallengeState.Read(candidate, SaveRecords.Read(candidate, layout, "QuestSaveData"));
             if (!expected.Quest.OrderBy(p => p.Key).SequenceEqual(after.Quest.OrderBy(p => p.Key)) ||
                 !expected.Mission.OrderBy(p => p.Key).SequenceEqual(after.Mission.OrderBy(p => p.Key)))
                 throw new InvalidDataException("Challenge completion verification failed.");
-        }, changed: ["QuestSaveData"]);
-        undo.Push((null, snapshots.Before, snapshots.After, ["QuestSaveData"]));
+        });
         return (after, count);
     }
     private static (List<ListEdit> Edits, ChallengeState Expected, int Count) PlanChallenges(byte[] raw, ParcLayout layout, uint[] roots, uint[]? checkpoints = null)
@@ -134,7 +132,7 @@ public sealed partial class SaveDocument
                 throw new InvalidOperationException("Select distinct checkpoints of this challenge.");
             keys = checkpoints.ToHashSet();
         }
-        var block = SaveRecords.ReadLists(raw, layout, "QuestSaveData", "_questStateList", "_missionStateList");
+        var block = SaveRecords.Read(raw, layout, "QuestSaveData");
         var before = ChallengeState.Read(raw, block);
         uint[] pending = keys.Where(k => before.Mission.GetValueOrDefault(k)?.State != 5).ToArray();
         if (pending.Length == 0) return ([], before, 0);
