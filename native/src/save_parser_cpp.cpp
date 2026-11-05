@@ -1213,7 +1213,7 @@ std::pair<std::vector<GenericFieldValue>, std::vector<std::pair<uint32_t, uint32
         if (!target.present) {
             target.decode_kind = "absent";
 #if defined(SAVEULTIMATE_COMPACT_INDEX) || defined(SAVEULTIMATE_SELECTED_READER)
-            if ((type_def.name == "ContentsMiscSaveData" || type_def.name == "FieldNPCSaveData")
+            if ((type_def.name == "ContentsMiscSaveData" || type_def.name == "FieldNPCSaveData" || type_def.name == "FieldSaveData")
                 && (field.meta_kind == 3 || field.meta_kind == 6 || field.meta_kind == 7)) break;
 #endif
             continue;
@@ -1243,7 +1243,7 @@ std::pair<std::vector<GenericFieldValue>, std::vector<std::pair<uint32_t, uint32
         const auto& field = type_def.fields[index];
         auto& target = fields[index];
 #if defined(SAVEULTIMATE_COMPACT_INDEX) || defined(SAVEULTIMATE_SELECTED_READER)
-        if (!target.present && (type_def.name == "ContentsMiscSaveData" || type_def.name == "FieldNPCSaveData")
+        if (!target.present && (type_def.name == "ContentsMiscSaveData" || type_def.name == "FieldNPCSaveData" || type_def.name == "FieldSaveData")
             && (field.meta_kind == 3 || field.meta_kind == 6 || field.meta_kind == 7)) {
             if (head_cursor >= tail_cursor || raw[head_cursor] != 1) throw std::runtime_error("Absent block list marker");
             target.start_offset = head_cursor++;
