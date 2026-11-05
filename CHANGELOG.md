@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0]
+
+Item swap fixes and more challenges. Item swap is verified in game with Crimson Desert 2.04.07. The newly enabled
+challenges passed the test saves but were not checked in game.
+
+- **Fixed: every item swap failed with `[SU-301]` on some saves.** The error names `Unrecognized FieldSaveData bytes`
+  and has nothing to do with the chosen item. The parser misread an empty field record that saves from 2.03.02 onward
+  can hold. The native DLLs are rebuilt from the fixed source, so the hashes of `parc_reader.dll` and `parc_index.dll`
+  change in this release.
+- Item Swap lists DLC equipment such as the Lumen Sword, which an outdated filter hid. The search now lists only items
+  that can hold the sold item's quantity, enchantment, gems and other state, and any other swap is refused.
+- Challenges: Garden of Trials, Management and Voyage can be completed. Sea Legends stays view-only because no save has
+  cleared it.
+- Knowledge status and fishing record sizes use the same green and yellow as challenge tables.
+- Bundled game data is refreshed for 2.04.07.
+- Tests: every feature is now checked on every test save that holds what it needs, with saves from at least three
+  players per feature, one known gap aside.
+
 ## [1.3.0]
 
 Fixes a crash caused by this editor, and adds a way to repair saves it damaged. Verified with Crimson Desert 2.04.06
