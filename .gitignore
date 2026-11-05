@@ -3,11 +3,9 @@
 /artifacts/
 /.tools/
 
-# Build outputs. native/bin/ holds the released native DLLs and is committed so every release ships the same files.
+# Build outputs.
 **/bin/
 **/obj/
-/native/build/
-!/native/bin/
 /releases/
 **/TestResults/
 *.exe

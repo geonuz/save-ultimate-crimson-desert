@@ -52,9 +52,9 @@ public sealed class SaveIntegrationTests
         candidate = (byte[])raw.Clone();
         candidate[layout.SchemaEnd] = 1;
         Assert.Throws<InvalidDataException>(() => layout.Reparse(candidate, raw));
-        Assert.Throws<InvalidDataException>(() => NativeSave.ValidateBlob(candidate));
-        Assert.Throws<InvalidDataException>(() => NativeSave.ValidateBlob([]));
-        Assert.Throws<InvalidDataException>(() => NativeSave.ValidateBlob(raw[..(layout.SchemaEnd - 1)]));
+        Assert.Throws<InvalidDataException>(() => ParcLayout.Parse(candidate));
+        Assert.Throws<InvalidDataException>(() => ParcLayout.Parse([]));
+        Assert.Throws<InvalidDataException>(() => ParcLayout.Parse(raw[..(layout.SchemaEnd - 1)]));
         Assert.Throws<InvalidDataException>(() => layout.Reparse(raw[..(layout.SchemaEnd - 1)], raw));
     }
 
@@ -199,7 +199,7 @@ public sealed class SaveIntegrationTests
             var raw = SaveContainer.Decode(File.ReadAllBytes(document.SourcePath)).Blob;
             var seed = document.Items.First(i => i.Source == ItemSource.Inventory && i.EnchantLevel.HasValue);
             System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(raw.AsSpan(seed.KeyOffset, 4), 1001071);
-            NativeSave.Write(document.SourcePath, raw, cappedPath);
+            SaveContainer.Write(File.ReadAllBytes(document.SourcePath), raw, cappedPath);
             var cappedDocument = SaveDocument.Open(cappedPath);
             var capped = cappedDocument.Items.Single(i => i.Key == 1001071);
             var other = cappedDocument.Items.First(i => i.Source == ItemSource.Mercenary && i.EnchantLevel.HasValue);
@@ -255,7 +255,8 @@ public sealed class SaveIntegrationTests
             Assert.AreEqual(beforeVendor, document.BlobSha256);
             vendor = document.Items.First(i => i.Source == ItemSource.Vendor);
             document.SetQuantity(vendor, vendor.Quantity + 1);
-            string output = Path.Combine(directory, "수정본.save");
+            // Outside any Windows code page, which a path passed through the old native writer could not be.
+            string output = Path.Combine(directory, "수정본🗡.save");
             document.SaveCopy(output);
             var reopened = SaveDocument.Open(output);
             Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
@@ -265,8 +266,48 @@ public sealed class SaveIntegrationTests
             Assert.Throws<IOException>(() => document.SaveCopy(source));
             byte[] broken = (byte[])saved.Clone(); broken[^1] ^= 1;
             Assert.Throws<InvalidDataException>(() => SaveContainer.Decode(broken));
-            Assert.Throws<InvalidDataException>(() => NativeSave.Write(source, [0, 1, 2], output));
+            Assert.Throws<InvalidDataException>(() => SaveContainer.Write(File.ReadAllBytes(source), [0, 1, 2], output));
             CollectionAssert.AreEqual(saved, File.ReadAllBytes(output));
+        }
+        finally { Directory.Delete(directory, true); }
+    }
+
+    [TestMethod]
+    [TestCategory("Scenario")]
+    [TestCategory("PrivateFixtures")]
+    public void WrittenFilesKeepTheHeaderTheGameExpectsAndRefuseWhatTheyCannotVouchFor()
+    {
+        byte[] source = File.ReadAllBytes(FixtureSaves.Named("editing_baseline"));
+        byte[] blob = SaveContainer.Decode(source).Blob;
+        byte[] written = SaveContainer.Encode(source, blob);
+        CollectionAssert.AreEqual(source[..0x12], written[..0x12]);
+        CollectionAssert.AreEqual(new byte[0x80 - 0x4a], written[0x4a..0x80]);
+        CollectionAssert.AreEqual(blob, SaveContainer.Decode(written).Blob);
+        Assert.IsFalse(written[0x1a..0x2a].SequenceEqual(SaveContainer.Encode(source, blob)[0x1a..0x2a]), "Each write takes a new nonce.");
+
+        string directory = Directory.CreateTempSubdirectory().FullName;
+        string output = Path.Combine(directory, "copy.save");
+        try
+        {
+            byte[] tampered = (byte[])source.Clone();
+            tampered[^1] ^= 1;
+            Assert.ThrowsExactly<InvalidDataException>(() => SaveContainer.Write(tampered, blob, output));
+            byte[] version1 = (byte[])source.Clone();
+            version1[4] = 1;
+            Assert.ThrowsExactly<InvalidDataException>(() => SaveContainer.Encode(version1, blob));
+            byte[] schema = (byte[])blob.Clone();
+            schema[20 + 4] ^= 1;
+            Assert.ThrowsExactly<InvalidDataException>(() => SaveContainer.Write(source, schema, output));
+            byte[] broken = (byte[])blob.Clone();
+            var layout = ParcLayout.Parse(blob);
+            broken[layout.Blocks[0].Offset] ^= 1;
+            Assert.ThrowsExactly<InvalidDataException>(() => SaveContainer.Write(source, broken, output));
+            Assert.AreEqual(0, Directory.GetFiles(directory).Length, "A refused write leaves no file.");
+            SaveContainer.Write(source, blob, output);
+            byte[] first = File.ReadAllBytes(output);
+            Assert.Throws<IOException>(() => SaveContainer.Write(source, blob, output));
+            CollectionAssert.AreEqual(first, File.ReadAllBytes(output));
+            Assert.AreEqual(1, Directory.GetFiles(directory).Length);
         }
         finally { Directory.Delete(directory, true); }
     }

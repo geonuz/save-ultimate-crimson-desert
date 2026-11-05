@@ -1,29 +1,10 @@
 param(
-    [string]$ToolchainDirectory,
     [switch]$Test,
     [switch]$Publish,
-    [string]$OutputDirectory,
-    # Recompile native/bin from native/; only after native/ changes, then commit native/bin.
-    [switch]$BuildNative,
-    # Accepted for older commands; reusing the committed native/bin is the default.
-    [switch]$SkipNative
+    [string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot
-$nativeHashFile = Join-Path $root 'native/bin/native-source.sha256'
-# Fingerprint of the native build inputs. Carriage returns are dropped so CRLF and LF checkouts agree.
-function Get-NativeSourceHash {
-    $latin1 = [Text.Encoding]::GetEncoding(28591)
-    $sha = [Security.Cryptography.SHA256]::Create()
-    $hex = { param($bytes) -join ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString('x2') }) }
-    $files = @(Get-Item -LiteralPath (Join-Path $root 'native/CMakeLists.txt')) + @(Get-ChildItem -LiteralPath (Join-Path $root 'native/src'), (Join-Path $root 'native/third_party') -File -Recurse)
-    [string[]]$lines = foreach ($file in $files) {
-        $text = $latin1.GetString([IO.File]::ReadAllBytes($file.FullName)).Replace("`r", '')
-        (& $hex $latin1.GetBytes($text)) + ' ' + $file.FullName.Substring($root.Length + 1).Replace('\', '/')
-    }
-    [Array]::Sort($lines, [StringComparer]::Ordinal)
-    & $hex $latin1.GetBytes($lines -join "`n")
-}
 Push-Location $root
 try {
     $env:DOTNET_CLI_HOME = Join-Path $root '.tools/cli'
@@ -33,34 +14,6 @@ try {
     $dotnet = Join-Path $root '.tools/dotnet/dotnet.exe'
     if (!(Test-Path -LiteralPath $dotnet)) { $dotnet = (Get-Command dotnet -ErrorAction Stop).Source }
     $env:DOTNET_ROOT = Split-Path $dotnet
-    if ($ToolchainDirectory) {
-        $toolchain = (Resolve-Path -LiteralPath $ToolchainDirectory).Path
-        $env:PATH = $toolchain + ';' + $env:PATH
-    }
-    if (!$BuildNative) {
-        # Releases ship the committed DLLs unchanged so their hashes stay the same; refuse them if native/ moved on.
-        foreach ($name in 'parc_validation', 'parc_reader') {
-            if (!(Test-Path -LiteralPath "native/bin/$name.dll")) { throw "Missing native/bin/$name.dll; run with -BuildNative." }
-        }
-        $built = if (Test-Path -LiteralPath $nativeHashFile) { (Get-Content -Raw -LiteralPath $nativeHashFile).Trim() }
-        if ($built -ne (Get-NativeSourceHash)) { throw 'native/ differs from the sources native/bin was built from; run with -BuildNative and commit native/bin.' }
-    }
-    else {
-        $cmake = (Get-Command cmake -ErrorAction Stop).Source
-        $configure = @('-S', 'native', '-B', 'native/build', '-DCMAKE_BUILD_TYPE=Release')
-        if (Get-Command g++ -ErrorAction SilentlyContinue) { $configure += @('-G', 'MinGW Makefiles') }
-        & $cmake @configure
-        if ($LASTEXITCODE) { throw 'Native configuration failed.' }
-        & $cmake --build native/build --config Release --target parc_validation parc_reader --parallel 4
-        if ($LASTEXITCODE) { throw 'Native compilation failed.' }
-        New-Item -ItemType Directory -Force native/bin | Out-Null
-        foreach ($name in 'parc_validation', 'parc_reader') {
-            $binary = Join-Path $root "native/build/$name.dll"
-            if (!(Test-Path -LiteralPath $binary)) { $binary = Join-Path $root "native/build/Release/$name.dll" }
-            Copy-Item -LiteralPath $binary -Destination native/bin
-        }
-        [IO.File]::WriteAllText($nativeHashFile, (Get-NativeSourceHash) + "`n")
-    }
     & $dotnet restore SaveUltimate.slnx --locked-mode --disable-parallel -m:1
     if ($LASTEXITCODE) { throw 'Locked package restore failed.' }
     & $dotnet build SaveUltimate.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false
@@ -84,7 +37,7 @@ try {
             $sourceNotice = Join-Path (Split-Path $dotnet) $notice
             if (Test-Path -LiteralPath $sourceNotice) { Copy-Item -LiteralPath $sourceNotice -Destination (Join-Path $output "licenses/dotnet-$notice") }
         }
-        foreach ($name in 'Upstream-MPL-2.0.txt','crimson-rs-MIT.txt','K4os-LZ4-MIT.txt','LZ4-native-BSD-2-Clause.txt','MinGW-w64-runtime.txt') {
+        foreach ($name in 'Upstream-MPL-2.0.txt','crimson-rs-MIT.txt','K4os-LZ4-MIT.txt','LZ4-native-BSD-2-Clause.txt') {
             Copy-Item -LiteralPath (Join-Path $root "licenses/$name") -Destination (Join-Path $output 'licenses')
         }
         $assets = Get-Content -Raw src/SaveUltimate.App/obj/project.assets.json | ConvertFrom-Json

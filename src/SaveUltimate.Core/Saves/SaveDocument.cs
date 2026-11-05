@@ -14,8 +14,6 @@ public sealed partial class SaveDocument
     private readonly MemoryStream snapshotBuffer = new();
     private Guid snapshot = Guid.NewGuid();
     private int damagedRows;
-    // shortcut: a save off the layout rule stays editable only where the native parser can check it; goes with the native reader.
-    private readonly bool offLayout;
     private sealed record Patch(int Offset, byte[] Before, byte[] After, bool CheckedScalar = false);
     private sealed record Snapshot(byte[] Packed, int Length)
     {
@@ -57,8 +55,6 @@ public sealed partial class SaveDocument
     public bool CanUndo => undo.Count != 0;
     public string BlobSha256 => Convert.ToHexString(SHA256.HashData(blob));
     public IReadOnlyList<InventoryItem> Items { get; private set; }
-    // Called when the C# reader refuses a block and the native reader takes over, so such saves leave a trace in reports.
-    public static Action<Exception>? ReaderFallback { get; set; }
 
     private SaveDocument(string path, byte[] file, byte[] raw)
     {
@@ -67,13 +63,7 @@ public sealed partial class SaveDocument
         blob = raw;
         savedBlob = raw;
         Layout = ParcLayout.Parse(raw);
-        try { damagedRows = ParcReader.Validate(raw, Layout).DamagedRows; }
-        catch (InvalidDataException error)
-        {
-            ReaderFallback?.Invoke(error);
-            NativeSave.ValidateBlob(raw);
-            offLayout = true;
-        }
+        damagedRows = ParcReader.Validate(raw, Layout).DamagedRows;
         RefuseOldGameVersion(raw, Layout);
         Items = Inventory.Read(raw, Layout, snapshot);
     }
@@ -231,8 +221,7 @@ public sealed partial class SaveDocument
         Guid next = Guid.NewGuid();
         var layout = fixedSockets is null ? Layout.Reparse(candidate, blob) : Layout;
         int damaged = damagedRows;
-        if (fixedSockets is null && offLayout) NativeSave.ValidateBlob(candidate);
-        else if (fixedSockets is null)
+        if (fixedSockets is null)
         {
             damaged = ParcReader.Validate(candidate, layout).DamagedRows;
             // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
@@ -327,19 +316,8 @@ public sealed partial class SaveDocument
         destination = Path.GetFullPath(destination);
         if (File.Exists(destination) || destination.Equals(SourcePath, StringComparison.OrdinalIgnoreCase))
             throw new IOException("Choose a new file name. Existing saves are preserved.");
-        WriteCandidate(destination);
+        SaveContainer.Write(originalFile, blob, destination);
         savedBlob = blob;
-    }
-
-    private void WriteCandidate(string destination)
-    {
-        string temporary = Path.Combine(Path.GetDirectoryName(destination)!, $".saveultimate-source-{Guid.NewGuid():N}.save");
-        try
-        {
-            using (var file = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) file.Write(originalFile);
-            NativeSave.Write(temporary, blob, destination);
-        }
-        finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
 
     public string? SaveTo(string destination, bool backup = true, byte[]? expectedDestinationHash = null)
@@ -350,7 +328,7 @@ public sealed partial class SaveDocument
         string prepared = Path.Combine(Path.GetDirectoryName(destination)!, $".prepared-{Guid.NewGuid():N}.save");
         try
         {
-            WriteCandidate(prepared);
+            SaveContainer.Write(originalFile, blob, prepared);
             byte[] written = File.ReadAllBytes(prepared);
             string? recovery = SaveBackups.ReplacePrepared(prepared, destination, expectedDestinationHash, backup);
             originalFile = written;

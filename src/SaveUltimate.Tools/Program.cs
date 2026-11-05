@@ -21,13 +21,12 @@ inspect.Arguments.Add(savePath);
 inspect.SetAction(result =>
 {
     string path = result.GetValue(savePath)!;
-    var native = NativeSave.ValidateFile(path);
-    var save = SaveContainer.Decode(File.ReadAllBytes(path));
+    var save = SaveContainer.Check(path);
     var layout = ParcLayout.Parse(save.Blob);
     Console.WriteLine(JsonSerializer.Serialize(new
     {
         save.Version, Bytes = save.Blob.Length, Sha256 = Convert.ToHexString(SHA256.HashData(save.Blob)),
-        Native = native, Blocks = layout.Blocks
+        Blocks = layout.Blocks
     }, new JsonSerializerOptions { WriteIndented = true }));
 });
 root.Subcommands.Add(inspect);

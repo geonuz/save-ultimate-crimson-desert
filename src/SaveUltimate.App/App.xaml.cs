@@ -12,7 +12,6 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        SaveUltimate.Core.Saves.SaveDocument.ReaderFallback = error => ErrorCodes.Log("READER-FALLBACK", error);
         bool firstRun = !System.IO.File.Exists(SettingsStore.FilePath);
         string? cacheError = null;
         try { CatalogFiles.Reload(); }

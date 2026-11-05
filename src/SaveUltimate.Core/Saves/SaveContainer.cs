@@ -2,6 +2,7 @@
 using System.Buffers.Binary;
 using System.Security.Cryptography;
 using System.Text;
+using K4os.Compression.LZ4;
 using SaveUltimate.Core.Binary;
 
 namespace SaveUltimate.Core.Saves;
@@ -23,6 +24,60 @@ public sealed record SaveContainer(ushort Version, byte[] Header, byte[] Blob)
         if (!CryptographicOperations.FixedTimeEquals(digest, bytes.Slice(0x2a, 32)))
             throw new InvalidDataException("SAVE HMAC verification failed.");
         return new(version, bytes[..128].ToArray(), Compression.Decode(compressed, 2, expanded));
+    }
+
+    // Decodes a file and checks every record in it.
+    public static SaveContainer Check(string path)
+    {
+        var save = Decode(File.ReadAllBytes(path));
+        ParcReader.Validate(save.Blob, ParcLayout.Parse(save.Blob));
+        return save;
+    }
+
+    internal static byte[] Encode(ReadOnlySpan<byte> source, byte[] blob)
+    {
+        // Only version 2 was ever checked in game; the first bytes after the magic stay as the game wrote them.
+        if (BinaryPrimitives.ReadUInt16LittleEndian(source[4..]) != 2) throw new InvalidDataException("Only SAVE version 2 can be written.");
+        byte[] key = DeriveKey(2);
+        byte[] packed = new byte[LZ4Codec.MaximumOutputSize(blob.Length)];
+        int size = LZ4Codec.Encode(blob, packed, LZ4Level.L09_HC);
+        if (size <= 0) throw new InvalidDataException("LZ4 compression failed.");
+        byte[] file = new byte[128 + size];
+        source[..0x12].CopyTo(file);
+        BinaryPrimitives.WriteUInt16LittleEndian(file.AsSpan(6), 0x80);
+        BinaryPrimitives.WriteInt32LittleEndian(file.AsSpan(0x12), blob.Length);
+        BinaryPrimitives.WriteInt32LittleEndian(file.AsSpan(0x16), size);
+        var nonce = file.AsSpan(0x1a, 16);
+        RandomNumberGenerator.Fill(nonce);
+        HMACSHA256.HashData(key, packed.AsSpan(0, size), file.AsSpan(0x2a, 32));
+        GameChaCha.Transform(packed.AsSpan(0, size), key, nonce).CopyTo(file, 128);
+        return file;
+    }
+
+    // Refuses to create the file unless what reached the disk reads back as exactly these records. Existing files are never replaced.
+    internal static void Write(ReadOnlySpan<byte> source, byte[] blob, string destination)
+    {
+        var original = Decode(source);
+        int schema = ParcLayout.Parse(original.Blob).SchemaEnd;
+        var layout = ParcLayout.Parse(blob);
+        ParcReader.Validate(blob, layout);
+        if (!blob.AsSpan(0, layout.SchemaEnd).SequenceEqual(original.Blob.AsSpan(0, schema)))
+            throw new InvalidDataException("Edited save schema differs from the loaded source schema.");
+        byte[] file = Encode(source, blob);
+        destination = Path.GetFullPath(destination);
+        string temporary = Path.Combine(Path.GetDirectoryName(destination)!, $".saveultimate-{Guid.NewGuid():N}.save");
+        try
+        {
+            using (var stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            {
+                stream.Write(file);
+                stream.Flush(true);
+            }
+            if (!Decode(File.ReadAllBytes(temporary)).Blob.AsSpan().SequenceEqual(blob))
+                throw new InvalidDataException("Written save payload does not match the edited data.");
+            File.Move(temporary, destination);
+        }
+        finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
 
     internal static byte[] DeriveKey(ushort version)

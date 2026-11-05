@@ -70,7 +70,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          # Build.ps1 ships the committed native/bin DLLs unchanged, so every release carries the same tested files.
           ./scripts/Build.ps1 -Test -Publish -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION"
           Compress-Archive -Path "releases/SaveUltimate-$env:RELEASE_VERSION/*" -DestinationPath "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip"
       - name: Upload and publish release

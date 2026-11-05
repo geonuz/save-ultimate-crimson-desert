@@ -50,7 +50,7 @@ public static class SaveBackups
         try
         {
             CopyVerified(source, temporary);
-            NativeSave.ValidateFile(temporary);
+            SaveContainer.Check(temporary);
             if (replace && File.Exists(target)) File.Replace(temporary, target, null);
             else File.Move(temporary, target);
         }
@@ -65,7 +65,7 @@ public static class SaveBackups
         try
         {
             CopyVerified(backup, temporary);
-            NativeSave.ValidateFile(temporary);
+            SaveContainer.Check(temporary);
             return ReplacePrepared(temporary, source, expectedHash, true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }

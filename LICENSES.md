@@ -4,7 +4,7 @@ The root MIT license covers original SaveUltimate code. It does not replace thir
 
 ## Inherited MPL-2.0 code
 
-`native/src/`, `src/SaveUltimate.Core/Saves/SaveContainer.cs`, and `src/SaveUltimate.Core/Saves/ParcLayout.cs` derive from the original editor and retain MPL-2.0. Preserve `licenses/Upstream-MPL-2.0.txt` and the original copyright notice (Copyright 2026 RicePaddySoftware). Corresponding source is in this directory. Native upstream provenance remains in `native/SOURCE_MANIFEST.json`; port-specific changes are listed in `native/PORT_CHANGES.md`.
+`src/SaveUltimate.Core/Saves/SaveContainer.cs` and `src/SaveUltimate.Core/Saves/ParcLayout.cs` derive from the original editor and retain MPL-2.0. Preserve `licenses/Upstream-MPL-2.0.txt` and the original copyright notice (Copyright 2026 RicePaddySoftware). Corresponding source is in this directory. Earlier releases also shipped C++ libraries derived from that editor; their sources and provenance remain in this repository's Git history.
 
 Distribute binaries together with their matching MPL-covered source and build instructions (this repository and [CONTRIBUTING.md](CONTRIBUTING.md)).
 
@@ -13,7 +13,7 @@ Distribute binaries together with their matching MPL-covered source and build in
 | Material | Terms |
 |---|---|
 | Archive format/checksum implementation derived from crimson-rs commit `61889474936bf38b10d7d3bf4954e3998b84a444` | MIT; `licenses/crimson-rs-MIT.txt` |
-| `native/third_party/lz4/` | BSD 2-Clause; original notices remain in source |
+| LZ4, ported by K4os.Compression.LZ4 | BSD 2-Clause; `licenses/LZ4-native-BSD-2-Clause.txt` |
 | K4os.Compression.LZ4 1.3.8 | MIT; `licenses/K4os-LZ4-MIT.txt` |
 | CommunityToolkit.Mvvm 8.4.2 | MIT; package license and third-party notices copied by build script |
 | Magick.NET / Magick.NET.Core 15.0.0 and bundled codecs | Apache-2.0 and component-specific terms; package Notice.txt copied by build script |

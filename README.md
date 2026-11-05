@@ -153,7 +153,7 @@ Pearl Abyss.
 - Hahmlet: The Hahmlet Project Authors / Hypertype, Minjoo Ham and Mark Frömberg.
 
 The editor uses .NET and WPF, CommunityToolkit.Mvvm, K4os.Compression.LZ4,
-Magick.NET and LZ4. GCC/MinGW-w64 builds the native save libraries. Their
+Magick.NET and LZ4. Their
 notices are included in `licenses/` and Settings → About.
 
 ## License

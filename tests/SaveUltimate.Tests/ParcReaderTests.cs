@@ -315,23 +315,6 @@ public sealed class ParcReaderTests
     }
 
     [TestMethod]
-    [TestCategory("PrivateFixtures")]
-    [TestCategory("Contract")]
-    public void TheNativeReaderTakesOverWhatTheLayoutRefusesAndLeavesATrace()
-    {
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
-        var layout = ParcLayout.Parse(raw);
-        var rows = SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list").ListElements;
-        // The native reader tolerates a stale payload address.
-        BinaryPrimitives.WriteUInt32LittleEndian(raw.AsSpan(rows[0].ChildPayloadOffset - 4), 1);
-        var seen = new ConcurrentBag<Exception>();
-        SaveDocument.ReaderFallback = seen.Add;
-        try { Assert.AreEqual(rows.Length, SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list").ListElements.Length); }
-        finally { SaveDocument.ReaderFallback = null; }
-        Assert.IsFalse(seen.IsEmpty);
-    }
-
-    [TestMethod]
     [TestCategory("Unit")]
     public void RelocationMovesAddressesSizesAndBoundsAndRefusesBrokenRanges()
     {
@@ -400,79 +383,5 @@ public sealed class ParcReaderTests
                 catch (InvalidDataException e) { failures.Add($"{name} {block.Name}: {e.Message}"); }
         });
         Assert.AreEqual("", string.Join(Environment.NewLine, failures.Order()));
-    }
-
-    // Where the native parser reports another position than the layout, per field. Kept until the native reader is gone, so a
-    // swap changes only these. Markers of absent arrays are what it misses in all of them; see the table in ParcReader.
-    private static readonly HashSet<string> nativeMisreads =
-    [
-        "MissionStateData._newAlarm", "MissionStateData._completeCount", "MissionStateData._overlapTargetList",
-        "MercenarySaveData._currentHp", "MercenarySaveData._currentMp", "MercenarySaveData._lastEquipSlotNameKey", "MercenarySaveData._occupationState",
-        // A native decode that fails on one field of a row, such as this object, keeps nothing after it.
-        "MercenarySaveData._customizationSaveData", "MercenarySaveData._remainTimeBuffSaveDataList", "MercenarySaveData._useItemReserveSlotSaveList",
-        "NPCScheduleStageSaveData._stageNameHash", "QuestGaugeStateData._state",
-        "FieldGimmickSaveData._fieldGimmickSocketIndex", "FieldGimmickSaveData._fieldGimmickSaveData_TargetedConstraintList", "FieldGimmickSaveData._fieldGimmickSaveData_SaveTriggerGimmickList",
-        "InventoryItemContentsSaveData._bankRandomSeedDataList", "InventoryItemContentsSaveData._foldItemGroupList",
-        "FactionSaveData._factionManagementRewardTagList", "FactionManagementSaveData._enableItemList",
-        // Only on 1.14.00: its item schema has no _averagePrice, which the native parser takes as a sign of the older layout.
-        "ItemSaveData._chargedUseableCount", "ItemSaveData._transferredItemKey", "ItemSaveData._maxChargeUseableCount", "ItemSaveData._timeWhenPushItem",
-        "ItemSaveData._isNewMark", "ItemSaveData._coolTimePerCharge", "ItemSaveData._isLocked", "ItemSaveData._currentGimmickState",
-    ];
-
-    private static void CompareFields(SaveField[] native, SaveField[] rule, string owner, ConcurrentDictionary<string, string> differences)
-    {
-        void Differ(string id, string what) => differences.TryAdd(id, what);
-        if (native.Length != rule.Length) { Differ(owner, $"{native.Length} fields, the layout has {rule.Length}"); return; }
-        for (int i = 0; i < native.Length; i++)
-        {
-            SaveField n = native[i], r = rule[i];
-            string id = $"{owner}.{r.Name}";
-            if (n.Present != r.Present) { Differ(id, $"present {n.Present}, the layout says {r.Present}"); continue; }
-            if (!r.Present) continue;
-            if (r.MetaKind is 0 or 1 or 2 or 3)
-            {
-                if (n.StartOffset != r.StartOffset || n.EndOffset != r.EndOffset) Differ(id, $"{n.StartOffset}-{n.EndOffset}, the layout says {r.StartOffset}-{r.EndOffset}");
-                continue;
-            }
-            if (r.MetaKind is 4 or 5)
-            {
-                // A native decode that gave up on an object keeps none of its fields.
-                if (n.ChildFields.Length == 0) Differ(id, "object not decoded");
-                else CompareFields(n.ChildFields, r.ChildFields, r.ChildTypeName, differences);
-                continue;
-            }
-            if (n.ListCount != r.ListCount) { Differ(id, $"{n.ListCount} elements, the layout has {r.ListCount}"); continue; }
-            // Ownership reads drop shop stock on purpose.
-            if (n.ListElements.Length == 0 && r.Name == "_storeItemList") continue;
-            if (n.ListElements.Length != r.ListElements.Length) { Differ(id, $"{n.ListElements.Length} decoded of {r.ListElements.Length}"); continue; }
-            for (int e = 0; e < r.ListElements.Length; e++)
-            {
-                SaveField a = n.ListElements[e], b = r.ListElements[e];
-                if (a.StartOffset != b.StartOffset || a.EndOffset != b.EndOffset || a.ChildPayloadOffset != b.ChildPayloadOffset) Differ(id, $"element {e} at {a.StartOffset}-{a.EndOffset}, the layout says {b.StartOffset}-{b.EndOffset}");
-                else CompareFields(a.ChildFields, b.ChildFields, b.ChildTypeName, differences);
-            }
-        }
-    }
-
-    [TestMethod]
-    [TestCategory("PrivateFixtures")]
-    [TestCategory("Contract")]
-    public void NativeReaderDiffersFromTheLayoutOnlyInKnownFields()
-    {
-        var differences = new ConcurrentDictionary<string, string>();
-        Parallel.ForEach(Saves().Where(path => !Damaged(path)), path =>
-        {
-            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
-            var layout = ParcLayout.Parse(raw);
-            foreach (string name in layout.Blocks.Select(b => b.Name).Distinct())
-            {
-                var blocks = layout.Blocks.Where(b => b.Name == name).ToArray();
-                var native = SaveRecords.ReadNative(raw, layout, name);
-                for (int i = 0; i < blocks.Length; i++)
-                    CompareFields(native[i].Fields, ParcReader.Read(raw, layout, blocks[i]).Fields, name, differences);
-            }
-        });
-        var unknown = differences.Where(p => !nativeMisreads.Contains(p.Key)).Select(p => $"{p.Key}: {p.Value}").Order().ToArray();
-        Assert.AreEqual("", string.Join(Environment.NewLine, unknown));
     }
 }

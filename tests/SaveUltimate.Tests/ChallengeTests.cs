@@ -66,7 +66,7 @@ public sealed class ChallengeTests
         string path = Path.Combine(Path.GetTempPath(), $"challenge-invalid-{Guid.NewGuid():N}.save");
         try
         {
-            NativeSave.Write(source, raw, path);
+            SaveContainer.Write(File.ReadAllBytes(source), raw, path);
             var document = SaveDocument.Open(path);
             string hash = document.BlobSha256;
             Assert.Throws<InvalidDataException>(() => document.CompleteChallenges([1000912], [4294966659]));

@@ -1,18 +1,13 @@
 # Development
 
 Use Windows x64, Git, the .NET SDK 10.0.402 (or a later 10.0.4xx patch, see
-`global.json`), CMake 3.24+ and an x64 C++20 compiler. The release DLLs are
-built with MinGW-w64 GCC ([w64devkit](https://github.com/skeeto/w64devkit) works);
-Visual Studio 2022 Build Tools also build them. Python is not needed.
+`global.json`). No C++ compiler or Python is needed.
 
 ```text
 src/
   SaveUltimate.App/     WPF application (pages, view models, themes)
   SaveUltimate.Core/    Save container, records, edits, Undo, backups, game-data sync
   SaveUltimate.Tools/   Command-line inspect/extract/texture helpers (not shipped)
-native/                 C++ save validator, record relocation and record reader
-  src/                  MPL-2.0 sources derived from the original editor
-  PORT_CHANGES.md       Changes made for this port
 resources/              Baseline catalogs, UI translations, fonts and original artwork
 tests/                  MSTest regression suite
 scripts/                Build and verification scripts
@@ -31,26 +26,7 @@ From the repository root:
 ```
 
 The script restores packages in locked mode, builds the solution and runs the
-tests. It does not compile C++: `native/bin/` holds the committed
-`parc_validation.dll` and `parc_reader.dll`, and builds and
-releases ship those files unchanged so every release carries the same tested
-DLLs with the same hashes. The current DLLs were built with MinGW-w64 GCC 16.2.0
-from w64devkit 2.10.0; 2.11.0 builds the same bytes, 2.9.1 does not.
-`native/bin/native-source.sha256` records the sources they were built from, and
-the script stops if `native/CMakeLists.txt`, `native/src/` or
-`native/third_party/` no longer match it.
-
-After changing those sources, rebuild the DLLs with `-BuildNative` and commit
-`native/bin/` with the change. A different compiler produces different files, so
-use the same GCC where possible. The DLLs link with `-static` and may import only
-Windows libraries; a test fails if one imports anything else, such as the
-`libwinpthread-1.dll` that 1.1.2's DLLs needed and PCs without MinGW lack:
-
-```powershell
-./scripts/Build.ps1 -BuildNative -Test
-# With a MinGW toolchain outside PATH:
-./scripts/Build.ps1 -BuildNative -ToolchainDirectory C:/Tools/w64devkit/bin -Test
-```
+tests.
 
 Keep `packages.lock.json` files in sync with
 `Directory.Packages.props`; restore with `--force-evaluate` after changing a package.
@@ -59,7 +35,7 @@ Keep `packages.lock.json` files in sync with
 
 Reuse the existing edit, validation, relocation and Undo paths in
 `SaveDocument`. Structural edits must go through `Commit`, which validates the
-candidate with the native validator before replacing the document. Add a
+candidate against the save layout before replacing the document. Add a
 focused test for changes to save data or nontrivial behavior.
 
 ```powershell

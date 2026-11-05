@@ -138,7 +138,7 @@ public sealed class FishingTests
         string path = Path.Combine(Path.GetTempPath(), $"invalid-fishing-{Guid.NewGuid():N}.save");
         try
         {
-            NativeSave.Write(source, raw, path);
+            SaveContainer.Write(File.ReadAllBytes(source), raw, path);
             var document = SaveDocument.Open(path);
             string original = document.BlobSha256;
             Assert.Throws<InvalidDataException>(() => document.ReadFishing());

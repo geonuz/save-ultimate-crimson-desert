@@ -1,5 +1,4 @@
 using System.Buffers.Binary;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SaveUltimate.Core.Saves;
@@ -127,16 +126,7 @@ internal static class SaveRecords
     }
 
     internal static SaveObject[] ReadObjects(byte[] raw, ParcLayout layout, string name)
-    {
-        var blocks = Blocks(layout, name);
-        try { return Array.ConvertAll(blocks, b => ParcReader.Read(raw, layout, b)); }
-        // shortcut: a save nobody has tested may break the layout rule; the native reader keeps those open for one release and leaves with native/.
-        catch (InvalidDataException error)
-        {
-            SaveDocument.ReaderFallback?.Invoke(error);
-            return ReadNative(raw, layout, name);
-        }
-    }
+        => Array.ConvertAll(Blocks(layout, name), b => ParcReader.Read(raw, layout, b));
 
     // Every record of the item, wherever the block keeps one.
     internal static List<SaveField> ItemReferences(byte[] raw, ParcLayout layout, string name, InventoryItem item)
@@ -155,35 +145,4 @@ internal static class SaveRecords
             foreach (var field in block.Fields) Visit(field);
         return found;
     }
-
-    internal static unsafe SaveObject[] ReadNative(byte[] raw, ParcLayout layout, string name)
-    {
-        var blocks = Blocks(layout, name);
-        int code = parc_read_block(raw, checked((uint)raw.Length), checked((uint)blocks[0].TypeIndex), out var output, out uint length);
-        if (output == IntPtr.Zero) throw new InvalidDataException($"Record reader failed ({code}).");
-        try
-        {
-            // Read directly from the native buffer; release it after constructing the records.
-            var bytes = new ReadOnlySpan<byte>((void*)output, checked((int)length));
-            if (code != 0) throw new InvalidDataException(Encoding.UTF8.GetString(bytes));
-            var objects = RecordReader.Read(bytes);
-            if (objects.Length != blocks.Length || objects.Any(o => o.ClassName != name))
-                throw new InvalidDataException($"Incomplete {name} decode.");
-            // Absent trailing lists retain 0x01 markers in existing game saves.
-            foreach (var range in objects.SelectMany(o => o.UndecodedRanges))
-            {
-                if (range.Length != 2 || range[0] > range[1] || !blocks.Any(b => range[0] >= b.Offset && range[1] <= b.Offset + b.Size))
-                    throw new InvalidDataException("Invalid undecoded range.");
-                for (int i = range[0]; i < range[1]; i++)
-                    if (raw[i] != 1) throw new InvalidDataException($"Unrecognized {name} bytes.");
-            }
-            return objects;
-        }
-        finally { parc_reader_free(output); }
-    }
-
-    [DllImport("parc_reader.dll", EntryPoint = "parc_read_block_v2", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int parc_read_block(byte[] raw, uint size, uint type, out IntPtr output, out uint length);
-    [DllImport("parc_reader.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void parc_reader_free(IntPtr output);
 }
