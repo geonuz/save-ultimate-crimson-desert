@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "items": [
     {
       "itemKey": 1,
@@ -172696,7 +172696,7 @@
     {
       "itemKey": 1007075,
       "name": "Goldleaves' Cloth Armor",
-      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅲ",
+      "internalName": "Goblin_Merchant_Fabric_Armor_III_Emergency",
       "category": "Equipment",
       "maxStack": 1,
       "socketLimit": 0,
@@ -172718,7 +172718,7 @@
     {
       "itemKey": 1007076,
       "name": "Goldleaves' Cloth Cloak",
-      "internalName": "Goblin_Merchant_Fabric_Cloak_Ⅳ",
+      "internalName": "Goblin_Merchant_Fabric_Cloak_IV_Emergency",
       "category": "Misc",
       "maxStack": 1,
       "socketLimit": 0,
@@ -172740,7 +172740,7 @@
     {
       "itemKey": 1007077,
       "name": "Goldleaves' Cloth Armor",
-      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅵ",
+      "internalName": "Goblin_Merchant_Fabric_Armor_VI_Emergency",
       "category": "Equipment",
       "maxStack": 1,
       "socketLimit": 0,
@@ -172762,7 +172762,7 @@
     {
       "itemKey": 1007078,
       "name": "Goldleaves' Cloth Cloak",
-      "internalName": "Goblin_Merchant_Fabric_Cloak_Ⅵ",
+      "internalName": "Goblin_Merchant_Fabric_Cloak_VI_Emergency",
       "category": "Misc",
       "maxStack": 1,
       "socketLimit": 0,
@@ -172784,7 +172784,7 @@
     {
       "itemKey": 1007079,
       "name": "Nibrak Cloth Armor",
-      "internalName": "Goblin_Merchant_Fabric_Armor_Ⅳ",
+      "internalName": "Goblin_Merchant_Fabric_Armor_IV_Emergency",
       "category": "Equipment",
       "maxStack": 1,
       "socketLimit": 3,
