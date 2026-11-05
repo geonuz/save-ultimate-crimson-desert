@@ -440,7 +440,8 @@ public partial class MainViewModel : ObservableObject
         if (Fishing is not null && changed.Contains("ContentsMiscSaveData")) Fishing = await Task.Run(() => document!.ReadFishing());
         if (Map is not null && (changed.Contains("FogSaveData") || changed.Contains("DiscoveredLevelGimmickSceneObjectSaveData"))) Map = await Task.Run(() => document!.ReadMap());
         if (Companions is not null && changed.Contains("MercenaryClanSaveData")) Companions = await Task.Run(() => document!.ReadCompanions());
-        if (Friendship is not null && changed.Contains("FriendlySaveData")) Friendship = await Task.Run(() => document!.ReadFriendship());
+        // A trust edit that only synchronizes field NPC copies leaves FriendlySaveData as it was.
+        if (Friendship is not null && (changed.Contains("FriendlySaveData") || changed.Contains("FieldNPCSaveData"))) Friendship = await Task.Run(() => document!.ReadFriendship());
         Refresh(); Status = Tr.Text("Last edit undone.");
     });
 
