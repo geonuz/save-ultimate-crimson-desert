@@ -12,10 +12,11 @@ namespace SaveUltimate.Tests;
 public sealed class WorldTests
 {
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void CompanionProjectionPreservesDirectFieldsAndBoundaries()
     {
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
         var layout = ParcLayout.Parse(raw);
         var full = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", "_mercenaryDataList")
             .Fields.Named("_mercenaryDataList").ListElements;
@@ -35,14 +36,14 @@ public sealed class WorldTests
         Assert.Throws<InvalidDataException>(() => SaveRecords.ReadLists(raw, layout, "QuestSaveData", true, "_questStateList"));
     }
 
-    private static string Fixtures => FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set private fixtures.");
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void MapNpcAndCompanionEditsTouchOnlyTheirRecordsAndUndo()
     {
         static (uint, ulong, ulong, string)[] Items(SaveDocument doc) => doc.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source.ToString())).ToArray();
         // Every map action and the fog reveal on a partly explored save: idempotent, items untouched, undone exactly.
-        var map = SaveDocument.Open(Path.Combine(Fixtures, "map_partly_explored.save")); string original = map.BlobSha256; var items = Items(map);
+        var map = SaveDocument.Open(FixtureSaves.Named("map_partly_explored")); string original = map.BlobSha256; var items = Items(map);
         Assert.IsTrue(map.RevealMap().Full); string revealed = map.BlobSha256;
         map.RevealMap(); Assert.AreEqual(revealed, map.BlobSha256);
         map.Undo(); Assert.AreEqual(original, map.BlobSha256);
@@ -54,7 +55,7 @@ public sealed class WorldTests
             if (map.CanUndo) map.Undo();
             Assert.AreEqual(original, map.BlobSha256, MapAction.All[i].Names["en"]); Assert.IsFalse(map.CanUndo);
         }
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); original = doc.BlobSha256; items = Items(doc);
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline")); original = doc.BlobSha256; items = Items(doc);
         var npc = doc.ReadFriendship();
         var friendship = doc.SetFriendship(4009, 5, 95);
         CollectionAssert.AreEqual(npc.Select(r => r.Key == 4009 ? (r.Key, (ulong?)95, false) : (r.Key, r.Value, r.NeedsSync)).ToArray(), friendship.Select(r => (r.Key, r.Value, r.NeedsSync)).ToArray());
@@ -78,10 +79,11 @@ public sealed class WorldTests
         Assert.AreEqual(original, doc.BlobSha256);
     }
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void InvalidSelectionsAndReadOnlyNpcRecordsNeverCommit()
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship(); var row = npc.First(r => r.Editable);
         Assert.Throws<ArgumentOutOfRangeException>(() => doc.SetFriendship(row.Key, row.Value!.Value, 101));
         Assert.Throws<InvalidOperationException>(() => doc.SetFriendship(row.Key, 999, 50));
@@ -96,12 +98,13 @@ public sealed class WorldTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    [DataRow("dlc_fog_and_skill_observe_2.04.00.save")]
-    [DataRow("other_editor_layout.save")] // another editor's 1024-slot fog jump table
+    [DataRow("dlc_fog_and_skill_observe")]
+    [DataRow("other_editor_layout")] // another editor's 1024-slot fog jump table
     public void ExtendedDlcFogRevealsAndRoundTrips(string file)
     {
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, file)); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(FixtureSaves.Named(file)); string original = doc.BlobSha256;
         var before = doc.ReadMap().Fog;
         Assert.IsFalse(before.Full);
         Assert.IsTrue(doc.RevealMap().Full);
@@ -117,11 +120,16 @@ public sealed class WorldTests
     }
 
     [TestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void HiddenDlcContentNeverReachesABaseGameSave()
     {
         var dlc = DlcContent.Shared;
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline")); string original = doc.BlobSha256;
+        // Actions with no DLC content are the same either way; ContractTests activates them.
+        int[] mixed = Enumerable.Range(0, MapAction.All.Length).Where(i => MapAction.All[i] is var a && (a.Keys.Any(dlc.Knowledge.Contains) || a.Scenes.Any(dlc.Scenes.Contains) || a.ChallengeRoots?.Any(dlc.Missions.Contains) == true)).ToArray();
+        Assert.IsTrue(mixed.Length > 0);
         DlcContent.Hidden = true;
         try
         {
@@ -135,7 +143,7 @@ public sealed class WorldTests
             Assert.AreEqual(original, doc.BlobSha256);
             doc.EditKnowledge([], KnowledgeAction.AllMaximum);
             Assert.IsFalse(doc.ReadKnowledge().Any(p => p.Value > 0 && dlc.Knowledge.Contains(p.Key)));
-            for (int i = 0; i < MapAction.All.Length; i++) doc.ActivateMap(i);
+            foreach (int i in mixed) doc.ActivateMap(i);
             var map = doc.ReadMap();
             Assert.IsFalse(map.Discoveries.Keys.Any(dlc.Scenes.Contains) || map.Knowledge.Any(p => p.Value > 0 && dlc.Knowledge.Contains(p.Key)));
         }
@@ -145,11 +153,13 @@ public sealed class WorldTests
     }
 
     [TestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void PerCharacterBondsAndPetOrderRoundTripAndUndo()
     {
         // dlc_bonds_per_character_2.04.03.save: Elowen holds Kliff 30 and Oongka 10, Tina (an ordinary NPC) Oongka 55; Lyselia_1 counts 1 at bond 20.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "dlc_bonds_per_character_2.04.03.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(FixtureSaves.Named("dlc_bonds_per_character")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         CollectionAssert.AreEqual(new[] { (1u, (ulong?)30), (6u, (ulong?)10) }, npc.Single(r => r.Key == 1002939).Affinity.Select(a => (a.Playable, a.Value)).ToArray());
         Assert.AreEqual(1, npc.Single(r => r.Key == 1002940).Affinity.Length); // Bari's empty Oongka and Damiane slots are hidden
@@ -187,11 +197,12 @@ public sealed class WorldTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void DlcBondAndGreyZeroRosterEditsRoundTripAndUndo()
     {
         // dlc_bond_courting_grey0_2.04.00.save: Bari's bond toward Kliff is 35 and courting; three Grey-0 robots.
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "dlc_bond_courting_grey0_2.04.00.save")); string original = doc.BlobSha256;
+        var doc = SaveDocument.Open(FixtureSaves.Named("dlc_bond_courting_grey0")); string original = doc.BlobSha256;
         var npc = doc.ReadFriendship();
         // 21 wanted criminals and Corbin only record a threat reward.
         Assert.AreEqual(134, npc.Length); Assert.IsFalse(npc.Any(r => r.Key is 1001875 or 1003530));
@@ -226,11 +237,13 @@ public sealed class WorldTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void WorldNavigationFiltersAndUndo()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var doc = SaveDocument.Open(Path.Combine(Fixtures, "editing_baseline_2.03.02.save"));
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(doc);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();

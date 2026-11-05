@@ -11,12 +11,13 @@ namespace SaveUltimate.Tests;
 public sealed class EditingPerformanceTests
 {
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void IncrementalOwnershipMatchesFullReaderAcrossStructuralEditsAndUndo()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         void Check()
         {
             var raw = (byte[])typeof(SaveDocument).GetField("blob",
@@ -49,14 +50,15 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [DataRow("Item2")]
     [DataRow("Item3")]
     [TestCategory("PrivateFixtures")]
     public void DamagedStructuralUndoLeavesDocumentAndHistoryIntact(string snapshotField)
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = document.BlobSha256;
         document.SetSockets(document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218), [0, 0]);
         string edited = document.BlobSha256;
@@ -78,12 +80,13 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void OwnershipReaderKeepsStockCountsWithoutRetainingStockRecords()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "editing_baseline_2.03.02.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
         var store = SaveRecords.Read(raw, ParcLayout.Parse(raw), "StoreSaveData");
         static IEnumerable<SaveField> Walk(IEnumerable<SaveField> fields)
             => fields.SelectMany(f => new[] { f }.Concat(Walk(f.ChildFields)).Concat(Walk(f.ListElements)));
@@ -98,12 +101,13 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void StructuralHistoryRestoresAcrossScalarEditsAndBranching()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         string original = document.BlobSha256;
         document.SetSockets(Target(), [0, 0]);
@@ -126,15 +130,16 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void RecordReaderStageTimings()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var rows = new List<object>();
-        foreach (string name in new[] { "fishing_no_first_catch.save", "editing_baseline_2.03.02.save" })
+        foreach (string name in new[] { "fishing_no_first_catch", "editing_baseline" })
         {
-            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, name))).Blob;
+            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named(name))).Blob;
             var layout = ParcLayout.Parse(raw);
             foreach (string stage in new[] { "validate", "InventorySaveData", "EquipmentSaveData", "StoreSaveData", "MercenaryClanSaveData", "KnowledgeSaveData" })
             {
@@ -156,12 +161,13 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void EqualSizeSocketRelocationAndScalarRefreshSurviveReopening()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         document.SetSockets(Target(), [1002785, 0]);
         string before = document.BlobSha256;
@@ -189,15 +195,16 @@ public sealed class EditingPerformanceTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void ScalarRefreshMatchesFullReaderAndRecordsBackendTimings()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var results = new List<object>();
-        foreach (string name in new[] { "early_progress_2.03.02.save", "fishing_no_first_catch.save", "editing_baseline_2.03.02.save" })
+        foreach (string name in new[] { "early_progress", "fishing_no_first_catch", "editing_baseline" })
         {
-            string path = Path.Combine(fixtures, name);
+            string path = FixtureSaves.Named(name);
             var document = SaveDocument.Open(path);
             byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
             string original = document.BlobSha256;

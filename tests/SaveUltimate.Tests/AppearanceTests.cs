@@ -12,6 +12,8 @@ namespace SaveUltimate.Tests;
 public sealed class AppearanceTests
 {
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void TranslatedNameLookupMatchesEveryEntryAndPreservesFallbacks()
     {
         string previous = Tr.Language;
@@ -36,6 +38,8 @@ public sealed class AppearanceTests
     }
 
     [TestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void SettingsRoundTripAndSaveDiscoveryPreserveFilesAndMissingRecents()
     {
         string root = Path.Combine(Path.GetTempPath(), "save-ui-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(root);
@@ -70,12 +74,14 @@ public sealed class AppearanceTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void OriginalThemeFontSettingsSlotsAndEveryPageRenderWithoutChangingSave()
     {
         if (Application.Current is null) { var app = new App.App(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
-        var doc = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string hash = doc.BlobSha256; var model = new MainViewModel(doc);
         var old = SettingsStore.Current; string oldPath = SettingsStore.FilePath;
         string temporary = Path.Combine(Path.GetTempPath(), "ui-settings-" + Guid.NewGuid().ToString("N") + ".json");

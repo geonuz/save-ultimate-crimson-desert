@@ -13,6 +13,7 @@ namespace SaveUltimate.Tests;
 public sealed class BinaryTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
     public void SocketLimitReaderSkipsUnneededCatalogFieldsAndRejectsInvalidLimits()
     {
         static Dictionary<uint, int> Read(string json)
@@ -30,6 +31,7 @@ public sealed class BinaryTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void BinaryRecordReaderPreservesFieldsAndRejectsMalformedPackets()
     {
         using var stream = new MemoryStream();
@@ -75,6 +77,7 @@ public sealed class BinaryTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void FieldLookupRejectsMissingAndDuplicateNames()
     {
         SaveField[] fields = [new() { Name = "key" }, new() { Name = "value" }];
@@ -84,6 +87,7 @@ public sealed class BinaryTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void ChaChaMatchesRfc8439BlockVector()
     {
         byte[] key = Enumerable.Range(0, 32).Select(i => (byte)i).ToArray();
@@ -95,6 +99,7 @@ public sealed class BinaryTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void CompressionRequiresExactExpandedLength()
     {
         byte[] source = Enumerable.Range(0, 2000).Select(i => (byte)(i % 11)).ToArray();
@@ -118,6 +123,7 @@ public sealed class BinaryTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void DdsConversionPreservesBoundsAndTransparency()
     {
         using var original = new MagickImage(MagickColors.Transparent, 16, 8);

@@ -12,6 +12,7 @@ namespace SaveUltimate.Tests;
 public sealed class ChallengeTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
     public void ShippedCompletionCoversEveryOfferedChallenge()
     {
         var catalog = ChallengeCatalog.Shared; var completion = ChallengeCatalog.Completion;
@@ -23,12 +24,13 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void SelectedListReaderMatchesFullMetadataAndRejectsUnsupportedFields()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(Path.Combine(fixtures, "fishing_no_first_catch.save"))).Blob;
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("fishing_no_first_catch"))).Blob;
         var layout = ParcLayout.Parse(raw);
         var expected = SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list");
         var selected = SaveRecords.ReadLists(raw, layout, "KnowledgeSaveData", "_list");
@@ -39,14 +41,15 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [DataRow(false)]
     [DataRow(true)]
     [TestCategory("PrivateFixtures")]
     public void InvalidClockOrUnknownStateDoesNotCommit(bool invalidClock)
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        string source = Path.Combine(fixtures, "challenges_partly_incomplete_2.03.02.save");
+        string source = FixtureSaves.Named("challenges_partly_incomplete");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
         var block = SaveRecords.ReadLists(raw, ParcLayout.Parse(raw), "QuestSaveData", "_questStateList", "_missionStateList");
         if (invalidClock)
@@ -75,6 +78,7 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void CompletedTagsFollowDefinitionsAndLeaveNewPatchTagsToTheGame()
     {
         const uint start = 0x872571C6, empty = 0xEAC5E173, complete = 0x599D2AA7, patchDay1 = 0xF4A09B0C, patch2_04_06 = 0x62316B37;
@@ -88,14 +92,15 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void DoctorRepairsRowsWithoutArrayMarkersAndKeepsEverythingElse()
     {
         string? root = FixtureSaves.Root;
         if (root is null) Assert.Inconclusive("Set private fixtures.");
-        foreach (var (name, damaged) in new[] { ("mission_rows_inserted_2.03.save", 41), ("mission_rows_inserted_2.04.save", 8) })
+        foreach (var (name, damaged) in new[] { ("mission_rows_41", 41), ("mission_rows_8", 8) })
         {
-            string source = Path.Combine(root, "damaged", name);
+            string source = FixtureSaves.Named(name);
             Assert.AreEqual(damaged, SaveDocument.Diagnose(source).DamagedRows, name);
             var document = SaveDocument.Open(source);
             var before = document.ReadChallenges();
@@ -132,7 +137,8 @@ public sealed class ChallengeTests
                 CollectionAssert.AreEqual(original, SaveContainer.Decode(File.ReadAllBytes(undone)).Blob, name);
                 // A repaired save can be edited again.
                 document = SaveDocument.Open(copy);
-                var open = ChallengeCatalog.Completion.Roots.Where(r => document.ReadChallenges().Mission.GetValueOrDefault(r)?.State != 5).Take(3).ToArray();
+                var progress = document.ReadChallenges();
+                var open = ChallengeCatalog.Completion.Roots.Where(r => progress.Mission.GetValueOrDefault(r)?.State != 5).Take(3).ToArray();
                 Assert.IsTrue(document.CompleteChallenges(open).Completed > 0, name);
             }
             finally { Directory.Delete(directory, true); }
@@ -140,12 +146,13 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void DlcCressetsActivateWithTheirMissions()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "dlc_fog_and_skill_observe_2.04.00.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("dlc_fog_and_skill_observe"));
         int index = Array.FindIndex(MapAction.All, a => a.ChallengeRoots is { Length: > 0 });
         var action = MapAction.All[index];
         var scenes = action.Scenes.Where(DlcContent.Shared.Scenes.Contains).ToArray();
@@ -209,12 +216,13 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void CompletedMissionRowsKeepTheLayoutTheGameReads()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "early_progress_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("early_progress"));
         var before = document.ReadChallenges();
         var after = document.CompleteChallenges(ChallengeCatalog.Completion.Roots.Where(r => before.Mission.GetValueOrDefault(r)?.State != 5).ToArray()).State;
         var inserted = after.Mission.Keys.Except(before.Mission.Keys).ToHashSet();
@@ -234,18 +242,19 @@ public sealed class ChallengeTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void CheckpointsFamiliesAndBatchCompleteOnlyTheirMissionsAndUndoExactly()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         uint[] batch = [1000912, 1000913, 1000915, 1001044, 1001048, 1003194, 1000423, 1003957, 1004406, 1004407, 1004408, 1004409, 1004410];
         // An existing and a missing checkpoint record, one family, and a batch; the counts are what those saves leave incomplete.
         foreach (var (file, roots, checkpoints, completed) in new (string, uint[], uint[]?, int)[] {
-            ("challenges_partly_incomplete_2.03.02.save", [1000912], [4294966659], 1), ("early_progress_2.03.02.save", [1000912], [4294966659], 1),
-            ("fishing_no_first_catch.save", [1000912], null, 7), ("challenges_partly_incomplete_2.03.02.save", batch, null, 38) })
+            ("challenges_partly_incomplete", [1000912], [4294966659], 1), ("early_progress", [1000912], [4294966659], 1),
+            ("fishing_no_first_catch", [1000912], null, 7), ("challenges_partly_incomplete", batch, null, 38) })
         {
-            string path = Path.Combine(fixtures, file);
+            string path = FixtureSaves.Named(file);
             byte[] source = File.ReadAllBytes(path);
             var document = SaveDocument.Open(path);
             string original = document.BlobSha256;
@@ -291,13 +300,15 @@ public sealed class ChallengeTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void ChallengeSelectionUndoAndFiltersStayConnected()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "challenges_partly_incomplete_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("challenges_partly_incomplete"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show();

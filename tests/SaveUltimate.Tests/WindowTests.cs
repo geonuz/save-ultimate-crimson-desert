@@ -13,12 +13,12 @@ namespace SaveUltimate.Tests;
 public sealed class WindowTests
 {
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void SocketDraftSurvivesTabsAndMatchingSearchButResetsWithSelectionOrSaveChanges()
     {
-        string? fixtures = FixtureSaves.Scenarios;
-        if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for socket draft parity.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = document.BlobSha256;
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
@@ -65,12 +65,12 @@ public sealed class WindowTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void SelectionAndSortSurviveTabsEditsAndUndoButNotAnotherFile()
     {
-        string? fixtures = FixtureSaves.Scenarios;
-        if (fixtures is null) Assert.Inconclusive("Set SAVEULTIMATE_FIXTURES for selection parity.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string path = Path.Combine(fixtures, "editing_baseline_2.03.02.save");
+        string path = FixtureSaves.Named("editing_baseline");
         var document = SaveDocument.Open(path);
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
@@ -128,11 +128,13 @@ public sealed class WindowTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void WindowLoadsAndCommandsRespectSelectionAndBusyState()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        string? fixtures = FixtureSaves.Scenarios;
-        var document = fixtures is null ? null : SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        string? fixtures = FixtureSaves.Root;
+        var document = fixtures is null ? null : SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(document);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         Assert.AreEqual(4, window.InputBindings.Count);
@@ -202,6 +204,8 @@ public sealed class WindowTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void RepurchaseSearchListsFittingItemsAndClearsSelectionOnFilter()
     {
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
@@ -233,6 +237,8 @@ public sealed class WindowTests
     };
 
     [TestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void SoldRecordOnlyBecomesItemsThatCanHoldItsState()
     {
         const uint lumenSword = 1004316, stone = 1002785; // +10, 3 sockets, single / no enchant, no sockets, stacks to 50

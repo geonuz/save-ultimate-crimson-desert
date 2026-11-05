@@ -10,6 +10,7 @@ namespace SaveUltimate.Tests;
 public sealed class ErrorCodeTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
     public void ExceptionsMapToStableCodes()
     {
         Assert.AreEqual("SU-201", ErrorCodes.Classify(new FileNotFoundException("x")).Code);
@@ -30,6 +31,7 @@ public sealed class ErrorCodeTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void NativeLoadFailuresNameTheFileAndReason()
     {
         string directory = Directory.CreateTempSubdirectory().FullName;
@@ -66,6 +68,8 @@ public sealed class ErrorCodeTests
     }
 
     [TestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     public void NativeLibrariesNeedOnlyWindowsLibraries()
     {
         // A MinGW runtime import such as libwinpthread-1.dll is absent on PCs without MinGW, so saves would not open there.
@@ -80,6 +84,7 @@ public sealed class ErrorCodeTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void EveryCodeHasAMessageInEveryLanguage()
     {
         string Locale(string language) => Path.Combine(AppContext.BaseDirectory, "resources", "locale", language + ".json");

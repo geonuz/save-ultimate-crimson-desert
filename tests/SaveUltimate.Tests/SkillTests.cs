@@ -12,6 +12,7 @@ namespace SaveUltimate.Tests;
 public sealed class SkillTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
     public void SkillDescriptionsNameKeyPromptsAndResolveLabelledLinks()
     {
         var bindings = SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyBindings("""
@@ -44,6 +45,7 @@ public sealed class SkillTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void PlansPreserveSharedFundingObservationAndRequirements()
     {
         var state = new SkillState(new Dictionary<uint, uint>(), new Dictionary<uint, SkillPayment>(),
@@ -88,11 +90,12 @@ public sealed class SkillTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void InvestedSkillCanBeObservedRoundTripAndUndo()
     {
-        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
-        var document = SaveDocument.Open(Path.Combine(fixtures, "dlc_fog_and_skill_observe_2.04.00.save")); string original = document.BlobSha256;
+        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
+        var document = SaveDocument.Open(FixtureSaves.Named("dlc_fog_and_skill_observe")); string original = document.BlobSha256;
         var before = document.ReadSkills();
         uint key = SkillCatalog.Shared.Skills.Values.First(d => d.Watch && before.Level(d.Key) > 0 && before.Paid.ContainsKey(d.Key) && !before.Follow.ContainsKey(d.Key)).Key;
         var after = document.LearnSkill(key, 1, true);
@@ -107,15 +110,16 @@ public sealed class SkillTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void RealSkillRecordsRejectBrokenLedgersAndEditsUndo()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        string[] editable = ["early_progress_2.03.02.save", "fishing_no_first_catch.save", "skills_ledger_sample.save", "map_partly_explored.save"];
-        foreach (string file in editable.Concat(["old_version_2.00.02.save", "editing_baseline_2.03.02.save", "challenges_partly_incomplete_2.03.02.save"]))
+        string[] editable = ["early_progress", "fishing_no_first_catch", "map_partly_explored"];
+        foreach (string file in editable.Concat(["old_version", "editing_baseline", "challenges_partly_incomplete"]))
         {
-            string path = Path.Combine(fixtures, file);
+            string path = FixtureSaves.Named(file);
             byte[] original = File.ReadAllBytes(path);
             var document = SaveDocument.Open(path);
             var state = document.ReadSkills();
@@ -158,13 +162,15 @@ public sealed class SkillTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void SkillTreePreservesOriginalInteractionAndSharedUndo()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var document = SaveDocument.Open(Path.Combine(fixtures, "fishing_no_first_catch.save"));
+        var document = SaveDocument.Open(FixtureSaves.Named("fishing_no_first_catch"));
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
         WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
@@ -198,17 +204,19 @@ public sealed class SkillTests
     }
 
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void SkillPageMarksOnlyPendingEditsUnderItsTitle()
     {
-        string? fixtures = FixtureSaves.Scenarios;
+        string? fixtures = FixtureSaves.Root;
         if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
         var model = new MainViewModel();
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show(); model.PageIndex = 4; window.UpdateLayout();
         // The page is already on screen when the save loads, so it renders as soon as the skills arrive.
-        WindowTests.Pump(() => model.LoadFileAsync(Path.Combine(fixtures, "skills_page_load_2.04.03.save")));
+        WindowTests.Pump(() => model.LoadFileAsync(FixtureSaves.Named("dlc_bonds_per_character")));
         window.UpdateLayout();
         var tabs = (SkillsView)window.FindName("SkillsArea");
         var page = (SkillPage)((TabItem)tabs.SelectedItem).Content;

@@ -10,12 +10,14 @@ namespace SaveUltimate.Tests;
 public sealed class UndoViewTests
 {
     [STATestMethod]
+    [TestCategory("UI")]
+    [DoNotParallelize]
     [TestCategory("PrivateFixtures")]
     public void UndoRefreshesAffectedViewsAndPreservesUnrelatedViews()
     {
-        string fixtures = FixtureSaves.Scenarios ?? throw new AssertInconclusiveException("Set fixtures.");
+        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
         if (Application.Current is null) _ = new App.App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-        var doc = SaveDocument.Open(Path.Combine(fixtures, "editing_baseline_2.03.02.save"));
+        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = doc.BlobSha256;
         var model = new MainViewModel(doc);
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };

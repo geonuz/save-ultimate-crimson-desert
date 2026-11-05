@@ -66,16 +66,33 @@ focused test for changes to save data or nontrivial behavior.
 dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory!=PrivateFixtures"
 ```
 
-The public suite needs no saves or game installation. Tests marked
-`PrivateFixtures` edit real saves, check the result by reading it back, saving
-and undoing, and report Inconclusive unless their inputs are configured through
-the environment variables `SAVEULTIMATE_FIXTURES` (a folder of saves) and
-`SAVEULTIMATE_GAME` (the installed game). Those inputs are personal data and
-stay outside Git. The fixture folder has two parts: `collected/` for saves added
-as they come, and `scenarios/` for saves a test names, renamed for what they
-check (such as `scenarios/editing_baseline_2.03.02.save`). A save moves from
-`collected/` to `scenarios/` when a test adopts it. Every save in both is read,
-has every map group activated and is undone exactly.
+Tests come in four layers, each a `TestCategory`:
+
+| Layer | What it checks | Needs |
+|---|---|---|
+| `Unit` | Parsers, formats, error codes | Nothing |
+| `Contract` | Rules that hold on any save: `FeatureContracts` lists every feature with its postcondition and the sections it may change | Saves |
+| `Scenario` | What only a known save can show: exact values, refusals, boundaries | Saves, game |
+| `UI` | Windows and pages, run one at a time | Saves |
+
+A rule that holds on any save belongs in `FeatureContracts`, not in a scenario. A new editor feature needs a contract.
+While working, run only the layer you touched, and run everything before a release; the whole suite should stay under
+3 minutes:
+
+```powershell
+dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory=Contract"
+```
+
+`Unit` needs no saves or game installation. Tests marked `PrivateFixtures` edit real saves and report Inconclusive unless
+their inputs are configured through the environment variables `SAVEULTIMATE_FIXTURES` (a folder of saves) and
+`SAVEULTIMATE_GAME` (the installed game). Those inputs are personal data and stay outside Git. Saves are named
+`<player>/<game version>_<stage>_<purpose>.save`, with numbered player folders and no real names; tests name the purpose
+through `FixtureSaves.Named`. `ContractTests` runs every feature on every save that holds what the feature needs, requires
+each feature to reach 3 players, and writes `COVERAGE.md` beside the saves. Keep saves that add a player, a progress stage, a
+format or values a test needs, not more of the same. The test folder's README describes adding a save.
+
+Test classes run side by side. A test that uses WPF or a process-wide static such as `DlcContent.Hidden` must carry
+`[DoNotParallelize]`.
 
 Keep saves, extracted game files, settings, backups, credentials and research
 outputs out of the repository. `docs/` and `artifacts/` hold private notes and

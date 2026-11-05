@@ -29,6 +29,7 @@ public sealed class ArchiveTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void PamtChecksBoundsChecksumAndCyclicNames()
     {
         byte[] bytes = Index();
@@ -41,6 +42,7 @@ public sealed class ArchiveTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void CompactPamtResolvesParentsAndExtensions()
     {
         Assert.AreEqual(3u, PamtIndex.Parse(Index(compact: true, extension: 1)).Entries["ab.txt"].CompressedSize);
@@ -51,6 +53,7 @@ public sealed class ArchiveTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void ExtractReadsOnlyTheSpecifiedEntry()
     {
         string directory = Path.Combine(Path.GetTempPath(), "SaveUltimate-archive-" + Guid.NewGuid().ToString("N"));

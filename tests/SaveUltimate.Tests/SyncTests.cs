@@ -10,6 +10,7 @@ namespace SaveUltimate.Tests;
 public sealed class SyncTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
     public void ClientTablesRejectTruncationAndDuplicateLocalizedKeys()
     {
         Assert.Throws<InvalidDataException>(() => ClientTables.Records([1, 0], []));
@@ -44,6 +45,7 @@ public sealed class SyncTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void ClientTablesReadBothRecordLayoutsAndLetDlcReplaceBaseRecords()
     {
         var (h, b) = Table(false, (7, "Old", 1));
@@ -60,6 +62,7 @@ public sealed class SyncTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void PublishingNewCacheMovesCompleteDirectory()
     {
         string root = Path.Combine(Path.GetTempPath(), "sync-publish-" + Guid.NewGuid().ToString("N"));
@@ -82,6 +85,7 @@ public sealed class SyncTests
     }
 
     [TestMethod]
+    [TestCategory("Unit")]
     public void PublishingFailureRestoresPreviouslyReplacedFiles()
     {
         string root = Path.Combine(Path.GetTempPath(), "sync-publish-" + Guid.NewGuid().ToString("N"));
@@ -106,6 +110,7 @@ public sealed class SyncTests
     }
 
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void InstalledGameSyncMatchesShippedMetadataAndReusesValidatedCache()
     {
@@ -142,6 +147,7 @@ public sealed class SyncTests
 
     // Exercises every client-table reader against the installed game and catches shipped resources drifting from it.
     [TestMethod]
+    [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void ShippedCatalogsAreWhatTheBuildersReadFromTheInstalledGame()
     {

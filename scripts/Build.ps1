@@ -66,8 +66,10 @@ try {
     & $dotnet build SaveUltimate.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false
     if ($LASTEXITCODE) { throw 'Managed compilation failed.' }
     if ($Test) {
+        $testClock = [Diagnostics.Stopwatch]::StartNew()
         & $dotnet test tests/SaveUltimate.Tests -c Release --no-build --no-restore -m:1 --logger trx --results-directory artifacts/tests
         if ($LASTEXITCODE) { throw 'Tests failed.' }
+        if ($testClock.Elapsed.TotalMinutes -gt 3) { Write-Warning ('Tests took {0:N1} minutes; keep them under 3.' -f $testClock.Elapsed.TotalMinutes) }
     }
     if ($Publish) {
         if (!$OutputDirectory) { $OutputDirectory = Join-Path $root ('releases/SaveUltimate-' + (Get-Date -Format yyyyMMdd-HHmmss)) }
