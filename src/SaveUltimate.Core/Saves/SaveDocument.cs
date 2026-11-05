@@ -54,6 +54,8 @@ public sealed partial class SaveDocument
     public bool CanUndo => undo.Count != 0;
     public string BlobSha256 => Convert.ToHexString(SHA256.HashData(blob));
     public IReadOnlyList<InventoryItem> Items { get; private set; }
+    // Called when the C# reader refuses a block and the native reader takes over, so such saves leave a trace in reports.
+    public static Action<Exception>? ReaderFallback { get; set; }
 
     private SaveDocument(string path, byte[] file, byte[] raw)
     {
@@ -62,7 +64,18 @@ public sealed partial class SaveDocument
         blob = raw;
         savedBlob = raw;
         Layout = ParcLayout.Parse(raw);
+        RefuseOldGameVersion(raw, Layout);
         Items = Inventory.Read(raw, Layout, snapshot);
+    }
+
+    // No edit was ever checked in game on a 1.x save.
+    private static void RefuseOldGameVersion(byte[] raw, ParcLayout layout)
+    {
+        const string block = "InventoryItemContentsSaveData";
+        const uint firstSupported = 2 << 16;
+        if (layout.Blocks.Any(b => b.Name == block) && SaveRecords.Read(raw, layout, block).Fields.Named("_savedGameVersion") is { Present: true } version &&
+            version.Scalar(raw, version.TypeName, 4) < firstSupported)
+            throw new InvalidDataException("Saves from game version 1.x are not supported.");
     }
 
     public static SaveDocument Open(string path)
@@ -128,7 +141,7 @@ public sealed partial class SaveDocument
         var offsets = new HashSet<int>();
         var identities = new HashSet<int>();
         foreach (string name in blocks.Where(name => Layout.Blocks.Any(b => b.Name == name)))
-            foreach (var record in SaveRecords.ReadObjects(blob, Layout, name, item).SelectMany(o => o.Fields))
+            foreach (var record in SaveRecords.ItemReferences(blob, Layout, name, item))
             {
                 SaveRecords.ValidateItem(blob, record);
                 var fields = record.ChildFields;

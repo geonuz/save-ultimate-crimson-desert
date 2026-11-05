@@ -82,27 +82,6 @@ public sealed class EditingPerformanceTests
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    public void OwnershipReaderKeepsStockCountsWithoutRetainingStockRecords()
-    {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
-        var store = SaveRecords.Read(raw, ParcLayout.Parse(raw), "StoreSaveData");
-        static IEnumerable<SaveField> Walk(IEnumerable<SaveField> fields)
-            => fields.SelectMany(f => new[] { f }.Concat(Walk(f.ChildFields)).Concat(Walk(f.ListElements)));
-        var stock = Walk(store.Fields).Where(f => f.Name == "_storeItemList" && f.Present && f.ListCount > 0).ToArray();
-        Assert.IsTrue(stock.Length > 0);
-        foreach (var field in stock)
-        {
-            Assert.AreEqual(0, field.ListElements.Length);
-            Assert.IsTrue(field.EndOffset > field.StartOffset && field.EndOffset <= raw.Length);
-            Assert.Throws<InvalidDataException>(() => field.Elements("ItemSaveData"));
-        }
-    }
-
-    [TestMethod]
-    [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
     public void StructuralHistoryRestoresAcrossScalarEditsAndBranching()
     {
         string? fixtures = FixtureSaves.Root;

@@ -94,7 +94,7 @@ public static class ErrorCodes
     private static IEnumerable<string?> Frames(Exception error) =>
         (new StackTrace(error, false).GetFrames() ?? []).Select(f => f.GetMethod()?.DeclaringType?.Namespace);
 
-    private static void Log(string code, Exception error)
+    internal static void Log(string code, Exception error)
     {
         try
         {

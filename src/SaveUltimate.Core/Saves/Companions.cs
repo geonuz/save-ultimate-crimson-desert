@@ -23,7 +23,7 @@ public sealed partial class SaveDocument
 {
     private static (Companion Value, int MaskOffset, int NameIndex, int Start, int End)[] CompanionRecords(byte[] raw, ParcLayout layout)
     {
-        var list = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", true, "_mercenaryDataList").Fields.Named("_mercenaryDataList");
+        var list = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", "_mercenaryDataList").Fields.Named("_mercenaryDataList");
         var seen = new HashSet<ulong>();
         return list.Elements("MercenarySaveData").Select(row =>
         {
@@ -33,8 +33,7 @@ public sealed partial class SaveDocument
             if (!seen.Add(number) || row.ChildUndecodedRanges.Length != 0 || name.TypeName != "staticstringA" || name.MetaKind != 1 ||
                 row.ChildPayloadOffset != row.StartOffset + 17 + row.ChildMaskByteCount)
                 throw new InvalidDataException("Unsupported companion record.");
-            int insert = name.Present ? name.StartOffset : row.ChildFields.Where(f => f.FieldIndex < name.FieldIndex && f.Present)
-                .Select(f => f.EndOffset).DefaultIfEmpty(row.ChildPayloadOffset + 4).Max();
+            int insert = name.StartOffset;
             if (insert < row.ChildPayloadOffset + 4 || insert > row.EndOffset - 4) throw new InvalidDataException("Invalid companion name position.");
             return (new Companion(number, key, name.Present ? name.Text(raw) : null),
                 row.StartOffset + 2 + name.FieldIndex / 8, name.FieldIndex, insert, name.Present ? name.EndOffset : insert);
@@ -178,7 +177,7 @@ public sealed partial class SaveDocument
         {
             if (!field.Present) return;
             if (field.ChildUndecodedRanges.Length != 0 || field.ListElements.Length != field.ListCount) throw new InvalidDataException("Unsupported companion record.");
-            if (field.ChildFields.Length != 0)
+            if (field.ChildPayloadOffset != 0)
             {
                 int pointer = field.ChildPayloadOffset - 4;
                 if (pointer < record.StartOffset || pointer + 4 > record.EndOffset || BinaryPrimitives.ReadUInt32LittleEndian(blob.AsSpan(pointer)) != field.ChildPayloadOffset)

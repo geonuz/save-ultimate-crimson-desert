@@ -111,61 +111,55 @@ internal static class SaveRecords
         => ReadObjects(raw, layout, name).Single();
 
     internal static SaveObject ReadLists(byte[] raw, ParcLayout layout, string name, params string[] lists)
-        => ReadLists(raw, layout, name, false, lists);
-
-    internal static SaveObject ReadLists(byte[] raw, ParcLayout layout, string name, bool shallow, params string[] lists)
     {
-        var block = layout.Blocks.Single(b => b.Name == name);
-        var fields = layout.Types[block.TypeIndex].Fields;
+        var fields = layout.Types[Blocks(layout, name)[0].TypeIndex].Fields;
         if (lists.Length == 0 || lists.Distinct().Count() != lists.Length ||
             lists.Any(n => fields.Count(f => f.Name == n && f.Kind is 6 or 7) != 1))
             throw new InvalidDataException("Missing or unsupported selected list.");
-        int maskSize = BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(block.Offset, 2));
-        if (block.Offset + 2 + maskSize > block.Offset + block.Size)
-            throw new InvalidDataException("Invalid record block mask.");
-        // Like Python, absent lists need the full decoder to locate their marker bytes.
-        if (fields.Select((f, i) => (f, i)).Any(p => lists.Contains(p.f.Name) &&
-            (p.i / 8 >= maskSize || (raw[block.Offset + 2 + p.i / 8] & (1 << (p.i % 8))) == 0)))
-            return Read(raw, layout, name);
-        int code = parc_field_spans(raw, checked((uint)raw.Length), (uint)block.TypeIndex, out var output, out uint length);
-        uint[] spans;
-        try
-        {
-            if (output == IntPtr.Zero) throw new InvalidDataException("Missing field spans.");
-            if (code != 0) throw new InvalidDataException(Marshal.PtrToStringUTF8(output, checked((int)length)));
-            if (length % 12 != 0) throw new InvalidDataException("Invalid field spans.");
-            var values = new int[checked((int)length / 4)];
-            Marshal.Copy(output, values, 0, values.Length);
-            var selected = new List<uint>();
-            var seen = new HashSet<string>();
-            for (int i = 0; i < values.Length; i += 3)
-            {
-                int index = values[i], start = values[i + 1], end = values[i + 2];
-                if (index < 0 || index >= fields.Count || start < block.Offset || end <= start || end > block.Offset + block.Size)
-                    throw new InvalidDataException("Selected list outside its block.");
-                if (!lists.Contains(fields[index].Name)) continue;
-                if (fields[index].Kind is not 6 and not 7 || !seen.Add(fields[index].Name))
-                    throw new InvalidDataException("Unsupported selected list.");
-                selected.Add((uint)index); selected.Add((uint)start); selected.Add((uint)end);
-            }
-            if (seen.Count != lists.Length || lists.Length == 0) throw new InvalidDataException("Missing selected list.");
-            spans = selected.Chunk(3).OrderBy(s => s[1]).SelectMany(s => s).ToArray();
-        }
-        finally { if (output != IntPtr.Zero) parc_index_free(output); }
-        return ReadObjects(raw, layout, name, spans: spans, shallow: shallow).Single();
+        return new() { ClassName = name, Fields = Read(raw, layout, name).Fields.Where(f => lists.Contains(f.Name)).ToArray() };
     }
 
-    internal static unsafe SaveObject[] ReadObjects(byte[] raw, ParcLayout layout, string name, InventoryItem? references = null, uint[]? spans = null, bool shallow = false)
+    private static ParcBlock[] Blocks(ParcLayout layout, string name)
     {
         var blocks = layout.Blocks.Where(b => b.Name == name).ToArray();
         if (blocks.Length == 0 || blocks.Any(b => b.TypeIndex != blocks[0].TypeIndex)) throw new InvalidDataException($"Missing or ambiguous {name} type.");
-        IntPtr output;
-        uint length;
-        int code = spans is not null
-            ? parc_read_lists(raw, checked((uint)raw.Length), (uint)blocks[0].TypeIndex, spans, (uint)spans.Length, shallow ? 1u : 0u, out output, out length)
-            : references is null
-            ? parc_read_block(raw, checked((uint)raw.Length), checked((uint)blocks[0].TypeIndex), out output, out length)
-            : parc_read_item_references(raw, checked((uint)raw.Length), checked((uint)blocks[0].TypeIndex), references.Number, references.Key, out output, out length);
+        return blocks;
+    }
+
+    internal static SaveObject[] ReadObjects(byte[] raw, ParcLayout layout, string name)
+    {
+        var blocks = Blocks(layout, name);
+        try { return Array.ConvertAll(blocks, b => ParcReader.Read(raw, layout, b)); }
+        // shortcut: a save nobody has tested may break the layout rule; the native reader keeps those open for one release and leaves with native/.
+        catch (InvalidDataException error)
+        {
+            SaveDocument.ReaderFallback?.Invoke(error);
+            return ReadNative(raw, layout, name);
+        }
+    }
+
+    // Every record of the item, wherever the block keeps one.
+    internal static List<SaveField> ItemReferences(byte[] raw, ParcLayout layout, string name, InventoryItem item)
+    {
+        var found = new List<SaveField>();
+        void Visit(SaveField field)
+        {
+            if (field.ChildTypeName == "ItemSaveData" && field.ChildFields.Named("_saveVersion").Present &&
+                field.ChildFields.Named("_itemNo") is { Present: true } number && number.Scalar(raw, "ItemNo", 8) == item.Number &&
+                field.ChildFields.Named("_itemKey") is { Present: true } key && key.Scalar(raw, "ItemKey", 4) == item.Key)
+                found.Add(field);
+            foreach (var child in field.ChildFields) Visit(child);
+            foreach (var element in field.ListElements) Visit(element);
+        }
+        foreach (var block in ReadObjects(raw, layout, name))
+            foreach (var field in block.Fields) Visit(field);
+        return found;
+    }
+
+    internal static unsafe SaveObject[] ReadNative(byte[] raw, ParcLayout layout, string name)
+    {
+        var blocks = Blocks(layout, name);
+        int code = parc_read_block(raw, checked((uint)raw.Length), checked((uint)blocks[0].TypeIndex), out var output, out uint length);
         if (output == IntPtr.Zero) throw new InvalidDataException($"Record reader failed ({code}).");
         try
         {
@@ -188,14 +182,6 @@ internal static class SaveRecords
         finally { parc_reader_free(output); }
     }
 
-    [DllImport("parc_reader.dll", EntryPoint = "parc_read_lists_v2", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int parc_read_lists(byte[] raw, uint size, uint type, uint[] spans, uint count, uint shallow, out IntPtr output, out uint length);
-    [DllImport("parc_index.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int parc_field_spans(byte[] raw, uint size, uint type, out IntPtr output, out uint length);
-    [DllImport("parc_index.dll", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void parc_index_free(IntPtr output);
-    [DllImport("parc_reader.dll", EntryPoint = "parc_read_item_references_v2", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int parc_read_item_references(byte[] raw, uint size, uint type, ulong number, uint key, out IntPtr output, out uint length);
     [DllImport("parc_reader.dll", EntryPoint = "parc_read_block_v2", CallingConvention = CallingConvention.Cdecl)]
     private static extern int parc_read_block(byte[] raw, uint size, uint type, out IntPtr output, out uint length);
     [DllImport("parc_reader.dll", CallingConvention = CallingConvention.Cdecl)]

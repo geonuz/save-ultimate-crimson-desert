@@ -267,6 +267,66 @@ public sealed class ParcReaderTests
         }
     }
 
+    private static byte[] MissionRows()
+    {
+        var blob = new BlobWriter(0, ("Root", [("_list", "MissionStateData", 6, 0)]),
+            ("MissionStateData", [("_key", "MissionKey", 0, 4), ("_state", "QuestStateType", 2, 1), ("_tags", "StringInfoKey", 3, 4), ("_alarm", "bool", 0, 1)]));
+        blob.Block([1], () =>
+        {
+            blob.List(3);
+            blob.Object(1, [0b0011], () => blob.U32(77).Bytes(5));
+            blob.Object(1, [0b1011], () => blob.U32(78).Bytes(5, 1, 0));
+            blob.Object(1, [0b1011], () => blob.U32(79).Bytes(5));
+        });
+        return blob.Finish();
+    }
+
+    [TestMethod]
+    [TestCategory("Unit")]
+    public void ReadKeepsMarkerlessMissionRowsAndValidateRefusesThem()
+    {
+        byte[] raw = MissionRows();
+        Refused(raw);
+        var rows = Read(raw).Named("_list").ListElements;
+        Assert.AreEqual(3, rows.Length);
+        Assert.AreEqual(77ul, rows[0].ChildFields.Named("_key").Scalar(raw, "MissionKey", 4));
+        Assert.AreEqual(5ul, rows[0].ChildFields.Named("_state").Scalar(raw, "QuestStateType", 1));
+        Assert.IsFalse(rows[0].ChildFields.Named("_tags").Present);
+        Assert.AreEqual(1, rows[1].ChildFields.Named("_tags").EndOffset - rows[1].ChildFields.Named("_tags").StartOffset);
+        Assert.AreEqual(0ul, rows[1].ChildFields.Named("_alarm").Scalar(raw, "bool", 1));
+        // Its flag says _alarm is there, but the row ends first.
+        Assert.AreEqual(79ul, rows[2].ChildFields.Named("_key").Scalar(raw, "MissionKey", 4));
+        Assert.ThrowsExactly<InvalidDataException>(() => rows[2].ChildFields.Named("_alarm").Scalar(raw, "bool", 1));
+
+        var layout = ParcLayout.Parse(raw);
+        int start = layout.Blocks.Single().Offset;
+        var random = new Random(20261106);
+        for (int i = 0; i < 5000; i++)
+        {
+            byte[] copy = (byte[])raw.Clone();
+            copy[random.Next(start, copy.Length)] = (byte)random.Next(256);
+            try { ParcReader.Read(copy, layout, layout.Blocks.Single()); }
+            catch (InvalidDataException) { }
+        }
+    }
+
+    [TestMethod]
+    [TestCategory("PrivateFixtures")]
+    [TestCategory("Contract")]
+    public void TheNativeReaderTakesOverWhatTheLayoutRefusesAndLeavesATrace()
+    {
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
+        var layout = ParcLayout.Parse(raw);
+        var rows = SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list").ListElements;
+        // The native reader tolerates a stale payload address.
+        BinaryPrimitives.WriteUInt32LittleEndian(raw.AsSpan(rows[0].ChildPayloadOffset - 4), 1);
+        var seen = new ConcurrentBag<Exception>();
+        SaveDocument.ReaderFallback = seen.Add;
+        try { Assert.AreEqual(rows.Length, SaveRecords.Read(raw, layout, "KnowledgeSaveData").Fields.Named("_list").ListElements.Length); }
+        finally { SaveDocument.ReaderFallback = null; }
+        Assert.IsFalse(seen.IsEmpty);
+    }
+
     private static string[] Saves() => Directory.GetFiles(FixtureSaves.Root ?? throw new AssertInconclusiveException("Set SAVEULTIMATE_FIXTURES."), "*.save", SearchOption.AllDirectories);
     private static bool Damaged(string path) => Path.GetFileName(Path.GetDirectoryName(path)) == "damaged";
 
@@ -287,15 +347,16 @@ public sealed class ParcReaderTests
                 catch (InvalidDataException e) { failures.Add($"{name}: {e.Message}"); }
                 return;
             }
-            bool broken = false;
+            try
+            {
+                ParcReader.Validate(raw, layout);
+                failures.Add($"{name}: its damaged mission rows were not noticed.");
+            }
+            catch (InvalidDataException e) when (e.Message.Contains("MissionStateData")) { }
+            catch (InvalidDataException e) { failures.Add($"{name}: {e.Message}"); }
             foreach (var block in layout.Blocks)
                 try { ParcReader.Read(raw, layout, block); }
-                catch (InvalidDataException e)
-                {
-                    if (block.Name == "QuestSaveData" && e.Message.Contains("MissionStateData")) broken = true;
-                    else failures.Add($"{name} {block.Name}: {e.Message}");
-                }
-            if (!broken) failures.Add($"{name}: its damaged mission rows were not noticed.");
+                catch (InvalidDataException e) { failures.Add($"{name} {block.Name}: {e.Message}"); }
         });
         Assert.AreEqual("", string.Join(Environment.NewLine, failures.Order()));
     }
@@ -365,7 +426,7 @@ public sealed class ParcReaderTests
             foreach (string name in layout.Blocks.Select(b => b.Name).Distinct())
             {
                 var blocks = layout.Blocks.Where(b => b.Name == name).ToArray();
-                var native = SaveRecords.ReadObjects(raw, layout, name);
+                var native = SaveRecords.ReadNative(raw, layout, name);
                 for (int i = 0; i < blocks.Length; i++)
                     CompareFields(native[i].Fields, ParcReader.Read(raw, layout, blocks[i]).Fields, name, differences);
             }

@@ -73,31 +73,71 @@ internal sealed class ParcReader
         return fields;
     }
 
-    private int Object(int start, int limit, bool indexed, int depth, SaveField? holder)
+    private ParcType Header(int start, int limit, bool indexed, out int mask, out int payload)
     {
-        if (depth >= MaximumDepth) throw new InvalidDataException("Record nesting is too deep.");
         Need(start, 2, limit, "Object");
-        int maskSize = U16(start), mask = start + 2, header = mask + maskSize;
+        int maskSize = U16(start), header = start + 2 + maskSize;
+        mask = start + 2;
+        payload = header + 15;
         Need(mask, maskSize + 19L, limit, "Object");
-        int typeIndex = U16(header), payload = header + 15;
+        int typeIndex = U16(header);
         if (typeIndex >= layout.Types.Count) throw new InvalidDataException($"Object at {start} has an unknown type.");
         var type = layout.Types[typeIndex];
         if (maskSize != MaskSize(type) || raw[header + 2] != 0 || (!indexed && !raw.AsSpan(header + 3, 8).SequenceEqual(EmptyId)) ||
             U32(payload - 4) != (uint)payload || U32(payload) != 0)
             throw new InvalidDataException($"Invalid {type.Name} header at {start}.");
+        return type;
+    }
+
+    private static void Fill(SaveField holder, ParcType type, int payload, uint size, SaveField[] fields)
+    {
+        holder.ChildTypeName = type.Name;
+        holder.ChildMaskByteCount = MaskSize(type);
+        holder.ChildPayloadOffset = payload;
+        holder.ChildSizeU32 = (int)size;
+        holder.ChildFields = fields;
+    }
+
+    private static SaveField New(ParcField definition, int index, bool present, int cursor) => new()
+    {
+        Name = definition.Name, TypeName = definition.TypeName, MetaKind = definition.Kind, MetaSize = definition.Size,
+        FieldIndex = index, Present = present, StartOffset = cursor, EndOffset = cursor
+    };
+
+    private int Object(int start, int limit, bool indexed, int depth, SaveField? holder)
+    {
+        if (depth >= MaximumDepth) throw new InvalidDataException("Record nesting is too deep.");
+        var type = Header(start, limit, indexed, out int mask, out int payload);
         pointers?.Add(payload - 4);
         int end = Fields(type, mask, payload + 4, limit, depth, out var fields);
         Need(end, 4, limit, type.Name);
         uint size = U32(end);
         if (size != (uint)(end - payload)) throw new InvalidDataException($"{type.Name} at {start} does not end after its last field.");
-        if (holder is not null)
+        if (holder is not null) Fill(holder, type, payload, size, fields);
+        return end + 4;
+    }
+
+    // Released versions inserted mission rows that hold only their present scalars, without the markers of absent arrays, and only
+    // the payload size still ends them. Read keeps what they hold so Save Doctor can repair them; Validate refuses them.
+    private int MarkerlessRow(int start, int limit, SaveField row)
+    {
+        var type = Header(start, limit, false, out int mask, out int payload);
+        int end = payload + 4;
+        for (Need(end, 4, limit, type.Name); U32(end) != (uint)(end - payload); Need(++end, 4, limit, type.Name)) { }
+        var fields = new SaveField[type.Fields.Count];
+        int cursor = payload + 4;
+        bool lost = false;
+        for (int i = 0; i < fields.Length; i++)
         {
-            holder.ChildTypeName = type.Name;
-            holder.ChildMaskByteCount = maskSize;
-            holder.ChildPayloadOffset = payload;
-            holder.ChildSizeU32 = (int)size;
-            holder.ChildFields = fields;
+            var definition = type.Fields[i];
+            bool present = (raw[mask + i / 8] & (1 << (i % 8))) != 0;
+            fields[i] = New(definition, i, present, cursor);
+            if (!present) continue;
+            // A field with no room or no fixed size leaves the position of everything after it unknown.
+            lost |= definition.Kind is not 0 and not 2 || definition.Size == 0 || definition.Size > end - cursor;
+            if (!lost) fields[i].EndOffset = cursor += definition.Size;
         }
+        Fill(row, type, payload, (uint)(end - payload), fields);
         return end + 4;
     }
 
@@ -109,11 +149,7 @@ internal sealed class ParcReader
         {
             var definition = definitions[i];
             bool present = (raw[mask + i / 8] & (1 << (i % 8))) != 0;
-            var field = build ? new SaveField
-            {
-                Name = definition.Name, TypeName = definition.TypeName, MetaKind = definition.Kind, MetaSize = definition.Size,
-                FieldIndex = i, Present = present, StartOffset = cursor
-            } : null;
+            var field = build ? New(definition, i, present, cursor) : null;
             string What() => $"{type.Name}.{definition.Name}";
             int Marker(byte expected)
             {
@@ -182,7 +218,8 @@ internal sealed class ParcReader
         for (int i = 0; i < count; i++)
         {
             var element = field is null ? null : new SaveField { Present = true, FieldIndex = i, StartOffset = cursor };
-            cursor = Object(cursor, limit, indexed, depth + 1, element);
+            try { cursor = Object(cursor, limit, indexed, depth + 1, element); }
+            catch (InvalidDataException) when (element is not null && Header(cursor, limit, indexed, out _, out _).Name == "MissionStateData") { cursor = MarkerlessRow(cursor, limit, element); }
             if (element is not null)
             {
                 element.TypeName = element.ChildTypeName;

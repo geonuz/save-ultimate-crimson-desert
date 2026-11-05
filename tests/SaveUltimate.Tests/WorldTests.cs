@@ -14,31 +14,6 @@ public sealed class WorldTests
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    public void CompanionProjectionPreservesDirectFieldsAndBoundaries()
-    {
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named("editing_baseline"))).Blob;
-        var layout = ParcLayout.Parse(raw);
-        var full = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", "_mercenaryDataList")
-            .Fields.Named("_mercenaryDataList").ListElements;
-        var shallow = SaveRecords.ReadLists(raw, layout, "MercenaryClanSaveData", true, "_mercenaryDataList")
-            .Fields.Named("_mercenaryDataList").ListElements;
-        Assert.IsTrue(full.Length > 0);
-        Assert.AreEqual(full.Length, shallow.Length);
-        for (int i = 0; i < full.Length; i++)
-        {
-            foreach (var field in full[i].ChildFields)
-            {
-                field.ChildFields = [];
-                field.ListElements = [];
-            }
-            Assert.AreEqual(JsonSerializer.Serialize(full[i]), JsonSerializer.Serialize(shallow[i]));
-        }
-        Assert.Throws<InvalidDataException>(() => SaveRecords.ReadLists(raw, layout, "QuestSaveData", true, "_questStateList"));
-    }
-
-    [TestMethod]
-    [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
     public void MapNpcAndCompanionEditsTouchOnlyTheirRecordsAndUndo()
     {
         static (uint, ulong, ulong, string)[] Items(SaveDocument doc) => doc.Items.Select(r => (r.Key, r.Number, r.Quantity, r.Source.ToString())).ToArray();

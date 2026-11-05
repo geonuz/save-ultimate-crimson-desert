@@ -165,6 +165,8 @@ public sealed class ContractTests
         {
             doc.SaveCopy(output);
             if (SaveDocument.Open(output).BlobSha256 != doc.BlobSha256) throw new InvalidDataException("The saved copy reopened with different data.");
+            byte[] saved = SaveContainer.Decode(File.ReadAllBytes(output)).Blob;
+            ParcReader.Validate(saved, ParcLayout.Parse(saved));
         }
         finally { File.Delete(output); }
     }
