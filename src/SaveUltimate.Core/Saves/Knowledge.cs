@@ -1,4 +1,3 @@
-using System.Text.Json;
 
 namespace SaveUltimate.Core.Saves;
 
@@ -8,8 +7,7 @@ public sealed record KnowledgeCatalog(uint[] Roots, KnowledgeGroup[] Groups, Dic
     public static KnowledgeCatalog Shared { get; } = Load();
     private static KnowledgeCatalog Load()
     {
-        using var stream = typeof(KnowledgeCatalog).Assembly.GetManifestResourceStream("Knowledge.json")!;
-        var catalog = JsonSerializer.Deserialize<KnowledgeCatalog>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var catalog = Embedded.Load<KnowledgeCatalog>("Knowledge.json");
         var groups = catalog.Groups.Select(g => g.Key).ToHashSet();
         if (catalog.ItemPaths.Any(p => p.Value.Length == 0 || p.Value.Any(g => !groups.Contains(g)) ||
             catalog.LevelCounts.GetValueOrDefault(p.Key) is < 1 or > 255))

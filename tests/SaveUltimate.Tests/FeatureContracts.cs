@@ -1,4 +1,5 @@
 using System.IO;
+using SaveUltimate.Core.Catalogs;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.Tests;
@@ -88,7 +89,7 @@ internal static class FeatureContracts
     }
 
     private static ContractEdit? SocketGem(SaveDocument doc) => ItemEdit(doc,
-        i => Worn(i) && i.Sockets.Error is null && i.Sockets.Unlocked <= SocketState.Limit(i.Key) && !i.Sockets.Slots.Skip(SocketState.Limit(i.Key)).Any(s => s.HasGem) && i.Sockets.Slots.Take(i.Sockets.Unlocked).Any(s => !s.HasGem),
+        i => Worn(i) && i.Sockets.Error is null && i.Sockets.Unlocked <= ItemRules.Sockets(i.Key) && !i.Sockets.Slots.Skip(ItemRules.Sockets(i.Key)).Any(s => s.HasGem) && i.Sockets.Slots.Take(i.Sockets.Unlocked).Any(s => !s.HasGem),
         item =>
         {
             var target = doc.SocketTarget(item);
@@ -264,13 +265,13 @@ internal static class FeatureContracts
     internal static readonly FeatureContract[] All =
     [
         new("Read every page", [], doc => new(() => { doc.ReadSkills(); doc.ReadKnowledge(); doc.ReadChallenges(); doc.ReadFishing(); doc.ReadCompanionDetails(); doc.ReadFriendship(); doc.ReadMap(); }, () => { }), Edits: false),
-        new("Item quantity", ["Items"], doc => ItemEdit(doc, i => i.Source == ItemSource.Inventory && StackLimits.Get(i.Key) > i.Quantity, i => doc.SetQuantity(i, i.Quantity + 1),
+        new("Item quantity", ["Items"], doc => ItemEdit(doc, i => i.Source == ItemSource.Inventory && ItemRules.Stack(i.Key) > i.Quantity, i => doc.SetQuantity(i, i.Quantity + 1),
             (item, records) => Require(records.Single(r => r.Source == item.Source).Quantity == item.Quantity + 1, "The quantity did not rise by one."))),
         new("Item delete", ["Items"], doc => ItemEdit(doc, i => i.Source == ItemSource.Inventory, i => doc.Delete([i]),
             (item, records) => Require(!records.Any(r => r.Source == item.Source), "The deleted item is still listed."))),
         new("Enchant", ["Items"], doc => ItemEdit(doc, i => i.EnchantLevel < i.MaxEnchant, i => doc.SetEnchant([i], (ushort)(i.EnchantLevel!.Value + 1)),
             (item, records) => Require(records.Single(r => r.Source == item.Source).EnchantLevel == item.EnchantLevel + 1, "The enchant level did not rise by one."))),
-        new("Socket unlock", ["Items"], doc => ItemEdit(doc, i => Worn(i) && i.Sockets.Error is null && i.Sockets.Unlocked < SocketState.Limit(i.Key), i => doc.SetUnlockedSockets(i, i.Sockets.Unlocked + 1),
+        new("Socket unlock", ["Items"], doc => ItemEdit(doc, i => Worn(i) && i.Sockets.Error is null && i.Sockets.Unlocked < ItemRules.Sockets(i.Key), i => doc.SetUnlockedSockets(i, i.Sockets.Unlocked + 1),
             (item, records) => Require(records.Any(r => r.Sockets.Unlocked == item.Sockets.Unlocked + 1), "The socket count did not rise by one."))),
         new("Socket gem", ["Items"], SocketGem),
         new("Item swap", ["Items"], Swap),

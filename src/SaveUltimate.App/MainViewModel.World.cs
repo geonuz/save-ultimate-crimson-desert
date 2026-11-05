@@ -6,16 +6,13 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsMap => PageIndex == 8;
-    public bool IsCompanions => PageIndex == 9;
-    public bool IsFriendship => PageIndex == 10;
-    public bool IsPets => PageIndex == 12;
+    public bool IsMap => CurrentPage == AppPage.Map;
+    public bool IsCompanions => CurrentPage == AppPage.Companions;
+    public bool IsFriendship => CurrentPage == AppPage.Friendship;
+    public bool IsPets => CurrentPage == AppPage.Pets;
     public bool IsNpc => IsCompanions || IsFriendship || IsPets;
-    // NPC tabs in order: companions (9), pets and special mounts (12), NPC friendship (10).
-    private static readonly int[] NpcPages = [9, 12, 10];
-    public static int NpcPage(int tab) => NpcPages[tab];
     [ObservableProperty] private int npcPageIndex;
-    partial void OnNpcPageIndexChanged(int value) { if (IsNpc) PageIndex = NpcPages[value]; }
+    partial void OnNpcPageIndexChanged(int value) { if (IsNpc) CurrentPage = NpcPages[value]; }
     [ObservableProperty] private MapState? map;
     [ObservableProperty] private Companion[]? companions;
     [ObservableProperty] private NpcFriendship[]? friendship;

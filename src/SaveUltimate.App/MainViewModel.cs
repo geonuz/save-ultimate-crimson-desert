@@ -16,7 +16,7 @@ public sealed record ItemRow(InventoryItem Item, string Name, string Category = 
     public (ItemSource, ulong, uint, ushort, ulong, ushort, ushort, string) Identity =>
         (Item.Source, Item.Number, Item.Key, Item.Bag, Item.OwnerNumber, Item.Slot, Item.StoreKey, Item.OwnerSlot);
     public int ActualEndurance => Item.Endurance & 0xff;
-    public string SocketText => Item.Sockets.Error is null && SocketState.Limit(Item.Key) > 0 ? $"{Item.Sockets.Slots.Count(s => s.Key != 0)} / {Item.Sockets.Unlocked} / {SocketState.Limit(Item.Key)}" : "—";
+    public string SocketText => Item.Sockets.Error is null && ItemRules.Sockets(Item.Key) > 0 ? $"{Item.Sockets.Slots.Count(s => s.Key != 0)} / {Item.Sockets.Unlocked} / {ItemRules.Sockets(Item.Key)}" : "—";
     public string EnchantText => Item.EnchantLevel is ushort level ? $"+{level} / {(Item.MaxEnchant < 0 ? "?" : Item.MaxEnchant.ToString())}" : "—";
     public string EnchantValue => Item.EnchantLevel is ushort level ? $"+{level}" : "-";
     public string OwnerText => ItemCatalog.Shared.Owner(Item);
@@ -47,6 +47,8 @@ public partial class StorageFilter(string name, ushort? Bag = null, bool Other =
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(Label))] private int count;
     public string Label => $"{Name} ({Count:N0})";
 }
+public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets }
+
 public partial class MainViewModel : ObservableObject
 {
     public event Action? ViewChanging;
@@ -83,33 +85,41 @@ public partial class MainViewModel : ObservableObject
     public bool HasSocketEditor => SocketRows.Length > 0;
     partial void OnSocketRowsChanged(SocketRow[] value) { OnPropertyChanged(nameof(SocketOptions)); OnPropertyChanged(nameof(SocketPreview)); OnPropertyChanged(nameof(HasSocketEditor)); }
     partial void OnSocketCountsChanged(int[] value) => OnPropertyChanged(nameof(SocketOptions));
-    [ObservableProperty] private int pageIndex;
+    [ObservableProperty] private AppPage currentPage;
     [ObservableProperty] private int itemPageIndex;
-    partial void OnItemPageIndexChanged(int value) { if (IsItems) PageIndex = value == 3 ? 11 : value; }
+    partial void OnItemPageIndexChanged(int value) { if (IsItems) CurrentPage = ItemPages[value]; }
+    // Each section's tabs in display order.
+    private static readonly AppPage[] ItemPages = [AppPage.Inventory, AppPage.Repurchase, AppPage.Equipment, AppPage.Database];
+    private static readonly AppPage[] JournalPages = [AppPage.Knowledge, AppPage.Challenges, AppPage.Fishing];
+    private static readonly AppPage[] NpcPages = [AppPage.Companions, AppPage.Pets, AppPage.Friendship];
+    // A navigation entry opens its section at the tab last shown.
+    public AppPage SectionPage(AppPage page) => page switch
+    {
+        AppPage.Inventory => ItemPages[ItemPageIndex], AppPage.Knowledge => JournalPages[JournalPageIndex], AppPage.Companions => NpcPages[NpcPageIndex], _ => page
+    };
     private readonly string[] pageSearches = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
-    public bool IsDatabase => PageIndex == 11;
-    public bool IsItemEditor => PageIndex < 3;
-    public bool IsInventory => PageIndex == 0;
-    public bool IsRepurchase => PageIndex == 1;
-    public bool IsEquipment => PageIndex == 2;
+    public bool IsDatabase => CurrentPage == AppPage.Database;
+    public bool IsItemEditor => IsInventory || IsRepurchase || IsEquipment;
+    public bool IsInventory => CurrentPage == AppPage.Inventory;
+    public bool IsRepurchase => CurrentPage == AppPage.Repurchase;
+    public bool IsEquipment => CurrentPage == AppPage.Equipment;
     public bool HasQuantityEditor => IsInventory || IsRepurchase;
     public string PageTitle => "Crimson Desert · " + (IsInventory ? Tr.Text("tab.inventory") : IsRepurchase ? Tr.Text("tab.repurchase") : IsEquipment ? Tr.Text("tab.equipment") : IsSkills ? Tr.Text("skills.title") : IsJournal ? Tr.Text("tab.knowledge_quest") : IsMap ? Tr.Text("tab.maps") : IsNpc ? Tr.Text("tab.mercenary") : Tr.Text("tab.backup"));
     public ItemRow? Detail => HasQuantityEditor && selection.Length == 1 ? selection[0] : null;
     public string SocketPreview => string.Join(" ", Enumerable.Range(0, SocketRows.Length).Select(i => i < UnlockedSockets ? "●" : "○")) + $"  {UnlockedSockets} / {SocketRows.Length}";
-    partial void OnPageIndexChanging(int value)
+    partial void OnCurrentPageChanging(AppPage value)
     {
         changingView = true;
         ViewChanging?.Invoke();
-        pageSearches[PageIndex] = Search;
+        pageSearches[(int)CurrentPage] = Search;
     }
-    partial void OnPageIndexChanged(int value)
+    partial void OnCurrentPageChanged(AppPage value)
     {
-        if (value < 3) ItemPageIndex = value;
-        if (value == 11) ItemPageIndex = 3;
-        if (value is 5 or 6 or 7) JournalPageIndex = value - 5;
-        if (value is 9 or 10 or 12) NpcPageIndex = Array.IndexOf([9, 12, 10], value);
+        if (Array.IndexOf(ItemPages, value) is >= 0 and var item) ItemPageIndex = item;
+        if (Array.IndexOf(JournalPages, value) is >= 0 and var journal) JournalPageIndex = journal;
+        if (Array.IndexOf(NpcPages, value) is >= 0 and var npc) NpcPageIndex = npc;
         SetSelection([]); Selected = null;
-        Search = pageSearches[value];
+        Search = pageSearches[(int)value];
         ItemsView.Refresh();
         foreach (string property in new[] { nameof(IsInventory), nameof(IsRepurchase), nameof(IsEquipment), nameof(HasQuantityEditor), nameof(CountText), nameof(Detail), nameof(PageTitle), nameof(IsBackups), nameof(IsItems), nameof(IsSkills), nameof(IsKnowledge), nameof(IsJournal), nameof(IsChallenges), nameof(IsFishing), nameof(IsMap), nameof(IsNpc), nameof(IsCompanions), nameof(IsFriendship), nameof(IsPets) }) OnPropertyChanged(property);
         RefreshCommands();
@@ -299,8 +309,7 @@ public partial class MainViewModel : ObservableObject
             }
             ReadBackups();
             // A damaged slot can crash the game at the title screen even if it is never selected.
-            int damaged = await Task.Run(() => { try { return SaveDocument.Diagnose(path).DamagedRows; } catch (InvalidDataException) { return 0; } });
-            if (damaged > 0) ThemedMessageBox.Show(Tr.Format("ui.doctor_loaded", ("count", damaged.ToString("N0"))), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
+            if (loaded.DamagedRows > 0) ThemedMessageBox.Show(Tr.Format("ui.doctor_loaded", ("count", loaded.DamagedRows.ToString("N0"))), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
         });
     }
 
@@ -349,7 +358,7 @@ public partial class MainViewModel : ObservableObject
         if (target is not null)
         {
             var state = target.Sockets;
-            int limit = SocketState.Limit(target.Key);
+            int limit = ItemRules.Sockets(target.Key);
             SocketInfo = SocketText(target, !ReferenceEquals(target, items[0]));
             if (state.Error is null && limit > 0 && !state.Slots.Skip(limit).Any(s => s.HasGem))
             {
@@ -521,11 +530,11 @@ public partial class MainViewModel : ObservableObject
         foreach (string property in new[] { nameof(Knowledge), nameof(Challenges), nameof(Fishing), nameof(Map), nameof(Companions), nameof(Friendship), nameof(Skills) }) OnPropertyChanged(property);
     }
     private static string SocketText(InventoryItem target, bool owned) =>
-        (target.Sockets.Error ?? Tr.Format("port.socket_info", ("unlocked", target.Sockets.Unlocked), ("capacity", target.Sockets.Capacity), ("limit", SocketState.Limit(target.Key)))) +
+        (target.Sockets.Error ?? Tr.Format("port.socket_info", ("unlocked", target.Sockets.Unlocked), ("capacity", target.Sockets.Capacity), ("limit", ItemRules.Sockets(target.Key)))) +
         (owned ? Tr.Text("\nApplies to the matching owned inventory item.") : "");
 
     private bool MatchesPage(InventoryItem item) => IsInventory ? MatchesStorage(item) : IsRepurchase ? item.Source == ItemSource.Vendor : IsGear(item) && MatchesStorage(item, Owner);
-    private static bool IsGear(InventoryItem item) => item.EnchantLevel.HasValue || SocketState.Limit(item.Key) > 0;
+    private static bool IsGear(InventoryItem item) => item.EnchantLevel.HasValue || ItemRules.Sockets(item.Key) > 0;
 
     private bool MatchesStorage(InventoryItem item) => MatchesStorage(item, Storage);
     private bool MatchesStorage(InventoryItem item, StorageFilter filter) => filter.Source is not null ? filter.Source == item.Source && (filter.Owner is null || filter.Owner == item.OwnerCharacter)

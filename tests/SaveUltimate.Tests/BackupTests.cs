@@ -137,7 +137,7 @@ public sealed class BackupTests
             {
                 window.Show();
                 WindowTests.Pump(() => model.LoadFileAsync(source, createPristine: true));
-                model.PageIndex = 3; window.UpdateLayout();
+                model.CurrentPage = AppPage.Backups; window.UpdateLayout();
                 Assert.IsTrue(model.IsBackups);
                 Assert.IsFalse(model.HasQuantityEditor);
                 Assert.AreEqual(2, model.Backups.Length);
@@ -153,7 +153,7 @@ public sealed class BackupTests
                 window.Width = 800; window.UpdateLayout();
                 Assert.AreEqual(2, Grid.GetRow((ScrollViewer)window.FindName("BackupActions")));
                 WindowTests.Capture(window, "backups-small");
-                model.PageIndex = 0;
+                model.CurrentPage = AppPage.Inventory;
                 Assert.IsTrue(model.IsInventory);
             }
             finally { window.Close(); }

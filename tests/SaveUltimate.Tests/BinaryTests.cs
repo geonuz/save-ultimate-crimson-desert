@@ -19,7 +19,7 @@ public sealed class BinaryTests
         static Dictionary<uint, int> Read(string json)
         {
             using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
-            return SaveUltimate.Core.Catalogs.ItemRules.ReadSocketLimits(stream);
+            return SaveUltimate.Core.Catalogs.ItemRules.ReadItems(stream).Sockets;
         }
         var limits = Read("""{"items":[{"itemKey":123,"socketLimit":5,"name":"unused","translations":{"ko":"이름"}},{"itemKey":456,"socketLimit":0}]}""");
         Assert.AreEqual(5, limits[123]);

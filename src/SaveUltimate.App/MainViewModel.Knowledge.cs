@@ -6,7 +6,7 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsKnowledge => PageIndex == 5;
+    public bool IsKnowledge => CurrentPage == AppPage.Knowledge;
     [ObservableProperty] private IReadOnlyDictionary<uint, uint>? knowledge;
 
     [RelayCommand(CanExecute = nameof(CanSave))]

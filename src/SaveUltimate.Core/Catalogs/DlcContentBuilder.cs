@@ -17,7 +17,7 @@ public static class DlcContentBuilder
         }
         var types = ClientTables.Records(source.Tables("levelgimmicksceneobjectinfo"));
         var layers = source.Misc("levelgimmicksceneobjectinfo_misc")
-            .Select(l => (l.Tag, Ids: MapCatalogBuilder.Scenes(l.Data, types.Values.First().Compact, types).Select(s => s.Id).ToHashSet())).ToArray();
+            .Select(l => (l.Tag, Ids: MapCatalogBuilder.Scenes(l.Data, types).Select(s => s.Id).ToHashSet())).ToArray();
         var baseScenes = layers.Where(l => l.Tag.Length == 0).SelectMany(l => l.Ids).ToHashSet();
         return new JsonObject
         {

@@ -17,7 +17,7 @@ internal static class ClientMetadata
         IReadOnlySet<string> valid, out int itemCount, out int added, out int changed)
     {
         Dictionary<uint, ClientRecord> Records(string name) => ClientTables.Records(game.Tables(name));
-        Dictionary<uint, (string Name, ClientReader Reader, bool Compact)> Small(string name) => ClientTables.Records16(game.Tables(name));
+        Dictionary<uint, (string Name, ClientReader Reader)> Small(string name) => ClientTables.Records16(game.Tables(name));
         Dictionary<string, string> Strings(string code, string name)
         {
             var (group, language) = Languages[code]; var result = new Dictionary<string, string>();
@@ -39,13 +39,11 @@ internal static class ClientMetadata
         {
             var r = p.Value.Reader;
             void Flags() { foreach (byte flag in r.Take(4)) if (flag > 1) throw new InvalidDataException("Invalid item group flag."); }
-            // 2.04 moves the four flags and the seven bytes before them ahead of the reference.
-            if (p.Value.Compact) { Flags(); r.Take(7); }
+            Flags(); r.Take(7);
             string reference = r.Reference(8, 0x80, p.Key);
             var children = Enumerable.Range(0, r.Count()).Select(_ => (uint)r.U16()).ToArray();
             var members = Enumerable.Range(0, r.Count()).Select(_ => r.U32()).ToArray();
             r.Array(1);
-            if (!p.Value.Compact) { r.Take(7); Flags(); }
             if (r.Remaining != 0) throw new InvalidDataException("Unsupported ItemGroupInfo layout.");
             return new Group(p.Value.Name, reference, children, members);
         });

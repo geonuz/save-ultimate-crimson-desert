@@ -1,6 +1,5 @@
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SaveUltimate.Core.Saves;
@@ -17,13 +16,14 @@ public sealed record ChallengeCompletion(uint[] Roots, Dictionary<uint, Challeng
 public sealed record ChallengeCatalog(ChallengeGroup[] Groups, Dictionary<uint, ChallengeQuest> Quests,
     Dictionary<uint, ChallengeMission> Missions, Dictionary<string, string> SourceSha256)
 {
-    internal static T Load<T>(string name)
-    {
-        using var stream = typeof(ChallengeCatalog).Assembly.GetManifestResourceStream(name)!;
-        return JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-    }
-    public static ChallengeCatalog Shared { get; } = Load<ChallengeCatalog>("Challenges.json");
-    public static ChallengeCompletion Completion { get; } = Load<ChallengeCompletion>("ChallengeCompletion.json");
+    public static ChallengeCatalog Shared { get; } = Embedded.Load<ChallengeCatalog>("Challenges.json");
+    public static ChallengeCompletion Completion { get; } = Embedded.Load<ChallengeCompletion>("ChallengeCompletion.json");
+    // Completion shapes come from completed reference saves, so they may cover only part of the catalog (e.g. new DLC
+    // challenges); every offered root must be covered entirely. Both files are shipped, so once is enough.
+    internal static readonly Lazy<bool> CompletionMatches = new(() =>
+        Completion.ClientSources.OrderBy(p => p.Key).SequenceEqual(Shared.SourceSha256.OrderBy(p => p.Key)) &&
+        Completion.Missions.Keys.All(Shared.Missions.ContainsKey) &&
+        Completion.Roots.All(r => Shared.Descendants(r).All(Completion.Missions.ContainsKey)));
     private static readonly HashSet<uint> usedTags = [.. Completion.UsedTags ?? []];
     private const uint StartTag = 0x872571C6, EmptyTag = 0xEAC5E173, CompleteTag = 0x599D2AA7;
     // _usedTagList records which of a mission's trigger groups ran, as stringinfo keys: Start, the empty string, Complete, and tags
@@ -116,12 +116,7 @@ public sealed partial class SaveDocument
     {
         var catalog = ChallengeCatalog.Shared;
         var reference = ChallengeCatalog.Completion;
-        // Completion shapes come from completed reference saves, so they may cover only part of the catalog
-        // (e.g. new DLC challenges); every offered root must be covered entirely.
-        if (!reference.ClientSources.OrderBy(p => p.Key).SequenceEqual(catalog.SourceSha256.OrderBy(p => p.Key)) ||
-            reference.Missions.Keys.Any(k => !catalog.Missions.ContainsKey(k)) ||
-            reference.Roots.Any(r => catalog.Descendants(r).Any(k => !reference.Missions.ContainsKey(k))))
-            throw new InvalidDataException("Challenge definitions do not match the catalog.");
+        if (!ChallengeCatalog.CompletionMatches.Value) throw new InvalidDataException("Challenge definitions do not match the catalog.");
         if (roots.Length == 0 || roots.Distinct().Count() != roots.Length || roots.Any(k => !reference.Roots.Contains(k)))
             throw new InvalidOperationException("Select distinct challenges.");
         var keys = roots.SelectMany(catalog.Descendants).ToHashSet();

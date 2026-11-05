@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 namespace SaveUltimate.Core.Catalogs;
 
 // Port of the Python quest_catalog builder: journal groups, quests and challenge missions from the installed client,
-// including DLC tables. Compact (2.04) offsets were checked against every key of the 2.03 catalog.
+// including DLC tables.
 public static partial class ChallengeCatalogBuilder
 {
-    // 2.04 tables mark an empty hashed key with this value where 2.03 used zero.
+    // Tables mark an empty hashed key with this value.
     private const uint EmptyKey = 0xEAC5E173;
     private sealed record Group(uint Key, string Internal, int Type, string Label, uint[] Quests);
     private sealed record Quest(uint Key, string Internal, string Label, uint Group, int Category, int Type, uint Faction, string Kind);
-    private sealed record Mission(uint Key, string Internal, uint Quest, uint[] Children, uint[] Stages, string Label, JsonObject? Objective, uint[] Tags);
+    private sealed record Mission(uint Key, string Internal, uint Quest, uint[] Children, uint[] Stages, string Label, uint[] Tags);
 
     // A mission's trigger groups name their tag in a u32-counted array of stringinfo keys. On 1,291 of 1,294 challenge missions completed
     // in saves this is exactly what _usedTagList holds besides Start, Complete and the empty string; two of the rest gained patch_2_04_06 after those saves.
@@ -46,28 +46,18 @@ public static partial class ChallengeCatalogBuilder
         var en = source.Strings("eng", "quest"); var ko = source.Strings("kor", "quest");
 
         var groups = new Dictionary<uint, Group>();
-        foreach (var (key, (name, r, compact)) in ClientTables.Records16(source.Tables("questgroupinfo")))
+        foreach (var (key, (name, r)) in ClientTables.Records16(source.Tables("questgroupinfo")))
         {
-            int type;
-            if (compact) { r.Take(5); type = r.U8(); r.Take(18); } else type = r.U8();
+            r.Take(5); int type = r.U8(); r.Take(18);
             string label = StringRef(r); StringRef(r);
             groups[key] = new(key, name, type, label, r.Array32());
         }
         var quests = new Dictionary<uint, Quest>();
         foreach (var (key, record) in ClientTables.Records(source.Tables("questinfo")))
         {
-            var r = new ClientReader(record.Bytes, record.Prefix);
-            int type, category; uint group, faction; string label;
-            if (!record.Compact)
-            {
-                type = r.U8(); category = r.U8(); label = StringRef(r); StringRef(r); group = r.U16(); faction = r.U32();
-            }
-            else
-            {
-                var span = record.Bytes.Span; type = span[record.Prefix + 4]; category = span[record.Prefix + 5];
-                group = BitConverter.ToUInt16(span.Slice(record.Prefix + 10, 2)); faction = BitConverter.ToUInt32(span.Slice(record.Prefix + 16, 4));
-                r = new ClientReader(record.Bytes, record.Prefix + 73); label = StringRef(r); StringRef(r);
-            }
+            var span = record.Bytes.Span; int type = span[record.Prefix + 4], category = span[record.Prefix + 5];
+            uint group = BitConverter.ToUInt16(span.Slice(record.Prefix + 10, 2)), faction = BitConverter.ToUInt32(span.Slice(record.Prefix + 16, 4));
+            var r = new ClientReader(record.Bytes, record.Prefix + 73); string label = StringRef(r); StringRef(r);
             if (group != 0 && !groups.ContainsKey(group)) throw new InvalidDataException("Unresolved quest group.");
             string kind = groups.GetValueOrDefault(group)?.Type == 3 ? "challenge" : category == 13 ? "main" : category == 12 ? "regional" : "other";
             quests[key] = new(key, record.Name, label, group, category, type, faction, kind);
@@ -81,25 +71,22 @@ public static partial class ChallengeCatalogBuilder
         var missions = new Dictionary<uint, Mission>();
         foreach (var (key, record) in ClientTables.Records(source.Tables("missioninfo")))
         {
-            var r = new ClientReader(record.Bytes, record.Prefix + (record.Compact ? 32 : 0));
-            uint owner = r.U32();
-            if (record.Compact) r.Take(8);
+            var r = new ClientReader(record.Bytes, record.Prefix + 32);
+            uint owner = r.U32(); r.Take(8);
             uint[] children = r.Array32();
-            // 2.04 stage entries grow to 25 bytes led by the stage key; the counts and non-empty stages match every 2.03
-            // mission, though some keys differ. Stages only gate the reviewed objective layout below.
-            uint[] stages = (record.Compact ? Enumerable.Range(0, r.Count()).Select(_ => { uint s = r.U32(); r.Take(21); return s; }).ToArray() : r.Array32())
+            // Stage entries are 25 bytes led by the stage key. Stages only gate the reviewed objective layout below.
+            uint[] stages = Enumerable.Range(0, r.Count()).Select(_ => { uint s = r.U32(); r.Take(21); return s; }).ToArray()
                 .Where(s => s != 0 && s != EmptyKey).ToArray();
             byte[] body = record.Bytes.ToArray();
-            var labels = new HashSet<string>(); int labelEnd = -1;
+            var labels = new HashSet<string>();
             foreach (Match m in MissionLabel().Matches(Encoding.Latin1.GetString(body)))
             {
                 var reader = new ClientReader(body, m.Index); string label;
                 try { label = StringRef(reader); } catch (InvalidDataException) { continue; }
-                if (en.ContainsKey(label) || ko.ContainsKey(label)) { labels.Add(label); labelEnd = reader.Position; }
+                if (en.ContainsKey(label) || ko.ContainsKey(label)) labels.Add(label);
             }
             if (labels.Count > 1) throw new InvalidDataException("Ambiguous mission name.");
-            missions[key] = new(key, record.Name, owner, children, stages, labels.FirstOrDefault() ?? "",
-                record.Compact || labelEnd < 0 || children.Length != 0 ? null : FlatObjective(body, labelEnd), DefinedTags(record, strings));
+            missions[key] = new(key, record.Name, owner, children, stages, labels.FirstOrDefault() ?? "", DefinedTags(record, strings));
         }
 
         var parents = new Dictionary<uint, uint>();
@@ -137,11 +124,11 @@ public static partial class ChallengeCatalogBuilder
             objectives[rootKey] = new JsonObject { ["prerequisite"] = acquire[0], ["artifact"] = use[0], ["goals"] = new JsonArray(goals.Select(g => (JsonNode)g).ToArray()) };
             foreach (uint goal in goals)
             {
-                var info = missions[goal].Objective;
-                if (info is null && missions[goal].Label.Length > 0 && previousMissions?[goal.ToString()] is JsonObject old &&
-                    old["quest"]?.GetValue<uint>() == missions[goal].Quest && old["objectiveEdit"] is JsonObject kept)
-                    info = (JsonObject)kept.DeepClone();  // shortcut: 2.04 objective blocks are not decoded; reuse the reviewed 2.03 value.
-                if (info is null || info["parent"]?.GetValue<uint>() != rootKey) continue;
+                // shortcut: objective blocks are not decoded, so the reviewed value in the previous catalog is reused.
+                if (missions[goal].Label.Length == 0 || previousMissions?[goal.ToString()] is not JsonObject old ||
+                    old["quest"]?.GetValue<uint>() != missions[goal].Quest || old["objectiveEdit"] is not JsonObject kept) continue;
+                var info = (JsonObject)kept.DeepClone();
+                if (info["parent"]?.GetValue<uint>() != rootKey) continue;
                 if (Ko(missions[goal].Label).Contains("지식") && info["knowledgeGroups"]!.AsArray().Count == 0) continue;
                 objectives[goal] = info;
             }
@@ -182,19 +169,5 @@ public static partial class ChallengeCatalogBuilder
             ["missionOwners"] = new JsonObject(missions.Values.Select(m => KeyValuePair.Create<string, JsonNode?>(m.Key.ToString(), m.Quest))),
             ["sourceSha256"] = source.Digests()
         };
-    }
-
-    // Reviewed flat 2.03 objective layout; other layouts are rejected rather than guessed.
-    private static JsonObject? FlatObjective(byte[] body, int labelEnd)
-    {
-        if (labelEnd + 39 + 12 > body.Length || body.AsSpan(labelEnd, 39).ContainsAnyExcept((byte)0)) return null;
-        var r = new ClientReader(body, labelEnd + 39);
-        uint parent = r.U32(), reserved = r.U32(), count = r.U32();
-        if (reserved != 0 || count > 256 || r.Position + count * 58 + 38 != body.Length) return null;
-        var conditions = Enumerable.Range(0, (int)count).Select(_ => r.Take(58).ToArray()).ToArray();
-        if (r.Take(8).ContainsAnyExcept((byte)0)) return null;
-        uint target = r.U32();
-        var groups = conditions.Where(c => BitConverter.ToUInt32(c, 0) == 110 && BitConverter.ToUInt32(c, 31) != 0).Select(c => (JsonNode)BitConverter.ToUInt32(c, 31)).ToArray();
-        return new JsonObject { ["parent"] = parent, ["target"] = target, ["knowledgeGroups"] = new JsonArray(groups) };
     }
 }

@@ -6,10 +6,10 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsChallenges => PageIndex == 6;
+    public bool IsChallenges => CurrentPage == AppPage.Challenges;
     public bool IsJournal => IsKnowledge || IsChallenges || IsFishing;
     [ObservableProperty] private int journalPageIndex;
-    partial void OnJournalPageIndexChanged(int value) { if (IsJournal) PageIndex = value + 5; }
+    partial void OnJournalPageIndexChanged(int value) { if (IsJournal) CurrentPage = JournalPages[value]; }
     [ObservableProperty] private ChallengeState? challenges;
 
     [RelayCommand(CanExecute = nameof(CanSave))]

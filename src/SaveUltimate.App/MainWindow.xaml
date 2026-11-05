@@ -39,12 +39,12 @@
    <DockPanel DockPanel.Dock="Top"><Button x:Name="NavigationToggle" DockPanel.Dock="Right" Content="‹" Click="OnNavigationToggle" Width="32" Padding="0"/><TextBlock x:Name="NavigationBrand" Text="SaveUltimate" Foreground="{DynamicResource accent}" FontSize="{DynamicResource BrandSize}" FontWeight="SemiBold" VerticalAlignment="Center"/></DockPanel>
    <TextBlock x:Name="NavigationSubtitle" DockPanel.Dock="Top" Text="CRIMSON DESERT" FontSize="12" Foreground="{DynamicResource text_dim}" Margin="0,12,0,24"/>
    <ListBox x:Name="PrimaryNavigation" BorderThickness="0" Background="Transparent" ItemContainerStyle="{StaticResource NavigationItem}" SelectionChanged="OnNavigationChanged" IsEnabled="{Binding CanEditSelection}" AutomationProperties.Name="{local:Tr 'Main navigation'}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-    <ListBoxItem Tag="0" Content="{local:Tr 'tab.items'}" ToolTip="{local:Tr tab.items}" AutomationProperties.Name="{local:Tr 'tab.items'}" MinHeight="44"/>
-    <ListBoxItem Tag="5" Content="{local:Tr 'tab.knowledge_quest'}" ToolTip="{local:Tr tab.knowledge_quest}" MinHeight="44"/>
-    <ListBoxItem Tag="4" Content="{local:Tr 'skills.title'}" ToolTip="{local:Tr skills.title}" AutomationProperties.Name="{local:Tr 'skills.title'}" MinHeight="44"/>
-    <ListBoxItem Tag="8" Content="{local:Tr 'tab.maps'}" ToolTip="{local:Tr tab.maps}" MinHeight="44"/>
-    <ListBoxItem Tag="9" Content="{local:Tr 'tab.mercenary'}" ToolTip="NPC · F5" MinHeight="44"/>
-    <ListBoxItem Tag="3" Content="{local:Tr 'tab.backup'}" ToolTip="{local:Tr tab.backup}" AutomationProperties.Name="{local:Tr 'tab.backup'}" MinHeight="44"/>
+    <ListBoxItem Tag="Inventory" Content="{local:Tr 'tab.items'}" ToolTip="{local:Tr tab.items}" AutomationProperties.Name="{local:Tr 'tab.items'}" MinHeight="44"/>
+    <ListBoxItem Tag="Knowledge" Content="{local:Tr 'tab.knowledge_quest'}" ToolTip="{local:Tr tab.knowledge_quest}" MinHeight="44"/>
+    <ListBoxItem Tag="Skills" Content="{local:Tr 'skills.title'}" ToolTip="{local:Tr skills.title}" AutomationProperties.Name="{local:Tr 'skills.title'}" MinHeight="44"/>
+    <ListBoxItem Tag="Map" Content="{local:Tr 'tab.maps'}" ToolTip="{local:Tr tab.maps}" MinHeight="44"/>
+    <ListBoxItem Tag="Companions" Content="{local:Tr 'tab.mercenary'}" ToolTip="NPC · F5" MinHeight="44"/>
+    <ListBoxItem Tag="Backups" Content="{local:Tr 'tab.backup'}" ToolTip="{local:Tr tab.backup}" AutomationProperties.Name="{local:Tr 'tab.backup'}" MinHeight="44"/>
    </ListBox>
   </DockPanel>
  </Border>

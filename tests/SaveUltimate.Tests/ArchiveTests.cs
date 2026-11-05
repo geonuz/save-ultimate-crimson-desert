@@ -9,20 +9,19 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class ArchiveTests
 {
-    private static byte[] Index(bool cycle = false, uint offset = 0, bool compact = false, byte extension = 0, byte distance = 3)
+    private static byte[] Index(uint offset = 0, byte extension = 0, byte distance = 3, bool table = true)
     {
         using var data = new MemoryStream();
         using var writer = new BinaryWriter(data);
         writer.Write(0u); writer.Write((ushort)1); writer.Write((ushort)0); writer.Write(0u);
         writer.Write(0u); writer.Write(0u); writer.Write(3u);
         writer.Write(0u);
-        // Compact names: "a" at 0 (root) and "b" at 3, whose parent lies `distance` bytes back.
-        if (compact) { writer.Write(6u); writer.Write([0, 1, (byte)'a', distance, 1, (byte)'b']); }
-        else { writer.Write(6u); writer.Write(cycle ? 0 : -1); writer.Write((byte)1); writer.Write((byte)'a'); }
+        // Names: "a" at 0 (root) and "b" at 3, whose parent lies `distance` bytes back.
+        writer.Write(6u); writer.Write([0, 1, (byte)'a', distance, 1, (byte)'b']);
         writer.Write(1u); writer.Write(GameChecksum.Calculate([])); writer.Write(-1); writer.Write(0u); writer.Write(1u);
-        writer.Write(1u); writer.Write(compact ? 3u : 0u); writer.Write(offset); writer.Write(3u); writer.Write(3u);
+        writer.Write(1u); writer.Write(3u); writer.Write(offset); writer.Write(3u); writer.Write(3u);
         writer.Write((ushort)0); writer.Write((byte)0); writer.Write(extension);
-        if (compact) { writer.Write(6u); writer.Write("\0.txt\0"u8); }
+        if (table) { writer.Write(6u); writer.Write("\0.txt\0"u8); }
         var bytes = data.ToArray();
         BinaryPrimitives.WriteUInt32LittleEndian(bytes, GameChecksum.Calculate(bytes.AsSpan(12)));
         return bytes;
@@ -30,26 +29,19 @@ public sealed class ArchiveTests
 
     [TestMethod]
     [TestCategory("Unit")]
-    public void PamtChecksBoundsChecksumAndCyclicNames()
+    public void PamtChecksBoundsChecksumAndNames()
     {
         byte[] bytes = Index();
-        Assert.AreEqual(3u, PamtIndex.Parse(bytes).Entries["a"].CompressedSize);
+        Assert.AreEqual(3u, PamtIndex.Parse(bytes).Entries["ab"].CompressedSize);
         bytes[^1] ^= 1;
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(bytes));
-        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(cycle: true)));
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(offset: 2)));
         Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index().AsSpan(0, 10)));
-    }
-
-    [TestMethod]
-    [TestCategory("Unit")]
-    public void CompactPamtResolvesParentsAndExtensions()
-    {
-        Assert.AreEqual(3u, PamtIndex.Parse(Index(compact: true, extension: 1)).Entries["ab.txt"].CompressedSize);
-        Assert.IsTrue(PamtIndex.Parse(Index(compact: true)).Entries.ContainsKey("ab"));
-        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(compact: true, extension: 2)));
-        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(compact: true, distance: 4)));
-        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(extension: 1)));
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(distance: 4)));
+        Assert.AreEqual(3u, PamtIndex.Parse(Index(extension: 1)).Entries["ab.txt"].CompressedSize);
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(extension: 2)));
+        // An index from before 2.04 has no extension table.
+        Assert.Throws<InvalidDataException>(() => PamtIndex.Parse(Index(table: false)));
     }
 
     [TestMethod]
@@ -63,10 +55,10 @@ public sealed class ArchiveTests
             File.WriteAllBytes(Path.Combine(directory, "0.pamt"), Index());
             File.WriteAllBytes(Path.Combine(directory, "0.paz"), "abc"u8.ToArray());
             var archive = new GameArchive(directory);
-            Assert.AreEqual("abc", Encoding.UTF8.GetString(archive.Extract("a")));
+            Assert.AreEqual("abc", Encoding.UTF8.GetString(archive.Extract("ab")));
             Assert.Throws<FileNotFoundException>(() => archive.Extract("../other"));
             File.WriteAllBytes(Path.Combine(directory, "0.paz"), [1]);
-            Assert.Throws<InvalidDataException>(() => archive.Extract("a"));
+            Assert.Throws<InvalidDataException>(() => archive.Extract("ab"));
         }
         finally { Directory.Delete(directory, true); }
     }

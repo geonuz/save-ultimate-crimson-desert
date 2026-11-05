@@ -6,7 +6,7 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsFishing => PageIndex == 7;
+    public bool IsFishing => CurrentPage == AppPage.Fishing;
     [ObservableProperty] private FishingRecord[]? fishing;
 
     [RelayCommand(CanExecute = nameof(CanSave))]

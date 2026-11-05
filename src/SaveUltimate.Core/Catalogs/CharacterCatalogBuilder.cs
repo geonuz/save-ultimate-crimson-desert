@@ -3,8 +3,8 @@ using System.Text.Json.Nodes;
 namespace SaveUltimate.Core.Catalogs;
 
 // Port of the Python character name, companion type and NPC catalog builders, including DLC tables. CharacterInfo is
-// only partly decoded: owned localization references are located by their self-identifying bytes, and the 2.04
-// MercenaryInfo and NpcInfo links sit at fixed offsets checked against every 2.03 companion and NPC link.
+// only partly decoded: owned localization references are located by their self-identifying bytes, and the
+// MercenaryInfo and NpcInfo links sit at fixed offsets.
 public static class CharacterCatalogBuilder
 {
     private const uint NameMember = 0x30, CompanionMember = 0x32;
@@ -25,19 +25,9 @@ public static class CharacterCatalogBuilder
             if (ClientTables.Anchor(record, 3, NameMember, key) < 0) throw new InvalidDataException("Unsupported character-name reference.");
             string label = (((ulong)key << 32) | NameMember).ToString();
             nameRows[key.ToString()] = new JsonObject { ["name"] = names["en"].GetValueOrDefault(label, ""), ["internalName"] = record.Name, ["stringKey"] = label };
-            var span = record.Bytes.Span; uint npc; int type = -1, companion = ClientTables.Anchor(record, 3, CompanionMember, key);
-            if (!record.Compact)
-            {
-                var r = new ClientReader(record.Bytes, record.Prefix);
-                foreach (uint member in new[] { NameMember, NameMember + 1 }) r.Reference(3, member, key, true);
-                r.Take(8); r.SkipText(); r.Take(6); npc = r.U32();
-                if (companion > record.Prefix) type = span[companion - 1];
-            }
-            else
-            {
-                npc = BitConverter.ToUInt32(span[(record.Prefix + 210)..]);
-                if (companion >= 0) type = span[record.Prefix + 214];
-            }
+            var span = record.Bytes.Span;
+            uint npc = BitConverter.ToUInt32(span[(record.Prefix + 210)..]);
+            int type = ClientTables.Anchor(record, 3, CompanionMember, key) >= 0 ? span[record.Prefix + 214] : -1;
             if (npc != 0 && !npcs.ContainsKey(npc)) throw new InvalidDataException("Unresolved character NPC link.");
             if (npc != 0) links[key.ToString()] = npc;
             if (type >= 0 && types.ContainsKey((uint)type)) companions[key.ToString()] = type;

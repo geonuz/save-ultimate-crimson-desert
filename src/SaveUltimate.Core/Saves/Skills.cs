@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Text.Json;
 
 namespace SaveUltimate.Core.Saves;
 
@@ -10,12 +9,7 @@ public sealed record SkillGuide(int Parent, double[][] Points);
 public sealed record SkillNode(int Id, uint? Key, double[] Xy, SkillGuide[] Guides, double[] Color);
 public sealed record SkillCatalog(Dictionary<uint, SkillDefinition> Skills, Dictionary<int, SkillNode[]> Trees, Dictionary<uint, string[]> Names)
 {
-    public static SkillCatalog Shared { get; } = Load();
-    private static SkillCatalog Load()
-    {
-        using var stream = typeof(SkillCatalog).Assembly.GetManifestResourceStream("Skills.json")!;
-        return JsonSerializer.Deserialize<SkillCatalog>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-    }
+    public static SkillCatalog Shared { get; } = Embedded.Load<SkillCatalog>("Skills.json");
     public string Name(uint key) => Names.TryGetValue(key, out var names) ? names[1] : key.ToString();
     public uint[] Related(uint key)
     {

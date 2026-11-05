@@ -1,16 +1,10 @@
-using System.Text.Json;
 
 namespace SaveUltimate.Core.Saves;
 
 public sealed record Fish(uint Key, string Name, uint GroupKey, string GroupName, bool RecordSupported);
 public sealed record FishingCatalog(Fish[] Fish)
 {
-    public static FishingCatalog Shared { get; } = Load();
-    private static FishingCatalog Load()
-    {
-        using var stream = typeof(FishingCatalog).Assembly.GetManifestResourceStream("Fishing.json")!;
-        return JsonSerializer.Deserialize<FishingCatalog>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-    }
+    public static FishingCatalog Shared { get; } = Embedded.Load<FishingCatalog>("Fishing.json");
 }
 public sealed record FishingRecord(Fish Fish, uint Level, float? Size, bool RecordTypeAvailable);
 

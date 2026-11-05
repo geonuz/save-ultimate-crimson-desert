@@ -5,8 +5,7 @@ using System.Text.Json.Nodes;
 namespace SaveUltimate.Core.Catalogs;
 
 // Port of the Python knowledge_catalog, refresh_knowledge_fishing and extract_knowledge_details builders: the visible
-// journal hierarchy, knowledge names and descriptions and the fishing list, including DLC tables. Compact (2.04)
-// offsets were checked against every record of the 2.03 tables.
+// journal hierarchy, knowledge names and descriptions and the fishing list, including DLC tables.
 public static class KnowledgeCatalogBuilder
 {
     internal sealed record Knowledge(uint Key, string Internal, ClientRecord Record, bool Visible, byte Default, uint Skill, int Levels, int LevelStart);
@@ -22,18 +21,10 @@ public static class KnowledgeCatalogBuilder
         foreach (var (key, record) in ClientTables.Records(source.Tables("knowledgegroupinfo")))
         {
             var r = new ClientReader(record.Bytes, record.Prefix);
-            string Label() { string label = r.Reference(9, 0x92, key); r.Reference(9, 0x94, key, true); r.Reference(9, 0x93, key, true); return label; }
-            byte[] head; uint parent; string label; uint[] keys, children;  // head: meditationLearnable, showUI, showUIAlert, owner
-            if (record.Compact)
-            {
-                head = r.Take(4).ToArray(); r.Take(8); parent = r.U32(); r.Take(8);
-                label = Label(); keys = r.Array32(); children = r.Array32();
-            }
-            else
-            {
-                label = Label(); r.Take(12); keys = r.Array32(); children = r.Array32(); parent = r.U32();
-                var tail = r.Take(4); head = [tail[3], tail[1], tail[2], tail[0]];
-            }
+            byte[] head = r.Take(4).ToArray();  // meditationLearnable, showUI, showUIAlert, owner
+            r.Take(8); uint parent = r.U32(); r.Take(8);
+            string label = r.Reference(9, 0x92, key); r.Reference(9, 0x94, key, true); r.Reference(9, 0x93, key, true);
+            uint[] keys = r.Array32(), children = r.Array32();
             if (head[3] > 3 || head[..3].Any(f => f > 1) || r.Remaining != 0) throw new InvalidDataException("Unsupported knowledge group layout.");
             groups[key] = new(key, record.Name, label, parent, children, head[1] == 1, keys);
         }
@@ -45,23 +36,10 @@ public static class KnowledgeCatalogBuilder
         var result = new Dictionary<uint, Knowledge>();
         foreach (var (key, record) in ClientTables.Records(source.Tables("knowledgeinfo")))
         {
-            byte[] flags; byte initial; uint skill; int levels, start;  // flags: showUI, showUIAlert, legendaryAnimal, useAlertDesc
-            if (!record.Compact)
-            {
-                var r = new ClientReader(record.Bytes, record.Prefix);
-                r.Take(4); initial = r.U8(); r.Take(8); skill = r.U32();
-                r.Array(4); r.Array(4); r.Array(2); r.Array(4);
-                flags = r.Take(4).ToArray(); r.Take(8);
-                for (int i = r.Count(); i > 0; i--) { if (r.U8() != 0) throw new InvalidDataException("Unsupported knowledge source kind."); r.Take(8); }
-                r.Array(4); levels = r.Count(255); start = r.Position;
-            }
-            else
-            {
-                var span = record.Bytes.Span[record.Prefix..];
-                // The fourth byte is no longer a flag in 2.04 (eight records hold 130-200).
-                flags = span[..3].ToArray(); initial = span[4]; skill = U32(span, 30);
-                (levels, start) = CompactLevels(record, groups);
-            }
+            var span = record.Bytes.Span[record.Prefix..];
+            byte[] flags = span[..3].ToArray();  // showUI, showUIAlert, legendaryAnimal; the fourth byte is not a flag (eight records hold 130-200).
+            byte initial = span[4]; uint skill = U32(span, 30);
+            var (levels, start) = LevelList(record, groups);
             if (initial > 1 || flags.Any(f => f > 1) || levels < 1 || new ClientReader(record.Bytes, start).U32() != 1)
                 throw new InvalidDataException("Unsupported knowledge level list.");
             result[key] = new(key, record.Name, record, flags[0] == 1, initial, skill, levels, start);
@@ -69,10 +47,10 @@ public static class KnowledgeCatalogBuilder
         return result;
     }
 
-    // shortcut: 2.04 moved variable-length fields of unknown shape ahead of the group list, so the level list is located
-    // as the only [count][known group keys][level count][1] run instead of walked. It is unique in every 2.04 record and
-    // matches every 2.03 count; walk the fields once their shapes are decoded.
-    private static (int Levels, int Start) CompactLevels(ClientRecord record, IReadOnlySet<uint> groups)
+    // shortcut: variable-length fields of unknown shape sit ahead of the group list, so the level list is located as the
+    // only [count][known group keys][level count][1] run instead of walked. It is unique in every record; walk the fields
+    // once their shapes are decoded.
+    private static (int Levels, int Start) LevelList(ClientRecord record, IReadOnlySet<uint> groups)
     {
         var span = record.Bytes.Span; (int, int)? found = null;
         for (int q = record.Prefix + 42; q + 16 <= span.Length; q++)
@@ -89,17 +67,17 @@ public static class KnowledgeCatalogBuilder
         return found ?? throw new InvalidDataException("Missing knowledge level list.");
     }
 
-    // 2.04 knowledge lists its characters in the fifth array after the 42-byte fixed block (checked on every reviewed fish).
-    private static uint[] CompactCharacters(ClientRecord record)
+    // Knowledge lists its characters in the fifth array after the 42-byte fixed block (checked on every reviewed fish).
+    private static uint[] Characters(ClientRecord record)
     {
         var r = new ClientReader(record.Bytes, record.Prefix + 42);
         for (int i = 0; i < 4; i++) r.Array(4);
         return r.Array32();
     }
 
-    // shortcut: the 2.04 CharacterInfo fields before the fish size range are not decoded, so the range is located as the
-    // only positive float pair between 16 zero bytes on each side. That finds exactly the reviewed range in all 44 sized
-    // 2.03 fish and nothing in the 11 unsized ones; walk the fields once they are decoded.
+    // shortcut: the CharacterInfo fields before the fish size range are not decoded, so the range is located as the only
+    // positive float pair between 16 zero bytes on each side. That found exactly the reviewed range in all 44 sized fish
+    // and nothing in the 11 unsized ones; walk the fields once they are decoded.
     private static (int Offset, float Minimum, float Maximum)? SizeRange(ClientRecord record)
     {
         var span = record.Bytes.Span; (int, float, float)? found = null;
@@ -209,7 +187,7 @@ public static class KnowledgeCatalogBuilder
         JsonObject NewFish(uint key, uint group)
         {
             var evidence = new JsonArray();
-            foreach (uint character in knowledge[key].Record.Compact ? CompactCharacters(knowledge[key].Record) : [])
+            foreach (uint character in Characters(knowledge[key].Record))
                 if (characters.TryGetValue(character, out var record) && SizeRange(record) is var (offset, minimum, maximum))
                     evidence.Add(new JsonObject
                     {

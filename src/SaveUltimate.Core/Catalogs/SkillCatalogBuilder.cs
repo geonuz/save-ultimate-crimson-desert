@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace SaveUltimate.Core.Catalogs;
 
 // Port of the Python skills catalog builder: the three skill trees and the learning routes of their knowledge,
-// including DLC tables. The level lists keep their 2.03 layout in 2.04; only the tree header and tails moved.
+// including DLC tables.
 public static partial class SkillCatalogBuilder
 {
     private static readonly uint[] Conditions = [1008767, 1008768, 1008769, 1008770];
@@ -106,7 +106,7 @@ public static partial class SkillCatalogBuilder
         // Enhanced skills add dependencies (Enlightenment) to every route in a [0][pairs] tail; fixed fields follow.
         if (r.U32() != 0) throw new InvalidDataException("Unsupported skill definition tail.");
         var extra = Pairs(r);
-        if (r.Remaining != (k.Record.Compact ? 12 : 41)) throw new InvalidDataException("Unsupported skill definition tail.");
+        if (r.Remaining != 12) throw new InvalidDataException("Unsupported skill definition tail.");
         foreach (var route in levels.SelectMany(l => l!["routes"]!.AsArray()))
             foreach (var pair in extra) route!["requires"]!.AsArray().Add(pair!.DeepClone());
         return new JsonObject { ["key"] = k.Key, ["skill"] = k.Skill, ["default"] = k.Default, ["levels"] = levels };
@@ -115,7 +115,7 @@ public static partial class SkillCatalogBuilder
     private static JsonArray Tree(uint key, ClientRecord record)
     {
         var r = new ClientReader(record.Bytes, record.Prefix);
-        r.Take(record.Compact ? 32 : 24); r.Reference(25, 402, key);
+        r.Take(32); r.Reference(25, 402, key);
         for (int i = r.Count(); i > 0; i--) { r.Take(12); r.SkipText(); }
         var nodes = new JsonArray(); var ids = new HashSet<uint>(); var guides = new List<(uint Node, uint Parent)>();
         for (int i = r.Count(); i > 0; i--)
@@ -134,7 +134,7 @@ public static partial class SkillCatalogBuilder
             if (!ids.Add(id)) throw new InvalidDataException("Duplicate skill tree node.");
             nodes.Add(new JsonObject { ["id"] = id, ["skill"] = skill, ["xy"] = xy, ["guides"] = lines, ["children"] = new JsonArray(children.Select(c => (JsonNode)c).ToArray()), ["color"] = color });
         }
-        r.Take(record.Compact ? 4 : 8); r.Array(4); r.Take(record.Compact ? 16 : 20);
+        r.Take(4); r.Array(4); r.Take(16);
         // The Kliff layout keeps one guide to a removed visual node.
         (uint, uint)[] dangling = guides.Where(g => !ids.Contains(g.Parent)).ToArray(), expected = key == 50 ? [(1650, 850)] : [];
         if (r.Remaining != 0 || !dangling.SequenceEqual(expected)) throw new InvalidDataException("Invalid skill tree layout.");

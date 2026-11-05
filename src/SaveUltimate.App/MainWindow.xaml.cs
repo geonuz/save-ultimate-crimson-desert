@@ -37,9 +37,10 @@ public partial class MainWindow : Window
         foreach (UIElement child in ContentArea.Children)
             if (child is UserControl || child is Grid && Grid.GetRow(child) == 3 && child != ItemArea)
                 ((FrameworkElement)child).Margin = new(20, 16, 20, 16);
-        foreach (var (name, page) in new[] { ("tab.inventory", 0), ("tab.repurchase", 1), ("tab.equipment", 2), ("tab.knowledge", 5),
-            ("Challenges", 6), ("tab.fishing", 7), ("skills.title", 4), ("map.title", 8), ("companion.title", 9), ("companion.pets", 12), ("npc.title", 10), ("tab.backup", 3), ("tab.database", 11) })
-        { var item = new MenuItem { Header = Tr.Text(name) }; item.Click += (_, _) => { if (!model.Busy) model.PageIndex = page; }; ViewMenu.Items.Add(item); }
+        foreach (var (name, page) in new[] { ("tab.inventory", AppPage.Inventory), ("tab.repurchase", AppPage.Repurchase), ("tab.equipment", AppPage.Equipment), ("tab.knowledge", AppPage.Knowledge),
+            ("Challenges", AppPage.Challenges), ("tab.fishing", AppPage.Fishing), ("skills.title", AppPage.Skills), ("map.title", AppPage.Map), ("companion.title", AppPage.Companions),
+            ("companion.pets", AppPage.Pets), ("npc.title", AppPage.Friendship), ("tab.backup", AppPage.Backups), ("tab.database", AppPage.Database) })
+        { var item = new MenuItem { Header = Tr.Text(name) }; item.Click += (_, _) => { if (!model.Busy) model.CurrentPage = page; }; ViewMenu.Items.Add(item); }
         IconsToggle.IsChecked = SettingsStore.Current.ShowIcons;
         Appearance.Changed += ApplyAppearance;
         ApplyAppearance();
@@ -59,7 +60,7 @@ public partial class MainWindow : Window
     {
         var model = (MainViewModel)DataContext;
         var scroll = FindScroll(InventoryGrid);
-        tables[model.PageIndex] = new(InventoryGrid.SelectedItems.Cast<ItemRow>().ToArray(),
+        tables[(int)model.CurrentPage] = new(InventoryGrid.SelectedItems.Cast<ItemRow>().ToArray(),
             InventoryGrid.SelectedItem as ItemRow, model.ItemsView.SortDescriptions.ToArray(),
             scroll?.HorizontalOffset ?? 0, scroll?.VerticalOffset ?? 0, EditorScroll.VerticalOffset,
             InventoryGrid.Columns.Select(c => c.Width).ToArray());
@@ -70,7 +71,7 @@ public partial class MainWindow : Window
     private void RestoreTable()
     {
         var model = (MainViewModel)DataContext;
-        var state = tables[model.PageIndex];
+        var state = tables[(int)model.CurrentPage];
         restoringSelection = true;
         try
         {
@@ -170,7 +171,7 @@ public partial class MainWindow : Window
 
     private void OnModelChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(MainViewModel.PageIndex)) { UpdateColumns((MainViewModel)sender!); UpdateNavigation((MainViewModel)sender!); ((MainViewModel)sender!).RefreshAppearance(); if (HelpPanel.Visibility == Visibility.Visible) ShowHelp(CurrentTopic(), false); }
+        if (e.PropertyName == nameof(MainViewModel.CurrentPage)) { UpdateColumns((MainViewModel)sender!); UpdateNavigation((MainViewModel)sender!); ((MainViewModel)sender!).RefreshAppearance(); if (HelpPanel.Visibility == Visibility.Visible) ShowHelp(CurrentTopic(), false); }
         if (e.PropertyName == nameof(MainViewModel.Detail)) ArrangeQuantityPanel();
     }
 
@@ -186,8 +187,7 @@ public partial class MainWindow : Window
     {
         if (updatingNavigation || DataContext is not MainViewModel { Busy: false } model ||
             PrimaryNavigation.SelectedItem is not ListBoxItem { Tag: string tag }) return;
-        int page = int.Parse(tag);
-        model.PageIndex = page == 0 ? model.ItemPageIndex == 3 ? 11 : model.ItemPageIndex : page == 5 ? model.JournalPageIndex + 5 : page == 9 ? MainViewModel.NpcPage(model.NpcPageIndex) : page;
+        model.CurrentPage = model.SectionPage(Enum.Parse<AppPage>(tag));
     }
 
     private void OnNavigationKey(object sender, KeyEventArgs e)
@@ -291,10 +291,11 @@ public partial class MainWindow : Window
     private void OnThemeSettings(object sender, RoutedEventArgs e) => ShowSettings("theme");
     private void OnExit(object sender, RoutedEventArgs e) => Close();
     private void OnCloseHelp(object sender, RoutedEventArgs e) => HelpPanel.Visibility = Visibility.Collapsed;
-    private string CurrentTopic() => ((MainViewModel)DataContext).PageIndex switch
+    private string CurrentTopic() => ((MainViewModel)DataContext).CurrentPage switch
     {
-        0 => "tab.inventory", 1 => "tab.repurchase", 2 => "tab.equipment", 3 => "tab.backup", 4 => "skills.title",
-        5 => "tab.knowledge", 6 => "Challenges", 7 => "tab.fishing", 8 => "map.title", 9 => "companion.title", 11 => "tab.database", 12 => "companion.pets", _ => "npc.title"
+        AppPage.Inventory => "tab.inventory", AppPage.Repurchase => "tab.repurchase", AppPage.Equipment => "tab.equipment", AppPage.Backups => "tab.backup", AppPage.Skills => "skills.title",
+        AppPage.Knowledge => "tab.knowledge", AppPage.Challenges => "Challenges", AppPage.Fishing => "tab.fishing", AppPage.Map => "map.title", AppPage.Companions => "companion.title",
+        AppPage.Database => "tab.database", AppPage.Pets => "companion.pets", _ => "npc.title"
     };
     public void ShowHelp(string topic, bool toggle = true)
     {

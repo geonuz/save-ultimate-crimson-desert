@@ -11,17 +11,8 @@ public sealed record ItemSocket(uint Key, ushort Endurance, bool HasGem)
 public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemSocket> Slots, string? Error = null)
 {
     internal static readonly SocketState Empty = new(0, 0, Array.Empty<ItemSocket>());
-    private static Dictionary<uint, int> Limits = LoadLimits();
-    internal static void SetLimits(Dictionary<uint, int>? values) => Limits = values ?? LoadLimits();
-    public static int Limit(uint key) => Limits.GetValueOrDefault(key);
     private SaveField valid = new();
     private int maskOffset, maskLength;
-
-    private static Dictionary<uint, int> LoadLimits()
-    {
-        using var stream = typeof(SocketState).Assembly.GetManifestResourceStream("ItemCatalog.json")!;
-        return ItemRules.ReadSocketLimits(stream);
-    }
 
     internal static SocketState Read(byte[] raw, SaveField item)
     {
@@ -50,7 +41,7 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
     internal byte[] SetUnlocked(byte[] raw, uint itemKey, int count, Func<int, byte[]> bufferForEdit)
     {
         if (Error is not null) throw new InvalidDataException(Error);
-        int limit = Limit(itemKey);
+        int limit = ItemRules.Sockets(itemKey);
         if (limit == 0 || count < 0 || count > Math.Min(limit, Capacity))
             throw new InvalidOperationException("Socket count exceeds equipment limits.");
         if (Slots.Skip(count).Any(s => s.HasGem))
@@ -67,7 +58,7 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
 
     internal byte[] Replace(byte[] raw, ParcLayout layout, uint itemKey, uint[] gems, Func<int, byte[]> bufferForEdit)
     {
-        int limit = Limit(itemKey);
+        int limit = ItemRules.Sockets(itemKey);
         if (Error is not null) throw new InvalidDataException(Error);
         if (limit == 0 || gems.Length > Math.Min(limit, Unlocked) || Slots.Skip(limit).Any(s => s.HasGem) || gems.Any(k => k > int.MaxValue))
             throw new InvalidOperationException("Socket edit exceeds equipment limits.");

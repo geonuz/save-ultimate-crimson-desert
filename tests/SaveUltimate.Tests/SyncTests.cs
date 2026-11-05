@@ -28,7 +28,7 @@ public sealed class SyncTests
         Assert.Throws<InvalidDataException>(() => reader.Take(5));
     }
 
-    private static (byte[] Header, byte[] Body) Table(bool compact, params (uint Key, string Name, byte Payload)[] rows)
+    private static (byte[] Header, byte[] Body) Table(bool old, params (uint Key, string Name, byte Payload)[] rows)
     {
         using var header = new MemoryStream(); using var h = new BinaryWriter(header);
         using var body = new MemoryStream(); using var b = new BinaryWriter(body);
@@ -36,9 +36,9 @@ public sealed class SyncTests
         foreach (var (key, name, payload) in rows)
         {
             h.Write(key); h.Write((uint)body.Length);
-            if (!compact) b.Write(key);
+            if (old) b.Write(key);
             b.Write((uint)name.Length); b.Write(Encoding.UTF8.GetBytes(name));
-            if (compact) b.Write(key);
+            if (!old) b.Write(key);
             b.Write((byte)0); b.Write(payload);
         }
         return (header.ToArray(), body.ToArray());
@@ -46,18 +46,17 @@ public sealed class SyncTests
 
     [TestMethod]
     [TestCategory("Unit")]
-    public void ClientTablesReadBothRecordLayoutsAndLetDlcReplaceBaseRecords()
+    public void ClientTablesRefuseTheOldRecordLayoutAndLetDlcReplaceBaseRecords()
     {
-        var (h, b) = Table(false, (7, "Old", 1));
-        var classic = ClientTables.Records(h, b)[7];
-        Assert.AreEqual("Old", classic.Name); Assert.IsFalse(classic.Compact); Assert.AreEqual(1, b[classic.Prefix]);
-        var base_ = Table(true, (7, "Base", 1), (8, "Kept", 2));
-        var dlc = Table(true, (7, "Dlc", 3), (9, "New", 4));
+        var (h, b) = Table(true, (7, "Old", 1));
+        Assert.Throws<InvalidDataException>(() => ClientTables.Records(h, b));
+        var base_ = Table(false, (7, "Base", 1), (8, "Kept", 2));
+        var dlc = Table(false, (7, "Dlc", 3), (9, "New", 4));
         var merged = ClientTables.Records([("", base_.Header, base_.Body), (".dlc_01", dlc.Header, dlc.Body)]);
         CollectionAssert.AreEquivalent(new uint[] { 7, 8, 9 }, merged.Keys.ToArray());
-        Assert.AreEqual("Dlc", merged[7].Name); Assert.IsTrue(merged[7].Compact);
+        Assert.AreEqual("Dlc", merged[7].Name);
         Assert.AreEqual(3, merged[7].Bytes.Span[merged[7].Prefix]);
-        var (badHeader, badBody) = Table(true, (7, "Base", 1)); badBody[^2] = 1;
+        var (badHeader, badBody) = Table(false, (7, "Base", 1)); badBody[^2] = 1;
         Assert.Throws<InvalidDataException>(() => ClientTables.Records(badHeader, badBody));
     }
 

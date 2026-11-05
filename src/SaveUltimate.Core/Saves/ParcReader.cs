@@ -66,6 +66,12 @@ internal sealed class ParcReader
         if (size > limit - position) throw new InvalidDataException($"{what} at {position} overruns its record.");
     }
 
+    // Separate from Need: this runs for every field, and the name is only worth building when it fails.
+    private static void NeedField(int position, long size, int limit, ParcType type, ParcField field)
+    {
+        if (size > limit - position) throw new InvalidDataException($"{type.Name}.{field.Name} at {position} overruns its record.");
+    }
+
     private SaveField[] Block(ParcBlock block)
     {
         var type = layout.Types[block.TypeIndex];
@@ -158,11 +164,10 @@ internal sealed class ParcReader
             var definition = definitions[i];
             bool present = (raw[mask + i / 8] & (1 << (i % 8))) != 0;
             var field = build ? New(definition, i, present, cursor) : null;
-            string What() => $"{type.Name}.{definition.Name}";
             int Marker(byte expected)
             {
-                Need(cursor, 1, limit, What());
-                if (raw[cursor] != expected) throw new InvalidDataException($"{What()} at {cursor} lacks its {expected:X2} marker.");
+                NeedField(cursor, 1, limit, type, definition);
+                if (raw[cursor] != expected) throw new InvalidDataException($"{type.Name}.{definition.Name} at {cursor} lacks its {expected:X2} marker.");
                 return cursor + 1;
             }
             if (!present)
@@ -172,21 +177,21 @@ internal sealed class ParcReader
             else switch (definition.Kind)
             {
                 case 0 or 2:
-                    if (definition.Size == 0) throw new InvalidDataException($"{What()} has no size.");
-                    Need(cursor, definition.Size, limit, What());
+                    if (definition.Size == 0) throw new InvalidDataException($"{type.Name}.{definition.Name} has no size.");
+                    NeedField(cursor, definition.Size, limit, type, definition);
                     cursor += definition.Size;
                     break;
                 case 1:
-                    Need(cursor, 4, limit, What());
+                    NeedField(cursor, 4, limit, type, definition);
                     long inline = 4L + (long)U32(cursor) * definition.Size;
-                    Need(cursor, inline, limit, What());
+                    NeedField(cursor, inline, limit, type, definition);
                     cursor += (int)inline;
                     break;
                 case 3:
-                    Need(cursor, 5, limit, What());
+                    NeedField(cursor, 5, limit, type, definition);
                     Marker(0);
                     long array = 5L + (long)U32(cursor + 1) * definition.Size;
-                    Need(cursor, array, limit, What());
+                    NeedField(cursor, array, limit, type, definition);
                     cursor += (int)array;
                     break;
                 case 4:
@@ -196,10 +201,10 @@ internal sealed class ParcReader
                     cursor = Object(Marker(1), limit, false, depth + 1, field);
                     break;
                 case 6 or 7:
-                    cursor = List(cursor, limit, definition.Kind == 7, depth, field, What());
+                    cursor = List(cursor, limit, definition.Kind == 7, depth, field, type, definition);
                     break;
                 default:
-                    throw new InvalidDataException($"{What()} has unknown kind {definition.Kind}.");
+                    throw new InvalidDataException($"{type.Name}.{definition.Name} has unknown kind {definition.Kind}.");
             }
             if (field is not null)
             {
@@ -210,18 +215,18 @@ internal sealed class ParcReader
         return cursor;
     }
 
-    private int List(int start, int limit, bool indexed, int depth, SaveField? field, string what)
+    private int List(int start, int limit, bool indexed, int depth, SaveField? field, ParcType type, ParcField definition)
     {
-        Need(start, ListHeaderSize, limit, what);
+        NeedField(start, ListHeaderSize, limit, type, definition);
         uint count = U32(start + 1);
         // The next id of an indexed list is the only value after the count.
         bool blank = indexed
             ? raw[start + 5] == 0 && !raw.AsSpan(start + 10, 8).ContainsAnyExcept((byte)0)
             : !raw.AsSpan(start + 5, ListHeaderSize - 5).ContainsAnyExcept((byte)0);
-        if (raw[start] != 0 || !blank) throw new InvalidDataException($"{what} at {start} has an invalid list header.");
+        if (raw[start] != 0 || !blank) throw new InvalidDataException($"{type.Name}.{definition.Name} at {start} has an invalid list header.");
         int cursor = start + ListHeaderSize;
         // Bound the allocation before trusting the count; an object takes at least 18 bytes.
-        Need(cursor, count * 18L, limit, what);
+        NeedField(cursor, count * 18L, limit, type, definition);
         var elements = field is null ? [] : new SaveField[count];
         for (int i = 0; i < count; i++)
         {

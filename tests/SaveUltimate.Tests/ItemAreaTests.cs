@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.App;
+using SaveUltimate.Core.Catalogs;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.Tests;
@@ -83,11 +84,11 @@ public sealed class ItemAreaTests
             Assert.IsTrue(model.CountText.EndsWith($"약 {slots:N0}슬롯"));
             model.Search = "unlikely_missing_item";
             Assert.IsTrue(model.CountText.EndsWith($"약 {slots:N0}슬롯"), "Search must not change slot totals.");
-            model.PageIndex = 2;
-            var target = grid.Items.Cast<ItemRow>().First(r => r.Item.Source == ItemSource.Inventory && r.Item.Sockets.Unlocked < SocketState.Limit(r.Item.Key));
+            model.CurrentPage = AppPage.Equipment;
+            var target = grid.Items.Cast<ItemRow>().First(r => r.Item.Source == ItemSource.Inventory && r.Item.Sockets.Unlocked < ItemRules.Sockets(r.Item.Key));
             grid.SelectedItem = target;
             Assert.IsNull(model.Detail);
-            Assert.AreEqual(SocketState.Limit(target.Item.Key), model.SocketRows.Length);
+            Assert.AreEqual(ItemRules.Sockets(target.Item.Key), model.SocketRows.Length);
             Assert.IsTrue(model.SocketRows.Skip(target.Item.Sockets.Unlocked).All(r => !r.IsEditable && r.Label.Contains("잠김")));
             Assert.AreEqual(model.SocketRows.Length + 1, model.SocketOptions.Count());
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
@@ -96,9 +97,9 @@ public sealed class ItemAreaTests
             grid.Columns[2].Width = 150;
             window.UpdateLayout();
             double vertical = scroll.VerticalOffset, horizontal = scroll.HorizontalOffset;
-            model.PageIndex = 1;
+            model.CurrentPage = AppPage.Repurchase;
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            model.PageIndex = 2;
+            model.CurrentPage = AppPage.Equipment;
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
             Assert.AreEqual(vertical, scroll.VerticalOffset);
             Assert.AreEqual(horizontal, scroll.HorizontalOffset, 0.01);

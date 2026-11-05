@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -37,11 +36,8 @@ internal static class ClientImages
             for (int i = 0; i < count; i++)
             {
                 uint key = index.U32(); int offset = checked((int)index.U32()); var r = new ClientReader(body, offset);
-                // [key][empty name][0] before 2.04, [empty name][key][0] since.
-                var prefix = r.Take(9); var id = new byte[4]; System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(id, key);
-                bool known = prefix[..4].SequenceEqual(id) && prefix[4..].SequenceEqual(new byte[5]) ||
-                    prefix[..4].SequenceEqual(new byte[4]) && prefix[4..8].SequenceEqual(id) && prefix[8] == 0;
-                if (!known || !layer.Add(key)) throw new InvalidDataException("Invalid image symbol.");
+                // [empty name][key][0]
+                if (r.U32() != 0 || r.U32() != key || r.U8() != 0 || !layer.Add(key)) throw new InvalidDataException("Invalid image symbol.");
                 symbols[key] = r.Text().ToLowerInvariant();
             }
         }
@@ -87,13 +83,11 @@ internal static class ClientImages
         var knowledge = Records("knowledgeinfo");
         foreach (var fish in FishingCatalog.Shared.Fish)
         {
-            // The image symbol opens the record before 2.04 and sits 38 bytes in since.
-            var record = knowledge[fish.Key]; var r = new ClientReader(record.Bytes, record.Prefix + (record.Compact ? 38 : 0));
+            var record = knowledge[fish.Key]; var r = new ClientReader(record.Bytes, record.Prefix + 38);
             entries.TryGetValue(symbols.GetValueOrDefault(r.U32(), ""), out var entry);
             Add($"knowledge/{fish.Key}.png", entry is null ? null : Resolve(entry.Attribute("Filename")!.Value), null, 320, 240);
         }
-        using var aliasStream = typeof(ClientImages).Assembly.GetManifestResourceStream("ClientImageAliases.json")!;
-        var aliases = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(aliasStream)!;
+        var aliases = Embedded.Load<Dictionary<string, Dictionary<string, string>>>("ClientImageAliases.json");
         var skills = Records("skill");
         foreach (var (key, skill) in SkillCatalog.Shared.Skills)
         {

@@ -175,7 +175,7 @@ public sealed class SkillTests
         var model = new MainViewModel(document);
         WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
-        window.Show(); model.PageIndex = 4; window.UpdateLayout();
+        window.Show(); model.CurrentPage = AppPage.Skills; window.UpdateLayout();
         var tabs = (SkillsView)window.FindName("SkillsArea");
         CollectionAssert.AreEqual(new[] { "클리프", "웅카", "데미안" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
         tabs.SelectedIndex = 2; window.UpdateLayout();
@@ -214,7 +214,7 @@ public sealed class SkillTests
         if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
         var model = new MainViewModel();
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
-        window.Show(); model.PageIndex = 4; window.UpdateLayout();
+        window.Show(); model.CurrentPage = AppPage.Skills; window.UpdateLayout();
         // The page is already on screen when the save loads, so it renders as soon as the skills arrive.
         WindowTests.Pump(() => model.LoadFileAsync(FixtureSaves.Named("dlc_bonds_per_character")));
         window.UpdateLayout();
@@ -234,7 +234,7 @@ public sealed class SkillTests
         var header = (PageHeader)((DockPanel)tabs.Parent).Children[0];
         Assert.IsTrue(header.TranslatePoint(new Point(0, header.ActualHeight), window).Y <= tabs.TranslatePoint(new Point(), window).Y);
         // A selected tab keeps its fill after another menu was shown, without keyboard focus.
-        model.PageIndex = 3; window.UpdateLayout(); model.PageIndex = 4; window.UpdateLayout();
+        model.CurrentPage = AppPage.Backups; window.UpdateLayout(); model.CurrentPage = AppPage.Skills; window.UpdateLayout();
         var selected = (TabItem)tabs.ItemContainerGenerator.ContainerFromIndex(tabs.SelectedIndex);
         Assert.IsFalse(selected.IsKeyboardFocused);
         Assert.AreEqual(((SolidColorBrush)window.FindResource("selected")).Color, ((SolidColorBrush)((Border)selected.Template.FindName("Box", selected)).Background).Color);

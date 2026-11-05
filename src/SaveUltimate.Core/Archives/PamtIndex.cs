@@ -1,4 +1,3 @@
-using System.Buffers.Binary;
 using System.Text;
 using SaveUltimate.Core.Binary;
 
@@ -46,19 +45,13 @@ public sealed class PamtIndex
         var files = new List<(uint Name, uint Offset, uint Packed, uint Expanded, ushort Chunk, byte Flags, byte Extension)>();
         for (int i = 0; i < fileCount; i++)
             files.Add((reader.U32(), reader.U32(), reader.U32(), reader.U32(), reader.U16(), reader.U8(), reader.U8()));
-        // 2.04 indexes end with a NUL-separated extension table; each file row's last byte selects its extension
-        // and the name tries switch to compact entries. Older indexes end here and keep that byte zero.
-        bool compact = reader.Remaining != 0;
-        string[] extensions = [""];
-        if (compact)
-        {
-            string table = new UTF8Encoding(false, true).GetString(reader.Take(reader.Count()));
-            if (reader.Remaining != 0 || !table.StartsWith('\0') || !table.EndsWith('\0')) throw new InvalidDataException("Invalid PAMT extension table.");
-            extensions = table[..^1].Split('\0');
-        }
+        // Indexes end with a NUL-separated extension table; each file row's last byte selects its extension.
+        string table = new UTF8Encoding(false, true).GetString(reader.Take(reader.Count()));
+        if (reader.Remaining != 0 || !table.StartsWith('\0') || !table.EndsWith('\0')) throw new InvalidDataException("Invalid PAMT extension table.");
+        string[] extensions = table[..^1].Split('\0');
         if (files.Any(f => f.Extension >= extensions.Length)) throw new InvalidDataException("Invalid PAMT file extension.");
-        var directories = new Trie(directoryNames, compact);
-        var filenames = new Trie(fileNames, compact);
+        var directories = new Trie(directoryNames);
+        var filenames = new Trie(fileNames);
         var entries = new Dictionary<string, ArchiveEntry>(StringComparer.Ordinal);
         foreach (var dir in directoryRows)
         {
@@ -79,9 +72,8 @@ public sealed class PamtIndex
         return new(encryptionInfo, entries);
     }
 
-    // Classic entries: [i32 parent offset][u8 length][text]. Compact (2.04) entries: [LEB128 distance back to the
-    // parent entry, 0 for a root][u8 length][text].
-    private sealed class Trie(byte[] data, bool compact)
+    // Entries: [LEB128 distance back to the parent entry, 0 for a root][u8 length][text].
+    private sealed class Trie(byte[] data)
     {
         private readonly Dictionary<int, string> cache = new() { [-1] = "" };
         public string Resolve(int offset)
@@ -90,22 +82,17 @@ public sealed class PamtIndex
             var pending = new Stack<(int Offset, string Text)>();
             while (!cache.ContainsKey(offset))
             {
-                if (offset < 0 || offset > data.Length - (compact ? 2 : 5) || !seen.Add(offset))
+                if (offset < 0 || offset > data.Length - 2 || !seen.Add(offset))
                     throw new InvalidDataException("Invalid or cyclic PAMT string reference.");
-                int parent, start;
-                if (compact)
+                uint distance = 0; int start = offset;
+                for (int shift = 0; ; shift += 7)
                 {
-                    uint distance = 0; start = offset;
-                    for (int shift = 0; ; shift += 7)
-                    {
-                        if (shift > 28 || start >= data.Length) throw new InvalidDataException("Invalid PAMT string reference.");
-                        byte part = data[start++]; distance |= (uint)(part & 0x7f) << shift;
-                        if ((part & 0x80) == 0) break;
-                    }
-                    if (distance > (uint)offset) throw new InvalidDataException("Invalid PAMT string reference.");
-                    parent = distance == 0 ? -1 : offset - (int)distance;
+                    if (shift > 28 || start >= data.Length) throw new InvalidDataException("Invalid PAMT string reference.");
+                    byte part = data[start++]; distance |= (uint)(part & 0x7f) << shift;
+                    if ((part & 0x80) == 0) break;
                 }
-                else { parent = BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(offset)); start = offset + 4; }
+                if (distance > (uint)offset) throw new InvalidDataException("Invalid PAMT string reference.");
+                int parent = distance == 0 ? -1 : offset - (int)distance;
                 if (start >= data.Length) throw new InvalidDataException("Truncated PAMT string.");
                 int size = data[start];
                 if (size > data.Length - start - 1) throw new InvalidDataException("Truncated PAMT string.");

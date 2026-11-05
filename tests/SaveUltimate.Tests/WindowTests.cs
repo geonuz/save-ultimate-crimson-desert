@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.App;
+using SaveUltimate.Core.Catalogs;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.Tests;
@@ -24,18 +25,18 @@ public sealed class WindowTests
         var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
         window.Show(); window.UpdateLayout();
         var grid = (DataGrid)window.FindName("InventoryGrid");
-        model.PageIndex = 2;
-        var row = grid.Items.Cast<ItemRow>().First(r => r.Item.Source == ItemSource.Inventory && r.Item.Sockets.Unlocked > 0 && SocketState.Limit(r.Item.Key) > 0);
+        model.CurrentPage = AppPage.Equipment;
+        var row = grid.Items.Cast<ItemRow>().First(r => r.Item.Source == ItemSource.Inventory && r.Item.Sockets.Unlocked > 0 && ItemRules.Sockets(r.Item.Key) > 0);
         grid.SelectedItem = row;
         uint saved = model.SocketRows[0].SelectedKey;
         uint draft = saved == 1002785 ? 1002786u : 1002785u;
         model.SocketRows[0].SelectedKey = draft;
         model.UnlockedSockets = 0;
         var rows = model.SocketRows;
-        model.PageIndex = 1;
+        model.CurrentPage = AppPage.Repurchase;
         grid.SelectedItem = grid.Items[0];
         Assert.IsFalse(model.SocketsCommand.CanExecute(null));
-        model.PageIndex = 2;
+        model.CurrentPage = AppPage.Equipment;
         Assert.AreSame(rows, model.SocketRows);
         Assert.AreEqual(draft, model.SocketRows[0].SelectedKey);
         Assert.AreEqual(0, model.UnlockedSockets);
@@ -81,12 +82,12 @@ public sealed class WindowTests
         model.ItemsView.SortDescriptions.Add(sort);
         var selected = grid.Items.Cast<ItemRow>().Where(r => r.Item.Source == ItemSource.Inventory).Take(2).ToArray();
         foreach (var row in selected) grid.SelectedItems.Add(row);
-        model.PageIndex = 1;
+        model.CurrentPage = AppPage.Repurchase;
         Assert.AreEqual(0, grid.SelectedItems.Count);
         Assert.AreEqual(0, model.ItemsView.SortDescriptions.Count);
         grid.SelectedItem = grid.Items[0];
         var vendor = (ItemRow)grid.SelectedItem;
-        model.PageIndex = 0;
+        model.CurrentPage = AppPage.Inventory;
         Assert.AreEqual(sort, model.ItemsView.SortDescriptions.Single());
         CollectionAssert.AreEquivalent(selected.Select(r => r.Identity).ToArray(), grid.SelectedItems.Cast<ItemRow>().Select(r => r.Identity).ToArray());
         model.QuantityText = "123";
@@ -97,7 +98,7 @@ public sealed class WindowTests
         Pump(() => model.UndoCommand.ExecuteAsync(null));
         Assert.AreEqual(hash, document.BlobSha256);
         CollectionAssert.AreEquivalent(selected.Select(r => r.Identity).ToArray(), grid.SelectedItems.Cast<ItemRow>().Select(r => r.Identity).ToArray());
-        model.PageIndex = 1;
+        model.CurrentPage = AppPage.Repurchase;
         Assert.AreEqual(vendor.Identity, ((ItemRow)grid.SelectedItem).Identity);
         Assert.IsTrue(document.Items.Contains(((ItemRow)grid.SelectedItem).Item));
         model.Search = "unlikely_missing_item_12345";
@@ -105,7 +106,7 @@ public sealed class WindowTests
         Assert.IsFalse(model.SwapCommand.CanExecute(null));
         Pump(() => model.LoadFileAsync(path));
         Assert.AreEqual(0, grid.SelectedItems.Count);
-        model.PageIndex = 0;
+        model.CurrentPage = AppPage.Inventory;
         Assert.AreEqual(0, grid.SelectedItems.Count);
         Assert.AreEqual(0, model.ItemsView.SortDescriptions.Count);
         window.Close();
@@ -143,12 +144,12 @@ public sealed class WindowTests
         var tabs = (TabControl)window.FindName("ItemTabs");
         CollectionAssert.AreEqual(new[] { "인벤토리", "아이템 교환(재구매)", "장비", "아이템 데이터베이스" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
         var navigation = (ListBox)window.FindName("PrimaryNavigation");
-        model.PageIndex = 1;
+        model.CurrentPage = AppPage.Repurchase;
         navigation.SelectedIndex = 5;
         Assert.IsTrue(model.IsBackups);
         Assert.AreEqual(Visibility.Collapsed, tabs.Visibility);
         navigation.SelectedIndex = 0;
-        Assert.AreEqual(1, model.PageIndex, "Returning to Items preserves its sub-tab.");
+        Assert.AreEqual(AppPage.Repurchase, model.CurrentPage, "Returning to Items preserves its sub-tab.");
         // Hosted CI displays are 1024px wide, which caps the window below the auto-collapse width; the rail checks need a wide display.
         if (SystemParameters.PrimaryScreenWidth >= 1400)
         {
@@ -159,7 +160,7 @@ public sealed class WindowTests
             window.Width = 1400; window.UpdateLayout();
             Assert.AreEqual(68d, ((Border)window.FindName("NavigationRail")).ActualWidth, "Manual collapse survives resize.");
         }
-        model.PageIndex = 0;
+        model.CurrentPage = AppPage.Inventory;
         Assert.IsTrue(grid.EnableRowVirtualization);
         Assert.IsTrue(grid.IsReadOnly);
         Assert.IsFalse(model.SwapCommand.CanExecute(null));
@@ -172,7 +173,7 @@ public sealed class WindowTests
             Assert.IsFalse(model.SocketsCommand.CanExecute(null));
             model.Search = "unlikely_missing_item_12345";
             Assert.IsTrue(model.ItemsView.IsEmpty);
-            model.PageIndex = 1;
+            model.CurrentPage = AppPage.Repurchase;
             Assert.AreEqual("", model.Search);
             Assert.AreEqual(document.Items.Count(i => i.Source == ItemSource.Vendor), grid.Items.Count);
             grid.SelectedItems.Add(grid.Items[0]); grid.SelectedItems.Add(grid.Items[1]);
@@ -185,17 +186,17 @@ public sealed class WindowTests
             Assert.IsFalse(model.ApplyCommand.CanExecute(null));
             model.Busy = false;
             Capture(window, "repurchase");
-            model.PageIndex = 2;
-            Assert.AreEqual(document.Items.Count(i => i.EnchantLevel.HasValue || SocketState.Limit(i.Key) > 0), grid.Items.Count);
-            grid.SelectedItem = grid.Items.Cast<ItemRow>().First(r => r.Item.Sockets.Unlocked > 0 && SocketState.Limit(r.Item.Key) > 0);
+            model.CurrentPage = AppPage.Equipment;
+            Assert.AreEqual(document.Items.Count(i => i.EnchantLevel.HasValue || ItemRules.Sockets(i.Key) > 0), grid.Items.Count);
+            grid.SelectedItem = grid.Items.Cast<ItemRow>().First(r => r.Item.Sockets.Unlocked > 0 && ItemRules.Sockets(r.Item.Key) > 0);
             Assert.IsTrue(model.EnchantCommand.CanExecute(null));
             Assert.IsTrue(model.SocketsCommand.CanExecute(null));
             Assert.IsFalse(model.SwapCommand.CanExecute(null));
             Assert.IsFalse(model.ApplyCommand.CanExecute(null));
             Assert.AreEqual(model.Selected!.Item.Endurance & 0xff, model.Selected.ActualEndurance);
-            Assert.AreEqual($"{model.Selected.Item.Sockets.Slots.Count(s => s.Key != 0)} / {model.Selected.Item.Sockets.Unlocked} / {SocketState.Limit(model.Selected.Item.Key)}", model.Selected.SocketText);
+            Assert.AreEqual($"{model.Selected.Item.Sockets.Slots.Count(s => s.Key != 0)} / {model.Selected.Item.Sockets.Unlocked} / {ItemRules.Sockets(model.Selected.Item.Key)}", model.Selected.SocketText);
             Capture(window, "equipment");
-            model.PageIndex = 0;
+            model.CurrentPage = AppPage.Inventory;
             Assert.AreEqual("unlikely_missing_item_12345", model.Search);
             model.Search = "";
             Capture(window, "inventory");

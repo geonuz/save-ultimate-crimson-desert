@@ -16,8 +16,8 @@ public sealed record BackupRow(string Path, DateTime Modified, long Size)
 
 public partial class MainViewModel
 {
-    public bool IsBackups => PageIndex == 3;
-    public bool IsItems => PageIndex < 3 || IsDatabase;
+    public bool IsBackups => CurrentPage == AppPage.Backups;
+    public bool IsItems => ItemPages.Contains(CurrentPage);
     [ObservableProperty] private BackupRow[] backups = [];
     [ObservableProperty] private BackupRow? selectedBackup;
     public string BackupCount => Tr.Count(Backups.Length, Backups.Length);

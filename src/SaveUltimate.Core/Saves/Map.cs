@@ -12,7 +12,7 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
 {
     [JsonPropertyName("label_ref")]
     public System.Text.Json.JsonElement[]? LabelRef { get; init; }
-    private static readonly MapAction[] shipped = ChallengeCatalog.Load<MapAction[]>("MapActions.json");
+    private static readonly MapAction[] shipped = Embedded.Load<MapAction[]>("MapActions.json");
     private static MapAction[]? baseGame;
     // Same actions in the same order either way, so an index means the same action.
     public static MapAction[] All => DlcContent.Hidden ? baseGame ??= shipped.Select(a => a.WithoutDlc(DlcContent.Shared)).ToArray() : shipped;

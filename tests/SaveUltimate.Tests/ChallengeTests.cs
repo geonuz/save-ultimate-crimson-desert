@@ -86,6 +86,7 @@ public sealed class ChallengeTests
             string source = FixtureSaves.Named(name);
             Assert.AreEqual(damaged, SaveDocument.Diagnose(source).DamagedRows, name);
             var document = SaveDocument.Open(source);
+            Assert.AreEqual(damaged, document.DamagedRows, name);
             var before = document.ReadChallenges();
             var knowledge = document.ReadKnowledge();
             byte[] original = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;

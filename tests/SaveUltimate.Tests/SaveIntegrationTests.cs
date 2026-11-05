@@ -1,5 +1,6 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SaveUltimate.Core.Catalogs;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.Tests;
@@ -152,7 +153,7 @@ public sealed class SaveIntegrationTests
             string original = document.BlobSha256;
             var stale = Target();
             Assert.Throws<InvalidOperationException>(() => document.SetUnlockedSockets(stale, -1));
-            Assert.Throws<InvalidOperationException>(() => document.SetUnlockedSockets(stale, SocketState.Limit(stale.Key) + 1));
+            Assert.Throws<InvalidOperationException>(() => document.SetUnlockedSockets(stale, ItemRules.Sockets(stale.Key) + 1));
             Assert.AreEqual(original, document.BlobSha256);
             Assert.IsFalse(document.CanUndo);
             document.SetUnlockedSockets(stale, count);

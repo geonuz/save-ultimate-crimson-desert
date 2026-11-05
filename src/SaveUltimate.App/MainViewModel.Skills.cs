@@ -6,7 +6,7 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsSkills => PageIndex == 4;
+    public bool IsSkills => CurrentPage == AppPage.Skills;
     [ObservableProperty] private SkillState? skills;
     public SkillState? SkillBaseline { get; private set; }
 

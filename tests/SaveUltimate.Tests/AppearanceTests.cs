@@ -102,21 +102,21 @@ public sealed class AppearanceTests
             var inventory = (DataGrid)window.FindName("InventoryGrid");
             Assert.AreEqual(1, ((DataGridRow)inventory.ItemContainerGenerator.ContainerFromIndex(0)).Header);
             inventory.SelectedIndex = 0; WindowTests.Capture(window, "inventory-selected"); inventory.SelectedIndex = -1;
-            foreach (var (page, name) in new[] { (1, "repurchase"), (2, "equipment"), (5, "knowledge"), (6, "challenges"), (7, "fishing"), (8, "map"), (9, "companions"), (10, "npc"), (3, "backups"), (11, "database"), (4, "skills") })
+            foreach (var (page, name) in new[] { (AppPage.Repurchase, "repurchase"), (AppPage.Equipment, "equipment"), (AppPage.Knowledge, "knowledge"), (AppPage.Challenges, "challenges"), (AppPage.Fishing, "fishing"), (AppPage.Map, "map"), (AppPage.Companions, "companions"), (AppPage.Friendship, "npc"), (AppPage.Backups, "backups"), (AppPage.Database, "database"), (AppPage.Skills, "skills") })
             {
-                if (page == 4) WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
-                model.PageIndex = page;
-                if (page == 5) WindowTests.Pump(() => model.LoadKnowledgeCommand.ExecuteAsync(null));
-                if (page == 6) WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null));
-                if (page == 7) WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null));
-                if (page == 8) WindowTests.Pump(() => model.LoadMapCommand.ExecuteAsync(null));
-                if (page == 9) WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null));
-                if (page == 10) WindowTests.Pump(() => model.LoadFriendshipCommand.ExecuteAsync(null));
+                if (page == AppPage.Skills) WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
+                model.CurrentPage = page;
+                if (page == AppPage.Knowledge) WindowTests.Pump(() => model.LoadKnowledgeCommand.ExecuteAsync(null));
+                if (page == AppPage.Challenges) WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null));
+                if (page == AppPage.Fishing) WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null));
+                if (page == AppPage.Map) WindowTests.Pump(() => model.LoadMapCommand.ExecuteAsync(null));
+                if (page == AppPage.Companions) WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null));
+                if (page == AppPage.Friendship) WindowTests.Pump(() => model.LoadFriendshipCommand.ExecuteAsync(null));
                 WindowTests.Capture(window, name);
-                if (page is 1 or 2) { inventory.SelectedIndex = 0; WindowTests.Capture(window, name + "-selected"); inventory.SelectedIndex = -1; }
+                if (page is AppPage.Repurchase or AppPage.Equipment) { inventory.SelectedIndex = 0; WindowTests.Capture(window, name + "-selected"); inventory.SelectedIndex = -1; }
                 Assert.IsFalse(model.Status.StartsWith("작업을 완료하지 못했습니다"), model.Status);
             }
-            model.PageIndex = 0; window.ShowHelp("tab.inventory");
+            model.CurrentPage = AppPage.Inventory; window.ShowHelp("tab.inventory");
             WindowTests.Capture(window, "help"); window.ShowHelp("tab.inventory");
             var dialog = Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
             dialog.Show(); WindowTests.Capture(dialog, "settings-general"); dialog.Navigation.SelectedIndex = 1; WindowTests.Capture(dialog, "settings-theme"); dialog.Close();
@@ -155,9 +155,9 @@ public sealed class AppearanceTests
                 var undo = (Button)window.FindName("UndoButton");
                 Assert.AreEqual(Tr.Text("ui.undo"), undo.Content);
                 Assert.AreSame(model.UndoCommand, undo.Command);
-                foreach (int page in new[] { 0, 2, 5, 6, 7, 4, 8, 9, 10, 11, 3 })
+                foreach (var page in new[] { AppPage.Inventory, AppPage.Equipment, AppPage.Knowledge, AppPage.Challenges, AppPage.Fishing, AppPage.Skills, AppPage.Map, AppPage.Companions, AppPage.Friendship, AppPage.Database, AppPage.Backups })
                 {
-                    model.PageIndex = page; WindowTests.Capture(window, $"language-{language}-{page}");
+                    model.CurrentPage = page; WindowTests.Capture(window, $"language-{language}-{page}");
                 }
                 var translatedSettings = Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
                 translatedSettings.Show(); WindowTests.Capture(translatedSettings, $"settings-{language}"); translatedSettings.Close();

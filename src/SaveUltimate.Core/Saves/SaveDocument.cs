@@ -13,7 +13,7 @@ public sealed partial class SaveDocument
     private byte[]? editBuffer;
     private readonly MemoryStream snapshotBuffer = new();
     private Guid snapshot = Guid.NewGuid();
-    private int damagedRows;
+    public int DamagedRows { get; private set; }
     private sealed record Patch(int Offset, byte[] Before, byte[] After);
     private sealed record Snapshot(byte[] Packed, int Length)
     {
@@ -63,7 +63,7 @@ public sealed partial class SaveDocument
         blob = raw;
         savedBlob = raw;
         Layout = ParcLayout.Parse(raw);
-        damagedRows = ParcReader.Validate(raw, Layout).DamagedRows;
+        DamagedRows = ParcReader.Validate(raw, Layout).DamagedRows;
         RefuseOldGameVersion(raw, Layout);
         Items = Inventory.Read(raw, Layout, snapshot);
     }
@@ -215,7 +215,7 @@ public sealed partial class SaveDocument
         if (!restoring)
         {
             // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
-            if (damaged > damagedRows) throw new InvalidDataException("The edit would damage mission rows.");
+            if (damaged > DamagedRows) throw new InvalidDataException("The edit would damage mission rows.");
             if (!candidate.AsSpan(0, layout.SchemaEnd).SequenceEqual(blob.AsSpan(0, Layout.SchemaEnd)) ||
                 !layout.Blocks.Select(b => (b.Name, b.TypeIndex)).SequenceEqual(Layout.Blocks.Select(b => (b.Name, b.TypeIndex))))
                 throw new InvalidDataException("Edit changed the save schema.");
@@ -228,7 +228,7 @@ public sealed partial class SaveDocument
         verify?.Invoke(layout, items);
         // Retire the old blob only after validation; it can serve the next edit or Undo.
         editBuffer = ReferenceEquals(candidate, editBuffer) || ReferenceEquals(candidate, savedBlob) ? blob : null;
-        (blob, snapshot, Items, Layout, damagedRows) = (candidate, next, items, layout, damaged);
+        (blob, snapshot, Items, Layout, DamagedRows) = (candidate, next, items, layout, damaged);
     }
 
     public InventoryItem SocketTarget(InventoryItem item)

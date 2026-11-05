@@ -5,7 +5,7 @@ namespace SaveUltimate.Core.Saves;
 
 public sealed record CompanionTypes(Dictionary<uint, uint> Characters, Dictionary<uint, string> Types)
 {
-    public static CompanionTypes Shared { get; } = ChallengeCatalog.Load<CompanionTypes>("CompanionTypes.json");
+    public static CompanionTypes Shared { get; } = Embedded.Load<CompanionTypes>("CompanionTypes.json");
     public static string[] Groups { get; } = ["all", "horse", "pet", "special", "mercenary", "playable", "dedicated", "domestic", "fish", "wagon", "ship", "internal", "unknown"];
     public string Group(uint key) => Characters.GetValueOrDefault(key) switch
     {

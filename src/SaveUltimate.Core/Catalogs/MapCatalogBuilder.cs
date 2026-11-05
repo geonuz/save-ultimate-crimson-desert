@@ -3,8 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace SaveUltimate.Core.Catalogs;
 
-// Port of the Python map_exploration scene catalog and map_actions builders, including the DLC scene file. Compact (2.04)
-// offsets were checked against every 2.03 scene type icon, map icon knowledge link and faction-node link.
+// Port of the Python map_exploration scene catalog and map_actions builders, including the DLC scene file.
 public static class MapCatalogBuilder
 {
     private static readonly uint[] Travel = [1000000, 1000001, 1000004, 1000008, 1000103, 1000114];
@@ -19,8 +18,7 @@ public static class MapCatalogBuilder
 
     private static uint U32(ClientRecord record, int offset) => BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + offset)..]);
 
-    // Scene placements: 2.04 moves the parent chain after the transform and adds four bytes before the attachments.
-    internal static IEnumerable<Scene> Scenes(byte[] data, bool compact, Dictionary<uint, ClientRecord> types)
+    internal static IEnumerable<Scene> Scenes(byte[] data, Dictionary<uint, ClientRecord> types)
     {
         var r = new ClientReader(data); var scenes = new List<Scene>();
         for (int group = r.Count(); group > 0; group--)
@@ -31,16 +29,14 @@ public static class MapCatalogBuilder
             {
                 if (r.U32() != key) throw new InvalidDataException("Scene identity mismatch.");
                 r.SkipText(); r.Take(12);  // prefab path (filled for 2.04 housing) and three references
-                string name = r.Text(); string[] parents = [];
-                string[] Parents() => Enumerable.Range(0, r.Count()).Select(_ => r.Text()).ToArray();
-                if (!compact) parents = Parents();
+                string name = r.Text();
                 string uuid = Convert.ToHexStringLower(r.Take(44)[8..24]);
                 r.SkipText();  // attachment socket
                 var transform = r.Take(93);
                 float[] position = [BitConverter.ToSingle(transform), BitConverter.ToSingle(transform[4..]), BitConverter.ToSingle(transform[8..])];
-                if (compact) r.Take(4);
+                r.Take(4);
                 r.Take(checked(r.Count() * 20));
-                if (compact) parents = Parents();
+                string[] parents = Enumerable.Range(0, r.Count()).Select(_ => r.Text()).ToArray();
                 if (!position.All(float.IsFinite)) throw new InvalidDataException("Invalid scene position.");
                 string category = Travel.Contains(key) ? "travel"
                     : type.Name.StartsWith("Mine") || type.Name.StartsWith("Vein_Minerals") || type.Name.StartsWith("SulfurStone") || type.Name == "Mercury" ? "ore"
@@ -72,14 +68,8 @@ public static class MapCatalogBuilder
         var iconInfo = new Dictionary<uint, JsonObject>();
         foreach (var (key, record) in icons)
         {
-            uint related;
-            // 2.04 icons may start with one 18-byte entry (only Actor_* markers, which have no knowledge).
-            if (record.Compact) related = U32(record, U32(record, 0) switch { 0 => 40, 1 => 58, _ => throw new InvalidDataException("Unsupported map icon layout.") });
-            else
-            {
-                var r = new ClientReader(record.Bytes, record.Prefix);
-                r.Take(37); related = r.U32();
-            }
+            // Icons may start with one 18-byte entry (only Actor_* markers, which have no knowledge).
+            uint related = U32(record, U32(record, 0) switch { 0 => 40, 1 => 58, _ => throw new InvalidDataException("Unsupported map icon layout.") });
             if (related != 0 && !knowledge.ContainsKey(related)) throw new InvalidDataException("Unresolved map icon knowledge.");
             int caption = ClientTables.Anchor(record, 25, 0x190, key);
             string label = caption < 0 ? "" : (((ulong)key << 32) | 0x190).ToString();
@@ -93,9 +83,7 @@ public static class MapCatalogBuilder
         var typeInfo = new JsonObject();
         foreach (var (key, record) in types)
         {
-            uint icon;
-            if (record.Compact) icon = U32(record, 16);
-            else { var r = new ClientReader(record.Bytes, record.Prefix); r.SkipText(); r.Take(4); icon = r.U32(); }
+            uint icon = U32(record, 16);
             if (icon != 0 && !iconInfo.ContainsKey(icon)) throw new InvalidDataException("Unresolved scene map icon.");
             typeInfo[key.ToString()] = iconInfo.TryGetValue(icon, out var info) ? info.DeepClone() : new JsonObject { ["knowledge"] = 0u, ["names"] = new JsonObject() };
         }
@@ -103,7 +91,7 @@ public static class MapCatalogBuilder
         var nodeKnowledge = new Dictionary<uint, List<uint>>();
         foreach (var (key, record) in knowledge)
         {
-            uint node = record.Compact ? U32(record, 22) : U32(record, 9);
+            uint node = U32(record, 22);
             if (node == 0) continue;
             if (!nodes.ContainsKey(node)) throw new InvalidDataException("Unresolved knowledge node reference.");
             (nodeKnowledge.TryGetValue(node, out var keys) ? keys : nodeKnowledge[node] = []).Add(key);
@@ -112,8 +100,7 @@ public static class MapCatalogBuilder
         var scenes = new Dictionary<string, Scene>();
         foreach (var (_, data) in source.Misc("levelgimmicksceneobjectinfo_misc"))
         {
-            // The misc file has no layout marker; it changed together with the static-info record layout in 2.04.
-            var layer = Scenes(data, types.Values.First().Compact, types).ToList();
+            var layer = Scenes(data, types).ToList();
             if (layer.Select(s => s.Id).Distinct().Count() != layer.Count) throw new InvalidDataException("Duplicate client scene identity.");
             foreach (var scene in layer) scenes[scene.Id] = scene;
         }
