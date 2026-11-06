@@ -42,7 +42,8 @@ public static class GameDataSync
                 foreach (var file in new DirectoryInfo(root).EnumerateFiles("*.paz")) result[prefix + "/" + file.Name] = $"{file.Length}:{file.LastWriteTimeUtc.Ticks}";
             }
         foreach (string path in Metadata.Where(p => p != "data/max_enchant_map.json")) result["resource/" + path] = FileHash(Path.Combine(resources, path));
-        result["schema"] = "csharp-sync-4";
+        // Any release can change what the builders produce; unchanged images are still reused after a version change.
+        result["schema"] = "csharp-sync-4:" + typeof(GameDataSync).Assembly.GetName().Version;
         return result;
     }
     private static SyncManifest ReadManifest(string path)
@@ -64,6 +65,9 @@ public static class GameDataSync
         for (var info = new DirectoryInfo(path); info is not null; info = info.Parent)
             if (info.Exists && info.Attributes.HasFlag(FileAttributes.ReparsePoint)) throw new IOException("Cache folders must not be links.");
     }
+    // The game or this release changed if the inputs no longer match the last sync.
+    public static bool IsCurrent(string game, string resources, string destination) =>
+        ReadManifest(Path.Combine(destination, "manifest.json")).Fingerprint == Hash(JsonSerializer.SerializeToUtf8Bytes(Identity(Path.GetFullPath(game), Path.GetFullPath(resources))));
     public static SyncResult Run(string game, string resources, string destination, IProgress<SyncProgress>? progress = null, CancellationToken cancel = default)
     {
         cancel.ThrowIfCancellationRequested();

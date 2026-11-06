@@ -1,6 +1,6 @@
 # SaveUltimate for Crimson Desert
 
-SaveUltimate is an unofficial offline save editor for Crimson Desert on Windows
+SaveUltimate is an unofficial save editor for Crimson Desert on Windows
 x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
 Developed and maintained by geonuz with assistance from AI agents.
 
@@ -82,10 +82,17 @@ first time a save is opened, and restore or delete backups.
 
 ### Save Doctor (Experimental)
 
-**File > Save Doctor** checks every save slot for mission records that earlier
-versions of this editor wrote incorrectly and repairs them. Such a record can
-crash the game at the title screen even for a slot that is never loaded. Each
-save is backed up first. Close the game before repairing.
+**File > Save Doctor** checks every save slot against the rules this editor
+knows, without changing anything: the file, its structure, each page and item
+values. Each check shows as normal, suspect, error or not checked. Normal means
+the rules pass; it does not promise that the game will load the save.
+
+It repairs only what can be worked out from the file: mission records that do
+not follow the game's format, which can crash the game at the title screen even
+for a slot that is never loaded, and a signature that no longer matches contents
+that still read. You can also lower enchant levels past
+their limit. Other damage cannot be repaired, so it offers the newest backup
+that still opens. The save is backed up first. Close the game before repairing.
 
 ### Editing and saving
 
@@ -128,9 +135,21 @@ game_data/        Synchronized game data and images
 ```
 
 Backups are also written to a `backups/` folder beside each save, including a
-`.PRISTINE.bak` copy made the first time a save is opened. Sync again after a
-game update; unchanged data is reused. When updating SaveUltimate, replace the
-EXE, the `.dll` files, `resources/` and `licenses/` and keep your settings, backups and `game_data/`.
+`.PRISTINE.bak` copy made the first time a save is opened.
+
+### Updates
+
+When it starts, the editor asks GitHub for the latest release; it sends nothing
+about you or your saves, and editing works without a connection. If a newer
+release exists, an **Update** button appears above Settings. **File > Check for
+Updates** does the same check on demand. Updating replaces the release's files,
+keeps your settings, backups and `game_data/`, and restarts the editor. If the
+new version does not open its window, the previous version is put back. Versions
+before this feature must be updated by hand once: extract the new ZIP over the
+old folder.
+
+Each start also compares the synced data with the installed game and this
+release. If either changed, the sync runs again and reuses unchanged images.
 
 ## Use and copyright
 

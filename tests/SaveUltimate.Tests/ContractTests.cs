@@ -117,8 +117,8 @@ public sealed class ContractTests
         }
         Check("open", () =>
         {
-            if (SaveDocument.Diagnose(save.Path).DamagedRows != 0) failures.Add($"{name}: damaged mission rows belong in damaged/.");
             var doc = SaveDocument.Open(save.Path);
+            if (doc.DamagedRows != 0) failures.Add($"{name}: damaged mission rows belong in damaged/.");
             string original = doc.BlobSha256;
             var sections = isStandard ? FeatureContracts.Sections.ToDictionary(s => s.Key, s => s.Value(doc)) : [];
             void Restore(string what)
@@ -160,15 +160,12 @@ public sealed class ContractTests
 
     private static void RoundTrip(SaveDocument doc)
     {
-        string output = Path.Combine(Path.GetTempPath(), $"SaveUltimate-fixture-{Guid.NewGuid():N}.save");
-        try
-        {
-            doc.SaveCopy(output);
-            if (SaveDocument.Open(output).BlobSha256 != doc.BlobSha256) throw new InvalidDataException("The saved copy reopened with different data.");
-            byte[] saved = SaveContainer.Decode(File.ReadAllBytes(output)).Blob;
-            ParcReader.Validate(saved, ParcLayout.Parse(saved));
-        }
-        finally { File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        if (SaveDocument.Open(output).BlobSha256 != doc.BlobSha256) throw new InvalidDataException("The saved copy reopened with different data.");
+        byte[] saved = SaveContainer.Decode(File.ReadAllBytes(output)).Blob;
+        ParcReader.Validate(saved, ParcLayout.Parse(saved));
     }
 
     private static void WriteCoverage(string root, (Save Save, HashSet<string> Features)[] covered)

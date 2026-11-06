@@ -9,7 +9,14 @@ namespace SaveUltimate.Core.Saves;
 
 public sealed record SaveContainer(ushort Version, byte[] Header, byte[] Blob)
 {
-    public static SaveContainer Decode(ReadOnlySpan<byte> bytes)
+    // A file with its encryption removed, before anything vouches for its contents.
+    internal sealed record Opened(ushort Version, byte[] Key, int Expanded, byte[] Packed)
+    {
+        public bool SignedBy(ReadOnlySpan<byte> file) => CryptographicOperations.FixedTimeEquals(HMACSHA256.HashData(Key, Packed), file.Slice(0x2a, 32));
+        public byte[] Expand() => Compression.Decode(Packed, 2, Expanded);
+    }
+
+    internal static Opened Open(ReadOnlySpan<byte> bytes)
     {
         if (bytes.Length < 144 || !bytes[..4].SequenceEqual("SAVE"u8))
             throw new InvalidDataException("Not a complete SAVE container.");
@@ -19,12 +26,16 @@ public sealed record SaveContainer(ushort Version, byte[] Header, byte[] Blob)
         int packed = checked((int)BinaryPrimitives.ReadUInt32LittleEndian(bytes[0x16..]));
         if (expanded == 0 || packed == 0 || packed > bytes.Length - 128)
             throw new InvalidDataException("Invalid SAVE payload length.");
-        var compressed = GameChaCha.Transform(bytes.Slice(128, packed), key, bytes.Slice(0x1a, 16));
-        var digest = HMACSHA256.HashData(key, compressed);
-        if (!CryptographicOperations.FixedTimeEquals(digest, bytes.Slice(0x2a, 32)))
-            throw new InvalidDataException("SAVE HMAC verification failed.");
-        return new(version, bytes[..128].ToArray(), Compression.Decode(compressed, 2, expanded));
+        return new(version, key, expanded, GameChaCha.Transform(bytes.Slice(128, packed), key, bytes.Slice(0x1a, 16)));
     }
+
+    public static SaveContainer Decode(ReadOnlySpan<byte> bytes)
+    {
+        var opened = Open(bytes);
+        if (!opened.SignedBy(bytes)) throw new InvalidDataException(BadSignature);
+        return new(opened.Version, bytes[..128].ToArray(), opened.Expand());
+    }
+    internal const string BadSignature = "SAVE HMAC verification failed.";
 
     // Decodes a file and checks every record in it.
     public static SaveContainer Check(string path)
@@ -63,7 +74,19 @@ public sealed record SaveContainer(ushort Version, byte[] Header, byte[] Blob)
         ParcReader.Validate(blob, layout);
         if (!blob.AsSpan(0, layout.SchemaEnd).SequenceEqual(original.Blob.AsSpan(0, schema)))
             throw new InvalidDataException("Edited save schema differs from the loaded source schema.");
-        byte[] file = Encode(source, blob);
+        Store(Encode(source, blob), blob, destination);
+    }
+
+    // Signs a file again as it is, once every record in it reads. Writes a new file, like Write.
+    internal static void Reseal(ReadOnlySpan<byte> source, string destination)
+    {
+        byte[] blob = Open(source).Expand();
+        ParcReader.Validate(blob, ParcLayout.Parse(blob));
+        Store(Encode(source, blob), blob, destination);
+    }
+
+    private static void Store(byte[] file, byte[] blob, string destination)
+    {
         destination = Path.GetFullPath(destination);
         string temporary = Path.Combine(Path.GetDirectoryName(destination)!, $".saveultimate-{Guid.NewGuid():N}.save");
         try

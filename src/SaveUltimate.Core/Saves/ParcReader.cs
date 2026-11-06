@@ -58,6 +58,16 @@ internal sealed class ParcReader
         }
     }
 
+    // Each block checked on its own, so one bad block does not hide the others.
+    internal static string[] BlockErrors(byte[] raw, ParcLayout layout)
+    {
+        var errors = new List<string>();
+        foreach (var block in layout.Blocks)
+            try { new ParcReader(raw, layout, build: false).Block(block); }
+            catch (Exception error) when (error is not OutOfMemoryException) { errors.Add($"{block.Name}: {error.Message}"); }
+        return errors.ToArray();
+    }
+
     private ushort U16(int position) => BinaryPrimitives.ReadUInt16LittleEndian(raw.AsSpan(position));
     private uint U32(int position) => BinaryPrimitives.ReadUInt32LittleEndian(raw.AsSpan(position));
     private static void Need(int position, long size, int limit, string what)

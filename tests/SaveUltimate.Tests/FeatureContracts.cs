@@ -67,19 +67,16 @@ internal static class FeatureContracts
 
     private static bool Worn(InventoryItem i) => i.Source is ItemSource.Inventory or ItemSource.Equipment;
 
-    private static byte[] Blob(SaveDocument doc)
-        => (byte[])typeof(SaveDocument).GetField("blob", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(doc)!;
-
     private static ContractEdit? Swap(SaveDocument doc)
     {
         const uint replacement = 200919;
-        byte[] before = Blob(doc);
+        byte[] before = doc.blob;
         return ItemEdit(doc, i => i.Source == ItemSource.Vendor && i.Key != replacement && i.CanBecome(replacement), i => doc.SwapVendorItem(i, replacement), (item, records) =>
         {
             var sold = records.Single(r => r.Source == ItemSource.Vendor);
             Require(sold.Key == replacement && sold.Quantity == item.Quantity && sold.EnchantLevel == item.EnchantLevel, "The swap changed more than the sold item's key.");
             // Same size, and every differing byte lies in a u32 that held the old key and now holds the new one.
-            byte[] after = Blob(doc);
+            byte[] after = doc.blob;
             Require(before.Length == after.Length, "The swap changed the save's size.");
             for (int i = 0; i < before.Length; i++)
                 if (before[i] != after[i])

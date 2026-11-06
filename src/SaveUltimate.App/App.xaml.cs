@@ -22,7 +22,11 @@ public partial class App : Application
         var window = new MainWindow(model);
         MainWindow = window;
         window.Show();
+        AppUpdate.ReportStarted();
         if (firstRun && !CatalogFiles.Synced) window.RecommendSync();
+        _ = AppUpdate.CleanUpAsync(AppContext.BaseDirectory);
+        _ = model.FindUpdateAsync();
         if (e.Args.Length == 1) await model.LoadFileAsync(e.Args[0], createPristine: true);
+        await model.CheckGameDataAsync();
     }
 }

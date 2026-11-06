@@ -35,7 +35,7 @@ public sealed class ActionGlyph : FrameworkElement
             string text = Tr.EnglishCaption(value as string ?? "").ToLowerInvariant();
             if (text.Length <= 1) return "";
             foreach (var (kind, words) in new (string, string[])[] {
-                ("delete", ["delete","remove","삭제","제거"]), ("save", ["save","저장","백업"]),
+                ("update", ["update","업데이트"]), ("delete", ["delete","remove","삭제","제거"]), ("save", ["save","저장","백업"]),
                 ("open", ["open","browse","folder","열기","찾아보기","폴더","슬롯 선택"]),
                 ("undo", ["undo","cancel","취소","되돌리기"]), ("swap", ["swap","replace","교체","교환"]),
                 ("refresh", ["load","refresh","sync","불러오기","새로고침","동기화"]), ("help", ["help","도움말"]),

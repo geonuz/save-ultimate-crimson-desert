@@ -64,48 +64,32 @@ public sealed class SyncTests
     [TestCategory("Unit")]
     public void PublishingNewCacheMovesCompleteDirectory()
     {
-        string root = Path.Combine(Path.GetTempPath(), "sync-publish-" + Guid.NewGuid().ToString("N"));
-        string stage = Path.Combine(root, "stage"), destination = Path.Combine(root, "cache");
+        using var temp = new TempFolder();
+        string stage = temp.Named("stage"), destination = temp.Named("cache");
         Directory.CreateDirectory(Path.Combine(stage, "images"));
-        try
-        {
-            File.WriteAllText(Path.Combine(stage, "images", "sample.png"), "image");
-            File.WriteAllText(Path.Combine(stage, "manifest.json"), "manifest");
-            GameDataSync.Publish(stage, destination);
-            Assert.IsFalse(Directory.Exists(stage));
-            Assert.AreEqual("image", File.ReadAllText(Path.Combine(destination, "images", "sample.png")));
-            Assert.AreEqual("manifest", File.ReadAllText(Path.Combine(destination, "manifest.json")));
-        }
-        finally
-        {
-            Assert.IsTrue(Path.GetFullPath(root).StartsWith(Path.Combine(Path.GetTempPath(), "sync-publish-"), StringComparison.OrdinalIgnoreCase));
-            Directory.Delete(root, true);
-        }
+        File.WriteAllText(Path.Combine(stage, "images", "sample.png"), "image");
+        File.WriteAllText(Path.Combine(stage, "manifest.json"), "manifest");
+        GameDataSync.Publish(stage, destination);
+        Assert.IsFalse(Directory.Exists(stage));
+        Assert.AreEqual("image", File.ReadAllText(Path.Combine(destination, "images", "sample.png")));
+        Assert.AreEqual("manifest", File.ReadAllText(Path.Combine(destination, "manifest.json")));
     }
 
     [TestMethod]
     [TestCategory("Unit")]
     public void PublishingFailureRestoresPreviouslyReplacedFiles()
     {
-        string root = Path.Combine(Path.GetTempPath(), "sync-publish-" + Guid.NewGuid().ToString("N"));
-        string stage = Path.Combine(root, "stage"), destination = Path.Combine(root, "cache");
+        using var temp = new TempFolder();
+        string stage = temp.Named("stage"), destination = temp.Named("cache");
         Directory.CreateDirectory(stage); Directory.CreateDirectory(destination);
-        try
-        {
-            File.WriteAllText(Path.Combine(destination, "data.json"), "original");
-            File.WriteAllText(Path.Combine(destination, "manifest.json"), "original manifest");
-            File.WriteAllText(Path.Combine(stage, "data.json"), "replacement");
-            File.WriteAllText(Path.Combine(stage, "manifest.json"), "replacement manifest");
-            using (var locked = File.Open(Path.Combine(destination, "manifest.json"), FileMode.Open, FileAccess.Read, FileShare.None))
-                Assert.Throws<IOException>(() => GameDataSync.Publish(stage, destination));
-            Assert.AreEqual("original", File.ReadAllText(Path.Combine(destination, "data.json")));
-            Assert.AreEqual("original manifest", File.ReadAllText(Path.Combine(destination, "manifest.json")));
-        }
-        finally
-        {
-            Assert.IsTrue(Path.GetFullPath(root).StartsWith(Path.Combine(Path.GetTempPath(), "sync-publish-"), StringComparison.OrdinalIgnoreCase));
-            Directory.Delete(root, true);
-        }
+        File.WriteAllText(Path.Combine(destination, "data.json"), "original");
+        File.WriteAllText(Path.Combine(destination, "manifest.json"), "original manifest");
+        File.WriteAllText(Path.Combine(stage, "data.json"), "replacement");
+        File.WriteAllText(Path.Combine(stage, "manifest.json"), "replacement manifest");
+        using (var locked = File.Open(Path.Combine(destination, "manifest.json"), FileMode.Open, FileAccess.Read, FileShare.None))
+            Assert.Throws<IOException>(() => GameDataSync.Publish(stage, destination));
+        Assert.AreEqual("original", File.ReadAllText(Path.Combine(destination, "data.json")));
+        Assert.AreEqual("original manifest", File.ReadAllText(Path.Combine(destination, "manifest.json")));
     }
 
     [TestMethod]
@@ -114,34 +98,33 @@ public sealed class SyncTests
     public void InstalledGameSyncMatchesShippedMetadataAndReusesValidatedCache()
     {
         string game = Environment.GetEnvironmentVariable("SAVEULTIMATE_GAME") ?? throw new AssertInconclusiveException("Set game.");
-        string destination = Path.Combine(Path.GetTempPath(), $"sync-cache-{Guid.NewGuid():N}");
+        using var temp = new TempFolder(); // The sync's lock file sits beside its cache, so the cache gets a folder of its own.
+        string destination = temp.Named("cache");
         string resources = Path.Combine(AppContext.BaseDirectory, "resources");
-        try
-        {
-            var result = GameDataSync.Run(game, resources, destination);
-            Assert.IsFalse(result.Reused); Assert.IsTrue(result.Items > 0 && result.Images > 0);
-            // refresh-items ships exactly what a sync of the installed game writes.
-            var shipped = new DirectoryInfo(AppContext.BaseDirectory);
-            while (!File.Exists(Path.Combine(shipped.FullName, "resources/data/max_enchant_map.json"))) shipped = shipped.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
-            JsonNode Load(string folder, string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, name)))!;
-            string repository = Path.Combine(shipped.FullName, "resources");
-            foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
-                Assert.IsTrue(JsonNode.DeepEquals(Load(repository, name), Load(destination, name)), name);
-            foreach (string part in new[] { "items", "stats" })
-                Assert.IsTrue(JsonNode.DeepEquals(Load(repository, "data/item_details.json")[part], Load(destination, "data/item_details.json")[part]), part);
-            ItemRules.LoadCache(destination);
-            var warm = GameDataSync.Run(game, resources, destination);
-            Assert.IsTrue(warm.Reused); Assert.AreEqual(0, warm.Decoded); Assert.AreEqual(0, warm.Written);
-            byte[] manifest = File.ReadAllBytes(Path.Combine(destination, "manifest.json"));
-            Assert.Throws<OperationCanceledException>(() => GameDataSync.Run(game, resources, destination, cancel: new CancellationToken(true)));
-            CollectionAssert.AreEqual(manifest, File.ReadAllBytes(Path.Combine(destination, "manifest.json")));
-            string metadata = Path.Combine(destination, "data/max_enchant_map.json");
-            byte[] valid = File.ReadAllBytes(metadata); File.WriteAllText(metadata, "{}");
-            var repair = GameDataSync.Run(game, resources, destination);
-            Assert.IsFalse(repair.Reused); CollectionAssert.AreEqual(valid, File.ReadAllBytes(metadata));
-            Assert.AreEqual(0, repair.Decoded, "Metadata repair must preserve valid images.");
-        }
-        finally { if (Directory.Exists(destination)) Directory.Delete(destination, true); }
+        Assert.IsFalse(GameDataSync.IsCurrent(game, resources, destination));
+        var result = GameDataSync.Run(game, resources, destination);
+        Assert.IsFalse(result.Reused); Assert.IsTrue(result.Items > 0 && result.Images > 0);
+        Assert.IsTrue(GameDataSync.IsCurrent(game, resources, destination));
+        // refresh-items ships exactly what a sync of the installed game writes.
+        var shipped = new DirectoryInfo(AppContext.BaseDirectory);
+        while (!File.Exists(Path.Combine(shipped.FullName, "resources/data/max_enchant_map.json"))) shipped = shipped.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
+        JsonNode Load(string folder, string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, name)))!;
+        string repository = Path.Combine(shipped.FullName, "resources");
+        foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
+            Assert.IsTrue(JsonNode.DeepEquals(Load(repository, name), Load(destination, name)), name);
+        foreach (string part in new[] { "items", "stats" })
+            Assert.IsTrue(JsonNode.DeepEquals(Load(repository, "data/item_details.json")[part], Load(destination, "data/item_details.json")[part]), part);
+        ItemRules.LoadCache(destination);
+        var warm = GameDataSync.Run(game, resources, destination);
+        Assert.IsTrue(warm.Reused); Assert.AreEqual(0, warm.Decoded); Assert.AreEqual(0, warm.Written);
+        byte[] manifest = File.ReadAllBytes(Path.Combine(destination, "manifest.json"));
+        Assert.Throws<OperationCanceledException>(() => GameDataSync.Run(game, resources, destination, cancel: new CancellationToken(true)));
+        CollectionAssert.AreEqual(manifest, File.ReadAllBytes(Path.Combine(destination, "manifest.json")));
+        string metadata = Path.Combine(destination, "data/max_enchant_map.json");
+        byte[] valid = File.ReadAllBytes(metadata); File.WriteAllText(metadata, "{}");
+        var repair = GameDataSync.Run(game, resources, destination);
+        Assert.IsFalse(repair.Reused); CollectionAssert.AreEqual(valid, File.ReadAllBytes(metadata));
+        Assert.AreEqual(0, repair.Decoded, "Metadata repair must preserve valid images.");
     }
 
     // Exercises every client-table reader against the installed game and catches shipped resources drifting from it.

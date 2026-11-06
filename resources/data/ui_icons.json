@@ -16,5 +16,11 @@
   "help": "M9 7a3 3 0 1 1 5 3c-2 1-2 2-2 4M12 18v1",
   "settings": "M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6",
   "next": "M9 4l8 8-8 8",
-  "previous": "M15 4l-8 8 8 8"
+  "previous": "M15 4l-8 8 8 8",
+  "update": "M12 3v12M7 10l5 5 5-5M4 20h16",
+  "status_ok": "M5 12.5l4.5 4.5L19 7.5",
+  "status_suspect": "M12 4L21.5 20H2.5ZM12 10v4.5M12 17.2v.3",
+  "status_error": "M6.5 6.5l11 11M17.5 6.5l-11 11",
+  "status_skip": "M6.5 12h11",
+  "status_wait": "M7 12h.3M12 12h.3M17 12h.3"
 }

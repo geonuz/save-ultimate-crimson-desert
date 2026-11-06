@@ -30,15 +30,12 @@ public sealed class FishingTests
             string changed = document.BlobSha256;
             document.SetFishingRecord(key, size);
             Assert.AreEqual(changed, document.BlobSha256);
-            string output = Path.Combine(Path.GetTempPath(), $"fishing-{Guid.NewGuid():N}.save");
-            try
-            {
-                document.SaveCopy(output);
-                var reopened = SaveDocument.Open(output);
-                Assert.AreEqual(changed, reopened.BlobSha256);
-                CollectionAssert.AreEqual(after, reopened.ReadFishing());
-            }
-            finally { if (File.Exists(output)) File.Delete(output); }
+            using var temp = new TempFolder();
+            string output = temp.Named("output.save");
+            document.SaveCopy(output);
+            var reopened = SaveDocument.Open(output);
+            Assert.AreEqual(changed, reopened.BlobSha256);
+            CollectionAssert.AreEqual(after, reopened.ReadFishing());
             document.Undo();
             Assert.AreEqual(original, document.BlobSha256);
             Assert.IsFalse(document.CanUndo);
@@ -75,10 +72,10 @@ public sealed class FishingTests
     [TestCategory("PrivateFixtures")]
     public void SelectionLearnApplyUndoAndFirstCatchBanner()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         try
         {
@@ -135,17 +132,14 @@ public sealed class FishingTests
         var field = rows[1].ChildFields.Named(duplicate ? "_key" : "_record");
         uint value = duplicate ? (uint)rows[0].ChildFields.Named("_key").Scalar(raw, "KnowledgeKey", 4) : BitConverter.SingleToUInt32Bits(float.NaN);
         BitConverter.GetBytes(value).CopyTo(raw, field.StartOffset);
-        string path = Path.Combine(Path.GetTempPath(), $"invalid-fishing-{Guid.NewGuid():N}.save");
-        try
-        {
-            SaveContainer.Write(File.ReadAllBytes(source), raw, path);
-            var document = SaveDocument.Open(path);
-            string original = document.BlobSha256;
-            Assert.Throws<InvalidDataException>(() => document.ReadFishing());
-            Assert.Throws<InvalidDataException>(() => document.SetFishingRecord(2006, 1));
-            Assert.AreEqual(original, document.BlobSha256);
-            Assert.IsFalse(document.CanUndo);
-        }
-        finally { if (File.Exists(path)) File.Delete(path); }
+        using var temp = new TempFolder();
+        string path = temp.Named("path.save");
+        SaveContainer.Write(File.ReadAllBytes(source), raw, path);
+        var document = SaveDocument.Open(path);
+        string original = document.BlobSha256;
+        Assert.Throws<InvalidDataException>(() => document.ReadFishing());
+        Assert.Throws<InvalidDataException>(() => document.SetFishingRecord(2006, 1));
+        Assert.AreEqual(original, document.BlobSha256);
+        Assert.IsFalse(document.CanUndo);
     }
 }

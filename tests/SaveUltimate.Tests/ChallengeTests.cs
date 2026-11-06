@@ -30,8 +30,6 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void InvalidClockOrUnknownStateDoesNotCommit(bool invalidClock)
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         string source = FixtureSaves.Named("challenges_partly_incomplete");
         byte[] raw = SaveContainer.Decode(File.ReadAllBytes(source)).Blob;
         var block = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData");
@@ -46,18 +44,15 @@ public sealed class ChallengeTests
             var row = block.Fields.Named("_missionStateList").ListElements.Single(r => r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4) == 4294966659);
             raw[row.ChildFields.Named("_state").StartOffset] = 6;
         }
-        string path = Path.Combine(Path.GetTempPath(), $"challenge-invalid-{Guid.NewGuid():N}.save");
-        try
-        {
-            SaveContainer.Write(File.ReadAllBytes(source), raw, path);
-            var document = SaveDocument.Open(path);
-            string hash = document.BlobSha256;
-            Assert.Throws<InvalidDataException>(() => document.CompleteChallenges([1000912], [4294966659]));
-            Assert.AreEqual(hash, document.BlobSha256);
-            Assert.IsFalse(document.CanUndo);
-            Assert.IsFalse(document.IsDirty);
-        }
-        finally { File.Delete(path); }
+        using var temp = new TempFolder();
+        string path = temp.Named("path.save");
+        SaveContainer.Write(File.ReadAllBytes(source), raw, path);
+        var document = SaveDocument.Open(path);
+        string hash = document.BlobSha256;
+        Assert.Throws<InvalidDataException>(() => document.CompleteChallenges([1000912], [4294966659]));
+        Assert.AreEqual(hash, document.BlobSha256);
+        Assert.IsFalse(document.CanUndo);
+        Assert.IsFalse(document.IsDirty);
     }
 
     [TestMethod]
@@ -79,12 +74,9 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void DoctorRepairsRowsWithoutArrayMarkersAndKeepsEverythingElse()
     {
-        string? root = FixtureSaves.Root;
-        if (root is null) Assert.Inconclusive("Set private fixtures.");
         foreach (var (name, damaged) in new[] { ("mission_rows_41", 41), ("mission_rows_8", 8) })
         {
             string source = FixtureSaves.Named(name);
-            Assert.AreEqual(damaged, SaveDocument.Diagnose(source).DamagedRows, name);
             var document = SaveDocument.Open(source);
             Assert.AreEqual(damaged, document.DamagedRows, name);
             var before = document.ReadChallenges();
@@ -95,37 +87,34 @@ public sealed class ChallengeTests
             Assert.AreEqual(0, document.RepairMissionRows(), name);
             Assert.IsTrue(before.Mission.OrderBy(p => p.Key).SequenceEqual(document.ReadChallenges().Mission.OrderBy(p => p.Key)), name);
             Assert.IsTrue(knowledge.OrderBy(p => p.Key).SequenceEqual(document.ReadKnowledge().OrderBy(p => p.Key)), name);
-            string directory = Directory.CreateTempSubdirectory().FullName;
-            try
-            {
-                string copy = Path.Combine(directory, "save.save");
-                document.SaveCopy(copy);
-                byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
-                AssertGameLayout(raw);
-                Assert.AreEqual(0, SaveDocument.Diagnose(copy).DamagedRows, name);
-                // Rows the game wrote come through unchanged apart from their absolute payload pointers.
-                var repaired = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
-                var originals = SaveRecords.Read(original, ParcLayout.Parse(original), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
-                Assert.AreEqual(originals.Length, repaired.Length);
-                int same = 0;
-                for (int i = 0; i < repaired.Length; i++)
-                    if (original.AsSpan(originals[i].ChildPayloadOffset, originals[i].EndOffset - originals[i].ChildPayloadOffset)
-                        .SequenceEqual(raw.AsSpan(repaired[i].ChildPayloadOffset, repaired[i].EndOffset - repaired[i].ChildPayloadOffset))) same++;
-                Assert.AreEqual(repaired.Length - damaged, same, name);
-                // Undo returns the damaged bytes; nothing else was touched.
-                document = SaveDocument.Open(source);
-                document.RepairMissionRows();
-                document.Undo();
-                string undone = Path.Combine(directory, "undone.save");
-                document.SaveCopy(undone);
-                CollectionAssert.AreEqual(original, SaveContainer.Decode(File.ReadAllBytes(undone)).Blob, name);
-                // A repaired save can be edited again.
-                document = SaveDocument.Open(copy);
-                var progress = document.ReadChallenges();
-                var open = ChallengeCatalog.Completion.Roots.Where(r => progress.Mission.GetValueOrDefault(r)?.State != 5).Take(3).ToArray();
-                Assert.IsTrue(document.CompleteChallenges(open).Completed > 0, name);
-            }
-            finally { Directory.Delete(directory, true); }
+            using var temp = new TempFolder();
+            string directory = temp.Root;
+            string copy = Path.Combine(directory, "save.save");
+            document.SaveCopy(copy);
+            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
+            AssertGameLayout(raw);
+            Assert.AreEqual(0, SaveDocument.Open(copy).DamagedRows, name);
+            // Rows the game wrote come through unchanged apart from their absolute payload pointers.
+            var repaired = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
+            var originals = SaveRecords.Read(original, ParcLayout.Parse(original), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
+            Assert.AreEqual(originals.Length, repaired.Length);
+            int same = 0;
+            for (int i = 0; i < repaired.Length; i++)
+                if (original.AsSpan(originals[i].ChildPayloadOffset, originals[i].EndOffset - originals[i].ChildPayloadOffset)
+                    .SequenceEqual(raw.AsSpan(repaired[i].ChildPayloadOffset, repaired[i].EndOffset - repaired[i].ChildPayloadOffset))) same++;
+            Assert.AreEqual(repaired.Length - damaged, same, name);
+            // Undo returns the damaged bytes; nothing else was touched.
+            document = SaveDocument.Open(source);
+            document.RepairMissionRows();
+            document.Undo();
+            string undone = Path.Combine(directory, "undone.save");
+            document.SaveCopy(undone);
+            CollectionAssert.AreEqual(original, SaveContainer.Decode(File.ReadAllBytes(undone)).Blob, name);
+            // A repaired save can be edited again.
+            document = SaveDocument.Open(copy);
+            var progress = document.ReadChallenges();
+            var open = ChallengeCatalog.Completion.Roots.Where(r => progress.Mission.GetValueOrDefault(r)?.State != 5).Take(3).ToArray();
+            Assert.IsTrue(document.CompleteChallenges(open).Completed > 0, name);
         }
     }
 
@@ -134,8 +123,6 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void DlcCressetsActivateWithTheirMissions()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("dlc_fog_and_skill_observe"));
         int index = Array.FindIndex(MapAction.All, a => a.ChallengeRoots is { Length: > 0 });
         var action = MapAction.All[index];
@@ -154,13 +141,10 @@ public sealed class ChallengeTests
         }
         foreach (uint key in roots.SelectMany(ChallengeCatalog.Shared.Descendants)) Assert.AreEqual((byte?)5, map.Progress.Mission[key].State, key.ToString());
         foreach (uint quest in new uint[] { 1000830, 1000887 }) Assert.AreEqual((byte?)5, map.Progress.Quest[quest].State, quest.ToString());
-        string copy = Path.Combine(Path.GetTempPath(), $"dlc-cressets-{Guid.NewGuid():N}.save");
-        try
-        {
-            document.SaveCopy(copy);
-            AssertGameLayout(SaveContainer.Decode(File.ReadAllBytes(copy)).Blob, roots.SelectMany(ChallengeCatalog.Shared.Descendants).ToHashSet());
-        }
-        finally { File.Delete(copy); }
+        using var temp = new TempFolder();
+        string copy = temp.Named("copy.save");
+        document.SaveCopy(copy);
+        AssertGameLayout(SaveContainer.Decode(File.ReadAllBytes(copy)).Blob, roots.SelectMany(ChallengeCatalog.Shared.Descendants).ToHashSet());
     }
 
     // The layout every game-written row follows: a row one byte off makes the game read the next row's mask as a length and overrun a stack buffer.
@@ -204,8 +188,6 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void CompletedMissionRowsKeepTheLayoutTheGameReads()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("early_progress"));
         var before = document.ReadChallenges();
         var after = document.CompleteChallenges(ChallengeCatalog.Completion.Roots.Where(r => before.Mission.GetValueOrDefault(r)?.State != 5).ToArray()).State;
@@ -213,16 +195,13 @@ public sealed class ChallengeTests
         var completed = after.Mission.Where(p => p.Value.State == 5 && before.Mission.GetValueOrDefault(p.Key)?.State != 5).Select(p => p.Key).ToHashSet();
         Assert.IsTrue(inserted.Count > 0, "The fixture must be missing mission rows.");
         Assert.IsTrue(completed.Count > inserted.Count, "The fixture must have started mission rows to complete.");
-        string copy = Path.Combine(Path.GetTempPath(), $"challenge-rows-{Guid.NewGuid():N}.save");
-        try
-        {
-            document.SaveCopy(copy);
-            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
-            AssertGameLayout(raw, completed);
-            var rows = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
-            Assert.IsTrue(inserted.All(k => rows.Any(r => r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4) == k)));
-        }
-        finally { File.Delete(copy); }
+        using var temp = new TempFolder();
+        string copy = temp.Named("copy.save");
+        document.SaveCopy(copy);
+        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(copy)).Blob;
+        AssertGameLayout(raw, completed);
+        var rows = SaveRecords.Read(raw, ParcLayout.Parse(raw), "QuestSaveData").Fields.Named("_missionStateList").ListElements;
+        Assert.IsTrue(inserted.All(k => rows.Any(r => r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4) == k)));
     }
 
     [TestMethod]
@@ -230,8 +209,6 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void CheckpointsFamiliesAndBatchCompleteOnlyTheirMissionsAndUndoExactly()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         uint[] batch = [1000912, 1000913, 1000915, 1001044, 1001048, 1003194, 1000423, 1003957, 1004406, 1004407, 1004408, 1004409, 1004410];
         // An existing and a missing checkpoint record, one family, and a batch; the counts are what those saves leave incomplete.
         foreach (var (file, roots, checkpoints, completed) in new (string, uint[], uint[]?, int)[] {
@@ -264,16 +241,13 @@ public sealed class ChallengeTests
             Assert.AreEqual(0, document.CompleteChallenges(roots, checkpoints).Completed);
             if (roots.Length > 1)
             {
-                string copy = Path.Combine(Path.GetTempPath(), $"challenges-{Guid.NewGuid():N}.save");
-                try
-                {
-                    document.SaveCopy(copy);
-                    var reopened = SaveDocument.Open(copy);
-                    Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
-                    CollectionAssert.AreEquivalent(result.State.Mission.ToArray(), reopened.ReadChallenges().Mission.ToArray());
-                    Assert.AreEqual(items, JsonSerializer.Serialize(reopened.Items));
-                }
-                finally { File.Delete(copy); }
+                using var temp = new TempFolder();
+                string copy = temp.Named("copy.save");
+                document.SaveCopy(copy);
+                var reopened = SaveDocument.Open(copy);
+                Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
+                CollectionAssert.AreEquivalent(result.State.Mission.ToArray(), reopened.ReadChallenges().Mission.ToArray());
+                Assert.AreEqual(items, JsonSerializer.Serialize(reopened.Items));
             }
             document.Undo();
             Assert.AreEqual(original, document.BlobSha256);
@@ -289,12 +263,10 @@ public sealed class ChallengeTests
     [TestCategory("PrivateFixtures")]
     public void ChallengeSelectionUndoAndFiltersStayConnected()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("challenges_partly_incomplete"));
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         try
         {

@@ -94,7 +94,6 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void InvestedSkillCanBeObservedRoundTripAndUndo()
     {
-        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("dlc_fog_and_skill_observe")); string original = document.BlobSha256;
         var before = document.ReadSkills();
         uint key = SkillCatalog.Shared.Skills.Values.First(d => d.Watch && before.Level(d.Key) > 0 && before.Paid.ContainsKey(d.Key) && !before.Follow.ContainsKey(d.Key)).Key;
@@ -103,9 +102,9 @@ public sealed class SkillTests
         CollectionAssert.AreEquivalent(before.Levels.ToArray(), after.Levels.ToArray());
         CollectionAssert.AreEquivalent(before.Paid.ToArray(), after.Paid.ToArray());
         Assert.Throws<InvalidOperationException>(() => document.LearnSkill(key, 1, true));
-        string output = Path.Combine(Path.GetTempPath(), $"observe-{Guid.NewGuid():N}.save");
-        try { document.SaveCopy(output); Assert.IsTrue(SaveDocument.Open(output).ReadSkills().Observed(key)); }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        document.SaveCopy(output); Assert.IsTrue(SaveDocument.Open(output).ReadSkills().Observed(key));
         document.Undo(); Assert.AreEqual(original, document.BlobSha256);
     }
 
@@ -114,8 +113,6 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void RealSkillRecordsRejectBrokenLedgersAndEditsUndo()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         string[] editable = ["early_progress", "fishing_no_first_catch", "map_partly_explored"];
         foreach (string file in editable.Concat(["old_version", "editing_baseline", "challenges_partly_incomplete"]))
         {
@@ -145,14 +142,11 @@ public sealed class SkillTests
                 Assert.AreEqual(changed, document.BlobSha256);
                 if (key == 40064)
                 {
-                    string copy = Path.Combine(Path.GetTempPath(), $"skills-{Guid.NewGuid():N}.save");
-                    try
-                    {
-                        document.SaveCopy(copy);
-                        var reopened = SaveDocument.Open(copy);
-                        Assert.AreEqual(changed, reopened.BlobSha256); Assert.IsTrue(reopened.ReadSkills().Observed(key));
-                    }
-                    finally { File.Delete(copy); }
+                    using var temp = new TempFolder();
+                    string copy = temp.Named("copy.save");
+                    document.SaveCopy(copy);
+                    var reopened = SaveDocument.Open(copy);
+                    Assert.AreEqual(changed, reopened.BlobSha256); Assert.IsTrue(reopened.ReadSkills().Observed(key));
                 }
                 document.Undo();
                 Assert.AreEqual(hash, document.BlobSha256);
@@ -167,14 +161,12 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void SkillTreePreservesOriginalInteractionAndSharedUndo()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("fishing_no_first_catch"));
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
         WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show(); model.CurrentPage = AppPage.Skills; window.UpdateLayout();
         var tabs = (SkillsView)window.FindName("SkillsArea");
         CollectionAssert.AreEqual(new[] { "클리프", "웅카", "데미안" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
@@ -209,11 +201,9 @@ public sealed class SkillTests
     [TestCategory("PrivateFixtures")]
     public void SkillPageMarksOnlyPendingEditsUnderItsTitle()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var model = new MainViewModel();
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show(); model.CurrentPage = AppPage.Skills; window.UpdateLayout();
         // The page is already on screen when the save loads, so it renders as soon as the skills arrive.
         WindowTests.Pump(() => model.LoadFileAsync(FixtureSaves.Named("dlc_bonds_per_character")));

@@ -7,15 +7,15 @@ namespace SaveUltimate.Core.Saves;
 public sealed partial class SaveDocument
 {
     private byte[] originalFile;
-    private byte[] blob;
+    internal byte[] blob;
     // Share immutable saved bytes; never reuse them as a writable scratch buffer.
     private byte[] savedBlob;
     private byte[]? editBuffer;
     private readonly MemoryStream snapshotBuffer = new();
     private Guid snapshot = Guid.NewGuid();
     public int DamagedRows { get; private set; }
-    private sealed record Patch(int Offset, byte[] Before, byte[] After);
-    private sealed record Snapshot(byte[] Packed, int Length)
+    internal sealed record Patch(int Offset, byte[] Before, byte[] After);
+    internal sealed record Snapshot(byte[] Packed, int Length)
     {
         public static Snapshot Capture(byte[] raw, MemoryStream output)
         {
@@ -48,7 +48,7 @@ public sealed partial class SaveDocument
             return stream.ReadByte() == -1;
         }
     }
-    private readonly Stack<(Patch[]? Patches, Snapshot? Before, Snapshot? After, string[] Changed)> undo = new();
+    internal readonly Stack<(Patch[]? Patches, Snapshot? Before, Snapshot? After, string[] Changed)> undo = new();
     public string SourcePath { get; private set; }
     public ParcLayout Layout { get; private set; }
     public bool IsDirty => !blob.AsSpan().SequenceEqual(savedBlob);
@@ -56,7 +56,7 @@ public sealed partial class SaveDocument
     public string BlobSha256 => Convert.ToHexString(SHA256.HashData(blob));
     public IReadOnlyList<InventoryItem> Items { get; private set; }
 
-    private SaveDocument(string path, byte[] file, byte[] raw)
+    internal SaveDocument(string path, byte[] file, byte[] raw)
     {
         SourcePath = Path.GetFullPath(path);
         originalFile = file;
@@ -71,11 +71,16 @@ public sealed partial class SaveDocument
     // No edit was ever checked in game on a 1.x save.
     private static void RefuseOldGameVersion(byte[] raw, ParcLayout layout)
     {
+        if (!SupportedGameVersion(SavedGameVersion(raw, layout))) throw new InvalidDataException("Saves from game version 1.x are not supported.");
+    }
+    internal static bool SupportedGameVersion(uint version) => version is 0 or >= 2 << 16;
+
+    // (major << 16) | (minor << 8) | patch, or 0 for a save that does not record it.
+    internal static uint SavedGameVersion(byte[] raw, ParcLayout layout)
+    {
         const string block = "InventoryItemContentsSaveData";
-        const uint firstSupported = 2 << 16;
-        if (layout.Blocks.Any(b => b.Name == block) && SaveRecords.Read(raw, layout, block).Fields.Named("_savedGameVersion") is { Present: true } version &&
-            version.Scalar(raw, version.TypeName, 4) < firstSupported)
-            throw new InvalidDataException("Saves from game version 1.x are not supported.");
+        return layout.Blocks.Any(b => b.Name == block) && SaveRecords.Read(raw, layout, block).Fields.Named("_savedGameVersion") is { Present: true } version
+            ? (uint)version.Scalar(raw, version.TypeName, 4) : 0;
     }
 
     public static SaveDocument Open(string path)

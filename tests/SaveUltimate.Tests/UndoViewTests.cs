@@ -15,12 +15,11 @@ public sealed class UndoViewTests
     [TestCategory("PrivateFixtures")]
     public void UndoRefreshesAffectedViewsAndPreservesUnrelatedViews()
     {
-        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
-        if (Application.Current is null) _ = new App.App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+        TestUi.EnsureApp();
         var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = doc.BlobSha256;
         var model = new MainViewModel(doc);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowInTaskbar = false, ShowActivated = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         void Run(Func<Task> action) => WindowTests.Pump(action);
         void Undo()

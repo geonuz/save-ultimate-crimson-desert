@@ -16,8 +16,6 @@ public sealed class KnowledgeTests
     [TestCategory("PrivateFixtures")]
     public void KnowledgeActionsAgreeWithEachOtherAndPreserveUndoAndLedgers()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = document.BlobSha256;
         var skills = document.ReadSkills();
@@ -54,15 +52,12 @@ public sealed class KnowledgeTests
         var maximum = document.ReadKnowledge();
         Assert.IsTrue(KnowledgeCatalog.Shared.ItemPaths.Keys.All(k => maximum.GetValueOrDefault(k) >= KnowledgeCatalog.Shared.LevelCounts[k]));
         Ledgers();
-        string copy = Path.Combine(Path.GetTempPath(), $"knowledge-{Guid.NewGuid():N}.save");
-        try
-        {
-            document.SaveCopy(copy);
-            var reopened = SaveDocument.Open(copy);
-            Assert.AreEqual(changed, reopened.BlobSha256);
-            Assert.AreEqual(JsonSerializer.Serialize(reopened.Items), JsonSerializer.Serialize(document.Items));
-        }
-        finally { File.Delete(copy); }
+        using var temp = new TempFolder();
+        string copy = temp.Named("copy.save");
+        document.SaveCopy(copy);
+        var reopened = SaveDocument.Open(copy);
+        Assert.AreEqual(changed, reopened.BlobSha256);
+        Assert.AreEqual(JsonSerializer.Serialize(reopened.Items), JsonSerializer.Serialize(document.Items));
         document.EditKnowledge([1], KnowledgeAction.Unlearn);
         document.Undo();
         Assert.AreEqual(changed, document.BlobSha256, "A scalar edit after insertion must not break structural Undo.");
@@ -86,12 +81,10 @@ public sealed class KnowledgeTests
     [TestCategory("PrivateFixtures")]
     public void KnowledgeNavigationFilteringSelectionEditingAndUndoStayConnected()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         try
         {

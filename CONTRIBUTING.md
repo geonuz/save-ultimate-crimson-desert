@@ -52,6 +52,7 @@ Tests come in four layers, each a `TestCategory`:
 | `UI` | Windows and pages, run one at a time | Saves |
 
 A rule that holds on any save belongs in `FeatureContracts`, not in a scenario. A new editor feature needs a contract.
+UI tests start the app with `TestUi.EnsureApp` and never open a real dialog: nothing can click it, so the run stops at its 5-minute limit.
 While working, run only the layer you touched, and run everything before a release; the whole suite should stay under
 3 minutes:
 

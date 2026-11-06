@@ -59,12 +59,13 @@ public sealed class ItemAreaTests
     [STATestMethod]
     [TestCategory("UI")]
     [DoNotParallelize]
+    [TestCategory("PrivateFixtures")]
     public void ItemPanelsMatchSelectionStorageAndWindowWidth()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show(); window.UpdateLayout();
         try
         {
@@ -92,7 +93,7 @@ public sealed class ItemAreaTests
             Assert.IsTrue(model.SocketRows.Skip(target.Item.Sockets.Unlocked).All(r => !r.IsEditable && r.Label.Contains("잠김")));
             Assert.AreEqual(model.SocketRows.Length + 1, model.SocketOptions.Count());
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            var scroll = Scroll(grid)!;
+            var scroll = TestUi.Find<ScrollViewer>(grid).First();
             scroll.ScrollToVerticalOffset(40); scroll.ScrollToHorizontalOffset(80);
             grid.Columns[2].Width = 150;
             window.UpdateLayout();
@@ -106,21 +107,17 @@ public sealed class ItemAreaTests
             Assert.AreEqual(150, grid.Columns[2].Width.Value);
             WindowTests.Capture(window, "locked-sockets");
             window.Width = 2300; window.UpdateLayout();
-            Assert.AreEqual(2, Grid.GetColumn(editor));
-            Assert.AreEqual(0, Grid.GetRow(editor));
-            WindowTests.Capture(window, "wide");
+            // Windows limits a window to the displays attached right now, so a sleeping monitor can keep it narrow.
+            if (window.ActualWidth >= 2300)
+            {
+                Assert.AreEqual(2, Grid.GetColumn(editor));
+                Assert.AreEqual(0, Grid.GetRow(editor));
+                WindowTests.Capture(window, "wide");
+            }
             window.Width = 800; window.UpdateLayout();
             Assert.AreEqual(2, Grid.GetRow(editor));
             WindowTests.Capture(window, "small");
         }
         finally { window.Close(); }
-    }
-
-    private static ScrollViewer? Scroll(DependencyObject parent)
-    {
-        if (parent is ScrollViewer viewer) return viewer;
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            if (Scroll(VisualTreeHelper.GetChild(parent, i)) is { } child) return child;
-        return null;
     }
 }

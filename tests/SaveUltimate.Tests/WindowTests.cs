@@ -16,13 +16,14 @@ public sealed class WindowTests
     [STATestMethod]
     [TestCategory("UI")]
     [DoNotParallelize]
+    [TestCategory("PrivateFixtures")]
     public void SocketDraftSurvivesTabsAndMatchingSearchButResetsWithSelectionOrSaveChanges()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = document.BlobSha256;
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show(); window.UpdateLayout();
         var grid = (DataGrid)window.FindName("InventoryGrid");
         model.CurrentPage = AppPage.Equipment;
@@ -68,14 +69,15 @@ public sealed class WindowTests
     [STATestMethod]
     [TestCategory("UI")]
     [DoNotParallelize]
+    [TestCategory("PrivateFixtures")]
     public void SelectionAndSortSurviveTabsEditsAndUndoButNotAnotherFile()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         string path = FixtureSaves.Named("editing_baseline");
         var document = SaveDocument.Open(path);
         string hash = document.BlobSha256;
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show(); window.UpdateLayout();
         var grid = (DataGrid)window.FindName("InventoryGrid");
         var sort = new System.ComponentModel.SortDescription("Item.Number", System.ComponentModel.ListSortDirection.Descending);
@@ -133,11 +135,11 @@ public sealed class WindowTests
     [DoNotParallelize]
     public void WindowLoadsAndCommandsRespectSelectionAndBusyState()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         string? fixtures = FixtureSaves.Root;
         var document = fixtures is null ? null : SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(document);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         Assert.AreEqual(4, window.InputBindings.Count);
         window.Show(); window.UpdateLayout();
         var grid = (DataGrid)window.FindName("InventoryGrid");
@@ -209,8 +211,8 @@ public sealed class WindowTests
     [DoNotParallelize]
     public void RepurchaseSearchListsFittingItemsAndClearsSelectionOnFilter()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
-        var window = new ItemSearchWindow(Sold(quantity: 2)) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        TestUi.EnsureApp();
+        var window = TestUi.Hidden(new ItemSearchWindow(Sold(quantity: 2)));
         window.Show(); window.UpdateLayout();
         var results = (DataGrid)window.FindName("Results");
         var search = (TextBox)window.FindName("SearchBox");

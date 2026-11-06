@@ -1,28 +1,49 @@
 using System.Buffers.Binary;
+using System.Security.Cryptography;
 
 namespace SaveUltimate.Core.Saves;
-
-public sealed record SaveDiagnosis(int MissionRows, int DamagedRows);
 
 // Repairs saves written wrongly by released versions of this editor: inserted mission rows without array markers
 // make the game read past the row and crash at the title screen, even for a slot the player never selects.
 public sealed partial class SaveDocument
 {
-    public static SaveDiagnosis Diagnose(string path)
+    // Writes the chosen repairs over the file, keeping the usual backups of the damaged one.
+    public static void Repair(string path, string mirrorRoot, IReadOnlySet<SaveFix> fixes)
     {
-        byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
-        var layout = ParcLayout.Parse(raw);
-        var list = SaveRecords.Read(raw, layout, "QuestSaveData").Fields.Named("_missionStateList");
-        var type = layout.Types.Single(t => t.Name == "MissionStateData");
-        return new(list.ListElements.Length, list.ListElements.Count(r => RecordLists.Fields(raw, type, r) is null));
+        if (fixes.Contains(SaveFix.Integrity)) Reseal(path, mirrorRoot);
+        var document = Open(path);
+        if (fixes.Contains(SaveFix.MissionRows)) document.RepairMissionRows();
+        if (fixes.Contains(SaveFix.Enchants))
+            // Each edit replaces the items, so the selection is taken again for every limit.
+            foreach (int limit in document.Items.Where(CanLowerEnchant).Select(i => i.MaxEnchant).Distinct().ToArray())
+                document.SetEnchant(document.Items.Where(i => CanLowerEnchant(i) && i.MaxEnchant == limit), (ushort)limit);
+        if (document.IsDirty && document.SaveTo(path) is { } recovery) SaveBackups.Mirror(path, recovery, mirrorRoot);
+    }
+    private static bool CanLowerEnchant(InventoryItem item) => SaveCheckup.OverEnchant(item) && item.MaxEnchant > 0;
+
+    private static void Reseal(string path, string mirrorRoot)
+    {
+        byte[] file = File.ReadAllBytes(path);
+        if (SaveContainer.Open(file).SignedBy(file)) return;
+        string prepared = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, $".prepared-{Guid.NewGuid():N}.save");
+        try
+        {
+            SaveContainer.Reseal(file, prepared);
+            if (SaveBackups.ReplacePrepared(prepared, path, SHA256.HashData(file), true) is { } recovery) SaveBackups.Mirror(path, recovery, mirrorRoot);
+        }
+        finally { if (File.Exists(prepared)) File.Delete(prepared); }
     }
 
-    // Writes the repair over the file, keeping the usual backups of the damaged one.
-    public static void Repair(string path, string mirrorRoot)
+    // The newest backup that opens and has no damaged rows, for a save nothing here can repair.
+    public static string? LatestGoodBackup(string path) => SaveBackups.List(path).OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault(backup =>
     {
-        var document = Open(path);
-        if (document.RepairMissionRows() == 0) return;
-        if (document.SaveTo(path) is { } recovery) SaveBackups.Mirror(path, recovery, mirrorRoot);
+        try { return Open(backup).DamagedRows == 0; }
+        catch (Exception error) when (error is not OutOfMemoryException) { return false; }
+    });
+
+    public static void RestoreBackup(string path, string backup, string mirrorRoot)
+    {
+        if (SaveBackups.Restore(path, backup, SaveBackups.Hash(path)) is { } recovery) SaveBackups.Mirror(path, recovery, mirrorRoot);
     }
 
     public int RepairMissionRows()

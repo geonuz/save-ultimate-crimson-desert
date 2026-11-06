@@ -463,15 +463,16 @@ public partial class MainViewModel : ObservableObject
 
     public bool CanSyncGameData() => !Busy && gameFolder.Length > 0;
     [RelayCommand(CanExecute = nameof(CanSyncGameData))]
-    private async Task SyncGameDataAsync() => await RunAsync(Tr.Text("sync.metadata"), async () =>
+    private Task SyncGameDataAsync() => SyncAsync(showFailure: true);
+    private Task SyncAsync(bool showFailure) => RunAsync(Tr.Text("sync.metadata"), async () =>
     {
         var progress = new Progress<SyncProgress>(p => Status = Tr.Format(p.Stage, ("current", p.Completed.ToString("N0")), ("total", p.Total.ToString("N0"))));
         var result = await Task.Run(() => GameDataSync.Run(gameFolder, CatalogFiles.Resources, CatalogFiles.Cache, progress));
         CatalogFiles.Reload(); RefreshLanguage();
         Status = Tr.Format("sync.result", ("items", result.Items), ("images", result.Images), ("missing", result.Unresolved), ("seconds", result.Seconds.ToString("F1")));
-    });
+    }, showFailure);
 
-    private async Task RunAsync(string message, Func<Task> action)
+    private async Task RunAsync(string message, Func<Task> action, bool showFailure = true)
     {
         if (Busy) return;
         Busy = true; Status = message;
@@ -486,7 +487,7 @@ public partial class MainViewModel : ObservableObject
         catch (Exception error)
         {
             Status = Tr.Text("Operation failed: ") + ErrorCodes.Describe(error);
-            ThemedMessageBox.Show(Status, "SaveUltimate", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (showFailure) ThemedMessageBox.Show(Status, "SaveUltimate", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally { progress?.Finish(); Busy = false; }
     }

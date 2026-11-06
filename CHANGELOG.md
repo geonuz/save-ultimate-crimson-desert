@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.5.0]
+
+Save Doctor checks a whole save, the editor can update itself, and saves are now read and written in C# instead of by
+native libraries. These changes passed the test saves but were not checked in game.
+
+- **New: Save Doctor checks each save.** File > Save Doctor shows the file, its structure, each page and item values as
+  normal, suspect, error or not checked, for every slot or a file you choose. Normal means the known rules pass; it does
+  not promise that the game will load the save. It repairs what the file itself can settle: mission records, a signature
+  that no longer matches readable contents, and on request enchant levels past their limit. Other damage offers the
+  newest backup that still opens.
+- **New: updates inside the editor.** At start the editor asks GitHub for the latest release and shows an Update button
+  when a newer one exists; File > Check for Updates does the same on demand. Nothing about you or your saves is sent.
+  The download is checked against its published hash, your settings, backups and game data stay, and if the new version
+  does not open its window the previous one is put back. Versions up to 1.4.0 must be updated by hand once.
+- Synced game data is checked at every start and synced again when the game or the editor changed. Unchanged images are
+  reused. A failed automatic sync shows in the status bar and keeps the data you have.
+- `parc_reader.dll`, `parc_index.dll` and `parc_validation.dll` are gone: all save reading, checking and writing is now
+  C#. Paths outside the Windows code page work.
+- Syncing game data reads only the 2.04 client layout, so an older game install reports an error. Saves are not affected.
+
 ## [1.4.0]
 
 Item swap fixes and more challenges. Item swap is verified in game with Crimson Desert 2.04.07. The newly enabled

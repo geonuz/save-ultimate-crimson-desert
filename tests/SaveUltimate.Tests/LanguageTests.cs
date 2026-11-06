@@ -72,8 +72,7 @@ public sealed class LanguageTests
     [TestCategory("PrivateFixtures")]
     public void EveryGridHeaderFitsItsColumnInEveryLanguage()
     {
-        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
-        if (System.Windows.Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var clipped = new List<string>();
         try
         {
@@ -81,7 +80,7 @@ public sealed class LanguageTests
             {
                 Tr.SetLanguage(language);
                 var model = new MainViewModel(SaveDocument.Open(FixtureSaves.Named("dlc_bonds_per_character")));
-                var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+                var window = TestUi.Hidden(new MainWindow(model));
                 window.Show();
                 try
                 {
@@ -89,8 +88,8 @@ public sealed class LanguageTests
                     {
                         window.UpdateLayout();
                         window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-                        foreach (var header in Find<System.Windows.Controls.Primitives.DataGridColumnHeader>(window).Where(h => h.IsVisible && h.Column is not null && h.Content is string { Length: > 0 }))
-                            foreach (var text in Find<System.Windows.Controls.TextBlock>(header).Where(t => t.Text == (string)header.Content))
+                        foreach (var header in TestUi.Find<System.Windows.Controls.Primitives.DataGridColumnHeader>(window).Where(h => h.IsVisible && h.Column is not null && h.Content is string { Length: > 0 }))
+                            foreach (var text in TestUi.Find<System.Windows.Controls.TextBlock>(header).Where(t => t.Text == (string)header.Content))
                             {
                                 text.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
                                 // The text block keeps its full width; the header cell around it is what clips.
@@ -118,14 +117,5 @@ public sealed class LanguageTests
         }
         finally { Tr.SetLanguage("ko"); }
         Assert.AreEqual("", string.Join(Environment.NewLine, clipped.Distinct()));
-    }
-    private static IEnumerable<T> Find<T>(System.Windows.DependencyObject parent) where T : System.Windows.DependencyObject
-    {
-        for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent); i++)
-        {
-            var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
-            if (child is T match) yield return match;
-            foreach (var nested in Find<T>(child)) yield return nested;
-        }
     }
 }

@@ -48,18 +48,14 @@ public sealed class ArchiveTests
     [TestCategory("Unit")]
     public void ExtractReadsOnlyTheSpecifiedEntry()
     {
-        string directory = Path.Combine(Path.GetTempPath(), "SaveUltimate-archive-" + Guid.NewGuid().ToString("N"));
-        Directory.CreateDirectory(directory);
-        try
-        {
-            File.WriteAllBytes(Path.Combine(directory, "0.pamt"), Index());
-            File.WriteAllBytes(Path.Combine(directory, "0.paz"), "abc"u8.ToArray());
-            var archive = new GameArchive(directory);
-            Assert.AreEqual("abc", Encoding.UTF8.GetString(archive.Extract("ab")));
-            Assert.Throws<FileNotFoundException>(() => archive.Extract("../other"));
-            File.WriteAllBytes(Path.Combine(directory, "0.paz"), [1]);
-            Assert.Throws<InvalidDataException>(() => archive.Extract("ab"));
-        }
-        finally { Directory.Delete(directory, true); }
+        using var temp = new TempFolder();
+        string directory = temp.Root;
+        File.WriteAllBytes(Path.Combine(directory, "0.pamt"), Index());
+        File.WriteAllBytes(Path.Combine(directory, "0.paz"), "abc"u8.ToArray());
+        var archive = new GameArchive(directory);
+        Assert.AreEqual("abc", Encoding.UTF8.GetString(archive.Extract("ab")));
+        Assert.Throws<FileNotFoundException>(() => archive.Extract("../other"));
+        File.WriteAllBytes(Path.Combine(directory, "0.paz"), [1]);
+        Assert.Throws<InvalidDataException>(() => archive.Extract("ab"));
     }
 }

@@ -221,6 +221,9 @@ public partial class MainWindow : Window
         string[] names = new[] { "tab.items", "tab.knowledge_quest", "skills.title", "tab.maps", "tab.mercenary", "tab.backup" }.Select(Tr.Text).ToArray();
         SettingsButton.Content = collapsed ? new ActionGlyph { Kind = "settings", Width = 18, Height = 18, Foreground = Appearance.Brush("text") } : Tr.Text("Settings");
         SettingsButton.ToolTip = Tr.Text("Settings");
+        UpdateButton.Content = collapsed ? new ActionGlyph { Kind = "update", Width = 18, Height = 18, Foreground = Appearance.Brush("accent_text") } : Tr.Text("menu.update");
+        UpdateButton.ToolTip = Tr.Text("menu.update");
+        System.Windows.Automation.AutomationProperties.SetName(UpdateButton, Tr.Text("menu.update"));
         GameVersion.Text = Tr.Format("ui.game_version", ("version", typeof(MainWindow).Assembly
             .GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false).Cast<System.Reflection.AssemblyMetadataAttribute>().First(a => a.Key == "GameVersion").Value!));
         System.Windows.Automation.AutomationProperties.SetName(SettingsButton, Tr.Text("Settings"));

@@ -40,16 +40,13 @@ public sealed class WorldTests
         var cleared = doc.RenameCompanions(renamed.Where(c => c.Editable && c.Name is not null).ToArray(), null);
         CollectionAssert.AreEqual(renamed.Select(c => c.Editable ? c with { Name = null } : c).ToArray(), cleared);
         CollectionAssert.AreEqual(items, Items(doc));
-        string output = Path.Combine(Path.GetTempPath(), $"world-{Guid.NewGuid():N}.save");
-        try
-        {
-            doc.SaveCopy(output);
-            var reopened = SaveDocument.Open(output);
-            Assert.AreEqual(doc.BlobSha256, reopened.BlobSha256);
-            CollectionAssert.AreEqual(cleared, reopened.ReadCompanions());
-            Assert.AreEqual((ulong?)95, reopened.ReadFriendship().Single(r => r.Key == 4009).Value);
-        }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        var reopened = SaveDocument.Open(output);
+        Assert.AreEqual(doc.BlobSha256, reopened.BlobSha256);
+        CollectionAssert.AreEqual(cleared, reopened.ReadCompanions());
+        Assert.AreEqual((ulong?)95, reopened.ReadFriendship().Single(r => r.Key == 4009).Value);
         while (doc.CanUndo) doc.Undo();
         Assert.AreEqual(original, doc.BlobSha256);
     }
@@ -83,14 +80,11 @@ public sealed class WorldTests
         var before = doc.ReadMap().Fog;
         Assert.IsFalse(before.Full);
         Assert.IsTrue(doc.RevealMap().Full);
-        string output = Path.Combine(Path.GetTempPath(), $"fog-{Guid.NewGuid():N}.save");
-        try
-        {
-            doc.SaveCopy(output);
-            var reopened = SaveDocument.Open(output).ReadMap().Fog;
-            Assert.IsTrue(reopened.Full); Assert.AreEqual(before.Codes.Length, reopened.Codes.Length);
-        }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        var reopened = SaveDocument.Open(output).ReadMap().Fog;
+        Assert.IsTrue(reopened.Full); Assert.AreEqual(before.Codes.Length, reopened.Codes.Length);
         doc.Undo(); Assert.AreEqual(original, doc.BlobSha256);
     }
 
@@ -158,15 +152,12 @@ public sealed class WorldTests
         Assert.AreEqual(details[yellow.Number], moved[cat.Number]); Assert.AreEqual(details[cat.Number], moved[yellow.Number]);
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.SwapCompanions(Pet(31378), Pet(31377))); // horses are referenced by quests
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.SwapCompanions(Pet(1004233), Pet(1001618))); // special mount and pet
-        string output = Path.Combine(Path.GetTempPath(), $"order-{Guid.NewGuid():N}.save");
-        try
-        {
-            doc.SaveCopy(output);
-            var reopened = SaveDocument.Open(output);
-            CollectionAssert.AreEqual(swapped, reopened.ReadCompanions());
-            Assert.AreEqual((ulong?)100, reopened.ReadFriendship().Single(r => r.Key == 4011).Affinity.Single().Value);
-        }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        var reopened = SaveDocument.Open(output);
+        CollectionAssert.AreEqual(swapped, reopened.ReadCompanions());
+        Assert.AreEqual((ulong?)100, reopened.ReadFriendship().Single(r => r.Key == 4011).Affinity.Single().Value);
         while (doc.CanUndo) doc.Undo();
         Assert.AreEqual(original, doc.BlobSha256);
     }
@@ -197,16 +188,13 @@ public sealed class WorldTests
         var removed = doc.RemoveRobotWorker(added.First(c => c.Key == SaveDocument.RobotWorker));
         Assert.AreEqual(3, removed.Count(c => c.Key == SaveDocument.RobotWorker));
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.RemoveRobotWorker(roster.First(c => c.Key != SaveDocument.RobotWorker)));
-        string output = Path.Combine(Path.GetTempPath(), $"dlc-{Guid.NewGuid():N}.save");
-        try
-        {
-            doc.SaveCopy(output);
-            var reopened = SaveDocument.Open(output);
-            CollectionAssert.AreEqual(removed, reopened.ReadCompanions());
-            Assert.AreEqual((ulong?)100, reopened.ReadFriendship().Single(r => r.Key == 1002940).Affinity[0].Value);
-            Assert.AreEqual(40u, reopened.ReadChallenges().Mission[1004753].Count);
-        }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        var reopened = SaveDocument.Open(output);
+        CollectionAssert.AreEqual(removed, reopened.ReadCompanions());
+        Assert.AreEqual((ulong?)100, reopened.ReadFriendship().Single(r => r.Key == 1002940).Affinity[0].Value);
+        Assert.AreEqual(40u, reopened.ReadChallenges().Mission[1004753].Count);
         while (doc.CanUndo) doc.Undo();
         Assert.AreEqual(original, doc.BlobSha256);
     }
@@ -217,10 +205,10 @@ public sealed class WorldTests
     [TestCategory("PrivateFixtures")]
     public void WorldNavigationFiltersAndUndo()
     {
-        if (Application.Current is null) { var app = new App.App(); app.InitializeComponent(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         var model = new MainViewModel(doc);
-        var window = new MainWindow(model) { Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         try
         {

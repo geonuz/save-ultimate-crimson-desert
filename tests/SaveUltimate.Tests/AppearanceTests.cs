@@ -42,7 +42,8 @@ public sealed class AppearanceTests
     [DoNotParallelize]
     public void SettingsRoundTripAndSaveDiscoveryPreserveFilesAndMissingRecents()
     {
-        string root = Path.Combine(Path.GetTempPath(), "save-ui-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(root);
+        using var temp = new TempFolder();
+        string root = temp.Root;
         string oldPath = SettingsStore.FilePath; var old = SettingsStore.Current;
         try
         {
@@ -68,8 +69,6 @@ public sealed class AppearanceTests
         finally
         {
             SettingsStore.Save(old); SettingsStore.FilePath = oldPath;
-            Assert.IsTrue(Path.GetFullPath(root).StartsWith(Path.Combine(Path.GetTempPath(), "save-ui-"), StringComparison.OrdinalIgnoreCase));
-            Directory.Delete(root, true);
         }
     }
 
@@ -79,16 +78,16 @@ public sealed class AppearanceTests
     [TestCategory("PrivateFixtures")]
     public void OriginalThemeFontSettingsSlotsAndEveryPageRenderWithoutChangingSave()
     {
-        if (Application.Current is null) { var app = new App.App(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown; }
+        TestUi.EnsureApp();
         string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
         var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string hash = doc.BlobSha256; var model = new MainViewModel(doc);
         var old = SettingsStore.Current; string oldPath = SettingsStore.FilePath;
-        string temporary = Path.Combine(Path.GetTempPath(), "ui-settings-" + Guid.NewGuid().ToString("N") + ".json");
-        SettingsStore.FilePath = temporary;
+        using var temp = new TempFolder();
+        SettingsStore.FilePath = temp.Named("settings.json");
         var settings = new EditorSettings { Language = "ko", SaveRoot = fixtures, AutoGameFolder = false, RecentSaveFiles = [Path.Combine(fixtures, "missing-review.save")] };
         SettingsStore.Save(settings); Appearance.Apply(settings);
-        var window = Hidden(new MainWindow(model));
+        var window = TestUi.Hidden(new MainWindow(model));
         window.Show();
         try
         {
@@ -118,23 +117,27 @@ public sealed class AppearanceTests
             }
             model.CurrentPage = AppPage.Inventory; window.ShowHelp("tab.inventory");
             WindowTests.Capture(window, "help"); window.ShowHelp("tab.inventory");
-            var dialog = Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
+            var dialog = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
             dialog.Show(); WindowTests.Capture(dialog, "settings-general"); dialog.Navigation.SelectedIndex = 1; WindowTests.Capture(dialog, "settings-theme"); dialog.Close();
             Assert.AreSame(settings, SettingsStore.Current, "Opening/canceling settings must not commit drafts.");
-            var apply = Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
+            var apply = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
             apply.Dispatcher.BeginInvoke(new Action(() => Buttons(apply).Single(b => Equals(b.Content, Tr.Text("ui.apply_settings"))).RaiseEvent(new RoutedEventArgs(Button.ClickEvent))));
             Assert.AreEqual(true, apply.ShowDialog()); Assert.IsNotNull(apply.Result);
             Assert.AreSame(settings, SettingsStore.Current, "The dialog returns validated settings; the caller persists them.");
-            var slots = Hidden(new SlotsWindow(model) { Owner = window }); slots.Show();
+            var slots = TestUi.Hidden(new SlotsWindow(model) { Owner = window }); slots.Show();
             Assert.IsTrue(slots.Rows.Items.Count > 0); Assert.AreEqual(hash, doc.BlobSha256);
             slots.Rows.SelectedItem = slots.Rows.Items.Cast<SaveSlot>().First(r => r.Category == "manual");
             Assert.IsFalse(slots.OpenButton.IsEnabled); Assert.IsTrue(slots.RemoveButton.IsEnabled);
             WindowTests.Capture(slots, "slots"); slots.RemoveRecent(); Assert.AreEqual(0, SettingsStore.Current.RecentSaveFiles.Length); slots.Close();
-            var doctor = Hidden(new DoctorWindow(model) { Owner = window }); doctor.Show();
-            WindowTests.Pump(doctor.Scan); WindowTests.Capture(doctor, "doctor"); doctor.Close();
+            void CaptureDoctor(string name)
+            {
+                var again = TestUi.Hidden(new DoctorWindow(model) { Owner = window }); again.Show();
+                WindowTests.Pump(() => again.Inspect(DoctorTests.Slot(FixtureSaves.Named("mission_rows_8"))));
+                WindowTests.Capture(again, name); again.Close();
+            }
             foreach (string theme in Appearance.Themes.Keys)
             {
-                Appearance.Apply(settings with { Theme = theme }); WindowTests.Capture(window, "theme-" + theme);
+                Appearance.Apply(settings with { Theme = theme }); WindowTests.Capture(window, "theme-" + theme); CaptureDoctor("doctor-theme-" + theme);
                 Assert.AreEqual(Appearance.Palette(settings with { Theme = theme })["bg"].ToUpperInvariant(), ((SolidColorBrush)window.Background).Color.ToString()[3..].Insert(0, "#"));
             }
             foreach (int scale in new[] { 100, 125, 150 })
@@ -159,10 +162,11 @@ public sealed class AppearanceTests
                 {
                     model.CurrentPage = page; WindowTests.Capture(window, $"language-{language}-{page}");
                 }
-                var translatedSettings = Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
+                var translatedSettings = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
                 translatedSettings.Show(); WindowTests.Capture(translatedSettings, $"settings-{language}"); translatedSettings.Close();
-                var translatedSlots = Hidden(new SlotsWindow(model) { Owner = window });
+                var translatedSlots = TestUi.Hidden(new SlotsWindow(model) { Owner = window });
                 translatedSlots.Show(); WindowTests.Capture(translatedSlots, $"slots-{language}"); translatedSlots.Close();
+                CaptureDoctor($"doctor-{language}");
                 window.Width = 920; WindowTests.Capture(window, $"narrow-{language}");
                 foreach (Button action in ((Panel)window.FindName("HeaderActions")).Children)
                     Assert.IsTrue(action.TransformToAncestor(window).Transform(new Point(action.ActualWidth, 0)).X <= window.ActualWidth, language);
@@ -175,17 +179,21 @@ public sealed class AppearanceTests
                     Assert.AreEqual(TextWrapping.Wrap, pathText.TextWrapping);
                 }
             }
+            var update = (Button)window.FindName("UpdateButton");
+            Assert.AreEqual(Visibility.Collapsed, update.Visibility);
+            model.AvailableUpdate = new(new(9, 9, 9), "", "", "");
+            Assert.AreEqual(Visibility.Visible, update.Visibility);
+            window.Width = 920; WindowTests.Capture(window, "update-collapsed");
+            window.Width = 1400; WindowTests.Capture(window, "update");
+            model.AvailableUpdate = null;
             Assert.AreEqual(hash, doc.BlobSha256); Assert.IsFalse(doc.CanUndo);
         }
         finally
         {
             while (doc.CanUndo) doc.Undo();
             window.Close(); SettingsStore.Save(old); SettingsStore.FilePath = oldPath; Appearance.Apply(old);
-            File.Delete(temporary);
         }
     }
-    private static T Hidden<T>(T window) where T : Window
-    { window.Left = -10000; window.Top = -10000; window.WindowStartupLocation = WindowStartupLocation.Manual; window.ShowActivated = false; window.ShowInTaskbar = false; return window; }
     private static IEnumerable<Button> Buttons(DependencyObject root)
     {
         if (root is Button button) yield return button;

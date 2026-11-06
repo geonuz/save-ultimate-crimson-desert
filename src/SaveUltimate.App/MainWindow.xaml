@@ -16,6 +16,7 @@
    <Separator/><MenuItem Header="{local:Tr Save}" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
    <MenuItem Header="{local:Tr 'Save As...'}" Command="{Binding SaveAsCommand}" InputGestureText="Ctrl+Shift+S"/>
    <MenuItem Header="{local:Tr ui.doctor}" Click="OnDoctor"/>
+   <MenuItem Header="{local:Tr menu.check_update}" Command="{Binding CheckForUpdateCommand}" IsEnabled="{Binding CanUpdate}"/>
    <MenuItem Header="{local:Tr Settings}" Click="OnSettings"/><Separator/><MenuItem Header="{local:Tr Exit}" Click="OnExit" InputGestureText="Alt+F4"/>
   </MenuItem>
   <MenuItem x:Name="ViewMenu" Header="{local:Tr View}"><MenuItem Header="{local:Tr ui.theme}" Click="OnThemeSettings"/><Separator/></MenuItem>
@@ -28,6 +29,7 @@
  <Border x:Name="NavigationRail" DockPanel.Dock="Left" Width="212" Background="{DynamicResource panel}" BorderBrush="{DynamicResource border}" BorderThickness="0,0,1,0" Padding="12,20,12,16">
   <DockPanel>
    <StackPanel DockPanel.Dock="Bottom">
+    <Button x:Name="UpdateButton" Command="{Binding InstallUpdateCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,8" Visibility="{Binding HasUpdate, Converter={StaticResource BooleanVisibility}}"/>
     <Button x:Name="SettingsButton" Content="{local:Tr Settings}" Click="OnSettings" Margin="0,0,0,12"/>
     <StackPanel x:Name="VersionText" Orientation="Horizontal">
      <TextBlock x:Name="AppVersion" Style="{StaticResource SecondaryText}" VerticalAlignment="Center"/>

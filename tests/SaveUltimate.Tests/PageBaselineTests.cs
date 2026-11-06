@@ -48,7 +48,7 @@ public sealed class PageBaselineTests
             var map = document.ReadMap();
             return map.Discoveries.Select(p => $"{p.Key}={p.Value}").Prepend($"fog@{map.Fog.Offset} {Convert.ToHexString(SHA256.HashData(map.Fog.Codes))}");
         });
-        Section("Diagnosis", () => [SaveDocument.Diagnose(path).ToString()]);
+        Section("Diagnosis", () => [$"SaveDiagnosis {{ MissionRows = {SaveRecords.Read(document.blob, document.Layout, "QuestSaveData").Fields.Named("_missionStateList").ListElements.Length}, DamagedRows = {document.DamagedRows} }}"]);
         return lines.ToArray();
     }
 

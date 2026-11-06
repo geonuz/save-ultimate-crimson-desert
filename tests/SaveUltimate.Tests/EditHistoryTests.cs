@@ -1,5 +1,4 @@
 using System.Buffers.Binary;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,20 +7,17 @@ using SaveUltimate.Core.Saves;
 namespace SaveUltimate.Tests;
 
 [TestClass]
-public sealed class EditingPerformanceTests
+public sealed class EditHistoryTests
 {
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void EditsKeepOwnershipCurrentAndRefuseUnrelatedChanges()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         void Check()
         {
-            var raw = (byte[])typeof(SaveDocument).GetField("blob",
-                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(document)!;
+            var raw = document.blob;
             var full = Inventory.Read(raw, document.Layout, Guid.NewGuid());
             Assert.AreEqual(JsonSerializer.Serialize(full), JsonSerializer.Serialize(document.Items));
             for (int i = 0; i < full.Length; i++)
@@ -51,23 +47,18 @@ public sealed class EditingPerformanceTests
 
     [TestMethod]
     [TestCategory("Scenario")]
-    [DataRow("Item2")]
-    [DataRow("Item3")]
+    [DataRow(false)]
+    [DataRow(true)]
     [TestCategory("PrivateFixtures")]
-    public void DamagedStructuralUndoLeavesDocumentAndHistoryIntact(string snapshotField)
+    public void DamagedStructuralUndoLeavesDocumentAndHistoryIntact(bool after)
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         string original = document.BlobSha256;
         document.SetSockets(document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218), [0, 0]);
         string edited = document.BlobSha256;
         // Corrupt a compressed history checksum without adding a production mutation API.
-        var history = (System.Collections.IEnumerable)typeof(SaveDocument).GetField("undo",
-            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(document)!;
-        var entry = history.Cast<object>().First();
-        var snapshot = entry.GetType().GetField(snapshotField)!.GetValue(entry)!;
-        var packed = (byte[])snapshot.GetType().GetProperty("Packed")!.GetValue(snapshot)!;
+        var entry = document.undo.Peek();
+        byte[] packed = (after ? entry.After : entry.Before)!.Packed;
         packed[^1] ^= 1;
         Assert.Throws<InvalidDataException>(document.Undo);
         Assert.AreEqual(edited, document.BlobSha256);
@@ -84,8 +75,6 @@ public sealed class EditingPerformanceTests
     [TestCategory("PrivateFixtures")]
     public void StructuralHistoryRestoresAcrossScalarEditsAndBranching()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         string original = document.BlobSha256;
@@ -111,41 +100,8 @@ public sealed class EditingPerformanceTests
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    public void RecordReaderStageTimings()
-    {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var rows = new List<object>();
-        foreach (string name in new[] { "fishing_no_first_catch", "editing_baseline" })
-        {
-            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(FixtureSaves.Named(name))).Blob;
-            var layout = ParcLayout.Parse(raw);
-            foreach (string stage in new[] { "validate", "InventorySaveData", "EquipmentSaveData", "StoreSaveData", "MercenaryClanSaveData", "KnowledgeSaveData" })
-            {
-                var samples = new List<double>();
-                for (int run = 0; run < 4; run++)
-                {
-                    var timer = Stopwatch.StartNew();
-                    if (stage == "validate") ParcReader.Validate(raw, layout);
-                    else SaveRecords.Read(raw, layout, stage);
-                    if (run > 0) samples.Add(timer.Elapsed.TotalMilliseconds);
-                }
-                rows.Add(new { file = name, stage, ms = samples.Order().ElementAt(1) });
-            }
-        }
-        string json = JsonSerializer.Serialize(rows, new JsonSerializerOptions { WriteIndented = true });
-        Console.WriteLine(json);
-        string? output = Environment.GetEnvironmentVariable("SAVEULTIMATE_STAGE_PERFORMANCE");
-        if (output is not null) File.WriteAllText(output, json);
-    }
-
-    [TestMethod]
-    [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
     public void EqualSizeSocketRelocationAndScalarRefreshSurviveReopening()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
         var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
         InventoryItem Target() => document.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218);
         document.SetSockets(Target(), [1002785, 0]);
@@ -156,31 +112,25 @@ public sealed class EditingPerformanceTests
         document.SetSockets(stale, [0, 1002786]);
         Assert.Throws<InvalidOperationException>(() => document.SetSockets(stale, [0, 1002785]));
         Assert.AreEqual(1002786u, Target().Sockets.Slots[1].Key);
-        string output = Path.Combine(Path.GetTempPath(), $"SaveUltimate-socket-refresh-{Guid.NewGuid():N}.save");
-        try
-        {
-            document.SaveCopy(output);
-            var reopened = SaveDocument.Open(output);
-            var actual = reopened.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218).Sockets;
-            Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
-            CollectionAssert.AreEqual(Target().Sockets.Slots.Select(s => (s.Key, s.HasGem, s.Endurance)).ToArray(),
-                actual.Slots.Select(s => (s.Key, s.HasGem, s.Endurance)).ToArray());
-            Assert.AreEqual(Target().Sockets.Unlocked, actual.Unlocked);
-            document.Undo();
-            document.Undo();
-            Assert.AreEqual(before, document.BlobSha256);
-        }
-        finally { if (File.Exists(output)) File.Delete(output); }
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        document.SaveCopy(output);
+        var reopened = SaveDocument.Open(output);
+        var actual = reopened.Items.Single(i => i.Source == ItemSource.Inventory && i.Number == 1218).Sockets;
+        Assert.AreEqual(document.BlobSha256, reopened.BlobSha256);
+        CollectionAssert.AreEqual(Target().Sockets.Slots.Select(s => (s.Key, s.HasGem, s.Endurance)).ToArray(),
+            actual.Slots.Select(s => (s.Key, s.HasGem, s.Endurance)).ToArray());
+        Assert.AreEqual(Target().Sockets.Unlocked, actual.Unlocked);
+        document.Undo();
+        document.Undo();
+        Assert.AreEqual(before, document.BlobSha256);
     }
 
     [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
-    public void ScalarRefreshMatchesFullReaderAndRecordsBackendTimings()
+    public void ScalarRefreshMatchesFullReader()
     {
-        string? fixtures = FixtureSaves.Root;
-        if (fixtures is null) Assert.Inconclusive("Set private fixtures.");
-        var results = new List<object>();
         foreach (string name in new[] { "early_progress", "fishing_no_first_catch", "editing_baseline" })
         {
             string path = FixtureSaves.Named(name);
@@ -188,21 +138,14 @@ public sealed class EditingPerformanceTests
             byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
             string original = document.BlobSha256;
             int index = document.Items.ToList().FindIndex(i => i.CanEditQuantity && i.Quantity < 999_999_999);
-            var fast = new List<double>(); var full = new List<double>();
-            for (int run = 0; run < 6; run++)
+            for (int run = 0; run < 2; run++)
             {
                 var target = document.Items[index];
-                var timer = Stopwatch.StartNew();
                 document.SetQuantity(target, target.Quantity + 1);
-                double elapsed = timer.Elapsed.TotalMilliseconds;
-                if (run > 0) fast.Add(elapsed);
-                timer.Restart();
                 byte[] candidate = (byte[])raw.Clone();
                 BinaryPrimitives.WriteUInt64LittleEndian(candidate.AsSpan(target.QuantityOffset), target.Quantity + 1);
                 ParcReader.Validate(candidate, ParcLayout.Parse(candidate));
                 var read = Inventory.Read(candidate, ParcLayout.Parse(candidate), Guid.NewGuid());
-                elapsed = timer.Elapsed.TotalMilliseconds;
-                if (run > 0) full.Add(elapsed);
                 Assert.AreEqual(read.Length, document.Items.Count);
                 for (int i = 0; i < read.Length; i++)
                 {
@@ -215,12 +158,6 @@ public sealed class EditingPerformanceTests
                 document.Undo();
                 Assert.AreEqual(original, document.BlobSha256);
             }
-            double Median(List<double> samples) => samples.Order().ElementAt(samples.Count / 2);
-            results.Add(new { file = name, quantityEditMs = Median(fast), previousFullReadMs = Median(full), samples = 5 });
         }
-        string json = JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true });
-        Console.WriteLine(json);
-        string? output = Environment.GetEnvironmentVariable("SAVEULTIMATE_PERFORMANCE");
-        if (output is not null) File.WriteAllText(output, json);
     }
 }

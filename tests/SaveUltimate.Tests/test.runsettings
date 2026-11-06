@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A real dialog opened by a failing UI test waits forever for a click; the whole run normally takes under two minutes. -->
+<RunSettings>
+  <RunConfiguration>
+    <TestSessionTimeout>300000</TestSessionTimeout>
+  </RunConfiguration>
+</RunSettings>
