@@ -3,7 +3,7 @@
 ## [1.5.0]
 
 Save Doctor checks a whole save, the editor can update itself, and saves are now read and written in C# instead of by
-native libraries. These changes passed the test saves but were not checked in game.
+native libraries. Verified in game with Crimson Desert 2.04.07.
 
 - **New: Save Doctor checks each save.** File > Save Doctor shows the file, its structure, each page and item values as
   normal, suspect, error or not checked, for every slot or a file you choose. Normal means the known rules pass; it does
@@ -17,8 +17,14 @@ native libraries. These changes passed the test saves but were not checked in ga
 - Synced game data is checked at every start and synced again when the game or the editor changed. Unchanged images are
   reused. A failed automatic sync shows in the status bar and keeps the data you have.
 - `parc_reader.dll`, `parc_index.dll` and `parc_validation.dll` are gone: all save reading, checking and writing is now
-  C#. Paths outside the Windows code page work.
-- Syncing game data reads only the 2.04 client layout, so an older game install reports an error. Saves are not affected.
+  C#, and the build needs no C++ tools. Paths outside the Windows code page work.
+- Every edit and Undo now goes through the same full check. On a large save, measured without the interface on one PC,
+  opening with every page went from about 2.1 s to 0.2 s, saving from 1.3 s to 0.3 s and an edit that moves records from
+  1.4 s to 0.2 s. A quantity edit went from 11 ms to about 90 ms because it is now checked in full too.
+- Syncing game data reads only the client layout of 2.04.06 and later, so an older game install reports an error. Saves
+  from older versions still open.
+- Tests: window tests no longer start the real application, and a run stops after 5 minutes instead of waiting forever
+  on a dialog nobody can close.
 
 ## [1.4.0]
 

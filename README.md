@@ -12,7 +12,7 @@ descriptions use the game's localization data.
 | Game version | Status |
 |---|---|
 | 2.04.07 with or without the first DLC | Verified with this release |
-| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.01 to 2.04.07 |
+| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.01 to 2.04.07. Syncing game data needs a game install of 2.04.06 or later |
 | 1.x | Not supported; opening a save reports `[SU-301]` |
 
 Settings shows the editor version and the game version it was verified with.
@@ -82,17 +82,18 @@ first time a save is opened, and restore or delete backups.
 
 ### Save Doctor (Experimental)
 
-**File > Save Doctor** checks every save slot against the rules this editor
-knows, without changing anything: the file, its structure, each page and item
-values. Each check shows as normal, suspect, error or not checked. Normal means
-the rules pass; it does not promise that the game will load the save.
+**File > Save Doctor** checks every save slot, or a file you choose, against the
+rules this editor knows, without changing anything: the file, its structure,
+each page and item values. Each check shows as normal, suspect, error or not
+checked. Normal means the rules pass; it does not promise that the game will load
+the save.
 
 It repairs only what can be worked out from the file: mission records that do
 not follow the game's format, which can crash the game at the title screen even
 for a slot that is never loaded, and a signature that no longer matches contents
-that still read. You can also lower enchant levels past
-their limit. Other damage cannot be repaired, so it offers the newest backup
-that still opens. The save is backed up first. Close the game before repairing.
+that still read. You can also lower enchant levels past their limit. Other damage
+cannot be repaired, so it offers the newest backup that still opens. The save is
+backed up first. Close the game before repairing.
 
 ### Editing and saving
 
@@ -125,13 +126,14 @@ synchronized data in the same folder:
 
 ```text
 SaveUltimate.exe
-*.dll             Native libraries (shipped)
+*.dll             Native libraries for images and the interface (shipped)
 resources/        Baseline catalogs, translations and artwork (shipped)
 licenses/         Third-party notices (shipped)
 editor_config.json
 error.log         Details of reported errors
 backups/          Copies of your save backups
 game_data/        Synchronized game data and images
+.update/          Files of an update in progress, removed at the next start
 ```
 
 Backups are also written to a `backups/` folder beside each save, including a
@@ -144,12 +146,14 @@ about you or your saves, and editing works without a connection. If a newer
 release exists, an **Update** button appears above Settings. **File > Check for
 Updates** does the same check on demand. Updating replaces the release's files,
 keeps your settings, backups and `game_data/`, and restarts the editor. If the
-new version does not open its window, the previous version is put back. Versions
-before this feature must be updated by hand once: extract the new ZIP over the
-old folder.
+new version does not open its window within two minutes, the previous version is
+put back. The download is checked against the hash GitHub publishes; releases are
+not code-signed, so Windows may warn when you first run the program. To update
+from 1.4.0 or earlier, extract the new ZIP over the old folder once.
 
 Each start also compares the synced data with the installed game and this
-release. If either changed, the sync runs again and reuses unchanged images.
+release. If either changed, the sync runs again and reuses unchanged images. If
+that automatic sync fails, the status bar says so and the existing data stays.
 
 ## Use and copyright
 

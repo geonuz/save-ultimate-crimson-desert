@@ -34,9 +34,9 @@ Keep `packages.lock.json` files in sync with
 ## Changes and tests
 
 Reuse the existing edit, validation, relocation and Undo paths in
-`SaveDocument`. Structural edits must go through `Commit`, which validates the
-candidate against the save layout before replacing the document. Add a
-focused test for changes to save data or nontrivial behavior.
+`SaveDocument`. Every edit builds candidate bytes and goes through `Transact`,
+which validates them against the save layout before replacing the document. Add
+a focused test for changes to save data or nontrivial behavior.
 
 ```powershell
 dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory!=PrivateFixtures"
@@ -52,7 +52,8 @@ Tests come in four layers, each a `TestCategory`:
 | `UI` | Windows and pages, run one at a time | Saves |
 
 A rule that holds on any save belongs in `FeatureContracts`, not in a scenario. A new editor feature needs a contract.
-UI tests start the app with `TestUi.EnsureApp` and never open a real dialog: nothing can click it, so the run stops at its 5-minute limit.
+UI tests start the app with `TestUi.EnsureApp`, which mirrors the resources in `App.xaml`, and never open a real dialog:
+nothing can click it, so the run stops at the 5-minute limit in `test.runsettings`. Use `TempFolder` for temporary files.
 While working, run only the layer you touched, and run everything before a release; the whole suite should stay under
 3 minutes:
 
@@ -66,7 +67,7 @@ their inputs are configured through the environment variables `SAVEULTIMATE_FIXT
 `<player>/<game version>_<stage>_<purpose>.save`, with numbered player folders and no real names; tests name the purpose
 through `FixtureSaves.Named`. `ContractTests` runs every feature on every save that holds what the feature needs, requires
 each feature to reach 3 players, and writes `COVERAGE.md` beside the saves. Keep saves that add a player, a progress stage, a
-format or values a test needs, not more of the same. The test folder's README describes adding a save.
+format or values a test needs, not more of the same. The README in the private fixture folder describes adding a save.
 
 Test classes run side by side. A test that uses WPF or a process-wide static such as `DlcContent.Hidden` must carry
 `[DoNotParallelize]`.
@@ -97,3 +98,11 @@ final hashes again after signing.
 Set `Version` and the verified `GameVersion` in `Directory.Build.props`; the
 window shows both under Settings. Add the matching `## [x.y.z]` entry to
 `CHANGELOG.md` in the same change.
+
+Every push to `main` runs `.github/workflows/release.yml`, which tests, builds and
+publishes a GitHub release tagged `v<version>-<commit>` with
+`SaveUltimate-<version>-windows-x64.zip`. Editors in the field read that tag, asset
+name and hash, so keep them stable, and raise `Version` whenever users should get a
+build: the updater offers only a higher version. The version is also part of the
+game-data check, so each new version syncs once at its first start. Keep commits that
+change only documents local until the next release.
