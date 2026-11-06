@@ -7,9 +7,11 @@ namespace SaveUltimate.Core.Catalogs;
 // MercenaryInfo and NpcInfo links sit at fixed offsets.
 public static class CharacterCatalogBuilder
 {
-    private const uint NameMember = 0x30, CompanionMember = 0x32;
+    private const uint NameMember = 0x30, CompanionMember = 0x32, TitleMember = 226;
+    private const int NpcStoreOffset = 14;
+    private const uint CampCostumeStore = 6700, CampTailor = 1000351;
     private static readonly (string Field, uint Member, string Section)[] NpcLabels =
-        [("title", 226, "npc_titles"), ("service", 228, "npc_services"), ("areaOrAffiliation", 229, "npc_areas")];
+        [("title", TitleMember, "npc_titles"), ("service", 228, "npc_services"), ("areaOrAffiliation", 229, "npc_areas")];
 
     public static Dictionary<string, JsonNode> Build(ClientSource source, Func<string, JsonNode> load)
     {
@@ -38,6 +40,19 @@ public static class CharacterCatalogBuilder
         var npcRows = new JsonObject();
         foreach (uint key in npcs.Keys) npcRows[key.ToString()] = new JsonObject { ["ko"] = Fields("ko", key), ["en"] = Fields("en", key) };
 
+        // StoreInfo holds no display name: a store is called by the title of the NPC who runs it.
+        var stores = ClientTables.Records16(source.Tables("storeinfo"));
+        var sellers = npcs.Keys.Order().GroupBy(k => (uint)BitConverter.ToUInt16(npcs[k].Bytes.Span[(npcs[k].Prefix + NpcStoreOffset)..])).Where(g => g.Key != 0).ToDictionary(g => g.Key, g => g.ToArray());
+        if (sellers.Keys.Any(k => !stores.ContainsKey(k))) throw new InvalidDataException("Unresolved NPC store link.");
+        // Barbers in every region share the camp's costume store, which is the camp tailor's.
+        sellers[CampCostumeStore] = [CampTailor];
+        // shortcut: NPCs sharing a store with different titles take the most common, then the lowest NPC key, so a store shared across regions (3500, 3802, 5502) shows one region's name.
+        string StoreName(string code, uint[] owners) => owners.Select(n => Label(code, n, TitleMember)).Where(t => t.Length > 0).GroupBy(t => t).OrderByDescending(g => g.Count()).FirstOrDefault()?.Key ?? "";
+        // Stores no NPC runs keep their label.
+        var storeNames = load("data/store_names.json").AsObject();
+        foreach (var (store, owners) in sellers.OrderBy(p => p.Key))
+            if (StoreName("en", owners) is { Length: > 0 } name) storeNames[store.ToString()] = name;
+
         var digests = source.Digests();
         var outputs = new Dictionary<string, JsonNode>
         {
@@ -48,13 +63,16 @@ public static class CharacterCatalogBuilder
                 ["types"] = new JsonObject(types.Select(t => KeyValuePair.Create<string, JsonNode?>(t.Key.ToString(), t.Value.Name))),
                 ["method"] = "Owned CharacterInfo localization reference 0x32; MercenaryInfo key at +214. Unresolved keys omitted."
             },
-            ["data/npc_catalog.json"] = new JsonObject { ["sourceSha256"] = digests.DeepClone(), ["characters"] = links, ["npcs"] = npcRows }
+            ["data/npc_catalog.json"] = new JsonObject { ["sourceSha256"] = digests.DeepClone(), ["characters"] = links, ["npcs"] = npcRows },
+            ["data/store_names.json"] = storeNames
         };
         foreach (string code in new[] { "ko", "ja", "ru" })
         {
             var pack = load($"locale/names_{code}.json").AsObject();
             pack["characters"] = new JsonObject(characters.Keys.Select(k => (k, Text: names[code].GetValueOrDefault((((ulong)k << 32) | NameMember).ToString(), "")))
                 .Where(p => p.Text.Length > 0).Select(p => KeyValuePair.Create<string, JsonNode?>(p.k.ToString(), p.Text)));
+            pack["stores"] = new JsonObject(sellers.OrderBy(p => p.Key).Select(p => (p.Key, Text: StoreName(code, p.Value)))
+                .Where(p => p.Text.Length > 0).Select(p => KeyValuePair.Create<string, JsonNode?>(p.Key.ToString(), p.Text)));
             // Rebuilt rather than updated: 2.04 renumbers NpcInfo keys.
             foreach (var (_, member, section) in NpcLabels.Where(l => pack[l.Section] is not null))
                 pack[section] = new JsonObject(npcs.Keys.Select(k => (k, Text: Label(code, k, member)))

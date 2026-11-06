@@ -10,7 +10,7 @@ namespace SaveUltimate.App;
 public sealed class ItemCatalog
 {
     public static ItemCatalog Shared { get; private set; } = new();
-    internal static void Reset() => Shared = new();
+    public static void Reset() => Shared = new();
     private readonly Dictionary<uint, JsonElement> items;
     private readonly Dictionary<string, JsonElement> details;
     private readonly Dictionary<string, string> stores;
@@ -28,12 +28,16 @@ public sealed class ItemCatalog
         details = Read("data/item_details.json").GetProperty("items").EnumerateObject().ToDictionary(p => p.Name, p => p.Value);
         stores = Strings(Read("data/store_names.json"));
         characterInfo = Read("data/character_names.json").EnumerateObject().ToDictionary(p => p.Name, p => p.Value);
-        Choices = items.Where(p => !DlcContent.Hidden || !DlcContent.Shared.Items.Contains(p.Key)).Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"))).OrderBy(c => c.Key).ToArray();
-        Gems = new[] { new GemChoice(0, Tr.Text("Clear")) }.Concat(Read("data/socket_gems.json").EnumerateArray().Select(g =>
+        static bool Shown(uint key) => !DlcContent.Hidden || !DlcContent.Shared.Items.Contains(key);
+        Choices = items.Where(p => Shown(p.Key)).Select(p => new ItemSearchWindow.Choice(p.Key, Name(p.Key), Category(p.Key), Text(p.Value, "internalName"))).OrderBy(c => c.Key).ToArray();
+        var categories = Read("data/socket_gems.json").EnumerateArray().ToDictionary(g => g.GetProperty("key").GetUInt32(), g => Text(g, "category"));
+        // ItemGroupInfo 18317 is the game's "Abyss Gear" group, so gears from game updates list themselves.
+        // shortcut: a gear missing from socket_gems.json counts as Special Effects (true of all 20 skill gears so far); add it to the file if a stat gear arrives.
+        var gears = categories.Keys.Concat(items.Keys.Where(k => InGroup(k, 18317)).Except(categories.Keys).Order()).Where(k => items.ContainsKey(k) && Shown(k));
+        Gems = new[] { new GemChoice(0, Tr.Text("Clear")) }.Concat(gears.Select(key =>
         {
-            uint key = g.GetProperty("key").GetUInt32();
-            string category = Text(g, "category");
-            return new GemChoice(key, Name(key), Tr.Text(category), Text(g, "name"), category);
+            string category = categories.GetValueOrDefault(key, "Special Effects");
+            return new GemChoice(key, Name(key), Tr.Text(category), Text(items[key], "name"), category);
         })).ToArray();
         GemCategories = new[] { Tr.Text("map.all") }.Concat(Gems.Skip(1).Select(g => g.Category).Distinct()).ToArray();
     }
@@ -49,9 +53,10 @@ public sealed class ItemCatalog
         if (name.Length == 0) name = Text(group, "name");
         return name.Length == 0 ? Tr.Text("Unclassified") : name;
     }
+    private bool InGroup(uint key, uint itemGroup) => items.TryGetValue(key, out var row) && row.TryGetProperty("gameClassification", out var group) &&
+        group.TryGetProperty("groupKey", out var groupKey) && groupKey.GetUInt32() == itemGroup;
     // ItemGroupInfo 18312 is the game's "Currency" group.
-    public bool IsCurrency(uint key) => items.TryGetValue(key, out var row) && row.TryGetProperty("gameClassification", out var group) &&
-        group.TryGetProperty("groupKey", out var groupKey) && groupKey.GetUInt32() == 18312;
+    public bool IsCurrency(uint key) => InGroup(key, 18312);
     public string CategoryHint(uint key)
     {
         if (!items.TryGetValue(key, out var row) || !row.TryGetProperty("gameClassification", out var group)) return Tr.Text("No verified game classification");
@@ -61,7 +66,7 @@ public sealed class ItemCatalog
         return category + (detail.Length > 0 && detail != category ? "\n" + detail : "") + $"\nCategoryInfo: {group.GetProperty("categoryKey")} ({string.Join("/", group.GetProperty("indices").EnumerateArray())})\nItemGroupInfo: {group.GetProperty("groupKey")} / {group.GetProperty("detailKey")}";
     }
     public ulong MaxStack(uint key) => items.TryGetValue(key, out var row) && row.TryGetProperty("maxStack", out var value) && value.TryGetUInt64(out ulong count) ? count : 0;
-    public string Store(ushort key) => stores.GetValueOrDefault(key.ToString(), $"Store_{key}").Replace("Store_", "").Replace('_', ' ');
+    public string Store(ushort key) => Tr.Name("stores", key.ToString(), stores.GetValueOrDefault(key.ToString(), key.ToString()));
     public string Owner(InventoryItem item) => item.Source == ItemSource.Equipment ? Tr.Text("skills.character.0")
         : item.OwnerNumber == 0 ? "" : item.OwnerName.Length > 0 ? item.OwnerName
         : Tr.Name("characters", item.OwnerCharacter.ToString(), characterInfo.TryGetValue(item.OwnerCharacter.ToString(), out var row) ? Text(row, "name") : $"? ({item.OwnerCharacter})");

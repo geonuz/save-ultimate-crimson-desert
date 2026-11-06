@@ -1,20 +1,20 @@
 {
   "sourceSha256": {
-    "eng_knowledge.dlc_01.paloc": "f616f4ef2dfee890a8aa9ecd8c090f8a1b905586919d2edf92331c7a1150712b",
-    "eng_knowledge.paloc": "f6837d66b58448f24b1cc43e48e10653b7bc82efe2c5bdd976a96ecbbbc71fcc",
-    "jpn_knowledge.dlc_01.paloc": "d69586620d611f2cc53cdbc996955d0d5cdae8d701af8c3ccf02c102999213dc",
-    "jpn_knowledge.paloc": "4c61429bb86d8d7c1a86127fab94df12a0b6d8288dc330a33770832d86857503",
+    "eng_knowledge.dlc_01.paloc": "164d76d7f43819bfb268c85cc94fe8e033f84a966121370c6777740fb029ee58",
+    "eng_knowledge.paloc": "25d82fe9fedeed729753545efd9ab1fde3a446c0eb672bbd7b4aab6abf7f60cd",
+    "jpn_knowledge.dlc_01.paloc": "3972ce177821bf2cbc70468f8e72506b0d1cdafa62e824881f6a21e83eb02dd3",
+    "jpn_knowledge.paloc": "a0f8ddf12cba03762ad123f68e4a71bf7c12acf6190d2bdbe1ecd3ecc3b73a71",
     "knowledgegroupinfo.dlc_01.staticinfobody": "af1515f30d005143b16de4b2b73345dd9276b444ab218a5550e7b9a30ee19adb",
     "knowledgegroupinfo.dlc_01.staticinfoheader": "13bed2c819790ad6ce4177926b2d4a9142eff5c83292e59d8e7c9c4c8a0fbd91",
     "knowledgegroupinfo.staticinfobody": "0715d5822ba1881b91bcbddcc0c75c060c70ebc61ae589f66c3663d1be9218be",
     "knowledgegroupinfo.staticinfoheader": "efd10baf4615a895adcbfdd7695a93ba8c14316e7edeb97d0b141ef0a6809623",
-    "knowledgeinfo.dlc_01.staticinfobody": "fca7cac8b1b487a9913728d0459786e3cda70a03cba25ae8a635db8cfffcfb17",
-    "knowledgeinfo.dlc_01.staticinfoheader": "980ba13005793aed752211d3f454c2a25f2287c1978d8234a5ac941189af1cf6",
+    "knowledgeinfo.dlc_01.staticinfobody": "aaedcb1f2705a7606315c5b2ae979c3f94a5441d0b9d6cdc47f7786a4eb86941",
+    "knowledgeinfo.dlc_01.staticinfoheader": "cb41719b6db796889d8d5520c6b392a538bbdd3ad081d07f5b7536f6a67a0c47",
     "knowledgeinfo.staticinfobody": "00a05dbdb2d12a7c5cb49001db211708f82ee820bbd203174644c8fbd9225c38",
     "knowledgeinfo.staticinfoheader": "176ba4a6cb4cc6fb17ac6125733a251f7790ae0aa1d8e23b0525ede71f813f7b",
     "kor_knowledge.dlc_01.paloc": "6a4be529895f7093e16ff6aa768aa23f7724ab19cf5aafdf2fd55490cfa2946f",
     "kor_knowledge.paloc": "a997e8e5801d96a326972b1b7351d3109bfdaf9e378a9b181d0ca4cc1049b486",
-    "rus_knowledge.dlc_01.paloc": "3a477a723c8e548121b16bc7cc8797e697f39f81f7490a109fb4966cc34b35a6",
+    "rus_knowledge.dlc_01.paloc": "8612463ba5fc9d2ee4ca3e4a94205bf7b25cb03371989122e6c50e8c9700f1e8",
     "rus_knowledge.paloc": "a0beccba082babcfa72c358e2ede6adc2593e0cd693dc546baf3e2feb7583a5e"
   },
   "items": {
@@ -28683,7 +28683,7 @@
       "descriptionKo": "[조리 방법]<br/>필요 도구: 요리도구<br/>필요 재료: {StaticInfo:MultiChange:SeaPineapple_Bibimbap}<br/>※ 곡물: 렌틸콩, 완두콩, 콩 등<br/>※ 채소: 양파, 마늘, 당근 등<br/><br/>멍게와 곡물을 함께 비벼 먹는 요리다. 짭조름한 멍게의 바다 향과 곡물의 담백한 맛이 어우러져 독특하고 풍부한 풍미를 낸다."
     },
     "1005876": {
-      "description": "[Recipe]<br/>Required Tool: Cooking Tool<br/>Ingredients: {StaticInfo:MultiChange:SeaString_Seasoned}<br/><br/>A dish made by briefly blanching red seaweed in boiling water and tossing it in seasoning. The fresh scent of the sea pairs with a crisp, crunchy texture that makes every bite fun to chew.",
+      "description": "[Recipe]<br/>Required Tool: Cooking Tool<br/>Ingredients: {StaticInfo:MultiChange:SeaString_Seasoned}<br/><br/>A dish made by briefly blanching Red Sea Algae in boiling water and tossing it in seasoning. The fresh scent of the sea pairs with a crisp, crunchy texture that makes every bite fun to chew.",
       "descriptionKo": "[조리 방법]<br/>필요 도구: 요리도구<br/>필요 재료: {StaticInfo:MultiChange:SeaString_Seasoned}<br/><br/>꼬시래기를 끓는 물에 살짝 데친 뒤 양념에 버무려 만든 요리다. 싱그러운 바다 향과 오돌오돌한 식감이 어우러져 씹는 재미가 있다."
     },
     "1005877": {
@@ -28711,7 +28711,7 @@
       "descriptionKo": "[제작 방법]<br/>제작 장소: 대장간<br/>제작 재료: {StaticInfo:MultiChange:Item_Sea_Coin:1}<br/><br/>깊은 해양에서 발견되기도 하는 고대 해양 국가의 유물이다.<br/>이 유물를 모아 전문 상인에게 가져가면 희귀한 상품과 교환할 수 있다."
     },
     "1007012": {
-      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier1_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Seaweed<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you hold your breath longer than usual for a period of time.",
+      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier1_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Sea Algae<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you hold your breath longer than usual for a period of time.",
       "descriptionKo": "[제작 방법]<br/>필요 도구: 약탕기<br/>필요 재료: {StaticInfo:MultiChange:Potion_StatBuff_Tier1_0007:1}<br/>※ 해양 식물: 미역, 다시마, 꼬시래기<br/><br/>[적용 효과]<br/>지속 시간: 3분<br/>사용 효과: 최대 호흡 증가<br/><br/>이 비약을 마시면 일정 시간 동안 한 번의 숨을 평소보다 더 깊게 간직할 수 있게 된다."
     },
     "1007013": {
@@ -28723,7 +28723,7 @@
       "descriptionKo": "[제작 방법]<br/>필요 도구: 약탕기<br/>필요 재료: {StaticInfo:MultiChange:Potion_StatBuff_Tier1_0009:1}<br/><br/>[적용 효과]<br/>지속 시간: 3분<br/>사용 효과: 속성 저항 증가<br/><br/>이 비약을 마시면 일정 시간 동안 외부에서 전해지는 날카로운 자극이 몸 안으로 깊게 파고들지 못하게 된다."
     },
     "1007015": {
-      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier2_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Seaweed<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you stay underwater longer without feeling rushed for a period of time.",
+      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier2_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Sea Algae<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you stay underwater longer without feeling rushed for a period of time.",
       "descriptionKo": "[제작 방법]<br/>필요 도구: 약탕기<br/>필요 재료: {StaticInfo:MultiChange:Potion_StatBuff_Tier2_0007:1}<br/>※ 해양 식물: 미역, 다시마, 꼬시래기<br/><br/>[적용 효과]<br/>지속 시간: 3분<br/>사용 효과: 최대 호흡 증가<br/><br/>이 비약을 마시면 일정 시간 동안 깊은 물속에서도 조급함 없이 오랫동안 버틸 수 있다."
     },
     "1007016": {
@@ -28735,7 +28735,7 @@
       "descriptionKo": "[제작 방법]<br/>필요 도구: 약탕기<br/>필요 재료: {StaticInfo:MultiChange:Potion_StatBuff_Tier2_0009:1}<br/><br/>[적용 효과]<br/>지속 시간: 3분<br/>사용 효과: 속성 저항 증가<br/><br/>이 비약을 마시면 일정 시간 동안 몸으로 들이치는 사나운 기운을 무디게 받아낼 수 있게 된다."
     },
     "1007018": {
-      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier3_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Seaweed<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you dive deeper than usual and stay underwater longer for a period of time.",
+      "description": "[Crafting Method]<br/>Tool: Cauldron<br/>Materials: {StaticInfo:MultiChange:Potion_StatBuff_Tier3_0007:1}<br/>* Marine Plants: Seaweed, Kelp, Red Sea Algae<br/><br/>[Effect]<br/>Duration: 3 minutes<br/>Effect: Increases Max Breath<br/><br/>It lets you dive deeper than usual and stay underwater longer for a period of time.",
       "descriptionKo": "[제작 방법]<br/>필요 도구: 약탕기<br/>필요 재료: {StaticInfo:MultiChange:Potion_StatBuff_Tier3_0007:1}<br/>※ 해양 식물: 미역, 다시마, 꼬시래기<br/><br/>[적용 효과]<br/>지속 시간: 3분<br/>사용 효과: 최대 호흡 증가<br/><br/>이 비약을 마시면 일정 시간 동안 호흡의 한계를 넘어 깊은 잠영을 이어갈 수 있게 된다."
     },
     "1007019": {

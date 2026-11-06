@@ -11,8 +11,8 @@ descriptions use the game's localization data.
 
 | Game version | Status |
 |---|---|
-| 2.04.07 with or without the first DLC | Verified with this release |
-| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.01 to 2.04.07. Syncing game data needs a game install of 2.04.06 or later |
+| 2.04.08 with or without the first DLC | Verified with this release |
+| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.01 to 2.04.08. Syncing game data needs a game install of 2.04.06 or later |
 | 1.x | Not supported; opening a save reports `[SU-301]` |
 
 Settings shows the editor version and the game version it was verified with.

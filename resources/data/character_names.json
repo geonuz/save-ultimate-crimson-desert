@@ -37544,6 +37544,11 @@
     "internalName": "Riding_ghost_Big_Ship_01",
     "stringKey": "4314578116673584"
   },
+  "1004923": {
+    "name": "Phantom Ship",
+    "internalName": "Riding_ghost_Big_Ship_NPC_01",
+    "stringKey": "4316111419998256"
+  },
   "1004438": {
     "name": "Ships",
     "internalName": "Riding_Big_Player_ship_02",

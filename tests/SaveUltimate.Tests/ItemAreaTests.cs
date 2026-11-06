@@ -18,7 +18,12 @@ public sealed class ItemAreaTests
     public void GemFiltersKeepEmptyAndSelectedAndImagesAreShared()
     {
         var catalog = ItemCatalog.Shared;
-        Assert.AreEqual(190, catalog.Gems.Length);
+        Assert.AreEqual(210, catalog.Gems.Length, "Clear and every item the game groups as an Abyss gear.");
+        Assert.AreEqual(Tr.Text("Special Effects"), catalog.Gems.Single(g => g.Key == 1006108).Category, "A DLC gear is listed.");
+        DlcContent.Hidden = true; ItemCatalog.Reset();
+        try { Assert.IsFalse(ItemCatalog.Shared.Gems.Any(g => DlcContent.Shared.Items.Contains(g.Key)), "Hidden DLC hides its gears."); }
+        finally { DlcContent.Hidden = false; ItemCatalog.Reset(); }
+        catalog = ItemCatalog.Shared;
         var selected = catalog.Gems[1];
         var row = new SocketRow(0, selected.Key, true, false);
         row.Search = "unlikely_missing_gem";
@@ -52,7 +57,9 @@ public sealed class ItemAreaTests
         }
         finally { File.Delete(corrupt); }
         Assert.AreEqual("화폐", catalog.Category(1));
-        Assert.AreEqual("Hernandel General Store", catalog.Store(3101));
+        Assert.AreEqual("에르난드 장비상점", catalog.Store(1));
+        Assert.AreEqual("캠프 의상점", catalog.Store(6700));
+        Assert.AreEqual("Ceramic Artwork", catalog.Store(7000), "A store no NPC runs keeps its label.");
         Assert.AreEqual("65535", catalog.Store(65535));
     }
 

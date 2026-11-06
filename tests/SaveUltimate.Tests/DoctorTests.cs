@@ -9,7 +9,7 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class DoctorTests
 {
-    private const string Tested = "2.04.07";
+    private const string Tested = "2.04.08";
 
     private static SaveCheck[] Run(string path) => SaveCheckup.Run(path, Tested);
     private static SaveCheck Check(SaveCheck[] checks, string id) => checks.Single(c => c.Id == id);

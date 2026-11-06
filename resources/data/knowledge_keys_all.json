@@ -31702,7 +31702,7 @@
   {
     "key": 1005665,
     "name": "Knowledge_Breath",
-    "display_name": "Breathing"
+    "display_name": "Breath"
   },
   {
     "key": 1005741,
@@ -35832,7 +35832,7 @@
   {
     "key": 1005540,
     "name": "Knowledge_Rare_Collect_Sea_String",
-    "display_name": "Red Seaweed"
+    "display_name": "Red Sea Algae"
   },
   {
     "key": 1005872,
@@ -35857,7 +35857,7 @@
   {
     "key": 1005876,
     "name": "Knowledge_Recipe_SeaString_Seasoned",
-    "display_name": "Seasoned Red Seaweed"
+    "display_name": "Seasoned Red Sea Algae"
   },
   {
     "key": 1005877,

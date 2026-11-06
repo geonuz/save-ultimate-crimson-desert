@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.5.1]
+
+Crimson Desert 2.04.08, translated store names and the first DLC's Abyss gears.
+
+- Works with game 2.04.08. Its save format did not change, and bundled game data is refreshed for it.
+- Repurchase shows each store by the name the game gives it, in your language. Stores used to appear under English names
+  that were not always the game's own. The few stores no character runs keep an English label.
+- The socket list now has every Abyss gear the game classifies as one, including the first DLC's and 20 in all that were
+  missing. Gears added by later game updates appear after syncing game data. Hiding DLC content hides its gears.
+
 ## [1.5.0]
 
 Save Doctor checks a whole save, the editor can update itself, and saves are now read and written in C# instead of by

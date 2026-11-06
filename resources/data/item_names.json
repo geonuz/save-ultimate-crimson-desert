@@ -1,5 +1,5 @@
 {
-  "version": 13,
+  "version": 14,
   "items": [
     {
       "itemKey": 1,
@@ -137033,7 +137033,7 @@
     },
     {
       "itemKey": 1004796,
-      "name": "Red Seaweed",
+      "name": "Red Sea Algae",
       "internalName": "Item_Rare_Collect_Sea_String",
       "category": "Equipment",
       "maxStack": 100,
@@ -149441,7 +149441,7 @@
     },
     {
       "itemKey": 1005677,
-      "name": "Hearty Seasoned Red Seaweed",
+      "name": "Hearty Seasoned Red Sea Algae",
       "internalName": "SeaString_Seasoned_XLarge",
       "category": "Equipment",
       "maxStack": 50,
@@ -149661,7 +149661,7 @@
     },
     {
       "itemKey": 1005687,
-      "name": "Satisfying Seasoned Red Seaweed",
+      "name": "Satisfying Seasoned Red Sea Algae",
       "internalName": "SeaString_Seasoned_Large",
       "category": "Equipment",
       "maxStack": 50,
@@ -149881,7 +149881,7 @@
     },
     {
       "itemKey": 1005697,
-      "name": "Filling Seasoned Red Seaweed",
+      "name": "Filling Seasoned Red Sea Algae",
       "internalName": "SeaString_Seasoned_Medium",
       "category": "Equipment",
       "maxStack": 50,
@@ -150101,7 +150101,7 @@
     },
     {
       "itemKey": 1005707,
-      "name": "Seasoned Red Seaweed",
+      "name": "Seasoned Red Sea Algae",
       "internalName": "SeaString_Seasoned",
       "category": "Equipment",
       "maxStack": 50,
@@ -150321,7 +150321,7 @@
     },
     {
       "itemKey": 1005717,
-      "name": "Recipe: Seasoned Red Seaweed",
+      "name": "Recipe: Seasoned Red Sea Algae",
       "internalName": "Recipe_SeaString_Seasoned",
       "category": "Equipment",
       "maxStack": 5,
@@ -152876,7 +152876,7 @@
       "name": "Leviakan Scale",
       "internalName": "Leviathan_Scale",
       "category": "Misc",
-      "maxStack": 1,
+      "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
         "categoryKey": 4001,
@@ -154083,7 +154083,7 @@
     },
     {
       "itemKey": 1006049,
-      "name": "Red Seaweed Bundle",
+      "name": "Red Sea Algae Bundle",
       "internalName": "Trade_SeaweedBundle",
       "category": "Misc",
       "maxStack": 5,
@@ -154215,7 +154215,7 @@
     },
     {
       "itemKey": 1006055,
-      "name": "Packaged Red Seaweed Bundle",
+      "name": "Packaged Red Sea Algae Bundle",
       "internalName": "Trade_SeaweedBundle_PackedInVehicle",
       "category": "Misc",
       "maxStack": 10,
