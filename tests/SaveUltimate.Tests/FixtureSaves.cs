@@ -13,4 +13,6 @@ internal static class FixtureSaves
     internal static string? Root => Environment.GetEnvironmentVariable("SAVEULTIMATE_FIXTURES");
     internal static string Named(string purpose)
         => Directory.GetFiles(Root ?? throw new AssertInconclusiveException("Set SAVEULTIMATE_FIXTURES."), $"*_{purpose}.save", SearchOption.AllDirectories).Single();
+    // A slot's lobby.save, whose LobbySaveData._generateNo is 1003472. The .lobby name keeps it out of the save scans.
+    internal static string Lobby => Path.Combine(Root ?? throw new AssertInconclusiveException("Set SAVEULTIMATE_FIXTURES."), "u1", "lobby_counter_1003472.lobby");
 }

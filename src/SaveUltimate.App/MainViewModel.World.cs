@@ -67,12 +67,13 @@ public partial class MainViewModel
         await RunAsync(Tr.Text("npc.apply"), async () => { Friendship = await Task.Run(() => document!.SetAffinity(key, playable, expected, value)); Refresh(); Status = Tr.Text("npc.affinity_changed"); });
     }
     public Dictionary<ulong, CompanionDetail> CompanionDetails() => document?.ReadCompanionDetails() ?? [];
-    public async Task EditRobotWorkersAsync(Companion? remove)
+    public HashSet<ulong> FactionWorkers() => document?.FactionWorkers() ?? [];
+    public async Task EditWorkersAsync(uint add, Companion? remove)
     {
         if (!CanSave() || Companions is null) return;
         await RunAsync(Tr.Text(remove is null ? "companion.robot_add" : "companion.robot_remove"), async () =>
         {
-            Companions = await Task.Run(() => remove is null ? document!.AddRobotWorker() : document!.RemoveRobotWorker(remove));
+            Companions = await Task.Run(() => remove is null ? document!.AddWorker(add) : document!.RemoveWorker(remove));
             Refresh(); Status = Tr.Text("companion.robot_changed");
         });
     }

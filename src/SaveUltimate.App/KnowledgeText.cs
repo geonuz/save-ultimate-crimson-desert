@@ -10,6 +10,7 @@ internal sealed record KnowledgeText(string Name, string InternalName, string De
     private static Lazy<Dictionary<uint, KnowledgeText>> texts = new(LoadTexts);
     internal static void Reset() => texts = new(LoadTexts);
     internal static KnowledgeText Get(uint key) => texts.Value[key];
+    internal static KnowledgeText? Find(uint key) => texts.Value.GetValueOrDefault(key);
     private static Dictionary<uint, KnowledgeText> LoadTexts()
     {
         string root = Path.Combine(AppContext.BaseDirectory, "resources");

@@ -32,7 +32,7 @@
     <DataGrid.Columns>
      <DataGridTextColumn Header="{local:Tr 'Display Name'}" Binding="{Binding Name}" Width="1.5*" MinWidth="140"/>
      <DataGridTextColumn Header="{local:Tr 'Status'}" Binding="{Binding Status}" ElementStyle="{StaticResource StatusText}"/>
-     <DataGridTextColumn Header="{local:Tr 'Knowledge Level'}" Binding="{Binding LevelText}"/>
+     <DataGridTextColumn Header="{local:Tr 'Knowledge Level'}" Binding="{Binding LevelText}" SortMemberPath="Level"/>
      <DataGridTextColumn Header="{local:Tr 'Category'}" Binding="{Binding Category}" Width="*" MinWidth="100"/>
      <DataGridTextColumn Header="{local:Tr 'Key'}" Binding="{Binding Key}"/>
      <DataGridTextColumn Header="{local:Tr 'Internal Name'}" Binding="{Binding InternalLabel}" Width="*" MinWidth="100">
@@ -42,6 +42,8 @@
    </DataGrid>
    <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="12,0,0,0">
     <StackPanel>
+     <TextBlock x:Name="SelectedTitle" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,8"/>
+     <TextBlock x:Name="Description" TextWrapping="Wrap" Margin="0,0,0,12"/>
      <Button x:Name="Learn" Style="{StaticResource AccentButton}" Content="{local:Tr 'Learn Selected'}" Click="OnLearn" IsEnabled="False"/>
      <Button Style="{StaticResource DangerButton}" x:Name="Unlearn" Content="{local:Tr 'Unlearn Selected'}" Click="OnUnlearn" IsEnabled="False" Margin="0,6"/>
      <TextBlock Text="{local:Tr 'Knowledge Level:'}" Margin="0,12,0,4"/>
@@ -49,8 +51,6 @@
      <Button x:Name="Apply" Style="{StaticResource AccentButton}" Content="{local:Tr 'Apply Knowledge Level'}" Click="OnApply" IsEnabled="False" Margin="0,6"/>
      <Button x:Name="Maximum" Style="{StaticResource AccentButton}" Content="{local:Tr 'Apply Maximum Level'}" Click="OnMaximum" IsEnabled="False"/>
      <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8"/>
-     <Image x:Name="Picture" MaxHeight="200"/>
-     <TextBlock x:Name="Description" TextWrapping="Wrap" Margin="0,8"/>
     </StackPanel>
    </ScrollViewer>
   </local:DetailSplit>

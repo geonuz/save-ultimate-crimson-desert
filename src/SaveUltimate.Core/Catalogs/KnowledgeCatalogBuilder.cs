@@ -147,11 +147,21 @@ public static class KnowledgeCatalogBuilder
         var roots = groups.Values.Where(g => g.Visible && g.Parent == 0).ToArray();
         foreach (var root in roots) Visit(root, []);
         var digests = source.Digests();
+        // A character's profile is the knowledge entry that lists it, preferring one shown in the journal, then the lowest key.
+        var profiles = new SortedDictionary<uint, uint>();
+        foreach (var k in knowledge.Values.OrderBy(k => !paths.ContainsKey(k.Key)).ThenBy(k => k.Key))
+        {
+            uint[] listed;
+            // shortcut: 58 of 7,634 records hold other arrays before the character list and are skipped; decode them if a character lacks a profile.
+            try { listed = Characters(k.Record); } catch (InvalidDataException) { continue; }
+            foreach (uint character in listed) profiles.TryAdd(character, k.Key);
+        }
         var journal = new JsonObject
         {
             ["roots"] = Json(roots.Select(g => g.Key)), ["groups"] = included,
             ["itemPaths"] = new JsonObject(paths.Select(p => KeyValuePair.Create<string, JsonNode?>(p.Key.ToString(), Json(p.Value)))),
             ["levelCounts"] = new JsonObject(knowledge.Values.Select(k => KeyValuePair.Create<string, JsonNode?>(k.Key.ToString(), k.Levels))),
+            ["characters"] = new JsonObject(profiles.Select(p => KeyValuePair.Create<string, JsonNode?>(p.Key.ToString(), p.Value))),
             ["clientKnowledgeCount"] = knowledge.Count, ["sourceSha256"] = digests.DeepClone()
         };
 

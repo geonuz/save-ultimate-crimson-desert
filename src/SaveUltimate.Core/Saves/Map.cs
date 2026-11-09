@@ -12,6 +12,10 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
 {
     [JsonPropertyName("label_ref")]
     public System.Text.Json.JsonElement[]? LabelRef { get; init; }
+    // A found cave, tower, temple or shrine stands at its last level in natural saves, and the game checks it off only then.
+    // Nodes keep level 1: their later levels vary between natural saves and their meaning is unknown.
+    public bool FullLevel => Mode == "locations" && LabelKey != "map.node";
+    public uint TargetLevel(uint key) => FullLevel ? KnowledgeCatalog.Shared.LevelCounts.GetValueOrDefault(key, 1u) : 1;
     private static readonly MapAction[] shipped = Embedded.Load<MapAction[]>("MapActions.json");
     private static MapAction[]? baseGame;
     // Same actions in the same order either way, so an index means the same action.
@@ -157,7 +161,8 @@ public sealed partial class SaveDocument
     {
         if (actionIndex < 0 || actionIndex >= MapAction.All.Length || MapAction.All[actionIndex].Mode == "icons")
             throw new ArgumentOutOfRangeException(nameof(actionIndex));
-        return EditKnowledgeKeys(MapAction.All[actionIndex].Keys, KnowledgeAction.Learn, 1);
+        var action = MapAction.All[actionIndex];
+        return EditKnowledgeKeys(action.Keys, action.FullLevel ? KnowledgeAction.LearnMaximum : KnowledgeAction.Learn, 1);
     }
 
     public (MapState Map, SkillState Skills) ActivateMap(int actionIndex)

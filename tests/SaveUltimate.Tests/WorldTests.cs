@@ -181,13 +181,14 @@ public sealed class WorldTests
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.SetAffinity(1002940, 1, 35, 50));
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.SetAffinity(1002940, 1, 100, 50));
         var roster = doc.ReadCompanions();
-        var added = doc.AddRobotWorker();
+        var added = doc.AddWorker(SaveDocument.RobotWorker);
         Assert.AreEqual(roster.Length + 1, added.Length);
         Assert.AreEqual(4, added.Count(c => c.Key == SaveDocument.RobotWorker));
-        Assert.AreEqual(900_000_000UL, added.Last(c => c.Key == SaveDocument.RobotWorker).Number);
-        var removed = doc.RemoveRobotWorker(added.First(c => c.Key == SaveDocument.RobotWorker));
+        // The highest number below the top inventory item (1003187) that nothing in the save holds, so the game never reissues it.
+        Assert.AreEqual(1003174UL, added.Last(c => c.Key == SaveDocument.RobotWorker).Number);
+        var removed = doc.RemoveWorker(added.First(c => c.Key == SaveDocument.RobotWorker));
         Assert.AreEqual(3, removed.Count(c => c.Key == SaveDocument.RobotWorker));
-        Assert.ThrowsExactly<InvalidOperationException>(() => doc.RemoveRobotWorker(roster.First(c => c.Key != SaveDocument.RobotWorker)));
+        Assert.ThrowsExactly<InvalidOperationException>(() => doc.RemoveWorker(roster.First(c => c.Key != SaveDocument.RobotWorker)));
         using var temp = new TempFolder();
         string output = temp.Named("output.save");
         doc.SaveCopy(output);
@@ -220,6 +221,15 @@ public sealed class WorldTests
             nav.SelectedIndex = 4; Assert.IsTrue(model.IsCompanions);
             var tabs = (TabControl)window.FindName("NpcTabs");
             WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null));
+            var mercenaries = (DataGrid)((CompanionPage)window.FindName("CompanionArea")).FindName("Rows");
+            mercenaries.SelectedItem = mercenaries.Items.Cast<CompanionRow>().FirstOrDefault(r => r.Record.Key == 1002975);
+            var picker = TestUi.Hidden(CompanionPage.WorkerPicker(model.Companions!)); picker.Show();
+            Assert.IsTrue(((DataGrid)picker.FindName("Results")).Items.Count > 1); WindowTests.Capture(picker, "worker-picker"); picker.Close();
+            var devan = CompanionRow.SkillText(1002975).Split(" · ");
+            Assert.AreEqual(3, devan.Length, "Devan's three farming tiers show as one.");
+            Assert.IsTrue(devan.All(s => System.Text.RegularExpressions.Regex.IsMatch(s, @"^.+\(I{1,3}\)$")), string.Join(" · ", devan));
+            double height = window.Height; window.Height = 1300; WindowTests.Capture(window, "mercenaries"); window.Height = height;
+            window.ShowHelp("companion.title"); WindowTests.Capture(window, "mercenaries-help"); window.ShowHelp("companion.title");
             tabs.SelectedIndex = 1; Assert.IsTrue(model.IsPets);
             var page = (CompanionPage)window.FindName("PetArea"); var rows = (DataGrid)page.FindName("Rows");
             var selected = rows.Items.Cast<CompanionRow>().First(r => r.Record.Editable);
@@ -239,10 +249,92 @@ public sealed class WorldTests
             WindowTests.Pump(() => model.SetFriendshipAsync(npc.Key, npc.Record.Value!.Value, npc.Record.Value == 95 ? 90 : 95));
             Assert.AreSame(npc, npcRows.SelectedItem); Assert.IsTrue(((Button)npcPage.FindName("Apply")).IsEnabled);
             WindowTests.Pump(() => model.UndoCommand.ExecuteAsync(null)); Assert.AreEqual(original, doc.BlobSha256);
+            // The value column sorts by the stored number; its "—" text for missing values would not compare with numbers.
+            var valueColumn = npcRows.Columns[4]; valueColumn.SortDirection = System.ComponentModel.ListSortDirection.Descending;
+            System.Windows.Data.CollectionViewSource.GetDefaultView(npcRows.ItemsSource).SortDescriptions.Add(new(valueColumn.SortMemberPath, System.ComponentModel.ListSortDirection.Descending));
+            var values = npcRows.Items.Cast<NpcRow>().Select(r => r.Record.Value ?? 0).ToArray();
+            CollectionAssert.AreEqual(values.OrderDescending().ToArray(), values);
+            npcRows.SelectedItem = npcRows.Items[0];
             WindowTests.Capture(window, "npc");
             window.Width = 800; window.UpdateLayout(); WindowTests.Capture(window, "npc-narrow");
             nav.SelectedIndex = 0; nav.SelectedIndex = 4; Assert.IsTrue(model.IsFriendship);
         }
         finally { while (doc.CanUndo) doc.Undo(); window.Close(); }
+    }
+
+    [TestMethod]
+    [TestCategory("Scenario")]
+    [TestCategory("PrivateFixtures")]
+    public void SlotLobbyNumbersWorkersAndTravelsWithTheSave()
+    {
+        using var temp = new TempFolder();
+        string first = Directory.CreateDirectory(temp.Named("slot1")).FullName, second = Directory.CreateDirectory(temp.Named("slot2")).FullName;
+        File.Copy(FixtureSaves.Named("dlc_bond_courting_grey0"), Path.Combine(first, "save.save"));
+        File.Copy(FixtureSaves.Lobby, Path.Combine(first, "lobby.save"));
+        var doc = SaveDocument.Open(Path.Combine(first, "save.save"));
+        Assert.AreEqual(1003472UL, doc.GeneratedNumber());
+        // A worker takes the counter's next number, as a recruit would.
+        Assert.AreEqual(1003473UL, doc.AddWorker(SaveDocument.RobotWorker).Max(c => c.Number));
+        Assert.AreEqual(1003473UL, doc.GeneratedNumber());
+        // Saving into another slot brings the lobby along, its counter past the new worker; the source slot's lobby is untouched.
+        doc.SaveTo(Path.Combine(second, "save.save"));
+        Assert.AreEqual(1003473UL, SaveDocument.Open(Path.Combine(second, "save.save")).GeneratedNumber());
+        Assert.AreEqual(1003472UL, SaveDocument.Open(Path.Combine(first, "save.save")).GeneratedNumber());
+        // Saving back into the first slot raises its lobby too, and keeps a backup of the old one.
+        doc.SaveTo(Path.Combine(first, "save.save"), expectedDestinationHash: SaveBackups.Hash(Path.Combine(first, "save.save")));
+        Assert.AreEqual(1003473UL, SaveDocument.Open(Path.Combine(first, "save.save")).GeneratedNumber());
+        Assert.AreEqual(1, SaveBackups.List(Path.Combine(first, "lobby.save")).Length);
+        // A save outside a slot has no counter.
+        Assert.IsNull(SaveDocument.Open(FixtureSaves.Named("dlc_bond_courting_grey0")).GeneratedNumber());
+    }
+
+    [TestMethod]
+    [TestCategory("Scenario")]
+    [TestCategory("PrivateFixtures")]
+    [DoNotParallelize]
+    public void GuestWorkersAddAndRemoveOnlyWhenUnassigned()
+    {
+        // large_roster_2.04.05.save: 24 festival guest workers. Gareth (1003524) works at node 1000679, Gwendolyn (1000944) has
+        // no workplace and no spawn record, Matthias (50901) joined through a quest.
+        // Work skills match the game's mercenary list: Devan has Farming I, Smelting I, Farming II, Refining I, Farming III.
+        var devan = CompanionTypes.Shared.Skills[1002975];
+        Assert.AreEqual(5, devan.Length); Assert.AreEqual(1004213u, devan[0]);
+        Assert.IsTrue(CompanionTypes.Shared.Characters.Where(p => p.Value == 73).All(p => CompanionTypes.Shared.Skills.ContainsKey(p.Key)));
+        var doc = SaveDocument.Open(FixtureSaves.Named("large_roster")); string original = doc.BlobSha256;
+        var roster = doc.ReadCompanions();
+        Assert.IsFalse(SaveDocument.IsWorker(50901));
+        Assert.ThrowsExactly<InvalidOperationException>(() => doc.RemoveWorker(roster.Single(c => c.Key == 1003524)));
+        // Norden (1087743) has no workplace, but a camp spawn record in FactionSaveData names him.
+        Assert.ThrowsExactly<InvalidOperationException>(() => doc.RemoveWorker(roster.Single(c => c.Number == 1087743)));
+        Assert.ThrowsExactly<InvalidOperationException>(() => doc.AddWorker(1000944));
+        // The page shows why a row cannot be removed; null means the removal goes through.
+        var details = doc.ReadCompanionDetails(); var named = doc.FactionWorkers();
+        string? Block(Companion c) => SaveDocument.RemoveBlock(c, roster, details.GetValueOrDefault(c.Number), named);
+        Assert.AreEqual("workplace", Block(roster.Single(c => c.Key == 1003524)));
+        Assert.AreEqual("spawn", Block(roster.Single(c => c.Number == 1087743)));
+        Assert.AreEqual("quest", Block(roster.Single(c => c.Key == 50901)));
+        Assert.IsNull(Block(roster.Single(c => c.Key == 1000944)));
+        var removed = doc.RemoveWorker(roster.Single(c => c.Key == 1000944));
+        CollectionAssert.AreEqual(roster.Where(c => c.Key != 1000944).ToArray(), removed);
+        CollectionAssert.Contains(SaveDocument.WorkerChoices(removed), 1000944u);
+        // Festivals are DLC content: with it hidden only Grey-0 is offered, and a recruit cannot be added.
+        DlcContent.Hidden = true;
+        try
+        {
+            CollectionAssert.AreEqual(new[] { SaveDocument.RobotWorker }, SaveDocument.WorkerChoices(removed));
+            Assert.ThrowsExactly<InvalidOperationException>(() => doc.AddWorker(1000944));
+        }
+        finally { DlcContent.Hidden = false; }
+        var added = doc.AddWorker(1000944);
+        var gwendolyn = added.Single(c => c.Key == 1000944);
+        Assert.AreEqual((1089961UL, (string?)null), (gwendolyn.Number, gwendolyn.Name), "The highest free number below the top inventory item, 1089968.");
+        Assert.AreEqual(roster.Length, added.Length);
+        CollectionAssert.DoesNotContain(SaveDocument.WorkerChoices(added), 1000944u);
+        using var temp = new TempFolder();
+        string output = temp.Named("output.save");
+        doc.SaveCopy(output);
+        CollectionAssert.AreEqual(added, SaveDocument.Open(output).ReadCompanions());
+        while (doc.CanUndo) doc.Undo();
+        Assert.AreEqual(original, doc.BlobSha256);
     }
 }

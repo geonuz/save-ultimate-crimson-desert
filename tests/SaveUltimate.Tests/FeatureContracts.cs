@@ -181,11 +181,12 @@ internal static class FeatureContracts
 
     private static ContractEdit? MapLocations(SaveDocument doc)
     {
-        int index = Array.FindIndex(MapAction.All, a => a.Mode != "icons");
+        // A full-level group shows the levels a learn writes; nodes learn level 1 like every other first learn.
+        int index = Array.FindIndex(MapAction.All, a => a.FullLevel);
         return index < 0 ? null : new(() => doc.LearnMapLocations(index), () =>
         {
             var after = doc.ReadKnowledge();
-            Require(MapAction.All[index].Keys.All(k => after.GetValueOrDefault(k) > 0), "A map location stayed unlearned.");
+            Require(MapAction.All[index].Keys.All(k => after.GetValueOrDefault(k) >= KnowledgeCatalog.Shared.LevelCounts[k]), "A map location stayed below its last level.");
         });
     }
 
@@ -219,13 +220,30 @@ internal static class FeatureContracts
         if (!before.Any(c => c.Key == SaveDocument.RobotWorker)) return null;
         return new(() =>
         {
-            doc.RemoveRobotWorker(doc.AddRobotWorker().Last(c => c.Key == SaveDocument.RobotWorker));
-            doc.AddRobotWorker();
+            doc.RemoveWorker(doc.AddWorker(SaveDocument.RobotWorker).Last(c => c.Key == SaveDocument.RobotWorker));
+            doc.AddWorker(SaveDocument.RobotWorker);
         }, () =>
         {
             var after = doc.ReadCompanions();
             Require(after.Length == before.Length + 1 && after.Count(c => c.Key == SaveDocument.RobotWorker) == before.Count(c => c.Key == SaveDocument.RobotWorker) + 1, "One add and one remove left the wrong roster.");
             Require(before.All(after.Contains), "A companion other than the added Grey-0 changed.");
+        });
+    }
+
+    private static ContractEdit? GuestWorker(SaveDocument doc)
+    {
+        var before = doc.ReadCompanions();
+        if (!before.Any(c => SaveDocument.IsWorker(c.Key))) return null;
+        uint key = SaveDocument.WorkerChoices(before).First(k => k != SaveDocument.RobotWorker);
+        return new(() =>
+        {
+            doc.RemoveWorker(doc.AddWorker(key).Single(c => c.Key == key));
+            doc.AddWorker(key);
+        }, () =>
+        {
+            var after = doc.ReadCompanions();
+            Require(after.Length == before.Length + 1 && before.All(after.Contains) && after.Count(c => c.Key == key) == 1, "The guest worker was not added once.");
+            Require(!SaveDocument.WorkerChoices(after).Contains(key), "An added guest worker is still offered.");
         });
     }
 
@@ -288,6 +306,7 @@ internal static class FeatureContracts
         new("Companion rename", ["Companions"], Rename),
         new("Pet order", ["Companions"], PetOrder),
         new("Grey-0 add and remove", ["Companions"], GreyZero),
+        new("Guest worker add and remove", ["Companions"], GuestWorker),
         new("NPC trust", ["Friendship"], Trust),
         new("DLC bond", ["Friendship", "Challenges"], Bond),
     ];

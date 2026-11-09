@@ -15,6 +15,7 @@ public sealed class NpcRow(NpcFriendship record) : ObservableObject
     public string Area => CharacterText.Get(Key).Area is { Length: > 0 } s ? s : "—";
     public string Service => CharacterText.Get(Key).Service is { Length: > 0 } s ? s : "—";
     public string Title => CharacterText.Get(Key).Title;
+    public System.Windows.Media.ImageSource? Icon => CharacterText.Picture(Key, 32);
     public object Value => Record.Value is ulong value ? value : "—";
     // Each playable character keeps a separate bond with the same NPC.
     public string Affinity => Record.Affinity.Length == 0 ? "—" : string.Join(" · ", Record.Affinity.Select(a => $"{BondEditor.PlayableName(a.Playable)} {a.Value}"));
@@ -44,6 +45,8 @@ public partial class NpcPage : UserControl
     public NpcPage()
     {
         InitializeComponent();
+        // Character pictures follow the same icon setting as item tables.
+        IsVisibleChanged += (_, _) => { if (IsVisible) Rows.Columns[0].Visibility = SettingsStore.Current.ShowIcons ? Visibility.Visible : Visibility.Collapsed; };
         DataContextChanged += (_, e) =>
         {
             if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
@@ -62,10 +65,8 @@ public partial class NpcPage : UserControl
     private void Filter()
     {
         var selected = Rows.SelectedItem as NpcRow;
-        var sorts = CollectionViewSource.GetDefaultView(Rows.ItemsSource ?? Array.Empty<NpcRow>()).SortDescriptions.ToArray();
         string query = Search.Text.Trim();
-        Rows.ItemsSource = entries.Where(r => $"{r.Key} {r.Name} {r.Area} {r.Service} {r.Title}".Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray();
-        foreach (var sort in sorts) CollectionViewSource.GetDefaultView(Rows.ItemsSource).SortDescriptions.Add(sort);
+        Ui.SetRows(Rows, entries.Where(r => $"{r.Key} {r.Name} {r.Area} {r.Service} {r.Title}".Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray());
         if (selected is not null && Rows.Items.Contains(selected)) Rows.SelectedItem = selected;
         Count.Text = Model.Friendship is null ? Tr.Text("npc.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count); Select();
     }
@@ -74,6 +75,8 @@ public partial class NpcPage : UserControl
         if (Value is null) return;
         var row = Rows.SelectedItem as NpcRow;
         SelectedTitle.Text = row?.Name ?? Tr.Text("ui.select_item");
+        (Profile.Text, Picture.Source) = row is null ? ("", null) : CharacterText.Profile(row.Key);
+        Profile.Visibility = Profile.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
         Value.IsEnabled = row?.Record.Editable == true;
         Value.ItemsSource = Choices(row?.Record.Value);
         Value.SelectedItem = row?.Record is { Editable: true, Value: ulong value } ? (int)value : null;

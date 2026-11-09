@@ -43,7 +43,7 @@ public static class GameDataSync
             }
         foreach (string path in Metadata.Where(p => p != "data/max_enchant_map.json")) result["resource/" + path] = FileHash(Path.Combine(resources, path));
         // Any release can change what the builders produce; unchanged images are still reused after a version change.
-        result["schema"] = "csharp-sync-4:" + typeof(GameDataSync).Assembly.GetName().Version;
+        result["schema"] = "csharp-sync-5:" + typeof(GameDataSync).Assembly.GetName().Version;
         return result;
     }
     private static SyncManifest ReadManifest(string path)

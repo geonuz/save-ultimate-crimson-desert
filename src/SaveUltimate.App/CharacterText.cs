@@ -8,6 +8,13 @@ internal sealed record CharacterText(string Name, string Title, string Area, str
     private static Lazy<Dictionary<uint, CharacterText>> texts = new(Load);
     internal static void Reset() => texts = new(Load);
     internal static CharacterText Get(uint key) => texts.Value.GetValueOrDefault(key) ?? new(Tr.Format("mercenary.unknown", ("character_key", key)), "", "", "");
+    // A companion's or NPC's profile is the journal description and picture of the knowledge entry that lists it.
+    internal static (string Description, System.Windows.Media.ImageSource? Picture) Profile(uint key) =>
+        SaveUltimate.Core.Saves.KnowledgeCatalog.Shared.Characters.TryGetValue(key, out uint knowledge)
+            ? (KnowledgeText.Find(knowledge)?.Description ?? "", Picture(key, 280)) : ("", null);
+    internal static System.Windows.Media.ImageSource? Picture(uint key, uint size) =>
+        SaveUltimate.Core.Saves.KnowledgeCatalog.Shared.Characters.TryGetValue(key, out uint knowledge)
+            ? ItemImages.GetFile(Path.Combine(AppContext.BaseDirectory, "game_data", "images", "knowledge", $"{knowledge}.png"), size) : null;
     private static Dictionary<uint, CharacterText> Load()
     {
         string root = Path.Combine(AppContext.BaseDirectory, "resources");

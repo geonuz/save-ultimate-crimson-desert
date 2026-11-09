@@ -12,8 +12,10 @@ internal static class RichTextBlock
     {
         var text = new TextBlock { TextWrapping = TextWrapping.Wrap, Padding = new(16), LineHeight = 25 };
         // Help is bundled HTML; render its text and emphasis without hosting a browser.
-        source = Regex.Replace(source, @"</?(?:p|h[1-6]|ul|ol)[^>]*>|<br\s*/?>", "\n", RegexOptions.IgnoreCase);
-        source = Regex.Replace(source, @"<li[^>]*>", "\n• ", RegexOptions.IgnoreCase);
+        // A heading gets one blank line above it and none below, so it stays with its list.
+        source = Regex.Replace(source, @"<h[1-6][^>]*>(.*?)</h[1-6]>", "\n\n<b>$1</b>", RegexOptions.IgnoreCase);
+        source = Regex.Replace(source, @"</?(?:ul|ol|li)[^>]*>", m => m.Value.StartsWith("<li", StringComparison.OrdinalIgnoreCase) ? "\n• " : "", RegexOptions.IgnoreCase);
+        source = Regex.Replace(source, @"</?p[^>]*>|<br\s*/?>", "\n", RegexOptions.IgnoreCase).Trim('\n');
         bool bold = false;
         foreach (string part in Regex.Split(source, @"(</?(?:b|strong)>|\*\*)", RegexOptions.IgnoreCase))
         {

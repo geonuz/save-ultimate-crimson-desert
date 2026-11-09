@@ -8,7 +8,7 @@ namespace SaveUltimate.App;
 public partial class MapPage : UserControl
 {
     // Actions are read by index on every refresh: their DLC-free form depends on the game install.
-    private readonly List<(int Index, TextBlock Label, TextBlock Count, Button Button)> actions = [];
+    private readonly List<(int Index, TextBlock Label, Border Badge, TextBlock Count, Button Button)> actions = [];
     private MainViewModel Model => (MainViewModel)DataContext;
     public MapPage()
     {
@@ -22,12 +22,23 @@ public partial class MapPage : UserControl
                 var row = new Grid { Margin = new(0, 4, 0, 4) };
                 row.ColumnDefinitions.Add(new()); row.ColumnDefinitions.Add(new() { Width = GridLength.Auto }); row.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
                 var label = new TextBlock { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
+                // Badges name what the group also changes in the adventure journal: its knowledge or its challenges.
+                Border Badge(string text, string? hint)
+                {
+                    var content = new TextBlock { FontSize = 12, Text = text }; content.SetResourceReference(TextBlock.ForegroundProperty, "accent");
+                    var border = new Border { CornerRadius = new(9), Padding = new(8, 1, 8, 1), BorderThickness = new(1), Margin = new(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center, Child = content, ToolTip = hint };
+                    border.SetResourceReference(Border.BorderBrushProperty, "accent"); DockPanel.SetDock(border, Dock.Right);
+                    return border;
+                }
+                var badge = Badge("", null); badge.Visibility = Visibility.Collapsed;
+                var name = new DockPanel(); name.Children.Add(badge);
+                if (pair.a.ChallengeRoots is { Length: > 0 }) name.Children.Add(Badge(Tr.Text("map.challenge_badge"), Tr.Text("map.challenge_badge_hint")));
+                name.Children.Add(label);
                 var count = new TextBlock { MinWidth = 70, Margin = new(8, 0, 8, 0), TextAlignment = TextAlignment.Right, VerticalAlignment = VerticalAlignment.Center, ToolTip = Tr.Text("map.registered") };
                 var button = new Button { Content = Tr.Text("map.activate_all"), Style = (Style)FindResource("AccentButton"), MinWidth = 100, IsEnabled = false, Tag = pair.i };
                 button.Click += async (_, _) => await Model.ActivateMapAsync(pair.i);
-                Grid.SetColumn(count, 1); Grid.SetColumn(button, 2); row.Children.Add(label); row.Children.Add(count); row.Children.Add(button); body.Children.Add(row);
-                actions.Add((pair.i, label, count, button));
-                if (pair.a.ChallengeRoots is { Length: > 0 }) body.Children.Add(new TextBlock { Text = Tr.Text("map.effect_cresset"), TextWrapping = TextWrapping.Wrap, Margin = new(0, 6, 0, 0) });
+                Grid.SetColumn(count, 1); Grid.SetColumn(button, 2); row.Children.Add(name); row.Children.Add(count); row.Children.Add(button); body.Children.Add(row);
+                actions.Add((pair.i, label, badge, count, button));
             }
             (group is "places" or "resources" ? LeftCards : RightCards).Children.Add(new GroupBox { Header = Tr.Text("map.group_" + group), Content = body, Margin = new(0, 0, 0, 12) });
         }
@@ -48,10 +59,10 @@ public partial class MapPage : UserControl
     private void Refresh()
     {
         var state = Model.Map;
-        bool Learned(uint k) => state?.Knowledge.GetValueOrDefault(k) > 0;
-        foreach (var (index, label, countLabel, button) in actions)
+        foreach (var (index, label, badge, countLabel, button) in actions)
         {
             var a = MapAction.All[index];
+            bool Learned(uint k) => state?.Knowledge.GetValueOrDefault(k) >= a.TargetLevel(k);
             uint[] counted = a.CountKeys ?? a.Keys;
             int total = counted.Length, count = counted.Count(Learned);
             bool complete = state is not null && a.Keys.All(Learned);
@@ -63,11 +74,12 @@ public partial class MapPage : UserControl
             }
             string name = a.LabelKey is not null ? Tr.Text(a.LabelKey) : GameText.Display(a.Names.GetValueOrDefault(Tr.Language, a.Names["en"]));
             if (a.LabelRef is { Length: 2 } reference) name = GameText.Display(Tr.Name(reference[0].GetString()!, reference[1].ToString(), name));
-            if (state is not null && a.Mode == "locations" && a.JournalKeys.Length != total)
-            {
-                int journal = a.JournalKeys.Count(Learned);
-                name += "\n" + Tr.Format("map.journal_counts", ("count", journal), ("total", a.JournalKeys.Length), ("other", count - journal), ("other_total", total - a.JournalKeys.Length));
-            }
+            bool partial = a.JournalKeys.Length < counted.Length;
+            badge.Visibility = a.JournalKeys.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            ((TextBlock)badge.Child).Text = Tr.Text(partial ? "map.journal_badge_partial" : "map.journal_badge");
+            int journal = a.JournalKeys.Count(Learned);
+            badge.ToolTip = !partial ? Tr.Text("map.journal_badge_hint") : state is null ? null
+                : Tr.Format("map.journal_counts", ("count", journal), ("total", a.JournalKeys.Length), ("other", count - journal), ("other_total", total - a.JournalKeys.Length));
             label.Text = name; countLabel.Text = state is null ? "—" : $"{count}/{total}";
             if (a.ChallengeRoots is not null) complete &= a.ChallengeRoots.All(k => state?.Progress.Mission.GetValueOrDefault(k)?.State == 5);
             button.IsEnabled = state is not null && !complete;

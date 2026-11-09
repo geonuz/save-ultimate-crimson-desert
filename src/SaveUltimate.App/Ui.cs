@@ -6,6 +6,13 @@ namespace SaveUltimate.App;
 
 internal static class Ui
 {
+    /// <summary>Replaces a table's rows and keeps the order the user picked by clicking a header.</summary>
+    public static void SetRows(DataGrid grid, System.Collections.IEnumerable rows)
+    {
+        var sorts = grid.Items.SortDescriptions.ToArray();
+        grid.ItemsSource = rows;
+        foreach (var sort in sorts) grid.Items.SortDescriptions.Add(sort);
+    }
     public static Button Button(string key, RoutedEventHandler action, string? style = null)
     {
         var button = new Button { Content = Tr.Text(key), Margin = new(0, 0, 6, 0) };

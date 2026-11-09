@@ -13,10 +13,16 @@ public partial class ItemSearchWindow : Window
     private int page;
     public uint? SelectedKey => (Results.SelectedItem as Choice)?.Key;
 
-    public ItemSearchWindow(InventoryItem item)
+    public ItemSearchWindow(InventoryItem item) : this(ItemCatalog.Shared.Choices.Where(c => item.CanBecome(c.Key)).ToArray()) { }
+
+    /// <summary>The same searchable list for other choices, such as the mercenaries a roster can add.</summary>
+    public ItemSearchWindow(Choice[] choices, string? title = null, string? hint = null, string? category = null)
     {
-        choices = ItemCatalog.Shared.Choices.Where(c => item.CanBecome(c.Key)).ToArray();
+        this.choices = choices;
         InitializeComponent();
+        if (title is not null) Title = title;
+        if (hint is not null) Hint.Text = hint;
+        if (category is not null) { Results.Columns[2].Header = category; Results.Columns[2].Width = new DataGridLength(2, DataGridLengthUnitType.Star); Width = 820; }
         Filter();
     }
 

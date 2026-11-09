@@ -60,7 +60,7 @@ internal static class ClientImages
         var entries = new Dictionary<string, XElement>();
         foreach (string path in paths.Values.Where(p =>
             p.EndsWith(".xml", StringComparison.OrdinalIgnoreCase) &&
-            (Path.GetFileName(p).StartsWith("cd_icon_skill_", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(p).StartsWith("cd_image_knowledgeimage_character_", StringComparison.OrdinalIgnoreCase))))
+            (Path.GetFileName(p).StartsWith("cd_icon_skill_", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(p).StartsWith("cd_image_knowledgeimage_character", StringComparison.OrdinalIgnoreCase))))
         {
             cancel.ThrowIfCancellationRequested();
             string xml = Encoding.UTF8.GetString(owners[path].Extract(path)).TrimStart('\uFEFF');
@@ -81,11 +81,13 @@ internal static class ClientImages
             Add($"items/{key}.webp", path, null, 256, 256);
         }
         var knowledge = Records("knowledgeinfo");
-        foreach (var fish in FishingCatalog.Shared.Fish)
+        // Fish and the profiles of companions and NPCs share the journal picture of their knowledge entry.
+        foreach (uint key in FishingCatalog.Shared.Fish.Select(f => f.Key).Concat(KnowledgeCatalog.Shared.Characters.Values).Distinct())
         {
-            var record = knowledge[fish.Key]; var r = new ClientReader(record.Bytes, record.Prefix + 38);
+            if (!knowledge.TryGetValue(key, out var record)) continue;
+            var r = new ClientReader(record.Bytes, record.Prefix + 38);
             entries.TryGetValue(symbols.GetValueOrDefault(r.U32(), ""), out var entry);
-            Add($"knowledge/{fish.Key}.png", entry is null ? null : Resolve(entry.Attribute("Filename")!.Value), null, 320, 240);
+            Add($"knowledge/{key}.png", entry is null ? null : Resolve(entry.Attribute("Filename")!.Value), null, 320, 240);
         }
         var aliases = Embedded.Load<Dictionary<string, Dictionary<string, string>>>("ClientImageAliases.json");
         var skills = Records("skill");

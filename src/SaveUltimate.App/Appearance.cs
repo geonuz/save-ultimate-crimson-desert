@@ -90,7 +90,7 @@ public static class Appearance
         double minimum = (double)designMinimum.GetValue(column, _ => 0d);
         if (column.Header is string { Length: > 0 } header)
             minimum = Math.Max(minimum, Math.Ceiling(new FormattedText(header, System.Globalization.CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
-                new Typeface(grid.FontFamily, grid.FontStyle, FontWeights.Normal, grid.FontStretch), grid.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(grid).PixelsPerDip).WidthIncludingTrailingWhitespace) + 20); // header padding 8+8, border and grip
+                new Typeface(grid.FontFamily, grid.FontStyle, FontWeights.Normal, grid.FontStretch), grid.FontSize, Brushes.Black, VisualTreeHelper.GetDpi(grid).PixelsPerDip).WidthIncludingTrailingWhitespace) + 33); // header padding 8+8, border, grip and the 13px sort arrow
         column.MinWidth = minimum;
         // Raising only MinWidth leaves an already measured fixed header at its old width.
         if (column.Width.IsAbsolute && column.Width.Value < minimum) column.Width = minimum;

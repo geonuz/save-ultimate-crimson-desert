@@ -4,6 +4,8 @@ namespace SaveUltimate.Core.Saves;
 public sealed record KnowledgeGroup(uint Key, string Name, string NameKo, uint[] Children, uint[] Members);
 public sealed record KnowledgeCatalog(uint[] Roots, KnowledgeGroup[] Groups, Dictionary<uint, uint[]> ItemPaths, Dictionary<uint, uint> LevelCounts)
 {
+    /// <summary>Character key → the knowledge entry that describes it (description and journal picture).</summary>
+    public Dictionary<uint, uint> Characters { get; init; } = [];
     public static KnowledgeCatalog Shared { get; } = Load();
     private static KnowledgeCatalog Load()
     {
@@ -16,7 +18,8 @@ public sealed record KnowledgeCatalog(uint[] Roots, KnowledgeGroup[] Groups, Dic
     }
 }
 
-public enum KnowledgeAction { Learn, Unlearn, Level, Maximum, AllMaximum }
+// LearnMaximum raises learned and unlearned keys to their last level; Maximum raises only learned keys.
+public enum KnowledgeAction { Learn, Unlearn, Level, Maximum, AllMaximum, LearnMaximum }
 
 public sealed partial class SaveDocument
 {
@@ -57,6 +60,7 @@ public sealed partial class SaveDocument
         {
             KnowledgeAction.Learn => before.GetValueOrDefault(k) == 0,
             KnowledgeAction.Unlearn or KnowledgeAction.Maximum => before.GetValueOrDefault(k) > 0,
+            KnowledgeAction.LearnMaximum => before.GetValueOrDefault(k) < catalog.LevelCounts[k],
             _ => true
         }).ToDictionary(k => k, k => action switch
         {

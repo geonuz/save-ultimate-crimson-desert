@@ -35,6 +35,14 @@ public static class CharacterCatalogBuilder
             if (type >= 0 && types.ContainsKey((uint)type)) companions[key.ToString()] = type;
         }
 
+        // Work skills (farming, smelting, ...) are Knowledge_Skill_* entries; a mercenary lists their skill keys as
+        // [count][skill keys] runs, one per skill slot, in the order the game shows them.
+        var knowledge = KnowledgeCatalogBuilder.Records(source, KnowledgeCatalogBuilder.Groups(source).Keys.ToHashSet()).Values;
+        var skillKnowledge = knowledge.Where(k => k.Internal.StartsWith("Knowledge_Skill_") && k.Skill != 0).GroupBy(k => k.Skill).ToDictionary(g => g.Key, g => g.Min(k => k.Key));
+        var skills = new JsonObject();
+        foreach (var key in companions.Where(p => (int)p.Value! is >= 70 and <= 74).Select(p => uint.Parse(p.Key)).Order())
+            if (WorkSkills(characters[key], skillKnowledge) is { Count: > 0 } found) skills[key.ToString()] = new JsonArray(found.Select(k => (JsonNode)k).ToArray());
+
         string Label(string code, uint key, uint member) => ClientTables.Anchor(npcs[key], 14, member, key) >= 0 ? labels[code].GetValueOrDefault((((ulong)key << 32) | member).ToString(), "") : "";
         JsonObject Fields(string code, uint key) => new(NpcLabels.Select(l => KeyValuePair.Create<string, JsonNode?>(l.Field, Label(code, key, l.Member))));
         var npcRows = new JsonObject();
@@ -59,7 +67,7 @@ public static class CharacterCatalogBuilder
             ["data/character_names.json"] = nameRows,
             ["data/companion_types.json"] = new JsonObject
             {
-                ["sourceSha256"] = digests.DeepClone(), ["characters"] = companions,
+                ["sourceSha256"] = digests.DeepClone(), ["characters"] = companions, ["skills"] = skills,
                 ["types"] = new JsonObject(types.Select(t => KeyValuePair.Create<string, JsonNode?>(t.Key.ToString(), t.Value.Name))),
                 ["method"] = "Owned CharacterInfo localization reference 0x32; MercenaryInfo key at +214. Unresolved keys omitted."
             },
@@ -80,5 +88,24 @@ public static class CharacterCatalogBuilder
             outputs[$"locale/names_{code}.json"] = pack;
         }
         return outputs;
+    }
+
+    // shortcut: the CharacterInfo fields around the skill slots are not decoded, so slots are found as [count 1-8][count
+    // known work-skill keys] runs. That matched the in-game list of every mercenary checked (Devan, Wybert, Fritz,
+    // Matilda); walk the fields once they are decoded.
+    private static List<uint> WorkSkills(ClientRecord record, Dictionary<uint, uint> skillKnowledge)
+    {
+        var span = record.Bytes.Span; var found = new List<uint>();
+        for (int i = record.Prefix; i + 8 <= span.Length; i++)
+        {
+            uint count = BitConverter.ToUInt32(span[i..]);
+            if (count is 0 or > 8 || i + 4 + count * 4 > span.Length) continue;
+            int end = i + 4 + (int)count * 4; bool all = true;
+            for (int j = i + 4; all && j < end; j += 4) all = skillKnowledge.ContainsKey(BitConverter.ToUInt32(span[j..]));
+            if (!all) continue;
+            for (int j = i + 4; j < end; j += 4) found.Add(skillKnowledge[BitConverter.ToUInt32(span[j..])]);
+            i = end - 1;
+        }
+        return found;
     }
 }

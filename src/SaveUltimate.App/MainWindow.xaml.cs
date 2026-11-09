@@ -304,7 +304,7 @@ public partial class MainWindow : Window
     {
         if (toggle && HelpPanel.Visibility == Visibility.Visible && Equals(HelpPanel.Tag, topic)) { HelpPanel.Visibility = Visibility.Collapsed; return; }
         string name = topic switch { "tab.inventory" => "inventory", "tab.repurchase" => "repurchase", "tab.equipment" => "equipment", "tab.knowledge" => "knowledge",
-            "Challenges" => "challenges", "tab.fishing" => "fishing", "map.title" => "maps", "companion.title" or "companion.pets" => "companions", "npc.title" => "npc", "skills.title" => "skills", "tab.database" => "items_db", _ => "backup" };
+            "Challenges" => "challenges", "tab.fishing" => "fishing", "map.title" => "maps", "companion.title" => "companions", "companion.pets" => "pets", "npc.title" => "npc", "skills.title" => "skills", "tab.database" => "items_db", _ => "backup" };
         HelpPanel.Tag = topic; HelpPanel.Visibility = Visibility.Visible; HelpTitle.Text = Tr.Text("ui.help") + " · " + Tr.Text(topic);
         HelpScroll.Content = RichTextBlock.Create(Tr.Text("help." + name)); HelpScroll.ScrollToTop();
     }

@@ -133,7 +133,7 @@
      <DataGridTextColumn x:Name="OwnerColumn" Header="{local:Tr 'Owner'}" Binding="{Binding OwnerText}" Width="140"/>
      <DataGridTextColumn Header="{local:Tr 'ui.slot'}" Binding="{Binding Item.Slot}" Width="60"/>
      <DataGridTextColumn Header="{local:Tr 'Stack'}" Binding="{Binding Item.Quantity}" Width="95"/>
-     <DataGridTextColumn Header="{local:Tr 'Enchant'}" Binding="{Binding EnchantText}" Width="85"><DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource success}"/><Style.Triggers><DataTrigger Binding="{Binding Item.EnchantLevel}" Value="{x:Null}"><Setter Property="Foreground" Value="{DynamicResource text_dim}"/></DataTrigger></Style.Triggers></Style></DataGridTextColumn.ElementStyle></DataGridTextColumn>
+     <DataGridTextColumn Header="{local:Tr 'Enchant'}" Binding="{Binding EnchantText}" SortMemberPath="Item.EnchantLevel" Width="85"><DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource success}"/><Style.Triggers><DataTrigger Binding="{Binding Item.EnchantLevel}" Value="{x:Null}"><Setter Property="Foreground" Value="{DynamicResource text_dim}"/></DataTrigger></Style.Triggers></Style></DataGridTextColumn.ElementStyle></DataGridTextColumn>
      <DataGridTextColumn Header="{local:Tr 'tab.sockets'}" Binding="{Binding SocketText}" Width="90"/>
      <DataGridTextColumn x:Name="EnduranceColumn" Header="{local:Tr 'Endurance'}" Binding="{Binding ActualEndurance}" Width="70"/>
      <DataGridTextColumn x:Name="SharpnessColumn" Header="{local:Tr 'Sharpness'}" Binding="{Binding Item.Sharpness}" Width="70"/>

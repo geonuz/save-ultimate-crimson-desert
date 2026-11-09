@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -72,7 +71,7 @@ public partial class KnowledgePage : UserControl
             Root.ItemsSource = new[] { new Choice(0, Tr.Text("All")) }.Concat(Model.Knowledge is null ? [] : Catalog.Roots.Select(k => Group(k))).ToArray();
             Root.SelectedIndex = Math.Max(0, Root.Items.Cast<Choice>().ToList().FindIndex(c => c.Key == root));
             FillSubcategories(sub);
-            AllMaximum.IsEnabled = Model.Knowledge is not null;
+            AllMaximum.IsEnabled = entries.Any(r => r.Level < r.Limit);
         }
         finally { updating = false; }
         Filter();
@@ -107,12 +106,9 @@ public partial class KnowledgePage : UserControl
         if (group == 0) group = (Root.SelectedItem as Choice)?.Key ?? 0;
         var members = group == 0 ? null : Catalog.Groups.Single(g => g.Key == group).Members.ToHashSet();
         string search = Search.Text.Trim();
-        var sorts = CollectionViewSource.GetDefaultView(Rows.ItemsSource ?? Array.Empty<KnowledgeRow>()).SortDescriptions.ToArray();
-        Rows.ItemsSource = entries.Where(r => (members is null || members.Contains(r.Key)) &&
+        Ui.SetRows(Rows, entries.Where(r => (members is null || members.Contains(r.Key)) &&
             (Learned.IsChecked != true || r.Learned) && (Unlearned.IsChecked != true || !r.Learned) &&
-            $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase)).ToArray();
-        var view = CollectionViewSource.GetDefaultView(Rows.ItemsSource);
-        foreach (var sort in sorts) view.SortDescriptions.Add(sort);
+            $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase)).ToArray());
         Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count) + " · " + Tr.Format("ui.count_learned", ("count", entries.Count(r => r.Learned).ToString("N0")));
         Select();
     }
@@ -121,16 +117,19 @@ public partial class KnowledgePage : UserControl
     {
         var selected = Rows.SelectedItems.Cast<KnowledgeRow>().ToArray();
         Learn.IsEnabled = selected.Any(r => !r.Learned);
-        Unlearn.IsEnabled = Maximum.IsEnabled = selected.Any(r => r.Learned);
+        Unlearn.IsEnabled = selected.Any(r => r.Learned);
+        Maximum.IsEnabled = selected.Any(r => r.Learned && r.Level < r.Limit);
         var row = selected.Length == 1 ? selected[0] : null;
         Level.ItemsSource = row is null ? Array.Empty<uint>() : Enumerable.Range(1, (int)row.Limit).Select(i => (uint)i).ToArray();
         Level.IsEnabled = Apply.IsEnabled = row is { Learned: true } && row.Level <= row.Limit;
         Level.SelectedItem = Apply.IsEnabled ? row!.Level : null;
         Hint.Text = selected.Length > 1 ? Tr.Format("knowledge.level_multiple", ("count", selected.Length))
-            : row is null ? Tr.Text("knowledge.level_select") : !row.Learned ? Tr.Text("knowledge.level_learn_first")
+            : row is null ? Tr.Text("knowledge.level_select") : !row.Learned ? ""
             : !Apply.IsEnabled ? Tr.Text("knowledge.level_unsupported") : Tr.Format("knowledge.level_range", ("current", row.Level), ("maximum", row.Limit));
+        Hint.Visibility = Hint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
         Description.Text = row is null ? "" : KnowledgeText.Get(row.Key).Description is { Length: > 0 } text ? text : Tr.Text("No description available");
-        Picture.Source = row is null ? null : ItemImages.GetFile(Path.Combine(AppContext.BaseDirectory, "game_data", "images", "knowledge", $"{row.Key}.png"), 280);
+        Description.Visibility = SelectedTitle.Visibility = row is null ? Visibility.Collapsed : Visibility.Visible;
+        SelectedTitle.Text = row?.Name ?? "";
     }
     private void OnFilterChanged(object sender, RoutedEventArgs e) { if (DataContext is MainViewModel) Filter(); }
     private TypingDelay? typing;

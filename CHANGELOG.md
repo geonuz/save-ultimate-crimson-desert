@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.6.0]
+
+Festival recruits, mercenary skills and character pictures, and item numbers that stay unique after saving into another
+slot.
+
+- **New: add and remove festival recruits.** The Companions page now adds and removes the guest workers the first DLC's
+  festivals recruit, besides Grey-0. Add Mercenary opens a searchable list of the people you can still recruit, or
+  only Grey-0 while DLC content is hidden. Grey-0s and recruits that a workplace or camp spawn record still names cannot be
+  removed, since the editor does not rewrite those records. Quest companions stay read-only. Add Mercenary now sits
+  beside the category filter, and a row that cannot be removed shows a one-line reason.
+- Companions show each mercenary's work skills (farming, smelting, exploration and so on) in the table and in the Add
+  Mercenary list, and their effects beside the table. A skill shows as its name and tier, such as Fisherman(I) or Escort(III).
+  The Level column, which the save does not fill, is gone. The companion table sorts by clicking a header; pets and mounts
+  keep the game's order.
+- **Fixed: saving into another slot made the game reuse item numbers.** The game keeps its next item and mercenary number
+  in the slot's lobby.save, which the editor left behind, so after Save As into another slot the game handed out numbers
+  the save already held. Saving a slot's save.save now writes its lobby too, with the counter past every number in the
+  save, and backs up the old one.
+- An added Grey-0 or recruit takes the game's next number, as a recruit in the game would, instead of one from
+  900,000,000. A save outside a slot, which has no lobby, uses a number its items no longer hold.
+- Companions, pets and mounts and NPC affinity show each character's journal picture in the table and its description and
+  picture beside it. Pictures appear after syncing game data.
+- Activating caves, towers, temples, shrines and other places now learns them to their last level, so the game ticks
+  them off. Nodes still learn level 1.
+- Map groups carry a Knowledge badge when they count in the Adventure Journal's knowledge, and Abyss Cressets a
+  Challenges badge, instead of a count line. Group descriptions now say "map markers" where nothing reaches the
+  journal's knowledge, and the Abyss Cresset note moved into its group description.
+- Knowledge: the selected entry's name and description sit above the buttons, pictures are gone, and Apply Maximum
+  Level and Learn All Knowledge turn off once nothing is left to raise.
+- Help is rewritten for every page, with its own page for pets and mounts, and headings sit right above their lists.
+- Table headers show an arrow for the sort direction. Enchant, fishing size and level, knowledge level and NPC affinity
+  columns sort by number, so +10 no longer sorts between +1 and +2.
+
 ## [1.5.1]
 
 Crimson Desert 2.04.08, translated store names and the first DLC's Abyss gears.

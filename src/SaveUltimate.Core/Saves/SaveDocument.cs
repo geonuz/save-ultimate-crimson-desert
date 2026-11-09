@@ -59,6 +59,7 @@ public sealed partial class SaveDocument
     internal SaveDocument(string path, byte[] file, byte[] raw)
     {
         SourcePath = Path.GetFullPath(path);
+        lobbyFile = ReadLobbyBeside(path);
         originalFile = file;
         blob = raw;
         savedBlob = raw;
@@ -330,8 +331,10 @@ public sealed partial class SaveDocument
         {
             SaveContainer.Write(originalFile, blob, prepared);
             byte[] written = File.ReadAllBytes(prepared);
+            byte[]? lobby = WriteLobby(destination, backup);
             string? recovery = SaveBackups.ReplacePrepared(prepared, destination, expectedDestinationHash, backup);
             originalFile = written;
+            lobbyFile = lobby;
             SourcePath = destination;
             savedBlob = blob;
             undo.Clear();
