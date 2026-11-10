@@ -55,7 +55,7 @@ public sealed partial class SaveDocument
         string prepared = Path.Combine(Path.GetDirectoryName(path)!, $".prepared-{Guid.NewGuid():N}.lobby");
         try
         {
-            SaveContainer.Write(lobbyFile, blob, prepared);
+            SaveContainer.Write(source, blob, prepared);
             byte[] written = File.ReadAllBytes(prepared);
             if (!File.Exists(path)) File.Move(prepared, path);
             else

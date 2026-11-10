@@ -286,6 +286,10 @@ public sealed class WorldTests
         Assert.AreEqual(1, SaveBackups.List(Path.Combine(first, "lobby.save")).Length);
         // A save outside a slot has no counter.
         Assert.IsNull(SaveDocument.Open(FixtureSaves.Named("dlc_bond_courting_grey0")).GeneratedNumber());
+        // Saved into a slot, it raises the lobby already there past its own numbers (large_roster holds some above 1003473).
+        var outside = SaveDocument.Open(FixtureSaves.Named("large_roster"));
+        outside.SaveTo(Path.Combine(first, "save.save"), expectedDestinationHash: SaveBackups.Hash(Path.Combine(first, "save.save")));
+        Assert.IsTrue(SaveDocument.Open(Path.Combine(first, "save.save")).GeneratedNumber() > 1003473UL);
     }
 
     [TestMethod]
