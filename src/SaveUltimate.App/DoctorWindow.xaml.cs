@@ -1,11 +1,8 @@
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Win32;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
@@ -109,7 +106,6 @@ public sealed partial class DoctorView : StatusRow
 public sealed partial class DoctorWindow : Window
 {
     private readonly MainViewModel model;
-    private readonly string gameVersion = typeof(DoctorWindow).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().First(a => a.Key == "GameVersion").Value!;
     private readonly List<SlotRow> rows = [];
     private readonly Dictionary<string, CheckRow> checks;
     private string? backup;
@@ -144,7 +140,7 @@ public sealed partial class DoctorWindow : Window
             View.ScanText = Tr.Format("ui.doctor_scanning", ("done", done.ToString("N0")), ("total", rows.Count.ToString("N0")));
             if (!slot.Inspected)
             {
-                var found = await Task.Run(() => SaveCheckup.Run(slot.Path, gameVersion));
+                var found = await Task.Run(() => SaveCheckup.Run(slot.Path, Ui.GameVersion));
                 if (closed || run != scan) return;
                 if (!slot.Inspected) slot.Status = Worst(found);
             }
@@ -154,14 +150,7 @@ public sealed partial class DoctorWindow : Window
         await inspected;
     }
 
-    private void ShowSlots()
-    {
-        var view = new ListCollectionView(rows);
-        var grouping = new PropertyGroupDescription(nameof(SlotRow.Group));
-        foreach (string category in new[] { "default", "additional", "manual" }) grouping.GroupNames.Add(Tr.Text("ui.slots_" + category));
-        view.GroupDescriptions.Add(grouping);
-        Slots.ItemsSource = view;
-    }
+    private void ShowSlots() => Slots.ItemsSource = Ui.SlotGroups(rows);
 
     private void UpdateSummary() => View.ScanText = Tr.Format("ui.doctor_summary", ("total", rows.Count.ToString("N0")),
         ("count", rows.Count(r => r.Status is CheckStatus.Error or CheckStatus.Suspect).ToString("N0")));
@@ -180,7 +169,7 @@ public sealed partial class DoctorWindow : Window
         View.Verdict = Tr.Text(slot is null ? "ui.no_slots" : "ui.doctor_running");
         View.Subtitle = slot is null ? "" : $"{slot.Name} · {slot.SavedAt}"; View.FilePath = slot?.Path ?? "";
         if (slot is null) return;
-        var found = await Task.Run(() => SaveCheckup.Run(slot.Path, gameVersion, report: c => Dispatcher.BeginInvoke(() => { if (run == inspection) checks[c.Id].Show(c); })));
+        var found = await Task.Run(() => SaveCheckup.Run(slot.Path, Ui.GameVersion, report: c => Dispatcher.BeginInvoke(() => { if (run == inspection) checks[c.Id].Show(c); })));
         if (closed || run != inspection) return;
         foreach (var check in found) checks[check.Id].Show(check);
         slot.Inspected = true; slot.Status = Worst(found);
@@ -205,12 +194,11 @@ public sealed partial class DoctorWindow : Window
 
     private async void OnBrowse(object sender, RoutedEventArgs e)
     {
-        var dialog = new OpenFileDialog { Title = Tr.Text("Open Save File"), Filter = "Save Files (*.save)|*.save|All Files (*.*)|*.*", CheckFileExists = true };
-        if (dialog.ShowDialog(this) != true) return;
-        var row = rows.FirstOrDefault(r => string.Equals(r.Path, dialog.FileName, StringComparison.OrdinalIgnoreCase));
+        if (Ui.PickSave(this) is not { } file) return;
+        var row = rows.FirstOrDefault(r => string.Equals(r.Path, file, StringComparison.OrdinalIgnoreCase));
         if (row is null)
         {
-            row = new SlotRow(new SaveSlot(Path.GetFullPath(dialog.FileName), "manual", "Custom", "", Path.GetFileNameWithoutExtension(dialog.FileName), File.GetLastWriteTime(dialog.FileName)));
+            row = new SlotRow(new SaveSlot(Path.GetFullPath(file), "manual", "Custom", "", Path.GetFileNameWithoutExtension(file), File.GetLastWriteTime(file)));
             rows.Add(row); ShowSlots();
         }
         Slots.SelectedItem = row;

@@ -48,6 +48,17 @@ public partial class StorageFilter(string name, ushort? Bag = null, bool Other =
     public string Label => $"{Name} ({Count:N0})";
 }
 public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets }
+public static class AppPages
+{
+    /// <summary>Every page in View menu order: its title key, which is also its help topic, and the name of its help text.</summary>
+    public static readonly (AppPage Page, string Title, string Help)[] All =
+    [
+        (AppPage.Inventory, "tab.inventory", "inventory"), (AppPage.Repurchase, "tab.repurchase", "repurchase"), (AppPage.Equipment, "tab.equipment", "equipment"),
+        (AppPage.Knowledge, "tab.knowledge", "knowledge"), (AppPage.Challenges, "Challenges", "challenges"), (AppPage.Fishing, "tab.fishing", "fishing"),
+        (AppPage.Skills, "skills.title", "skills"), (AppPage.Map, "map.title", "maps"), (AppPage.Companions, "companion.title", "companions"),
+        (AppPage.Pets, "companion.pets", "pets"), (AppPage.Friendship, "npc.title", "npc"), (AppPage.Backups, "tab.backup", "backup"), (AppPage.Database, "tab.database", "items_db")
+    ];
+}
 
 public partial class MainViewModel : ObservableObject
 {
@@ -97,7 +108,7 @@ public partial class MainViewModel : ObservableObject
     {
         AppPage.Inventory => ItemPages[ItemPageIndex], AppPage.Knowledge => JournalPages[JournalPageIndex], AppPage.Companions => NpcPages[NpcPageIndex], _ => page
     };
-    private readonly string[] pageSearches = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
+    private readonly string[] pageSearches = Enumerable.Repeat("", AppPages.All.Length).ToArray();
     public bool IsDatabase => CurrentPage == AppPage.Database;
     public bool IsItemEditor => IsInventory || IsRepurchase || IsEquipment;
     public bool IsInventory => CurrentPage == AppPage.Inventory;
@@ -261,11 +272,7 @@ public partial class MainViewModel : ObservableObject
     private void Reload() { socketTarget = null; Refresh(); ReadBackups(); }
 
     [RelayCommand(CanExecute = nameof(CanWork))]
-    private async Task OpenAsync()
-    {
-        new SlotsWindow(this).ShowDialog();
-        await Task.CompletedTask;
-    }
+    private void Open() => new SlotsWindow(this).ShowDialog();
     [RelayCommand(CanExecute = nameof(CanRevert))]
     private async Task RevertAsync()
     {
@@ -464,13 +471,15 @@ public partial class MainViewModel : ObservableObject
     public bool CanSyncGameData() => !Busy && gameFolder.Length > 0;
     [RelayCommand(CanExecute = nameof(CanSyncGameData))]
     private Task SyncGameDataAsync() => SyncAsync(showFailure: true);
-    private Task SyncAsync(bool showFailure) => RunAsync(Tr.Text("sync.metadata"), async () =>
+    private Task SyncAsync(bool showFailure) => RunAsync(Tr.Text("sync.metadata"), () => Sync(gameFolder, text => Status = text, this), showFailure);
+    // The Settings window syncs the folder typed there and reports in its own line, so the work itself is shared. Call on the UI thread.
+    internal static async Task Sync(string folder, Action<string> report, MainViewModel? model)
     {
-        var progress = new Progress<SyncProgress>(p => Status = Tr.Format(p.Stage, ("current", p.Completed.ToString("N0")), ("total", p.Total.ToString("N0"))));
-        var result = await Task.Run(() => GameDataSync.Run(gameFolder, CatalogFiles.Resources, CatalogFiles.Cache, progress));
-        CatalogFiles.Reload(); RefreshLanguage();
-        Status = Tr.Format("sync.result", ("items", result.Items), ("images", result.Images), ("missing", result.Unresolved), ("seconds", result.Seconds.ToString("F1")));
-    }, showFailure);
+        var progress = new Progress<SyncProgress>(p => report(Tr.Format(p.Stage, ("current", p.Completed.ToString("N0")), ("total", p.Total.ToString("N0")))));
+        var result = await Task.Run(() => GameDataSync.Run(folder, CatalogFiles.Resources, CatalogFiles.Cache, progress));
+        CatalogFiles.Reload(); model?.RefreshLanguage();
+        report(Tr.Format("sync.result", ("items", result.Items), ("images", result.Images), ("missing", result.Unresolved), ("seconds", result.Seconds.ToString("F1"))));
+    }
 
     private async Task RunAsync(string message, Func<Task> action, bool showFailure = true)
     {

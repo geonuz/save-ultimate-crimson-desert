@@ -31,6 +31,23 @@ internal static class Ui
         window.Loaded += (_, _) => { if (window.Content is FrameworkElement content) content.SetResourceReference(FrameworkElement.LayoutTransformProperty, "UiTransform"); };
         if (Owner is { } owner && owner != window) window.Owner = owner;
     }
+    /// <summary>Crimson Desert version this release was verified against.</summary>
+    public static string GameVersion { get; } = typeof(Ui).Assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false)
+        .Cast<System.Reflection.AssemblyMetadataAttribute>().First(a => a.Key == "GameVersion").Value!;
+    /// <summary>Save slots (rows with a Group property) under the default, additional and manual headings, in that order.</summary>
+    public static System.Windows.Data.ListCollectionView SlotGroups(System.Collections.IList rows)
+    {
+        var view = new System.Windows.Data.ListCollectionView(rows);
+        var grouping = new System.Windows.Data.PropertyGroupDescription(nameof(SaveSlot.Group));
+        foreach (string category in new[] { "default", "additional", "manual" }) grouping.GroupNames.Add(Tr.Text("ui.slots_" + category));
+        view.GroupDescriptions.Add(grouping);
+        return view;
+    }
+    public static string? PickSave(Window owner)
+    {
+        var dialog = new Microsoft.Win32.OpenFileDialog { Title = Tr.Text("Open Save File"), Filter = "Save Files (*.save)|*.save|All Files (*.*)|*.*", CheckFileExists = true };
+        return dialog.ShowDialog(owner) == true ? dialog.FileName : null;
+    }
     public static ScrollViewer Scroll(UIElement content) => new() { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
 }
 

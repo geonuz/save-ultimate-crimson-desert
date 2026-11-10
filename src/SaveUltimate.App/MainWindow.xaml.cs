@@ -10,7 +10,7 @@ public partial class MainWindow : Window
 {
     private sealed record TableState(ItemRow[] Selection, ItemRow? Current, SortDescription[] Sorts,
         double Horizontal, double Vertical, double EditorOffset, DataGridLength[] Widths);
-    private readonly TableState?[] tables = new TableState?[13];
+    private readonly TableState?[] tables = new TableState?[AppPages.All.Length];
     private bool restoringSelection;
     private bool? detailBelow;
     private bool? backupsBelow;
@@ -37,9 +37,7 @@ public partial class MainWindow : Window
         foreach (UIElement child in ContentArea.Children)
             if (child is UserControl || child is Grid && Grid.GetRow(child) == 3 && child != ItemArea)
                 ((FrameworkElement)child).Margin = new(20, 16, 20, 16);
-        foreach (var (name, page) in new[] { ("tab.inventory", AppPage.Inventory), ("tab.repurchase", AppPage.Repurchase), ("tab.equipment", AppPage.Equipment), ("tab.knowledge", AppPage.Knowledge),
-            ("Challenges", AppPage.Challenges), ("tab.fishing", AppPage.Fishing), ("skills.title", AppPage.Skills), ("map.title", AppPage.Map), ("companion.title", AppPage.Companions),
-            ("companion.pets", AppPage.Pets), ("npc.title", AppPage.Friendship), ("tab.backup", AppPage.Backups), ("tab.database", AppPage.Database) })
+        foreach (var (page, name, _) in AppPages.All)
         { var item = new MenuItem { Header = Tr.Text(name) }; item.Click += (_, _) => { if (!model.Busy) model.CurrentPage = page; }; ViewMenu.Items.Add(item); }
         IconsToggle.IsChecked = SettingsStore.Current.ShowIcons;
         Appearance.Changed += ApplyAppearance;
@@ -224,8 +222,7 @@ public partial class MainWindow : Window
         UpdateButton.Content = collapsed ? new ActionGlyph { Kind = "update", Width = 18, Height = 18, Foreground = Appearance.Brush("accent_text") } : Tr.Text("menu.update");
         UpdateButton.ToolTip = Tr.Text("menu.update");
         System.Windows.Automation.AutomationProperties.SetName(UpdateButton, Tr.Text("menu.update"));
-        GameVersion.Text = Tr.Format("ui.game_version", ("version", typeof(MainWindow).Assembly
-            .GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false).Cast<System.Reflection.AssemblyMetadataAttribute>().First(a => a.Key == "GameVersion").Value!));
+        GameVersion.Text = Tr.Format("ui.game_version", ("version", Ui.GameVersion));
         System.Windows.Automation.AutomationProperties.SetName(SettingsButton, Tr.Text("Settings"));
         string[] glyphs = ["items", "journal", "skills", "maps", "npcs", "backup"];
         for (int i = 0; i < names.Length; i++)
@@ -294,17 +291,11 @@ public partial class MainWindow : Window
     private void OnThemeSettings(object sender, RoutedEventArgs e) => ShowSettings("theme");
     private void OnExit(object sender, RoutedEventArgs e) => Close();
     private void OnCloseHelp(object sender, RoutedEventArgs e) => HelpPanel.Visibility = Visibility.Collapsed;
-    private string CurrentTopic() => ((MainViewModel)DataContext).CurrentPage switch
-    {
-        AppPage.Inventory => "tab.inventory", AppPage.Repurchase => "tab.repurchase", AppPage.Equipment => "tab.equipment", AppPage.Backups => "tab.backup", AppPage.Skills => "skills.title",
-        AppPage.Knowledge => "tab.knowledge", AppPage.Challenges => "Challenges", AppPage.Fishing => "tab.fishing", AppPage.Map => "map.title", AppPage.Companions => "companion.title",
-        AppPage.Database => "tab.database", AppPage.Pets => "companion.pets", _ => "npc.title"
-    };
+    private string CurrentTopic() => AppPages.All.First(p => p.Page == ((MainViewModel)DataContext).CurrentPage).Title;
     public void ShowHelp(string topic, bool toggle = true)
     {
         if (toggle && HelpPanel.Visibility == Visibility.Visible && Equals(HelpPanel.Tag, topic)) { HelpPanel.Visibility = Visibility.Collapsed; return; }
-        string name = topic switch { "tab.inventory" => "inventory", "tab.repurchase" => "repurchase", "tab.equipment" => "equipment", "tab.knowledge" => "knowledge",
-            "Challenges" => "challenges", "tab.fishing" => "fishing", "map.title" => "maps", "companion.title" => "companions", "companion.pets" => "pets", "npc.title" => "npc", "skills.title" => "skills", "tab.database" => "items_db", _ => "backup" };
+        string name = AppPages.All.FirstOrDefault(p => p.Title == topic).Help ?? "backup";
         HelpPanel.Tag = topic; HelpPanel.Visibility = Visibility.Visible; HelpTitle.Text = Tr.Text("ui.help") + " · " + Tr.Text(topic);
         HelpScroll.Content = RichTextBlock.Create(Tr.Text("help." + name)); HelpScroll.ScrollToTop();
     }

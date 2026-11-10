@@ -83,13 +83,7 @@ public sealed class SettingsWindow : Window
         synchronizing = true; IsEnabled = false;
         var model = (Owner as MainWindow)?.DataContext as MainViewModel;
         if (model is not null) model.Busy = true;
-        try
-        {
-            var progress = new Progress<SyncProgress>(p => syncStatus.Text = Tr.Format(p.Stage, ("current", p.Completed.ToString("N0")), ("total", p.Total.ToString("N0"))));
-            var result = await Task.Run(() => GameDataSync.Run(path, CatalogFiles.Resources, CatalogFiles.Cache, progress));
-            CatalogFiles.Reload(); model?.RefreshLanguage();
-            syncStatus.Text = Tr.Format("sync.result", ("items", result.Items), ("images", result.Images), ("missing", result.Unresolved), ("seconds", result.Seconds.ToString("F1")));
-        }
+        try { await MainViewModel.Sync(path, text => syncStatus.Text = text, model); }
         catch (Exception error) { syncStatus.Text = Tr.Text("sync.failed") + " " + ErrorCodes.Describe(error); ThemedMessageBox.Show(this, syncStatus.Text, Tr.Text("Sync Items Local"), MessageBoxButton.OK, MessageBoxImage.Error); }
         finally { if (model is not null) model.Busy = false; IsEnabled = true; synchronizing = false; }
     }

@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Microsoft.Win32;
 
 namespace SaveUltimate.App;
 
@@ -52,11 +51,8 @@ public sealed class SlotsWindow : Window
     }
     public void Refresh()
     {
-        var rows = SaveLocations.Find(SettingsStore.Current); var view = new ListCollectionView(rows);
-        var grouping = new PropertyGroupDescription(nameof(SaveSlot.Group));
-        foreach (string category in new[] { "default", "additional", "manual" }) grouping.GroupNames.Add(Tr.Text("ui.slots_" + category));
-        view.GroupDescriptions.Add(grouping);
-        Rows.ItemsSource = view; Rows.SelectedItem = rows.FirstOrDefault(r => string.Equals(r.Path, model.LoadedPath, StringComparison.OrdinalIgnoreCase));
+        var rows = SaveLocations.Find(SettingsStore.Current);
+        Rows.ItemsSource = Ui.SlotGroups(rows); Rows.SelectedItem = rows.FirstOrDefault(r => string.Equals(r.Path, model.LoadedPath, StringComparison.OrdinalIgnoreCase));
         heading.Text = Tr.Text(rows.Length == 0 ? "ui.no_slots" : "ui.slots"); SelectionChanged();
     }
     private void SelectionChanged()
@@ -75,8 +71,7 @@ public sealed class SlotsWindow : Window
     private async Task OpenSelected() { if (Rows.SelectedItem is SaveSlot row && File.Exists(row.Path)) await Open(row.Path); }
     private async Task OpenDirect()
     {
-        var dialog = new OpenFileDialog { Title = Tr.Text("Open Save File"), Filter = "Save Files (*.save)|*.save|All Files (*.*)|*.*", CheckFileExists = true };
-        if (dialog.ShowDialog(this) == true) await Open(dialog.FileName);
+        if (Ui.PickSave(this) is { } file) await Open(file);
     }
     private async Task Open(string file)
     {
