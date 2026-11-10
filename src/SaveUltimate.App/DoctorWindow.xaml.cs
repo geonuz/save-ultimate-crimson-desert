@@ -138,6 +138,8 @@ public sealed partial class DoctorWindow : Window
         foreach (var (slot, done) in rows.Select((r, i) => (r, i + 1)).ToArray())
         {
             View.ScanText = Tr.Format("ui.doctor_scanning", ("done", done.ToString("N0")), ("total", rows.Count.ToString("N0")));
+            // Selecting a slot already checks it, so wait for that result instead of checking the same file twice.
+            if (slot == Slots.SelectedItem) { await inspected; if (closed || run != scan) return; }
             if (!slot.Inspected)
             {
                 var found = await Task.Run(() => SaveCheckup.Run(slot.Path, Ui.GameVersion));
