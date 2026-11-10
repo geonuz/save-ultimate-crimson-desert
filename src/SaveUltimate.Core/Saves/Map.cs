@@ -122,9 +122,8 @@ public sealed partial class SaveDocument
         if (missing.Length == 0 && repair.Count == 0) return ([], before);
         int index = layout.TypeIndex("LevelGimmickSceneObjectElementSaveData");
         var type = layout.Types[index];
-        if (!type.Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(new[]
-            { ("_levelGimmickSceneObjectInfoKey", "LevelGimmickSceneObjectInfoKey", 0, 4), ("_sceneObjectUuid", "uint4", 0, 16),
-              ("_fogPivotPosition", "float3", 0, 12), ("_isCompleted", "bool", 0, 1), ("_isDiscoverd", "bool", 0, 1) }))
+        if (!type.Is(("_levelGimmickSceneObjectInfoKey", "LevelGimmickSceneObjectInfoKey", 0, 4), ("_sceneObjectUuid", "uint4", 0, 16),
+            ("_fogPivotPosition", "float3", 0, 12), ("_isCompleted", "bool", 0, 1), ("_isDiscoverd", "bool", 0, 1)))
             throw new InvalidDataException("Unsupported discovery insertion layout.");
         var expected = new Dictionary<string, MapDiscovery>(before);
         var rows = new List<Dictionary<string, ReadOnlyMemory<byte>>>();
@@ -199,8 +198,7 @@ public sealed partial class SaveDocument
             var after = new MapState(ReadFog(candidate, layout), ReadDiscoveries(candidate, DiscoveryList(candidate, layout)), afterKnowledge, progress);
             if (!levels.OrderBy(p => p.Key).SequenceEqual(afterKnowledge.OrderBy(p => p.Key)) ||
                 !discoveries.OrderBy(p => p.Key).SequenceEqual(after.Discoveries.OrderBy(p => p.Key)) ||
-                expectedProgress is not null && (!expectedProgress.Quest.OrderBy(p => p.Key).SequenceEqual(progress.Quest.OrderBy(p => p.Key)) ||
-                    !expectedProgress.Mission.OrderBy(p => p.Key).SequenceEqual(progress.Mission.OrderBy(p => p.Key))))
+                expectedProgress?.Matches(progress) == false)
                 throw new InvalidDataException("Map transaction verification failed.");
             result = (after, SkillState.Read(candidate, block, items));
         });

@@ -101,8 +101,7 @@ public sealed partial class SaveDocument
     private static ListEdit KnowledgeEdit(ParcLayout layout, SaveField list, Dictionary<uint, uint> changes)
     {
         var type = layout.Types.Single(t => t.Name == "KnowledgeElementSaveData");
-        if (!type.Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(new[]
-            { ("_key", "KnowledgeKey", 0, 4), ("_level", "TLevel", 0, 4), ("_learnedFieldTime", "uint64", 0, 8), ("_isNewMark", "bool", 0, 1) }))
+        if (!type.Is(("_key", "KnowledgeKey", 0, 4), ("_level", "TLevel", 0, 4), ("_learnedFieldTime", "uint64", 0, 8), ("_isNewMark", "bool", 0, 1)))
             throw new InvalidDataException("Unsupported knowledge insertion layout.");
         return new ListEdit(list, "KnowledgeElementSaveData", "_key", changes.ToDictionary(p => p.Key, p => new Dictionary<string, ScalarValue>
         {

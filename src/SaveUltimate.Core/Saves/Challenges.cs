@@ -52,6 +52,10 @@ public sealed record ChallengeCatalog(ChallengeGroup[] Groups, Dictionary<uint, 
 public sealed record JournalRecord(byte? State, ulong? Completed, ulong? Branched, uint? Count = null, byte? Ui = null);
 public sealed record ChallengeState(IReadOnlyDictionary<uint, JournalRecord> Quest, IReadOnlyDictionary<uint, JournalRecord> Mission)
 {
+    // Records compare dictionaries by reference, so the rows are compared here.
+    public bool Matches(ChallengeState other) =>
+        Quest.OrderBy(p => p.Key).SequenceEqual(other.Quest.OrderBy(p => p.Key)) &&
+        Mission.OrderBy(p => p.Key).SequenceEqual(other.Mission.OrderBy(p => p.Key));
     internal static ChallengeState Read(byte[] raw, SaveObject block)
     {
         Dictionary<uint, JournalRecord> ReadList(bool mission)
@@ -106,9 +110,7 @@ public sealed partial class SaveDocument
         Transact(candidate, ["QuestSaveData"], (layout, _) =>
         {
             after = ChallengeState.Read(candidate, SaveRecords.Read(candidate, layout, "QuestSaveData"));
-            if (!expected.Quest.OrderBy(p => p.Key).SequenceEqual(after.Quest.OrderBy(p => p.Key)) ||
-                !expected.Mission.OrderBy(p => p.Key).SequenceEqual(after.Mission.OrderBy(p => p.Key)))
-                throw new InvalidDataException("Challenge completion verification failed.");
+            if (!expected.Matches(after)) throw new InvalidDataException("Challenge completion verification failed.");
         });
         return (after, count);
     }

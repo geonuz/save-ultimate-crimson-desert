@@ -60,8 +60,7 @@ public sealed partial class SaveDocument
             return FishRows(Layout, list, records, levels);
         }
         var type = Layout.Types.Single(t => t.Name == "MiniGameRecordSaveData");
-        if (!type.Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(new[]
-            { ("_key", "KnowledgeKey", 0, 4), ("_record", "float", 0, 4) }))
+        if (!type.Is(("_key", "KnowledgeKey", 0, 4), ("_record", "float", 0, 4)))
             throw new InvalidDataException("Unsupported catch record insertion layout.");
         byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer,
             new ListEdit(list, "MiniGameRecordSaveData", "_key", new()

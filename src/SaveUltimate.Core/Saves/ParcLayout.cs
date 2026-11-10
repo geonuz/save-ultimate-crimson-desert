@@ -7,6 +7,9 @@ public sealed record ParcField(string Name, string TypeName, ushort Kind, ushort
 public sealed record ParcType(string Name, IReadOnlyList<ParcField> Fields)
 {
     public int MaskSize => (Fields.Count + 7) / 8;
+    // Edits that insert rows write every field themselves, so they first check the type is exactly the one they know.
+    public bool Is(params (string Name, string Type, int Kind, int Size)[] fields) =>
+        Fields.Select(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size)).SequenceEqual(fields);
 }
 public sealed record ParcBlock(int Index, int TypeIndex, string Name, int Offset, int Size);
 public sealed record ParcLayout(IReadOnlyList<ParcType> Types, IReadOnlyList<ParcBlock> Blocks, int SchemaEnd)

@@ -61,8 +61,7 @@ public sealed partial class SaveDocument
             var after = SaveRecords.Read(candidate, layout, "QuestSaveData");
             var state = ChallengeState.Read(candidate, after);
             if (after.Fields.Named("_missionStateList").ListElements.Any(r => RecordLists.Fields(candidate, type, r) is null) ||
-                !before.Quest.OrderBy(p => p.Key).SequenceEqual(state.Quest.OrderBy(p => p.Key)) ||
-                !before.Mission.OrderBy(p => p.Key).SequenceEqual(state.Mission.OrderBy(p => p.Key)))
+                !before.Matches(state))
                 throw new InvalidDataException("Mission row repair verification failed.");
         });
         return damaged;

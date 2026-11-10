@@ -23,9 +23,21 @@ public sealed record Companion(ulong Number, uint Key, string? Name)
 
 public sealed partial class SaveDocument
 {
+    private static SaveField MercenaryList(byte[] raw, ParcLayout layout) => SaveRecords.Read(raw, layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
+    // Adopts the candidate only if it reads back as the expected roster.
+    private Companion[] CommitCompanions(byte[] candidate, Companion[] expected, string failure)
+    {
+        Companion[] after = [];
+        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
+        {
+            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
+            if (!after.SequenceEqual(expected)) throw new InvalidDataException(failure);
+        });
+        return after;
+    }
     private static (Companion Value, int MaskOffset, int NameIndex, int Start, int End)[] CompanionRecords(byte[] raw, ParcLayout layout)
     {
-        var list = SaveRecords.Read(raw, layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
+        var list = MercenaryList(raw, layout);
         var seen = new HashSet<ulong>();
         return list.Elements("MercenarySaveData").Select(row =>
         {
@@ -64,14 +76,7 @@ public sealed partial class SaveDocument
             regions.Add((row.Start, row.End, _ => bytes));
         }
         var expected = records.Select(r => targets.Any(t => t.Number == r.Value.Number) ? r.Value with { Name = name } : r.Value).ToArray();
-        byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
-        Companion[] after = [];
-        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
-        {
-            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
-            if (!after.SequenceEqual(expected)) throw new InvalidDataException("Companion name verification failed.");
-        });
-        return after;
+        return CommitCompanions(RecordLists.RewriteRegions(blob, EditBuffer, regions), expected, "Companion name verification failed.");
     }
 }
 
@@ -81,8 +86,7 @@ public sealed partial class SaveDocument
 {
     public const uint RobotWorker = 1000006;
 
-    public Dictionary<ulong, CompanionDetail> ReadCompanionDetails() => SaveRecords.Read(blob, Layout, "MercenaryClanSaveData")
-        .Fields.Named("_mercenaryDataList").Elements("MercenarySaveData").ToDictionary(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8), r => Detail(r.ChildFields));
+    public Dictionary<ulong, CompanionDetail> ReadCompanionDetails() => MercenaryList(blob, Layout).Elements("MercenarySaveData").ToDictionary(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8), r => Detail(r.ChildFields));
 
     private CompanionDetail Detail(SaveField[] row)
     {
@@ -136,7 +140,7 @@ public sealed partial class SaveDocument
     // elsewhere (workplace operators, camp spawns), so a copy, or a removal of one it does not name, touches only this list.
     private Companion[] EditWorkers(uint add, Companion? remove)
     {
-        var list = SaveRecords.Read(blob, Layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
+        var list = MercenaryList(blob, Layout);
         var rows = list.Elements("MercenarySaveData");
         var before = ReadCompanions();
         ulong NumberOf(SaveField r) => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8);
@@ -181,14 +185,7 @@ public sealed partial class SaveDocument
             regions.Add((row.StartOffset, row.EndOffset, _ => []));
             expected = before.Where(c => c.Number != remove.Number).ToArray();
         }
-        byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
-        Companion[] after = [];
-        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
-        {
-            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
-            if (!after.SequenceEqual(expected)) throw new InvalidDataException("Worker verification failed.");
-        });
-        return after;
+        return CommitCompanions(RecordLists.RewriteRegions(blob, EditBuffer, regions), expected, "Worker verification failed.");
     }
 
     // Every object and list element in a record points at its own payload with an absolute u32 just before it, and list
@@ -218,18 +215,12 @@ public sealed partial class SaveDocument
         var before = ReadCompanions();
         if (first.Number == second.Number || first.Group != second.Group || first.Group is not ("pet" or "special") || !before.Contains(first) || !before.Contains(second))
             throw new InvalidOperationException("The order cannot change or the selection changed. Load the save again.");
-        var rows = SaveRecords.Read(blob, Layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList").Elements("MercenarySaveData");
+        var rows = MercenaryList(blob, Layout).Elements("MercenarySaveData");
         SaveField Row(Companion c) => rows.Single(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8) == c.Number);
         SaveField a = Row(first), b = Row(second);
         byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer,
             [(a.StartOffset, a.EndOffset, start => MovedRecord(b, start, first.Number)), (b.StartOffset, b.EndOffset, start => MovedRecord(a, start, second.Number))]);
         var expected = before.Select(c => c.Number == first.Number ? second with { Number = first.Number } : c.Number == second.Number ? first with { Number = second.Number } : c).ToArray();
-        Companion[] after = [];
-        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
-        {
-            after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
-            if (!after.SequenceEqual(expected)) throw new InvalidDataException("Companion order verification failed.");
-        });
-        return after;
+        return CommitCompanions(candidate, expected, "Companion order verification failed.");
     }
 }
