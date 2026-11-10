@@ -7,7 +7,7 @@ Use Windows x64, Git, the .NET SDK 10.0.402 (or a later 10.0.4xx patch, see
 src/
   SaveUltimate.App/     WPF application (pages, view models, themes)
   SaveUltimate.Core/    Save container, records, edits, Undo, backups, game-data sync
-  SaveUltimate.Tools/   Command-line inspect/extract/texture helpers (not shipped)
+  SaveUltimate.Tools/   Command-line helpers and the builders of the baseline catalogs (not shipped)
 resources/              Baseline catalogs, UI translations, fonts and original artwork
 tests/                  MSTest regression suite
 scripts/                Build and verification scripts

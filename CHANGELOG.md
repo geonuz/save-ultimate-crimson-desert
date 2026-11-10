@@ -6,6 +6,7 @@
   could not be saved over a slot's save.save when it held item or mercenary numbers above that slot's lobby counter.
   The slot's lobby is now raised past them, as intended.
 - The editor starts a little faster: the item catalog is built once instead of up to four times.
+- Save Doctor checks the selected save once instead of twice when it opens.
 
 ## [1.6.0]
 
