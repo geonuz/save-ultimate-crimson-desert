@@ -9,8 +9,10 @@ namespace SaveUltimate.App;
 
 public sealed class ItemCatalog
 {
-    public static ItemCatalog Shared { get; private set; } = new();
-    public static void Reset() => Shared = new();
+    // Built on first use: startup resets it several times (language, cache, DLC) before anything reads it.
+    private static ItemCatalog? shared;
+    public static ItemCatalog Shared => shared ??= new();
+    public static void Reset() => shared = null;
     private readonly Dictionary<uint, JsonElement> items;
     private readonly Dictionary<string, JsonElement> details;
     private readonly Dictionary<string, string> stores;

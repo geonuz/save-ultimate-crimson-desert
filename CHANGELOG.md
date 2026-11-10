@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1]
+
+- **Fixed: Save As into a slot could fail with "Not a complete SAVE container".** A save opened from outside a slot folder
+  could not be saved over a slot's save.save when it held item or mercenary numbers above that slot's lobby counter.
+  The slot's lobby is now raised past them, as intended.
+- The editor starts a little faster: the item catalog is built once instead of up to four times.
+
 ## [1.6.0]
 
 Festival recruits, mercenary skills and character pictures, and item numbers that stay unique after saving into another

@@ -7,7 +7,9 @@ namespace SaveUltimate.App;
 public static class ItemImages
 {
     private static readonly Dictionary<(string, uint, bool), BitmapImage?> cache = new();
-    internal static void Clear() => cache.Clear();
+    // Paths found missing, kept apart so they do not use up the image cache. A sync clears both.
+    private static readonly HashSet<string> missing = [];
+    internal static void Clear() { cache.Clear(); missing.Clear(); }
     // Items without a game image show nothing; the Theme style collapses an Image whose Source is null.
     public static BitmapImage? Get(uint key, uint size) =>
         GetFile(Path.Combine(AppContext.BaseDirectory, "icons_local", $"{key}.webp"), size)
@@ -17,7 +19,8 @@ public static class ItemImages
     {
         // Rows re-request icons on every scroll; answer cached paths without touching the disk.
         if (cache.TryGetValue((path, size, trim), out var cached)) return cached;
-        if (!File.Exists(path)) return null;
+        if (missing.Contains(path)) return null;
+        if (!File.Exists(path)) { missing.Add(path); return null; }
         BitmapImage? bitmap = null;
         try
         {
