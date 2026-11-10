@@ -4,7 +4,7 @@ using ImageMagick;
 using K4os.Compression.LZ4;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.Core.Binary;
-using SaveUltimate.Core.Images;
+using SaveUltimate.Tools;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.Tests;

@@ -3,8 +3,8 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using SaveUltimate.Core.Archives;
 using SaveUltimate.Core.Catalogs;
-using SaveUltimate.Core.Images;
 using SaveUltimate.Core.Saves;
+using SaveUltimate.Tools;
 
 var root = new RootCommand("SaveUltimate C# tools — local files only");
 // Match the shipped resources: readable non-ASCII text, indented unless compact; never overwrites.

@@ -1,6 +1,8 @@
 using System.Text.Json.Nodes;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Port of the Python character name, companion type and NPC catalog builders, including DLC tables. CharacterInfo is
 // only partly decoded: owned localization references are located by their self-identifying bytes, and the

@@ -1,6 +1,6 @@
 using ImageMagick;
 
-namespace SaveUltimate.Core.Images;
+namespace SaveUltimate.Tools;
 
 public readonly record struct CropRectangle(int X, int Y, int Width, int Height);
 

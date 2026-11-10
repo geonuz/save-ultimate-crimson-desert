@@ -2,7 +2,9 @@ using System.Security.Cryptography;
 using System.Text.Json.Nodes;
 using SaveUltimate.Core.Archives;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Client tables and string files for one catalog build, layered base first and tagged "" or ".<dlc>" as in the file
 // names. Every file read is recorded for the catalog's sourceSha256.

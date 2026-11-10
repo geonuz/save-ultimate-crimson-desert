@@ -12,6 +12,8 @@
     <EmbeddedResource Include="../../resources/data/max_enchant_map.json" LogicalName="MaxEnchant.json" />
     <EmbeddedResource Include="../../resources/data/item_names.json" LogicalName="ItemCatalog.json" />
     <InternalsVisibleTo Include="SaveUltimate.Tests" />
+    <!-- The catalog builders live in Tools and read the client tables through Core's internal readers. -->
+    <InternalsVisibleTo Include="SaveUltimate.Tools" />
     <PackageReference Include="K4os.Compression.LZ4" />
     <PackageReference Include="Magick.NET-Q8-x64" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SaveUltimate.Core.Catalogs;
+using SaveUltimate.Tools;
 
 namespace SaveUltimate.Tests;
 

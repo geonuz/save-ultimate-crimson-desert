@@ -2,7 +2,9 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Port of the Python quest_catalog builder: journal groups, quests and challenge missions from the installed client,
 // including DLC tables.

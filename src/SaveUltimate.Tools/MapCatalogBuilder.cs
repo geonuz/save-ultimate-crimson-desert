@@ -1,7 +1,9 @@
 using System.Buffers.Binary;
 using System.Text.Json.Nodes;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Port of the Python map_exploration scene catalog and map_actions builders, including the DLC scene file.
 public static class MapCatalogBuilder

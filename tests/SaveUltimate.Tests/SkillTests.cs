@@ -15,7 +15,7 @@ public sealed class SkillTests
     [TestCategory("Unit")]
     public void SkillDescriptionsNameKeyPromptsAndResolveLabelledLinks()
     {
-        var bindings = SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyBindings("""
+        var bindings = SaveUltimate.Tools.SkillCatalogBuilder.KeyBindings("""
             <SubGroup Name="Skill_17"><Input Name="Key_Skill_17"/></SubGroup>
             <!-- <Input Name="Key_Jump"><KeyboardMouse Key="j"/></> -->
             <Input Name="Key_Roll"><GamePad Key="buttonB"/><KeyboardMouse Name="OverrideKey1" Key="alt"/><KeyboardMouse Name="OverrideKey2" Key="mouseX2"/></>
@@ -24,9 +24,9 @@ public sealed class SkillTests
             <Input Name="Key_Skill_17"><KeyboardMouse Key="q"/></>
             """);
         CollectionAssert.AreEquivalent(new[] { "Roll", "Skill17", "FocusMabongpa" }, bindings.Keys.ToArray());
-        Assert.AreEqual("사용 방법: 달리는 중 [F + 우클릭]", SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("사용 방법: 달리는 중 {Key:Key_Skill_17}", bindings, 1));
+        Assert.AreEqual("사용 방법: 달리는 중 [F + 우클릭]", SaveUltimate.Tools.SkillCatalogBuilder.KeyLabels("사용 방법: 달리는 중 {Key:Key_Skill_17}", bindings, 1));
         Assert.AreEqual("[Alt][Tab], [F + Right Click] or [Jump]",
-            SaveUltimate.Core.Catalogs.SkillCatalogBuilder.KeyLabels("{Key:Key_Roll}{Key:Key_FocusMabongpa}, {Key:Key_Skill_17} or {Key:Key_Jump}", bindings, 0));
+            SaveUltimate.Tools.SkillCatalogBuilder.KeyLabels("{Key:Key_Roll}{Key:Key_FocusMabongpa}, {Key:Key_Skill_17} or {Key:Key_Jump}", bindings, 0));
         var resources = new DirectoryInfo(AppContext.BaseDirectory);
         while (!File.Exists(Path.Combine(resources.FullName, "resources/data/skills.json"))) resources = resources.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
         var skills = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, "resources/data/skills.json")))!["skills"]!.AsObject();

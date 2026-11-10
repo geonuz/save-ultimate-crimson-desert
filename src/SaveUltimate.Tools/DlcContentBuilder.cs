@@ -1,6 +1,8 @@
 using System.Text.Json.Nodes;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Content the DLC adds: keys found only in a ".<dlc>" table layer and scene placements found only in a DLC scene file.
 // Keys a DLC layer overrides (242 items, 70 quests in dlc_01) stay base content.

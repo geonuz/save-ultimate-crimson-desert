@@ -2,7 +2,9 @@ using System.Buffers.Binary;
 using System.Text;
 using System.Text.Json.Nodes;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Port of the Python knowledge_catalog, refresh_knowledge_fishing and extract_knowledge_details builders: the visible
 // journal hierarchy, knowledge names and descriptions and the fishing list, including DLC tables.

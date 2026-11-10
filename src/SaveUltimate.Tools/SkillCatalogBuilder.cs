@@ -1,7 +1,9 @@
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
-namespace SaveUltimate.Core.Catalogs;
+using SaveUltimate.Core.Catalogs;
+
+namespace SaveUltimate.Tools;
 
 // Port of the Python skills catalog builder: the three skill trees and the learning routes of their knowledge,
 // including DLC tables.
