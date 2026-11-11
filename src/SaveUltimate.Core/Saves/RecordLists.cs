@@ -148,6 +148,49 @@ internal static class RecordLists
         writer.Write(checked((uint)payload.Length));
     }
 
+    // An object nested in a record (kind 4 field): its type, which the schema field does not name, and its fields.
+    internal sealed record Nested(string Type, IReadOnlyDictionary<string, object> Values);
+
+    // A whole object by the layout table in ParcReader, nested objects included. Values name the present fields: fixed fields
+    // hold their bytes, object fields a Nested. Absent arrays and lists still take their 01 marker. start is where it lands.
+    internal static byte[] ObjectBytes(ParcLayout layout, Nested value, int start)
+    {
+        using var output = new MemoryStream();
+        WriteObject(output, start, layout, value);
+        return output.ToArray();
+    }
+
+    private static void WriteObject(MemoryStream output, int start, ParcLayout layout, Nested value)
+    {
+        int typeIndex = layout.TypeIndex(value.Type);
+        var type = layout.Types[typeIndex];
+        if (value.Values.Keys.Any(name => !type.Fields.Any(f => f.Name == name))) throw new InvalidDataException($"{value.Type} has no such field.");
+        byte[] mask = new byte[type.MaskSize];
+        foreach (var f in type.Fields) if (value.Values.ContainsKey(f.Name)) mask[f.Index / 8] |= (byte)(1 << (f.Index % 8));
+        using var writer = new BinaryWriter(output, System.Text.Encoding.UTF8, leaveOpen: true);
+        writer.Write(checked((ushort)mask.Length)); writer.Write(mask); writer.Write(checked((ushort)typeIndex));
+        writer.Write((byte)0); writer.Write(ulong.MaxValue);
+        long payload = output.Position + 4;
+        writer.Write(checked((uint)(start + payload)));
+        writer.Write(0u);
+        writer.Flush();
+        foreach (var f in type.Fields)
+        {
+            if (!value.Values.TryGetValue(f.Name, out var field))
+            {
+                if (f.Kind is 3 or 6 or 7) output.WriteByte(1);
+                continue;
+            }
+            switch (f.Kind, field)
+            {
+                case (0 or 2, byte[] bytes) when bytes.Length == f.Size && f.Size > 0: output.Write(bytes); break;
+                case (4, Nested nested): WriteObject(output, start, layout, nested); break;
+                default: throw new InvalidDataException($"Unsupported value for {value.Type}.{f.Name}.");
+            }
+        }
+        writer.Write(checked((uint)(output.Position - payload)));
+    }
+
     internal static byte[] RowBytes(int start, ParcType type, int typeIndex, IReadOnlyDictionary<string, ReadOnlyMemory<byte>> values)
     {
         using var output = new MemoryStream();

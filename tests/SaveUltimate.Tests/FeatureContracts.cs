@@ -33,6 +33,8 @@ internal static class FeatureContracts
         ["Fishing"] = doc => doc.ReadFishing().Select(r => $"{r.Fish.Key} level={r.Level} size={r.Size} available={r.RecordTypeAvailable}").ToArray(),
         ["Companions"] = doc => doc.ReadCompanions().Select(c => $"{c.Number} {c.Key} {c.Name}").ToArray(),
         ["Friendship"] = doc => doc.ReadFriendship().Select(FriendshipLine).ToArray(),
+        ["Business"] = doc => doc.ReadManagement().Select(s => $"{s.Shop.Key} level={s.Level} high={s.HighLevel} score={s.Score} rewarded={s.RewardedLevel}").ToArray(),
+        ["Clock"] = doc => [doc.ReadFieldTime().Raw.ToString()],
     };
 
     private static readonly string[] KnowledgeSections = ["Knowledge", "Skills", "Fishing"];
@@ -214,10 +216,11 @@ internal static class FeatureContracts
         });
     }
 
+    // A save needs no Grey-0 of its own: the record is written from the schema.
     private static ContractEdit? GreyZero(SaveDocument doc)
     {
         var before = doc.ReadCompanions();
-        if (!before.Any(c => c.Key == SaveDocument.RobotWorker)) return null;
+        if (!doc.CanAddWorkers) return null;
         return new(() =>
         {
             doc.RemoveWorker(doc.AddWorker(SaveDocument.RobotWorker).Last(c => c.Key == SaveDocument.RobotWorker));
@@ -245,6 +248,27 @@ internal static class FeatureContracts
             Require(after.Length == before.Length + 1 && before.All(after.Contains) && after.Count(c => c.Key == key) == 1, "The guest worker was not added once.");
             Require(!SaveDocument.WorkerChoices(after).Contains(key), "An added guest worker is still offered.");
         });
+    }
+
+    private static ContractEdit? Business(SaveDocument doc)
+    {
+        var before = doc.ReadManagement();
+        if (before.FirstOrDefault(s => s.Editable) is not { } shop) return null;
+        uint level = shop.Level == shop.Shop.MaxLevel ? shop.Level!.Value - 1 : shop.Level!.Value + 1;
+        return new(() => doc.SetManagementLevel(shop.Shop.Key, level), () =>
+        {
+            var after = doc.ReadManagement();
+            var changed = after.Single(s => s.Shop.Key == shop.Shop.Key);
+            Require(changed.Level == level && changed.HighLevel == Math.Max(level, shop.HighLevel!.Value) && changed.Score is null, "The renown did not take the new level.");
+            Require(after.Where(s => s.Shop.Key != shop.Shop.Key).SequenceEqual(before.Where(s => s.Shop.Key != shop.Shop.Key)), "Another business changed.");
+        });
+    }
+
+    private static ContractEdit? Clock(SaveDocument doc)
+    {
+        var before = doc.ReadFieldTime();
+        return new(() => doc.AdvanceFieldTime(before.After(1, 0, 0)), () =>
+            Require(doc.ReadFieldTime().Raw == before.Raw + FieldClock.UnitsPerDay, "The clock did not move one day forward."));
     }
 
     private static ContractEdit? Trust(SaveDocument doc)
@@ -309,5 +333,7 @@ internal static class FeatureContracts
         new("Guest worker add and remove", ["Companions"], GuestWorker),
         new("NPC trust", ["Friendship"], Trust),
         new("DLC bond", ["Friendship", "Challenges"], Bond),
+        new("Business renown", ["Business"], Business),
+        new("Field time forward", ["Clock"], Clock),
     ];
 }

@@ -12,9 +12,11 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
 {
     [JsonPropertyName("label_ref")]
     public System.Text.Json.JsonElement[]? LabelRef { get; init; }
-    // A found cave, tower, temple or shrine stands at its last level in natural saves, and the game checks it off only then.
-    // Nodes keep level 1: their later levels vary between natural saves and their meaning is unknown.
-    public bool FullLevel => Mode == "locations" && LabelKey != "map.node";
+    // A found cave, region, hidden space or shrine stands at its last level in natural saves, and the game checks it off only then.
+    // Nodes keep level 1: their later levels vary between natural saves and their meaning is unknown. Spires, shadow sanctums,
+    // witch hideouts and the Abyss also keep level 1: quests raise their later levels.
+    private static readonly HashSet<string> FirstLevelOnly = ["Spires", "Shadow Sanctums", "Witch Hideouts", "The Abyss"];
+    public bool FullLevel => Mode == "locations" && LabelKey != "map.node" && !FirstLevelOnly.Contains(Names["en"]);
     public uint TargetLevel(uint key) => FullLevel ? KnowledgeCatalog.Shared.LevelCounts.GetValueOrDefault(key, 1u) : 1;
     private static readonly MapAction[] shipped = Embedded.Load<MapAction[]>("MapActions.json");
     private static MapAction[]? baseGame;

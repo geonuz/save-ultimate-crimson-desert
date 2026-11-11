@@ -6,6 +6,8 @@
   "npcs": "M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M2 21v-3c0-4 12-4 12 0v3M17 4a4 4 0 0 1 0 8M18 15c3 0 4 1 4 3v3",
   "database": "M3 6c0-5 18-5 18 0s-18 5-18 0v12c0 5 18 5 18 0V6M3 12c0 5 18 5 18 0",
   "backup": "M3 10a9 9 0 1 1 0 5M3 4v6h6M12 7v6l4 2",
+  "life": "M3 10l9-7 9 7v11H3V10M9 21v-6h6v6",
+  "misc": "M4 4h6v6H4V4M14 4h6v6h-6V4M4 14h6v6H4v-6M14 14h6v6h-6v-6",
   "apply": "M4 12l5 5L20 6",
   "save": "M4 3h13l4 4v14H3V3h1M7 3v6h10V3M7 21v-8h10v8",
   "open": "M3 7V4h7l3 3h8v13H3V7M3 10h18",

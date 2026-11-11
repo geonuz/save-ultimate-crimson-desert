@@ -12,6 +12,15 @@ namespace SaveUltimate.Tests;
 public sealed class WorldTests
 {
     [TestMethod]
+    [TestCategory("Unit")]
+    public void QuestLinkedPlacesLearnOnlyTheFirstLevel()
+    {
+        // Quests raise the later levels of spires, sanctums, hideouts and the Abyss, so only places without quests go to their last level.
+        string[] full = MapAction.All.Where(a => a.FullLevel).Select(a => a.Names["en"]).ToArray();
+        CollectionAssert.AreEqual(new[] { "Regions", "Hidden Spaces", "Caves", "Greymane Shrines" }, full);
+    }
+
+    [TestMethod]
     [TestCategory("Scenario")]
     [TestCategory("PrivateFixtures")]
     public void MapNpcAndCompanionEditsTouchOnlyTheirRecordsAndUndo()
@@ -313,7 +322,7 @@ public sealed class WorldTests
         Assert.ThrowsExactly<InvalidOperationException>(() => doc.AddWorker(1000944));
         // The page shows why a row cannot be removed; null means the removal goes through.
         var details = doc.ReadCompanionDetails(); var named = doc.FactionWorkers();
-        string? Block(Companion c) => SaveDocument.RemoveBlock(c, roster, details.GetValueOrDefault(c.Number), named);
+        string? Block(Companion c) => SaveDocument.RemoveBlock(c, details.GetValueOrDefault(c.Number), named);
         Assert.AreEqual("workplace", Block(roster.Single(c => c.Key == 1003524)));
         Assert.AreEqual("spawn", Block(roster.Single(c => c.Number == 1087743)));
         Assert.AreEqual("quest", Block(roster.Single(c => c.Key == 50901)));

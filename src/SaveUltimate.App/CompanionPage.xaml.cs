@@ -101,8 +101,8 @@ public partial class CompanionPage : UserControl
         MoveUp.IsEnabled = orderable && row is not null && index > 0;
         MoveDown.IsEnabled = orderable && row is not null && index < Rows.Items.Count - 1;
         if (Pets) return;
-        AddRobot.IsEnabled = Model.Companions?.Any(c => SaveDocument.IsWorker(c.Key)) == true;
-        string? block = row is null ? null : SaveDocument.RemoveBlock(row.Record, Model.Companions ?? [], row.Detail, factionWorkers);
+        AddRobot.IsEnabled = Model.Companions is not null && Model.CanAddWorkers;
+        string? block = row is null ? null : SaveDocument.RemoveBlock(row.Record, row.Detail, factionWorkers);
         RemoveRobot.IsEnabled = row is not null && block is null;
         RemoveReason.Text = block is null ? "" : Tr.Text("companion.remove_block." + block);
         RemoveReason.Visibility = block is null ? Visibility.Collapsed : Visibility.Visible;

@@ -127,41 +127,63 @@ public sealed partial class SaveDocument
             foreach (var f in SaveRecords.ReadObjects(blob, Layout, block).SelectMany(o => o.Fields)) Visit(f);
         return found;
     }
-    /// <summary>Why a mercenary cannot be removed ("quest", "last_robot", "workplace", "spawn"), or null when it can.</summary>
-    public static string? RemoveBlock(Companion worker, IReadOnlyCollection<Companion> roster, CompanionDetail? detail, IReadOnlySet<ulong> factionWorkers) =>
+    /// <summary>Why a mercenary cannot be removed ("quest", "workplace", "spawn"), or null when it can.</summary>
+    public static string? RemoveBlock(Companion worker, CompanionDetail? detail, IReadOnlySet<ulong> factionWorkers) =>
         !IsWorker(worker.Key) ? "quest"
-        : worker.Key == RobotWorker && roster.Count(c => c.Key == RobotWorker) < 2 ? "last_robot"
         : detail?.Workplace is not null ? "workplace"
         : factionWorkers.Contains(worker.Number) ? "spawn" : null;
     public Companion[] AddWorker(uint key) => EditWorkers(key, null);
     public Companion[] RemoveWorker(Companion worker) => EditWorkers(0, worker);
 
+    // The fields a recruited worker's record holds, as the game writes it (slot pair 106 → 105, 2026-11-11).
+    private static readonly (string Name, string Type, int Kind, int Size)[] WorkerFields =
+        [("_characterKey", "CharacterKey", 0, 4), ("_mercenaryNo", "MercenaryNo", 0, 8), ("_levelData", "ReflectObject", 4, 8),
+         ("_lastPaidTime", "uint64", 0, 8), ("_lastBreedingTime", "uint64", 0, 8), ("_isInitialize", "bool", 0, 1)];
+    /// <summary>Whether this save's schema has every type a new worker record needs. Saves from before the first companion may not.</summary>
+    public bool CanAddWorkers => Layout.Blocks.Any(b => b.Name == "MercenaryClanSaveData") && WorkerRecord(0, 0, 0) is not null;
+
+    // A recruit's record as the game writes it: key, number, an experience record holding only its empty daily counters, and
+    // pay and breeding times both set to the field time of the recruitment. Null when the schema lacks a type it needs.
+    private RecordLists.Nested? WorkerRecord(uint key, ulong number, ulong time)
+    {
+        var types = Layout.Types.ToDictionary(t => t.Name);
+        if (!types.TryGetValue("MercenarySaveData", out var mercenary) || !types.TryGetValue("ExperienceLevelSaveData", out var level) ||
+            !types.TryGetValue("FriendlyDailyCountSaveData", out _))
+            return null;
+        if (!WorkerFields.All(w => mercenary.Fields.Any(f => (f.Name, f.TypeName, (int)f.Kind, (int)f.Size) == w))) return null;
+        // Every object field of the experience record is a daily counter, and the game writes each one, empty.
+        var counters = level.Fields.Where(f => f.Kind == 4).ToArray();
+        if (counters.Length == 0 || counters.Any(f => !f.Name.EndsWith("DailyCountData", StringComparison.Ordinal))) return null;
+        return new("MercenarySaveData", new Dictionary<string, object>
+        {
+            ["_characterKey"] = BitConverter.GetBytes(key), ["_mercenaryNo"] = BitConverter.GetBytes(number),
+            ["_levelData"] = new RecordLists.Nested("ExperienceLevelSaveData",
+                counters.ToDictionary(f => f.Name, object (_) => new RecordLists.Nested("FriendlyDailyCountSaveData", new Dictionary<string, object>()))),
+            ["_lastPaidTime"] = BitConverter.GetBytes(time), ["_lastBreedingTime"] = BitConverter.GetBytes(time), ["_isInitialize"] = new byte[] { 1 }
+        });
+    }
+
     // Grey-0 robots and festival recruits hold only their key, number, pay times and flags. Only FactionSaveData names them
-    // elsewhere (workplace operators, camp spawns), so a copy, or a removal of one it does not name, touches only this list.
+    // elsewhere (workplace operators, camp spawns), so an addition, or a removal of one it does not name, touches only this list.
     private Companion[] EditWorkers(uint add, Companion? remove)
     {
         var list = MercenaryList(blob, Layout);
         var rows = list.Elements("MercenarySaveData");
         var before = ReadCompanions();
         ulong NumberOf(SaveField r) => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8);
-        uint KeyOf(SaveField r) => (uint)r.ChildFields.Named("_characterKey").Scalar(blob, "CharacterKey", 4);
-        // Keep one robot so a later addition still has a template.
-        if (remove is not null && (!IsWorker(remove.Key) || !before.Contains(remove) || remove.Key == RobotWorker && before.Count(c => c.Key == RobotWorker) < 2))
-            throw new InvalidOperationException("This is the last Grey-0 or the selection changed. Load the save again.");
+        if (remove is not null && (!IsWorker(remove.Key) || !before.Contains(remove)))
+            throw new InvalidOperationException("The mercenary selection changed. Load the save again.");
         if (remove is null && (!IsWorker(add) || add != RobotWorker && before.Any(c => c.Key == add)))
             throw new InvalidOperationException("This character cannot be added or is already in the roster.");
         if (remove is null) DlcContent.Refuse(add != RobotWorker);
+        if (!list.Present) throw new InvalidOperationException("This save has no companion list yet.");
         // A list header holds the marker byte, then the count.
         byte[] countBytes = BitConverter.GetBytes(rows.Length + (remove is null ? 1 : -1));
         var regions = new List<(int Start, int End, Func<int, byte[]> Encode)> { (list.StartOffset + 1, list.StartOffset + 5, _ => countBytes) };
         Companion[] expected;
         if (remove is null)
         {
-            bool Bare(SaveField r) => IsWorker(KeyOf(r)) && !r.ChildFields.Named("_workPlaceFactionNodeKey").Present &&
-                r.ChildFields.Named("_equipItemList").ListElements.Length == 0 && r.ChildFields.Named("_inventoryItemList").ListElements.Length == 0;
-            // A copy of the same character keeps its name; another character's copy needs an unnamed template.
-            var template = rows.LastOrDefault(r => Bare(r) && KeyOf(r) == add) ?? rows.LastOrDefault(r => Bare(r) && !r.ChildFields.Named("_mercenaryName").Present)
-                ?? throw new InvalidOperationException("This save has no unassigned Grey-0 or recruited worker to copy.");
+            if (!CanAddWorkers) throw new InvalidOperationException("This save's format has no room for a new worker yet. Recruit one in game first.");
             // Items and mercenaries share one number sequence whose counter sits in the slot's lobby.save, so a worker takes
             // the next number as a recruit would, and saving raises the lobby past it. Without a lobby, the worker takes the
             // highest number below the top inventory item that no bytes in the save hold: one an item used up, below any
@@ -174,9 +196,10 @@ public sealed partial class SaveDocument
                 do if (--number == 0) throw new InvalidOperationException("This save has no free number for a new worker.");
                 while (blob.AsSpan().IndexOf(BitConverter.GetBytes(number)) >= 0);
             }
-            regions.Add((template.EndOffset, template.EndOffset, start => MovedRecord(template, start, number, add)));
-            int at = Array.FindIndex(before, c => c.Number == NumberOf(template)) + 1;
-            expected = [.. before[..at], new Companion(number, add, before[at - 1].Name), .. before[at..]];
+            // The game appends a recruit and stamps it with the current field time.
+            var record = WorkerRecord(add, number, FieldTime())!;
+            regions.Add((list.EndOffset, list.EndOffset, start => RecordLists.ObjectBytes(Layout, record, start)));
+            expected = [.. before, new Companion(number, add, null)];
         }
         else
         {

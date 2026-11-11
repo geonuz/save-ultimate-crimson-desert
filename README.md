@@ -68,12 +68,23 @@ be raised.
 ### NPC
 
 - **Companions**: view level, skill points and equipment; add or remove Grey-0
-  robot workers (one always remains).
+  robot workers and festival recruits, even on a save that
+  has none yet.
 - **Pets & Special Mounts**: rename them and change their order, which the game
   does not offer.
 - **NPC Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
   toward Kliff, Oongka or Damiane. Raising Kliff's bond with a witch also advances
   her "Improve your bond" mission.
+
+### Life
+
+- **Business**: see every DLC sawmill, restaurant, forge and clothier,
+  and set the renown (1–5) of the shops you run.
+
+### Other
+
+- **Time**: move the game clock forward by days, hours and minutes. It never
+  goes back.
 
 ### Backup/Restore
 

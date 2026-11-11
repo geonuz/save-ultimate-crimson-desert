@@ -46,6 +46,8 @@
     <ListBoxItem Tag="Skills" Content="{local:Tr 'skills.title'}" ToolTip="{local:Tr skills.title}" AutomationProperties.Name="{local:Tr 'skills.title'}" MinHeight="44"/>
     <ListBoxItem Tag="Map" Content="{local:Tr 'tab.maps'}" ToolTip="{local:Tr tab.maps}" MinHeight="44"/>
     <ListBoxItem Tag="Companions" Content="{local:Tr 'tab.mercenary'}" ToolTip="NPC · F5" MinHeight="44"/>
+    <ListBoxItem Tag="Management" Content="{local:Tr 'tab.life'}" ToolTip="{local:Tr tab.life}" MinHeight="44"/>
+    <ListBoxItem Tag="FieldTime" Content="{local:Tr 'tab.misc'}" ToolTip="{local:Tr tab.misc}" MinHeight="44"/>
     <ListBoxItem Tag="Backups" Content="{local:Tr 'tab.backup'}" ToolTip="{local:Tr tab.backup}" AutomationProperties.Name="{local:Tr 'tab.backup'}" MinHeight="44"/>
    </ListBox>
   </DockPanel>
@@ -94,6 +96,14 @@
   <TabControl x:Name="NpcTabs" SelectedIndex="{Binding NpcPageIndex}" Grid.Row="1" Visibility="{Binding IsNpc, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
    <TabItem Header="{local:Tr companion.title}"/><TabItem Header="{local:Tr companion.pets}"/><TabItem Header="{local:Tr npc.title}"/>
   </TabControl>
+  <TabControl x:Name="LifeTabs" SelectedIndex="{Binding LifePageIndex}" Grid.Row="1" Visibility="{Binding IsLife, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
+   <TabItem Header="{local:Tr management.title}"/>
+  </TabControl>
+  <TabControl x:Name="MiscTabs" SelectedIndex="{Binding MiscPageIndex}" Grid.Row="1" Visibility="{Binding IsMisc, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
+   <TabItem Header="{local:Tr fieldtime.title}"/>
+  </TabControl>
+  <local:ManagementPage x:Name="ManagementArea" Grid.Row="3" Visibility="{Binding IsManagement, Converter={StaticResource BooleanVisibility}}"/>
+  <local:FieldTimePage x:Name="FieldTimeArea" Grid.Row="3" Visibility="{Binding IsFieldTime, Converter={StaticResource BooleanVisibility}}"/>
   <local:MapPage x:Name="MapArea" Grid.Row="3" Visibility="{Binding IsMap, Converter={StaticResource BooleanVisibility}}"/>
   <local:NpcPage x:Name="NpcArea" Grid.Row="3" Visibility="{Binding IsFriendship, Converter={StaticResource BooleanVisibility}}"/>
   <local:CompanionPage x:Name="CompanionArea" Grid.Row="3" Visibility="{Binding IsCompanions, Converter={StaticResource BooleanVisibility}}"/>

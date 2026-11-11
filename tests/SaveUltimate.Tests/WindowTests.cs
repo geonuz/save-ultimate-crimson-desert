@@ -147,7 +147,7 @@ public sealed class WindowTests
         CollectionAssert.AreEqual(new[] { "인벤토리", "아이템 교환(재구매)", "장비", "아이템 데이터베이스" }, tabs.Items.Cast<TabItem>().Select(t => (string)t.Header).ToArray());
         var navigation = (ListBox)window.FindName("PrimaryNavigation");
         model.CurrentPage = AppPage.Repurchase;
-        navigation.SelectedIndex = 5;
+        navigation.SelectedIndex = 7;
         Assert.IsTrue(model.IsBackups);
         Assert.AreEqual(Visibility.Collapsed, tabs.Visibility);
         navigation.SelectedIndex = 0;

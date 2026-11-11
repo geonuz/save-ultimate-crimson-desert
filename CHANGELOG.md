@@ -1,12 +1,17 @@
 # Changelog
 
-## [1.6.1]
+## [1.7.0]
 
-- **Fixed: Save As into a slot could fail with "Not a complete SAVE container".** A save opened from outside a slot folder
-  could not be saved over a slot's save.save when it held item or mercenary numbers above that slot's lobby counter.
-  The slot's lobby is now raised past them, as intended.
-- The editor starts a little faster: the item catalog is built once instead of up to four times.
-- Save Doctor checks the selected save once instead of twice when it opens.
+New Life and Other menus, and Add Mercenary on any save.
+
+- **New: Life → Business.** See every DLC sawmill, restaurant, forge and clothier, and set the renown (1–5) of the
+  shops you run. The game then pays the rewards of the levels you skipped.
+- **New: Other → Time.** Move the game clock forward by days, hours and minutes.
+- Add Mercenary now works even when you have no Grey-0 or festival recruit yet, and the last Grey-0 can be removed.
+- Activating spires, shadow sanctums, witch hideouts and the Abyss now only adds their discovery records, like nodes,
+  and leaves the quests tied to them alone.
+- **Fixed:** Save As into a slot could fail with "Not a complete SAVE container" for a save opened from outside a slot.
+- The editor and Save Doctor open faster.
 
 ## [1.6.0]
 
