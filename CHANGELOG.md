@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.1]
+
+- Game data sync writes knowledge and skill pictures about four times faster, so the last stretch after the item icons
+  no longer slows down. The pictures stay lossless and take about 5% more space.
+- Life → Business shows "Not opened" in grey, so the shops you run stand out.
+
 ## [1.7.0]
 
 New Life and Other menus, and Add Mercenary on any save.

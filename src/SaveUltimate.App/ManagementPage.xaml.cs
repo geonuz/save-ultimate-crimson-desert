@@ -16,6 +16,8 @@ public sealed class ManagementRow(ManagementState record) : ObservableObject
     // The player names a shop when opening it; until then it goes by its region and kind.
     public string Name => Record.CustomName is { Length: > 0 } name ? name : $"{Region} {Kind}".Trim();
     public string State => Tr.Text(Record.Operating ? "management.operating" : Record.InSave ? "management.not_operating" : "management.not_started");
+    // A business the save has never opened shows its state in grey.
+    public bool Dim => !Record.Operating && !Record.InSave;
     public string Level => Record.Operating ? Record.Shop.MaxLevel > 0 ? $"{Record.Level} / {Record.Shop.MaxLevel}" : $"{Record.Level}" : "—";
     internal void Update(ManagementState value) { Record = value; OnPropertyChanged(""); }
 }

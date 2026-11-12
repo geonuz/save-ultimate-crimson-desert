@@ -146,7 +146,7 @@
         "type": "Project",
         "dependencies": {
           "CommunityToolkit.Mvvm": "[8.4.2, )",
-          "SaveUltimate.Core": "[1.7.0, )"
+          "SaveUltimate.Core": "[1.7.1, )"
         }
       },
       "saveultimate.core": {
@@ -159,7 +159,7 @@
       "saveultimate.tools": {
         "type": "Project",
         "dependencies": {
-          "SaveUltimate.Core": "[1.7.0, )",
+          "SaveUltimate.Core": "[1.7.1, )",
           "System.CommandLine": "[2.0.13, )"
         }
       },

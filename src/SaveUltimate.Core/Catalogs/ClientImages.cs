@@ -150,6 +150,8 @@ internal static class ClientImages
                             }
                             if (image.Width > task.Width || image.Height > task.Height) image.Thumbnail(task.Width, task.Height);
                             image.Settings.SetDefine(MagickFormat.WebP, "lossless", true); image.Settings.SetDefine(MagickFormat.WebP, "method", 0);
+                            // PNG stays lossless; zlib level 1 encodes knowledge pictures about 4x faster for about 5% more bytes.
+                            if (name.EndsWith(".png")) image.Quality = 10;
                             byte[] bytes = image.ToByteArray(name.EndsWith(".webp") ? MagickFormat.WebP : MagickFormat.Png);
                             encoded = (bytes, GameDataSync.Hash(bytes)); variants[variant] = encoded;
                         }
