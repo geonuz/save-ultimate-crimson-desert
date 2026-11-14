@@ -83,8 +83,8 @@ internal static class RecordLists
 
     private static uint Identity(byte[] raw, SaveField field)
     {
-        if (!field.Present && field.TypeName != "SkillPointOwnerType") throw new InvalidDataException("Missing record identity.");
-        return field.Present ? checked((uint)field.Scalar(raw, field.TypeName, field.TypeName == "SkillPointOwnerType" ? 1 : 4)) : 0;
+        if (!field.Present) throw new InvalidDataException("Missing record identity.");
+        return checked((uint)field.Scalar(raw, field.TypeName, 4));
     }
 
     private static byte[] Integer(ScalarValue value)
@@ -152,7 +152,8 @@ internal static class RecordLists
     internal sealed record Nested(string Type, IReadOnlyDictionary<string, object> Values);
 
     // A whole object by the layout table in ParcReader, nested objects included. Values name the present fields: fixed fields
-    // hold their bytes, object fields a Nested. Absent arrays and lists still take their 01 marker. start is where it lands.
+    // hold their bytes, object fields a Nested, object lists a Nested[]. Absent arrays and lists still take their 01 marker.
+    // start is where it lands.
     internal static byte[] ObjectBytes(ParcLayout layout, Nested value, int start)
     {
         using var output = new MemoryStream();
@@ -185,6 +186,10 @@ internal static class RecordLists
             {
                 case (0 or 2, byte[] bytes) when bytes.Length == f.Size && f.Size > 0: output.Write(bytes); break;
                 case (4, Nested nested): WriteObject(output, start, layout, nested); break;
+                case (6, Nested[] rows):
+                    output.WriteByte(0); output.Write(BitConverter.GetBytes(rows.Length)); output.Write(new byte[13]);
+                    foreach (var row in rows) WriteObject(output, start, layout, row);
+                    break;
                 default: throw new InvalidDataException($"Unsupported value for {value.Type}.{f.Name}.");
             }
         }

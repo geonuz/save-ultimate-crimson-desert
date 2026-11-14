@@ -3,7 +3,7 @@ using SaveUltimate.Core.Catalogs;
 
 namespace SaveUltimate.App;
 
-internal static class CatalogFiles
+public static class CatalogFiles
 {
     private static bool enabled;
     public static bool Synced => enabled;
@@ -23,5 +23,11 @@ internal static class CatalogFiles
             Tr.ReloadNames(); ItemCatalog.Reset(); ItemImages.Clear(); GameText.Reset(); KnowledgeText.Reset(); CharacterText.Reset();
         }
         catch { enabled = false; ItemRules.Reset(); Tr.ReloadNames(); ItemCatalog.Reset(); throw; }
+    }
+    // At startup a broken cache must not stop the editor: the shipped data stays in use and the reason comes back.
+    public static string? TryReload()
+    {
+        try { Reload(); return null; }
+        catch (Exception error) when (error is not OutOfMemoryException) { return ErrorCodes.Describe(error); }
     }
 }

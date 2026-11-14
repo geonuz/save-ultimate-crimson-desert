@@ -1,19 +1,19 @@
 <UserControl x:Class="SaveUltimate.App.CompanionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
  <Grid IsEnabled="{Binding CanEditSelection}">
-  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
-  <local:PageHeader x:Name="Header" HelpTopic="companion.title" LoadedState="{Binding Companions, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadCompanionsCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
-  <DockPanel Grid.Row="1">
-   <!-- Resetting every name ignores the selection, so it sits with the list filter rather than the selection actions. -->
-   <Button Style="{StaticResource DangerButton}" x:Name="ClearAll" DockPanel.Dock="Right" Click="OnClearAll" IsEnabled="False" VerticalAlignment="Center"/>
-   <!-- Adding a worker does not depend on the selected row either. -->
-   <Button Style="{StaticResource AccentButton}" x:Name="AddRobot" DockPanel.Dock="Right" Content="{local:Tr companion.robot_add}" Click="OnAddRobot" IsEnabled="False" VerticalAlignment="Center"/>
-   <StackPanel x:Name="GroupFilter" Orientation="Horizontal"><TextBlock Text="{local:Tr 'Category:'}" VerticalAlignment="Center"/><ComboBox x:Name="Group" DisplayMemberPath="Label" MinWidth="260" SelectionChanged="OnGroup"/></StackPanel>
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader x:Name="Header" HelpTopic="companion.title" LoadedState="{Binding Companions, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadCompanionsCommand}"/></local:PageHeader.LoadButton>
+   <StackPanel x:Name="GroupFilter" Orientation="Horizontal"><TextBlock Text="{local:Tr 'Category'}" Style="{StaticResource FilterLabel}"/><ComboBox x:Name="Group" Style="{StaticResource FilterBox}" DisplayMemberPath="Label" SelectionChanged="OnGroup" AutomationProperties.Name="{local:Tr 'Category'}"/></StackPanel>
    <!-- Pets and mounts keep one order per category, so each category is its own tab. -->
    <TabControl x:Name="GroupTabs" DisplayMemberPath="Label" SelectionChanged="OnGroup" Visibility="Collapsed"><TabControl.ContentTemplate><DataTemplate/></TabControl.ContentTemplate></TabControl>
+  </local:PageHeader>
+  <!-- Whole-list actions sit with the count, not with the selected row. -->
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}">
+   <Button Style="{StaticResource DangerButton}" x:Name="ClearAll" DockPanel.Dock="Right" Click="OnClearAll" IsEnabled="False"/>
+   <Button Style="{StaticResource AccentButton}" x:Name="AddRobot" DockPanel.Dock="Right" Content="{local:Tr companion.robot_add}" Click="OnAddRobot" IsEnabled="False"/>
+   <TextBlock x:Name="Count" Style="{StaticResource CountText}"/>
   </DockPanel>
-  <TextBlock x:Name="Count" Grid.Row="2" Margin="0,8"/>
-  <local:DetailSplit Grid.Row="3">
+  <local:DetailSplit Grid.Row="2">
    <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelect">
     <DataGrid.Columns>
      <DataGridTemplateColumn Width="40" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate><Image Source="{Binding Icon}" Width="32" Height="32"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>

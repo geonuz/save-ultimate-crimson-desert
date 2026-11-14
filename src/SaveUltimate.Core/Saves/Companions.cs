@@ -184,18 +184,7 @@ public sealed partial class SaveDocument
         if (remove is null)
         {
             if (!CanAddWorkers) throw new InvalidOperationException("This save's format has no room for a new worker yet. Recruit one in game first.");
-            // Items and mercenaries share one number sequence whose counter sits in the slot's lobby.save, so a worker takes
-            // the next number as a recruit would, and saving raises the lobby past it. Without a lobby, the worker takes the
-            // highest number below the top inventory item that no bytes in the save hold: one an item used up, below any
-            // counter that matches the save, so the game never hands it out again.
-            ulong number;
-            if (GeneratedNumber() is ulong generated) number = generated + 1;
-            else
-            {
-                number = ObjectNumbers(["InventorySaveData"], "_itemNo").Where(n => n != ulong.MaxValue).Max();
-                do if (--number == 0) throw new InvalidOperationException("This save has no free number for a new worker.");
-                while (blob.AsSpan().IndexOf(BitConverter.GetBytes(number)) >= 0);
-            }
+            ulong number = NewNumbers(1)[0];
             // The game appends a recruit and stamps it with the current field time.
             var record = WorkerRecord(add, number, FieldTime())!;
             regions.Add((list.EndOffset, list.EndOffset, start => RecordLists.ObjectBytes(Layout, record, start)));

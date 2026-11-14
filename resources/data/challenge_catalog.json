@@ -31418,8 +31418,8 @@
       "quest": 1000972,
       "children": [],
       "stages": [],
-      "name": "Reach Popularity Lv. 5 for management facilities",
-      "nameKo": "경영 시설 인지도 5Lv 달성하기",
+      "name": "Reach Popularity Lv. 5",
+      "nameKo": "경영 시설 인지도 Lv.5 달성하기",
       "tags": [
         295057620
       ]
@@ -39190,25 +39190,25 @@
     "1005333": 1001248
   },
   "sourceSha256": {
-    "eng_quest.dlc_01.paloc": "b3fc7fa2e71e522fafe60ad45cb12e1a10fb2de3ac459ba847d740e26c6c4baa",
-    "eng_quest.paloc": "feb0385cd952d76313603bb04597606ddee23f1df1c1cdb09c1161eacd3f06b9",
-    "kor_quest.dlc_01.paloc": "e49860639c0fdcc0912bfcb9b5a7a373604292e3180163f0f56fc4bdf92c037f",
-    "kor_quest.paloc": "a66d0f05d4eec0c47bfe1048abb8751853c8a3b8bfd5a670815c5d4dd8be3056",
-    "missioninfo.dlc_01.staticinfobody": "efd079c5bb00ca81b82fe55d1b83d5fda907e2ecc36b44363fd819cd2d5e05df",
-    "missioninfo.dlc_01.staticinfoheader": "deac7eb692d1aa7222da0def94d6076a10c502505d4f6976a130033e274c4b0c",
-    "missioninfo.staticinfobody": "57ed72ecde53ae77991fcdfd47c547db0680a656e6cf0f011419fe6512b52f64",
-    "missioninfo.staticinfoheader": "f0453448b04b829214fda45dfe5aade0c9e5422a038dd92676a92a47e32a08f4",
+    "eng_quest.dlc_01.paloc": "a7ae56f8001fde3e5bfc4fc7699a4069d219016b2f420b9ef47111c481003519",
+    "eng_quest.paloc": "779fb5564d0c462c24967f156214e0ffa4fc0a3aa28978e2e62be3daaa845dac",
+    "kor_quest.dlc_01.paloc": "53aa1be51c2f22d11bac54f307f95a0b73f390fda3862ef8adcde89d300a9a41",
+    "kor_quest.paloc": "44a01301000ca37e39aab67693da740430862252de374a97e1c38d442c5fa77f",
+    "missioninfo.dlc_01.staticinfobody": "563e78c552bb5a3bb92588c083eaeef6453f23ed8a3b25d4534a60e8c92a0c42",
+    "missioninfo.dlc_01.staticinfoheader": "50c499fcdcc5576f7f79e464aa63df8c7ae3484efa698fecc1efef17f005ee72",
+    "missioninfo.staticinfobody": "e5acdd26722cb2444aa0092e0afbd18bcd13bdd609610df2e619709b19aaeb5d",
+    "missioninfo.staticinfoheader": "123a7ed50760da8648187983f2d52d9fabf93900753a08feefc89d14dd70791f",
     "questgroupinfo.dlc_01.staticinfobody": "64bb62cdf6bbcb79c931ac0d4f89d055df253bc28705ea9371b8fdc75112d047",
     "questgroupinfo.dlc_01.staticinfoheader": "9571d79321b7e83b0291550616098a645b3b28007279bb30a9d43aaeef51937f",
     "questgroupinfo.staticinfobody": "ade42ab2d6ef503036b989cd1e5e0678de4c51ec2f6c7e4e2f614defbd159f4f",
     "questgroupinfo.staticinfoheader": "7be297a6920ab423782cb1a4bf04d92ea6c99e19fe59bb3315f9585b2bce6a9c",
-    "questinfo.dlc_01.staticinfobody": "99db19ed1c848bd997abfa5e40e4772b2410de48ebb57bd6532a4f84a5931bd3",
-    "questinfo.dlc_01.staticinfoheader": "17484814fe1c2fd1a1ba81af3204174ea6d43bc156b044743c6e8bca4eee714b",
-    "questinfo.staticinfobody": "6aa6e59f89c09a3f80fa388b3d352ece040797947d63820518f00bb82a30d0f4",
-    "questinfo.staticinfoheader": "ee42eeccb8e4fa3cdb10be5da3aacd96fb09a5a3be802eaa601c105728dfcfbd",
-    "stringinfo.dlc_01.staticinfobody": "8e5e953c7a5e00510348be1ba33781bd01abde0395c5f7a51f52d6c315e38266",
-    "stringinfo.dlc_01.staticinfoheader": "001f5fe927c11689bb6bd2082bc84bdae14793d9e99bf9b44fc043a34ed23f36",
-    "stringinfo.staticinfobody": "7cc8cf1fe5c5aae1d51801b55d2db607e872d0795ba76f3e0bc0431c8833019c",
-    "stringinfo.staticinfoheader": "28681275455712f01350cde5729771798bbe224fdd297bcbc197c397f72d452d"
+    "questinfo.dlc_01.staticinfobody": "a7b65d72010e3aab0b4ccf721565dff2bf657b364ea6b96ce7df5d47bcc3de30",
+    "questinfo.dlc_01.staticinfoheader": "8eced710c9c72678afaf9ebbe047d96629ac1ec0d007f15056025db632cdc545",
+    "questinfo.staticinfobody": "f850529b09d630fc7efb0651b95b886436174b7e1eedf47f4dc13e9d97319f0d",
+    "questinfo.staticinfoheader": "368bef6649eb7f67c552434171ca8b6d31a28b2ad204aefcffa3efc76816ea31",
+    "stringinfo.dlc_01.staticinfobody": "84cdf85331c68584a7d9dafc445871353b9d52e05486b4e323a6b7dec2cad302",
+    "stringinfo.dlc_01.staticinfoheader": "fc8543837f8d395682429e85432398d922929e3728af208a58472eea8fbfc431",
+    "stringinfo.staticinfobody": "f9031377bef7b633ee7ff37c8e3f7c1f470a2bc785e4d04af41034b905135831",
+    "stringinfo.staticinfoheader": "122b836a1be7f8bf4dfa25da4b7bd851f5ab412790d69747d0306c621733e9dc"
   }
 }

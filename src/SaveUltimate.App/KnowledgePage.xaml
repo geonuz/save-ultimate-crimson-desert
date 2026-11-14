@@ -3,25 +3,22 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
  <Grid IsEnabled="{Binding CanEditSelection}">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-  <StackPanel>
-   <local:PageHeader Title="{local:Tr tab.knowledge}" HelpTopic="tab.knowledge" LoadedState="{Binding Knowledge, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadKnowledgeCommand}" DockPanel.Dock="Right"/></local:PageHeader.LoadButton></local:PageHeader>
-   <DockPanel Margin="0,0,0,6">
-    <TextBlock Text="{local:Tr 'Category:'}" VerticalAlignment="Center"/>
-    <ComboBox x:Name="Root" Width="200" DisplayMemberPath="Label" SelectionChanged="OnRootChanged"/>
-    <TextBlock Text="{local:Tr 'Subcategory:'}" VerticalAlignment="Center"/>
-    <ComboBox x:Name="Subcategory" DisplayMemberPath="Label" SelectionChanged="OnFilterChanged"/>
-   </DockPanel>
-   <TextBox Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" x:Name="Search" TextChanged="OnSearchChanged" AutomationProperties.Name="{local:Tr 'Search name, key or category'}" ToolTip="{local:Tr 'Search name, key or category'}" Margin="0,0,0,6"/>
-   <DockPanel>
-    <Button Style="{StaticResource BulkButton}" x:Name="AllMaximum" Content="{local:Tr 'Learn All Knowledge &amp;&amp; Apply Maximum Levels'}" Click="OnAllMaximum" DockPanel.Dock="Right" IsEnabled="False"/>
-    <StackPanel Orientation="Horizontal">
-     <RadioButton Content="{local:Tr 'All'}" IsChecked="True" Checked="OnFilterChanged" Margin="0,0,12,0"/>
-     <RadioButton x:Name="Learned" Content="{local:Tr 'Learned'}" Checked="OnFilterChanged" Margin="0,0,12,0"/>
-     <RadioButton x:Name="Unlearned" Content="{local:Tr 'Unlearned'}" Checked="OnFilterChanged"/>
-    </StackPanel>
-   </DockPanel>
-  </StackPanel>
-  <TextBlock x:Name="Count" Grid.Row="1" Text="{local:Tr 'Load knowledge to continue.'}" Margin="0,8"/>
+  <local:PageHeader HelpTopic="tab.knowledge" LoadedState="{Binding Knowledge, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadKnowledgeCommand}" DockPanel.Dock="Right"/></local:PageHeader.LoadButton>
+   <TextBlock Text="{local:Tr 'Category'}" Style="{StaticResource FilterLabel}"/>
+   <ComboBox x:Name="Root" Style="{StaticResource FilterBox}" DisplayMemberPath="Label" SelectionChanged="OnRootChanged" AutomationProperties.Name="{local:Tr 'Category'}"/>
+   <TextBlock Text="{local:Tr 'Subcategory'}" Style="{StaticResource FilterLabel}"/>
+   <ComboBox x:Name="Subcategory" Style="{StaticResource FilterBox}" DisplayMemberPath="Label" SelectionChanged="OnFilterChanged" AutomationProperties.Name="{local:Tr 'Subcategory'}"/>
+   <TextBlock Text="{local:Tr 'filter.state'}" Style="{StaticResource FilterLabel}"/>
+   <ComboBox x:Name="State" Style="{StaticResource FilterBox}" SelectedIndex="0" SelectionChanged="OnFilterChanged" AutomationProperties.Name="{local:Tr 'filter.state'}">
+    <ComboBoxItem Content="{local:Tr 'All'}"/><ComboBoxItem Content="{local:Tr 'Learned'}"/><ComboBoxItem Content="{local:Tr 'Unlearned'}"/>
+   </ComboBox>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" x:Name="Search" TextChanged="OnSearchChanged" AutomationProperties.Name="{local:Tr 'Search name, key or category'}" ToolTip="{local:Tr 'Search name, key or category'}"/>
+  </local:PageHeader>
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}">
+   <Button Style="{StaticResource BulkButton}" x:Name="AllMaximum" Content="{local:Tr 'Learn All Knowledge &amp;&amp; Apply Maximum Levels'}" Click="OnAllMaximum" DockPanel.Dock="Right" IsEnabled="False"/>
+   <TextBlock x:Name="Count" Text="{local:Tr 'Load knowledge to continue.'}" Style="{StaticResource CountText}"/>
+  </DockPanel>
   <local:DetailSplit Grid.Row="2">
    <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow"
     EnableRowVirtualization="True" EnableColumnVirtualization="True" SelectionChanged="OnSelectionChanged">

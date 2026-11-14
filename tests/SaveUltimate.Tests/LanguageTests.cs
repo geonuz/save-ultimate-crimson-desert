@@ -10,22 +10,6 @@ namespace SaveUltimate.Tests;
 [TestClass]
 public sealed class LanguageTests
 {
-    private static string oldPath = "";
-    private static EditorSettings old = new();
-    [AssemblyInitialize]
-    public static void Initialize(TestContext _)
-    {
-        old = SettingsStore.Current; oldPath = SettingsStore.FilePath;
-        SettingsStore.FilePath = Path.Combine(Path.GetTempPath(), "save-tests-" + Guid.NewGuid().ToString("N") + ".json");
-        SettingsStore.Save(old with { Language = "ko" });
-        Tr.SetLanguage("ko");
-    }
-    [AssemblyCleanup]
-    public static void Cleanup()
-    {
-        string temporary = SettingsStore.FilePath;
-        SettingsStore.Save(old); SettingsStore.FilePath = oldPath; File.Delete(temporary);
-    }
     [TestMethod]
     [TestCategory("UI")]
     [DoNotParallelize]
@@ -65,57 +49,5 @@ public sealed class LanguageTests
             }
         }
         finally { Tr.SetLanguage("ko"); }
-    }
-    [STATestMethod]
-    [TestCategory("UI")]
-    [DoNotParallelize]
-    [TestCategory("PrivateFixtures")]
-    public void EveryGridHeaderFitsItsColumnInEveryLanguage()
-    {
-        TestUi.EnsureApp();
-        var clipped = new List<string>();
-        try
-        {
-            foreach (string language in new[] { "ko", "en", "ja", "ru" })
-            {
-                Tr.SetLanguage(language);
-                var model = new MainViewModel(SaveDocument.Open(FixtureSaves.Named("dlc_bonds_per_character")));
-                var window = TestUi.Hidden(new MainWindow(model));
-                window.Show();
-                try
-                {
-                    void Check(string page)
-                    {
-                        window.UpdateLayout();
-                        window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-                        foreach (var header in TestUi.Find<System.Windows.Controls.Primitives.DataGridColumnHeader>(window).Where(h => h.IsVisible && h.Column is not null && h.Content is string { Length: > 0 }))
-                            foreach (var text in TestUi.Find<System.Windows.Controls.TextBlock>(header).Where(t => t.Text == (string)header.Content))
-                            {
-                                text.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
-                                // The text block keeps its full width; the header cell around it is what clips.
-                                double room = header.ActualWidth - header.Padding.Left - header.Padding.Right;
-                                if (text.DesiredSize.Width > room + 0.5) clipped.Add($"{language} {page}: {header.Content} ({room:F0} < {text.DesiredSize.Width:F0})");
-                            }
-                    }
-                    var nav = (System.Windows.Controls.ListBox)window.FindName("PrimaryNavigation");
-                    nav.SelectedIndex = 0;
-                    var items = (System.Windows.Controls.TabControl)window.FindName("ItemTabs");
-                    for (int i = 0; i < items.Items.Count; i++) { items.SelectedIndex = i; Check($"items {i}"); }
-                    nav.SelectedIndex = 1;
-                    var journal = (System.Windows.Controls.TabControl)window.FindName("JournalTabs");
-                    journal.SelectedIndex = 0; WindowTests.Pump(() => model.LoadKnowledgeCommand.ExecuteAsync(null)); Check("knowledge");
-                    journal.SelectedIndex = 1; WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null)); Check("challenges");
-                    journal.SelectedIndex = 2; WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null)); Check("fishing");
-                    nav.SelectedIndex = 4;
-                    var tabs = (System.Windows.Controls.TabControl)window.FindName("NpcTabs");
-                    tabs.SelectedIndex = 0; WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null)); Check("companions");
-                    tabs.SelectedIndex = 1; Check("pets");
-                    tabs.SelectedIndex = 2; WindowTests.Pump(() => model.LoadFriendshipCommand.ExecuteAsync(null)); Check("npc");
-                }
-                finally { window.Close(); }
-            }
-        }
-        finally { Tr.SetLanguage("ko"); }
-        Assert.AreEqual("", string.Join(Environment.NewLine, clipped.Distinct()));
     }
 }

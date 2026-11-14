@@ -88,6 +88,7 @@ public sealed class ParcReaderTests
         ("_noFixed", "uint32", 0, 4), ("_noText", "staticstringA", 1, 1), ("_noArray", "uint32", 3, 4), ("_noObject", "Child", 4, 0),
         ("_noPointer", "Child", 5, 0), ("_noList", "Child", 6, 0), ("_noIndexed", "Child", 7, 0), ("_after", "uint16", 0, 2)
     });
+
     private static readonly (string, (string, string, ushort, ushort)[]) ChildType = ("Child", new (string, string, ushort, ushort)[]
     {
         ("_value", "uint16", 0, 2), ("_tags", "uint32", 3, 4)
@@ -339,49 +340,5 @@ public sealed class ParcReaderTests
         Assert.ThrowsExactly<InvalidDataException>(() => Relocated((list.ListElements[0].ChildPayloadOffset, list.EndOffset, [])));
         Assert.ThrowsExactly<InvalidDataException>(() => Relocated((array.StartOffset, array.EndOffset, longer), (array.StartOffset, array.EndOffset, longer)));
         Assert.ThrowsExactly<InvalidDataException>(() => Relocated((0, 1, [])));
-    }
-
-    [TestMethod]
-    [TestCategory("PrivateFixtures")]
-    [TestCategory("Contract")]
-    public void AnEditMayNotAddDamagedRowsButUndoMayBringThemBack()
-    {
-        string path = FixtureSaves.Named("mission_rows_8");
-        byte[] damaged = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
-        var document = SaveDocument.Open(path);
-        string original = document.BlobSha256;
-        Assert.AreEqual(8, document.RepairMissionRows());
-        Assert.ThrowsExactly<InvalidDataException>(() => document.Transact(damaged, ["QuestSaveData"]));
-        document.Undo();
-        Assert.AreEqual(original, document.BlobSha256);
-        Assert.AreEqual(8, document.RepairMissionRows());
-    }
-
-    private static string[] Saves() => Directory.GetFiles(FixtureSaves.Root ?? throw new AssertInconclusiveException("Set SAVEULTIMATE_FIXTURES."), "*.save", SearchOption.AllDirectories);
-    private static bool Damaged(string path) => Path.GetFileName(Path.GetDirectoryName(path)) == "damaged";
-
-    [TestMethod]
-    [TestCategory("PrivateFixtures")]
-    [TestCategory("Contract")]
-    public void EverySaveFollowsTheLayoutAndOnlyDamagedRowsBreakIt()
-    {
-        var failures = new ConcurrentBag<string>();
-        Parallel.ForEach(Saves(), path =>
-        {
-            byte[] raw = SaveContainer.Decode(File.ReadAllBytes(path)).Blob;
-            var layout = ParcLayout.Parse(raw);
-            string name = Path.GetFileName(path);
-            try
-            {
-                int damaged = ParcReader.Validate(raw, layout).DamagedRows;
-                if ((damaged != 0) != Damaged(path)) failures.Add($"{name}: {damaged} damaged rows.");
-            }
-            catch (InvalidDataException e) { failures.Add($"{name}: {e.Message}"); }
-            if (!Damaged(path)) return;
-            foreach (var block in layout.Blocks)
-                try { ParcReader.Read(raw, layout, block); }
-                catch (InvalidDataException e) { failures.Add($"{name} {block.Name}: {e.Message}"); }
-        });
-        Assert.AreEqual("", string.Join(Environment.NewLine, failures.Order()));
     }
 }

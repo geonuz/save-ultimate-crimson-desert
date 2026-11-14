@@ -27,7 +27,7 @@ public sealed class ErrorCodeTests
         Assert.AreEqual("SU-301", ErrorCodes.Classify(save).Code);
         StringAssert.Contains(ErrorCodes.Classify(save).Message, save.Message);
         // Tests run in Korean; an English Core message with a locale entry is shown translated.
-        StringAssert.Contains(ErrorCodes.Classify(new InvalidOperationException("Select a skill.")).Message, "스킬을 선택하세요.");
+        StringAssert.Contains(ErrorCodes.Classify(new InvalidOperationException("This save has no free number for a new record.")).Message, "이 세이브에는 새 레코드에 쓸 빈 번호가 없습니다.");
     }
 
     [TestMethod]
@@ -43,6 +43,33 @@ public sealed class ErrorCodeTests
             var keys = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllBytes(Locale(language)))!
                 .Keys.Where(k => k.StartsWith("error.SU-", StringComparison.Ordinal)).Order().ToArray();
             CollectionAssert.AreEqual(english, keys, language);
+        }
+    }
+
+    // A cache that parses but breaks a rule (here a socket limit of 9) once stopped the app before its window opened.
+    [TestMethod]
+    [TestCategory("Unit")]
+    [DoNotParallelize]
+    public void ABrokenCacheFallsBackToTheShippedDataAtStartup()
+    {
+        string cache = CatalogFiles.Cache, log = ErrorCodes.LogPath;
+        Assert.IsFalse(Directory.Exists(cache), "The test output folder holds no synced data.");
+        ErrorCodes.LogPath = Path.Combine(Path.GetTempPath(), $"SaveUltimate-{Guid.NewGuid():N}.log");
+        try
+        {
+            Directory.CreateDirectory(Path.Combine(cache, "data"));
+            File.WriteAllText(Path.Combine(cache, "manifest.json"), "{}");
+            File.WriteAllText(Path.Combine(cache, "data", "item_names.json"), """{"items":[{"itemKey":1,"socketLimit":9}]}""");
+            File.WriteAllText(Path.Combine(cache, "data", "max_enchant_map.json"), "{}");
+            StringAssert.StartsWith(CatalogFiles.TryReload(), "[SU-302]");
+            Assert.IsFalse(CatalogFiles.Synced);
+        }
+        finally
+        {
+            Directory.Delete(cache, true);
+            if (File.Exists(ErrorCodes.LogPath)) File.Delete(ErrorCodes.LogPath);
+            ErrorCodes.LogPath = log;
+            CatalogFiles.Reload();
         }
     }
 

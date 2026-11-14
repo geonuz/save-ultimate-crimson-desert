@@ -69,7 +69,8 @@ public sealed class Tr(string key) : MarkupExtension
                 parent.SetCurrentValue(property, translated);
         if (parent is System.Windows.Controls.DataGrid grid)
             foreach (var column in grid.Columns)
-                if (column.Header is string text && replacements.TryGetValue(text, out string? translated)) column.Header = translated;
+                // SetCurrentValue keeps the header's language binding, so an ambiguous caption still follows the next switch.
+                if (column.Header is string text && replacements.TryGetValue(text, out string? translated)) column.SetCurrentValue(System.Windows.Controls.DataGridColumn.HeaderProperty, translated);
         foreach (var child in System.Windows.LogicalTreeHelper.GetChildren(parent).OfType<System.Windows.DependencyObject>()) Translate(child, replacements);
     }
     public static string Text(string key)
@@ -78,6 +79,9 @@ public sealed class Tr(string key) : MarkupExtension
         var captions = captionKeys.TryGetValue(key, out var keys) ? keys.Select(k => strings.GetValueOrDefault(k, key)).Distinct().ToArray() : [];
         return (captions.Length == 1 ? captions[0] : english.GetValueOrDefault(key, key)).Replace("&&", "&");
     }
+    /// <summary>Binds a property set in code to a caption, so it follows a language switch like the Tr markup extension does.</summary>
+    public static void Bind(DependencyObject target, DependencyProperty property, string key) =>
+        BindingOperations.SetBinding(target, property, new Binding(nameof(Source.Language)) { Source = source, Converter = lookup, ConverterParameter = key });
     public static string Format(string key, params (string Name, object Value)[] values)
     {
         string text = Text(key);
@@ -86,6 +90,8 @@ public sealed class Tr(string key) : MarkupExtension
     }
     public static string Count(int total, int shown) => Format("ui.count_total", ("total", total.ToString("N0"))) +
         (shown == total ? "" : " · " + Format("ui.count_shown", ("shown", shown.ToString("N0"))));
+    /// <summary>The shared count line plus one state count of the shown rows, such as learned or collected.</summary>
+    public static string Count(int total, int shown, string key, int count) => Count(total, shown) + " · " + Format(key, ("count", count.ToString("N0")));
     public override object ProvideValue(IServiceProvider serviceProvider) =>
         serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget { TargetProperty: DependencyProperty }
             ? new Binding(nameof(Source.Language)) { Source = source, Converter = lookup, ConverterParameter = key }.ProvideValue(serviceProvider) : Text(key);

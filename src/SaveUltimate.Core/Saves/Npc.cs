@@ -16,19 +16,8 @@ public sealed partial class SaveDocument
 {
     // Affinity lists are positional; every field NPC's marital list names the playable of each position.
     private static readonly uint[] Playables = [1, 6, 4];
-    // Kliff's love-story missions per witch (Mission_Graymane_Kliff_LoveStory_<witch>_*); the stage in progress counts the
-    // bond in _completeCount (Bari_2 holds 35 for bond 35). shortcut: keys copied from 2.04 missioninfo, read them from
-    // the client if more courtships appear.
-    private static readonly Dictionary<uint, uint[]> LoveStoryMissions = new()
-    {
-        [1002940] = [.. Keys(1004751, 1004754), .. Keys(1004888, 1004895)], // Bari
-        [1002941] = [.. Keys(1004745, 1004748), .. Keys(1004882, 1004887)], // Lyselia
-        [1002938] = [.. Keys(1004774, 1004777), .. Keys(1004896, 1004902)], // Areciel
-        [1002939] = [.. Keys(1004786, 1004789), .. Keys(1004903, 1004910)], // Elowen
-    };
-    // "호감 쌓기" (_2) completes at bond 40; the game completes it before its count reaches 40 (Bari_2 finished at 35, bond 89).
-    private static readonly HashSet<uint> BondForty = [1004747, 1004753, 1004776, 1004788];
-    private static IEnumerable<uint> Keys(uint first, uint last) => Enumerable.Range((int)first, (int)(last - first + 1)).Select(k => (uint)k);
+    // Kliff's love-story missions are left alone: the game completes a stage from the bond itself on the next talk, and
+    // their _completeCount stays where the game last wrote it (Lyselia_2 completed at 32 after a bond of 37 rose to 42).
 
     private static NpcFriendship[] ReadFriendship(byte[] raw, ParcLayout layout)
     {
@@ -85,17 +74,6 @@ public sealed partial class SaveDocument
     public NpcFriendship[] SetFriendship(uint key, ulong expectedValue, int value) => SetGauge(key, null, expectedValue, value);
     public NpcFriendship[] SetAffinity(uint key, uint playable, ulong expectedValue, int value) => SetGauge(key, playable, expectedValue, value);
 
-    // The in-progress love-story mission whose count is the bond; other stages count other things (Lyselia_1 holds 1 at bond 20).
-    private (uint Key, int Offset)? LoveStoryCount(byte[] raw, uint key, ulong bond)
-    {
-        if (!LoveStoryMissions.TryGetValue(key, out var keys)) return null;
-        var list = SaveRecords.Read(raw, Layout, "QuestSaveData").Fields.Named("_missionStateList");
-        var matches = list.Elements("MissionStateData").Select(r => (Row: r, Key: (uint)r.ChildFields.Named("_key").Scalar(raw, "MissionKey", 4)))
-            .Where(r => keys.Contains(r.Key) && r.Row.ChildFields.Named("_state") is { Present: true } state && state.Scalar(raw, "QuestStateType", 1) == 2 &&
-                r.Row.ChildFields.Named("_completeCount") is { Present: true } count && count.Scalar(raw, "uint32", 4) == bond).ToArray();
-        // Two candidates would leave the bond counter unknown; leave missions alone then.
-        return matches.Length == 1 ? (matches[0].Key, matches[0].Row.ChildFields.Named("_completeCount").StartOffset) : null;
-    }
     private NpcFriendship[] SetGauge(uint key, uint? playable, ulong expectedValue, int value)
     {
         // The game raises gauges by uneven steps (3, 7), so any whole value up to the cap is valid.
@@ -109,15 +87,11 @@ public sealed partial class SaveDocument
         if (playable is not null && (ulong)value < expectedValue) throw new InvalidOperationException("Bond cannot be lowered below its current value.");
         var patches = gauge.Fields.Prepend(gauge.Global).Where(v => v.Value != (ulong)value)
             .Select(v => CreatePatch(v.Offset, BitConverter.GetBytes((ulong)value))).ToList();
-        var mission = playable == 1 ? LoveStoryCount(blob, key, expectedValue) : null;
-        uint count = mission is { } target && BondForty.Contains(target.Key) ? (uint)Math.Min(value, 40) : (uint)value;
-        if (mission is { } m) patches.Add(CreatePatch(m.Offset, BitConverter.GetBytes(count)));
         if (patches.Count == 0) return before;
         byte[] candidate = CopyForEdit(); foreach (var p in patches) p.After.CopyTo(candidate, p.Offset);
         var after = ReadFriendship(candidate, Layout);
         var changed = Find(after, key, playable)!;
         if (changed.Value != (ulong)value || changed.NeedsSync) throw new InvalidDataException("NPC synchronization failed.");
-        if (mission is { } synced && ChallengeState.Read(candidate, SaveRecords.Read(candidate, Layout, "QuestSaveData")).Mission[synced.Key].Count != count) throw new InvalidDataException("Love-story mission synchronization failed.");
         Edit(patches); return after;
     }
 }

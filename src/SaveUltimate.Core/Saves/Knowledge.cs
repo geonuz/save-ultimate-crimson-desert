@@ -69,9 +69,11 @@ public sealed partial class SaveDocument
         });
         foreach (uint key in changes.Keys.Where(k => before.TryGetValue(k, out uint old) && old == changes[k]).ToArray())
             changes.Remove(key);
-        if (changes.Count == 0) return (before, SkillState.Read(blob, block, Items));
+        if (changes.Count == 0) return (before, SkillState.Read(blob, block));
         var list = block.Fields.Named("_list");
-        if (changes.Keys.All(before.ContainsKey))
+        var recorded = SkillState.Read(blob, block).Follow;
+        var paths = NewLearnPaths(block, before, changes, recorded);
+        if (paths.Count == 0 && changes.Keys.All(before.ContainsKey))
         {
             var patches = list.Elements("KnowledgeElementSaveData").Where(r => changes.ContainsKey((uint)r.ChildFields.Named("_key").Scalar(blob, "KnowledgeKey", 4)))
                 .Select(r => CreatePatch(r.ChildFields.Named("_level").StartOffset,
@@ -80,11 +82,11 @@ public sealed partial class SaveDocument
             foreach (var patch in patches) patch.After.CopyTo(fixedCandidate, patch.Offset);
             // Validate dependent skills before committing.
             var levels = KnowledgeLevels(fixedCandidate, block);
-            var skills = SkillState.Read(fixedCandidate, block, Items);
+            var skills = SkillState.Read(fixedCandidate, block);
             Edit(patches);
             return (levels, skills);
         }
-        byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, KnowledgeEdit(Layout, list, changes));
+        byte[] candidate = RecordLists.Rewrite(blob, Layout, EditBuffer, KnowledgeEdits(block, before, changes, paths).ToArray());
         (IReadOnlyDictionary<uint, uint> Levels, SkillState Skills) result = default;
         Transact(candidate, ["KnowledgeSaveData"], (layout, items) =>
         {
@@ -92,22 +94,43 @@ public sealed partial class SaveDocument
             var after = KnowledgeLevels(candidate, current);
             var expected = new Dictionary<uint, uint>(before);
             foreach (var p in changes) expected[p.Key] = p.Value;
-            result = (after, SkillState.Read(candidate, current, items));
-            if (after.Count != expected.Count || expected.Any(p => !after.TryGetValue(p.Key, out uint value) || value != p.Value))
+            var skills = SkillState.Read(candidate, current);
+            var expectedPaths = new Dictionary<uint, uint>(recorded);
+            foreach (var p in paths) expectedPaths[p.Key] = p.Value;
+            result = (after, skills);
+            if (after.Count != expected.Count || expected.Any(p => !after.TryGetValue(p.Key, out uint value) || value != p.Value) ||
+                skills.Follow.Count != expectedPaths.Count || expectedPaths.Any(p => skills.Follow.GetValueOrDefault(p.Key, uint.MaxValue) != p.Value))
                 throw new InvalidDataException("Knowledge edit verification failed.");
         });
         return result;
     }
-    private static ListEdit KnowledgeEdit(ParcLayout layout, SaveField list, Dictionary<uint, uint> changes)
+    // The game records how a knowledge was first learned; newly learned knowledge without a record takes the one most players
+    // hold. A save with no record yet has no list to add to.
+    private static Dictionary<uint, uint> NewLearnPaths(SaveObject block, IReadOnlyDictionary<uint, uint> before, Dictionary<uint, uint> changes, IReadOnlyDictionary<uint, uint> recorded)
+        => !block.Fields.Named("_learnedFollowLearnKnowledge").Present ? [] : changes
+            .Where(p => p.Value > 0 && before.GetValueOrDefault(p.Key) == 0 && !recorded.ContainsKey(p.Key))
+            .Select(p => (p.Key, From: LearnPathCatalog.Shared.Choose(p.Key))).Where(p => p.From is not null).ToDictionary(p => p.Key, p => p.From!.Value);
+
+    // Levels of existing rows, new rows as the game writes a knowledge it teaches (the level, the current field time and a new
+    // mark), and the learn-from records.
+    private List<ListEdit> KnowledgeEdits(SaveObject block, IReadOnlyDictionary<uint, uint> before, Dictionary<uint, uint> changes, Dictionary<uint, uint> paths)
     {
-        var type = layout.Types.Single(t => t.Name == "KnowledgeElementSaveData");
+        ulong now = changes.Keys.Any(k => !before.ContainsKey(k)) ? FieldTime() : 0;
+        var type = Layout.Types.Single(t => t.Name == "KnowledgeElementSaveData");
         if (!type.Is(("_key", "KnowledgeKey", 0, 4), ("_level", "TLevel", 0, 4), ("_learnedFieldTime", "uint64", 0, 8), ("_isNewMark", "bool", 0, 1)))
             throw new InvalidDataException("Unsupported knowledge insertion layout.");
-        return new ListEdit(list, "KnowledgeElementSaveData", "_key", changes.ToDictionary(p => p.Key, p => new Dictionary<string, ScalarValue>
-        {
-            ["_key"] = new("KnowledgeKey", 4, p.Key), ["_level"] = new("TLevel", 4, p.Value)
-        }), CloneLast: true);
+        var edits = new List<ListEdit>();
+        if (changes.Count > 0)
+            edits.Add(new(block.Fields.Named("_list"), "KnowledgeElementSaveData", "_key", changes.ToDictionary(p => p.Key, p => before.ContainsKey(p.Key)
+                ? new Dictionary<string, ScalarValue> { ["_key"] = new("KnowledgeKey", 4, p.Key), ["_level"] = new("TLevel", 4, p.Value) }
+                : new Dictionary<string, ScalarValue>
+                {
+                    ["_key"] = new("KnowledgeKey", 4, p.Key), ["_level"] = new("TLevel", 4, p.Value),
+                    ["_learnedFieldTime"] = new("uint64", 8, now), ["_isNewMark"] = new("bool", 1, 1)
+                })));
+        if (paths.Count > 0)
+            edits.Add(new(block.Fields.Named("_learnedFollowLearnKnowledge"), "FollowLearnElementSaveData", "_knowledgeKey", paths.ToDictionary(p => p.Key, p => new Dictionary<string, ScalarValue>
+                { ["_knowledgeKey"] = new("KnowledgeKey", 4, p.Key), ["_learnFromTypeRaw"] = new("uint8", 1, p.Value) })));
+        return edits;
     }
 }
-
-

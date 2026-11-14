@@ -11,8 +11,9 @@ descriptions use the game's localization data.
 
 | Game version | Status |
 |---|---|
-| 2.04.08 with or without the first DLC | Verified with this release |
-| Earlier 2.x updates | Saves open and edit; the test saves span 2.00.01 to 2.04.08. Syncing game data needs a game install of 2.04.06 or later |
+| 2.05.00 with or without the first DLC | Verified with this release |
+| 2.04.x | Saves open and edit, and are tested with this release |
+| Earlier 2.x updates | Saves open and edit but are no longer tested. Syncing game data needs a game install of 2.04.06 or later |
 | 1.x | Not supported; opening a save reports `[SU-301]` |
 
 Settings shows the editor version and the game version it was verified with.
@@ -32,6 +33,9 @@ and cannot be edited.
   replace or remove Abyss Gear.
 - **Item Swap (Repurchase)**: replace an item in a vendor's buy-back list with
   another item, then buy it back in the game.
+- **Collection**: fill the collection box with chosen items or whole classes
+  (documents, recipes, books, treasure maps, keys and more), and optionally learn
+  the knowledge each item teaches.
 - **Item Database**: browse every item with its icon, key and localized name.
 
 ### Adventure Journal
@@ -44,26 +48,20 @@ and cannot be edited.
 - **Fishing**: learn fish knowledge and set the size of a recorded catch. One fish
   caught in the game is needed before records can be edited.
 
-### Skills
-
-Skill trees for Kliff, Oongka and Damiane. Raise a skill one level at a time,
-paying the game's cost in Abyss Artifacts and Abyss Bonds, or learn it by
-observation. Prerequisites and materials are checked first, and levels can only
-be raised.
-
 ### Map
 
-- **Exploration fog**: reveal the whole map.
-- **Activate map groups** to add their discoveries and knowledge:
-  - Nodes and places: nodes, regions, hidden spaces, caves, spires, shadow
-    sanctums, witch hideouts, Greymane shrines and the Abyss
-  - Crafting and utility: bonfires, grindstones, cauldrons, special cooking pots
-    and griddles, anvils, wells, looms and workstations
-  - Collectibles: treasure chests, memory fragments and bells
-  - Resources: 13 kinds of ore and mineral deposits
-  - Abyss travel: Abyss Nexus points and Abyss Cressets, including the DLC's
+- **Nodes and Places**: categories (nodes, regions, hidden spaces, caves, spires,
+  shadow sanctums, witch hideouts, Greymane shrines, the Abyss and each region's
+  bell) on the left, their places on the right. Activate whole categories or
+  chosen places.
+- **Memory Fragments**: activate memory fragments one, several or all at once.
+- **Other Environment**: reveal the whole map, and activate by group the Abyss
+  Nexus points and Abyss Cressets, crafting and utility stations (bonfires,
+  grindstones, cauldrons, special cooking pots and griddles, anvils, wells, looms
+  and workstations), treasure chests and 13 kinds of ore and mineral deposits.
+  Activating Abyss Cressets also completes the challenge paired with each.
 
-  Items, recipes and resources themselves are not awarded.
+Items, recipes, resources and rewards themselves are not awarded.
 
 ### NPC
 
@@ -72,19 +70,24 @@ be raised.
   has none yet.
 - **Pets & Special Mounts**: rename them and change their order, which the game
   does not offer.
-- **NPC Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
-  toward Kliff, Oongka or Damiane. Raising Kliff's bond with a witch also advances
-  her "Improve your bond" mission.
+- **Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
+  toward Kliff, Oongka or Damiane. After raising Kliff's bond with a witch, talk
+  to her once in the game and her romance quest moves on from the new bond.
 
 ### Life
 
 - **Business**: see every DLC sawmill, restaurant, forge and clothier,
-  and set the renown (1–5) of the shops you run.
+  and set the renown (1–5) of the shops you run. A shop you have not opened, or
+  one with no renown yet, says what to do in the game first.
 
 ### Other
 
-- **Time**: move the game clock forward by days, hours and minutes. It never
-  goes back.
+- **Skills**: learn the skills the game teaches by watching (Watch and Learn) for
+  Kliff, Oongka and Damiane, one, several or all at once. The editor writes
+  the record the game writes when you watch them. Level investments are left to
+  the game.
+- **Time**: set the day and time to move the game clock to; the time it adds
+  shows below. It never goes back.
 
 ### Backup/Restore
 

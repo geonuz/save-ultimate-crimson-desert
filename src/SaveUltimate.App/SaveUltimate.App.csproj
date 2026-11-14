@@ -23,7 +23,6 @@
     <Resource Include="../../resources/assets/fonts/hahmlet/*.ttf" Link="fonts/%(Filename)%(Extension)" />
     <Content Include="../../LICENSE;../../LICENSES.md;../../licenses/*.txt" Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../resources/data/npc_catalog.json" Link="resources/data/npc_catalog.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="../../resources/assets/skill-generic.svg" Link="resources/assets/skill-generic.svg" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="../../resources/assets/app_icon.ico" Link="app_icon.ico" />
   </ItemGroup>
 </Project>

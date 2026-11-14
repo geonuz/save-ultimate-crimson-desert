@@ -48,7 +48,7 @@ public sealed class AppearanceTests
         try
         {
             string account = Path.Combine(root, "account/slot100"); Directory.CreateDirectory(account);
-            File.WriteAllText(Path.Combine(account, "save.save"), "read-only fixture");
+            File.WriteAllText(Path.Combine(account, "save.save"), "read-only save");
             File.WriteAllText(Path.Combine(root, "lobby.save"), "excluded");
             Directory.CreateDirectory(Path.Combine(root, "backups")); File.WriteAllText(Path.Combine(root, "backups", "hidden.save"), "excluded");
             var settings = new EditorSettings { Language = "ko", SaveRoot = root, AutoGameFolder = false, RecentSaveFiles = [Path.Combine(root, "missing.save")],
@@ -64,140 +64,11 @@ public sealed class AppearanceTests
             Assert.IsTrue(rows.Any(r => r.Name == "Save Slot 1"));
             Assert.IsFalse(rows.Any(r => r.FileName is "lobby.save" or "hidden.save"));
             Assert.IsTrue(rows.Any(r => r.Category == "manual" && r.Modified is null));
-            Assert.AreEqual("read-only fixture", File.ReadAllText(Path.Combine(account, "save.save")));
+            Assert.AreEqual("read-only save", File.ReadAllText(Path.Combine(account, "save.save")));
         }
         finally
         {
             SettingsStore.Save(old); SettingsStore.FilePath = oldPath;
         }
-    }
-
-    [STATestMethod]
-    [TestCategory("UI")]
-    [DoNotParallelize]
-    [TestCategory("PrivateFixtures")]
-    public void OriginalThemeFontSettingsSlotsAndEveryPageRenderWithoutChangingSave()
-    {
-        TestUi.EnsureApp();
-        string fixtures = FixtureSaves.Root ?? throw new AssertInconclusiveException("Set fixtures.");
-        var doc = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
-        string hash = doc.BlobSha256; var model = new MainViewModel(doc);
-        var old = SettingsStore.Current; string oldPath = SettingsStore.FilePath;
-        using var temp = new TempFolder();
-        SettingsStore.FilePath = temp.Named("settings.json");
-        var settings = new EditorSettings { Language = "ko", SaveRoot = fixtures, AutoGameFolder = false, RecentSaveFiles = [Path.Combine(fixtures, "missing-review.save")] };
-        SettingsStore.Save(settings); Appearance.Apply(settings);
-        var window = TestUi.Hidden(new MainWindow(model));
-        window.Show();
-        try
-        {
-            Assert.AreEqual("#FF16181B", ((SolidColorBrush)window.Background).Color.ToString());
-            Assert.AreEqual(16d, window.FontSize);
-            Assert.IsTrue(window.FontFamily.GetTypefaces().Any(t => t.TryGetGlyphTypeface(out var glyph) && glyph.FamilyNames.Values.Any(n => n.Contains("Hahmlet"))), "Bundled Hahmlet must resolve.");
-            Assert.AreEqual("보기", Tr.Text("View"));
-            var displayed = model.ItemsView.Cast<ItemRow>().ToArray();
-            Assert.IsTrue(displayed.Zip(displayed.Skip(1)).All(p => p.First.Item.RecordOffset <= p.Second.Item.RecordOffset));
-            WindowTests.Capture(window, "inventory");
-            var inventory = (DataGrid)window.FindName("InventoryGrid");
-            Assert.AreEqual(1, ((DataGridRow)inventory.ItemContainerGenerator.ContainerFromIndex(0)).Header);
-            inventory.SelectedIndex = 0; WindowTests.Capture(window, "inventory-selected"); inventory.SelectedIndex = -1;
-            foreach (var (page, name) in new[] { (AppPage.Repurchase, "repurchase"), (AppPage.Equipment, "equipment"), (AppPage.Knowledge, "knowledge"), (AppPage.Challenges, "challenges"), (AppPage.Fishing, "fishing"), (AppPage.Map, "map"), (AppPage.Companions, "companions"), (AppPage.Friendship, "npc"), (AppPage.Backups, "backups"), (AppPage.Database, "database"), (AppPage.Skills, "skills") })
-            {
-                if (page == AppPage.Skills) WindowTests.Pump(() => model.LoadSkillsCommand.ExecuteAsync(null));
-                model.CurrentPage = page;
-                if (page == AppPage.Knowledge) WindowTests.Pump(() => model.LoadKnowledgeCommand.ExecuteAsync(null));
-                if (page == AppPage.Challenges) WindowTests.Pump(() => model.LoadChallengesCommand.ExecuteAsync(null));
-                if (page == AppPage.Fishing) WindowTests.Pump(() => model.LoadFishingCommand.ExecuteAsync(null));
-                if (page == AppPage.Map) WindowTests.Pump(() => model.LoadMapCommand.ExecuteAsync(null));
-                if (page == AppPage.Companions) WindowTests.Pump(() => model.LoadCompanionsCommand.ExecuteAsync(null));
-                if (page == AppPage.Friendship) WindowTests.Pump(() => model.LoadFriendshipCommand.ExecuteAsync(null));
-                WindowTests.Capture(window, name);
-                if (page is AppPage.Repurchase or AppPage.Equipment) { inventory.SelectedIndex = 0; WindowTests.Capture(window, name + "-selected"); inventory.SelectedIndex = -1; }
-                Assert.IsFalse(model.Status.StartsWith("작업을 완료하지 못했습니다"), model.Status);
-            }
-            model.CurrentPage = AppPage.Inventory; window.ShowHelp("tab.inventory");
-            WindowTests.Capture(window, "help"); window.ShowHelp("tab.inventory");
-            var dialog = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
-            dialog.Show(); WindowTests.Capture(dialog, "settings-general"); dialog.Navigation.SelectedIndex = 1; WindowTests.Capture(dialog, "settings-theme"); dialog.Close();
-            Assert.AreSame(settings, SettingsStore.Current, "Opening/canceling settings must not commit drafts.");
-            var apply = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
-            apply.Dispatcher.BeginInvoke(new Action(() => Buttons(apply).Single(b => Equals(b.Content, Tr.Text("ui.apply_settings"))).RaiseEvent(new RoutedEventArgs(Button.ClickEvent))));
-            Assert.AreEqual(true, apply.ShowDialog()); Assert.IsNotNull(apply.Result);
-            Assert.AreSame(settings, SettingsStore.Current, "The dialog returns validated settings; the caller persists them.");
-            var slots = TestUi.Hidden(new SlotsWindow(model) { Owner = window }); slots.Show();
-            Assert.IsTrue(slots.Rows.Items.Count > 0); Assert.AreEqual(hash, doc.BlobSha256);
-            slots.Rows.SelectedItem = slots.Rows.Items.Cast<SaveSlot>().First(r => r.Category == "manual");
-            Assert.IsFalse(slots.OpenButton.IsEnabled); Assert.IsTrue(slots.RemoveButton.IsEnabled);
-            WindowTests.Capture(slots, "slots"); slots.RemoveRecent(); Assert.AreEqual(0, SettingsStore.Current.RecentSaveFiles.Length); slots.Close();
-            void CaptureDoctor(string name)
-            {
-                var again = TestUi.Hidden(new DoctorWindow(model) { Owner = window }); again.Show();
-                WindowTests.Pump(() => again.Inspect(DoctorTests.Slot(FixtureSaves.Named("mission_rows_8"))));
-                WindowTests.Capture(again, name); again.Close();
-            }
-            foreach (string theme in Appearance.Themes.Keys)
-            {
-                Appearance.Apply(settings with { Theme = theme }); WindowTests.Capture(window, "theme-" + theme); CaptureDoctor("doctor-theme-" + theme);
-                Assert.AreEqual(Appearance.Palette(settings with { Theme = theme })["bg"].ToUpperInvariant(), ((SolidColorBrush)window.Background).Color.ToString()[3..].Insert(0, "#"));
-            }
-            foreach (int scale in new[] { 100, 125, 150 })
-            {
-                Appearance.Apply(settings with { UiScale = scale, FontScale = 1.25, CompactMode = true });
-                window.Width = 980; window.Height = 720; WindowTests.Capture(window, "scale-" + scale);
-            }
-            foreach (string language in new[] { "en", "ja", "ru", "ko" })
-            {
-                SettingsStore.Save(settings with { Language = language, UiScale = 100 });
-                bool countUpdated = false;
-                System.ComponentModel.PropertyChangedEventHandler countChanged = (_, e) => countUpdated |= e.PropertyName == nameof(MainViewModel.BackupCount);
-                model.PropertyChanged += countChanged;
-                Appearance.Apply(SettingsStore.Current);
-                model.PropertyChanged -= countChanged;
-                Assert.IsTrue(countUpdated, "Language changes must refresh bound backup counts.");
-                window.Width = 1400; window.Height = 800;
-                var undo = (Button)window.FindName("UndoButton");
-                Assert.AreEqual(Tr.Text("ui.undo"), undo.Content);
-                Assert.AreSame(model.UndoCommand, undo.Command);
-                foreach (var page in new[] { AppPage.Inventory, AppPage.Equipment, AppPage.Knowledge, AppPage.Challenges, AppPage.Fishing, AppPage.Skills, AppPage.Map, AppPage.Companions, AppPage.Friendship, AppPage.Database, AppPage.Backups })
-                {
-                    model.CurrentPage = page; WindowTests.Capture(window, $"language-{language}-{page}");
-                }
-                var translatedSettings = TestUi.Hidden(new SettingsWindow(model.LoadedPath) { Owner = window });
-                translatedSettings.Show(); WindowTests.Capture(translatedSettings, $"settings-{language}"); translatedSettings.Close();
-                var translatedSlots = TestUi.Hidden(new SlotsWindow(model) { Owner = window });
-                translatedSlots.Show(); WindowTests.Capture(translatedSlots, $"slots-{language}"); translatedSlots.Close();
-                CaptureDoctor($"doctor-{language}");
-                window.Width = 920; WindowTests.Capture(window, $"narrow-{language}");
-                foreach (Button action in ((Panel)window.FindName("HeaderActions")).Children)
-                    Assert.IsTrue(action.TransformToAncestor(window).Transform(new Point(action.ActualWidth, 0)).X <= window.ActualWidth, language);
-                foreach (string name in new[] { "SavePathText", "GamePathText" })
-                {
-                    var pathText = (TextBlock)window.FindName(name);
-                    var sync = (FrameworkElement)window.FindName("SyncButton");
-                    Assert.IsTrue(pathText.ActualWidth >= ((FrameworkElement)window.FindName("ContentArea")).ActualWidth - 42 - sync.ActualWidth - sync.Margin.Left, language);
-                    Assert.AreEqual(TextTrimming.None, pathText.TextTrimming);
-                    Assert.AreEqual(TextWrapping.Wrap, pathText.TextWrapping);
-                }
-            }
-            var update = (Button)window.FindName("UpdateButton");
-            Assert.AreEqual(Visibility.Collapsed, update.Visibility);
-            model.AvailableUpdate = new(new(9, 9, 9), "", "", "");
-            Assert.AreEqual(Visibility.Visible, update.Visibility);
-            window.Width = 920; WindowTests.Capture(window, "update-collapsed");
-            window.Width = 1400; WindowTests.Capture(window, "update");
-            model.AvailableUpdate = null;
-            Assert.AreEqual(hash, doc.BlobSha256); Assert.IsFalse(doc.CanUndo);
-        }
-        finally
-        {
-            while (doc.CanUndo) doc.Undo();
-            window.Close(); SettingsStore.Save(old); SettingsStore.FilePath = oldPath; Appearance.Apply(old);
-        }
-    }
-    private static IEnumerable<Button> Buttons(DependencyObject root)
-    {
-        if (root is Button button) yield return button;
-        foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
-            foreach (var item in Buttons(child)) yield return item;
     }
 }

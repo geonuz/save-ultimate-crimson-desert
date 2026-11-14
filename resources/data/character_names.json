@@ -32010,7 +32010,7 @@
     "stringKey": "4303157798633520"
   },
   "1001884": {
-    "name": "Tariq",
+    "name": "Tarik",
     "internalName": "NHM_Criminal_12",
     "stringKey": "4303059014385712"
   },
@@ -37549,6 +37549,11 @@
     "internalName": "Riding_ghost_Big_Ship_NPC_01",
     "stringKey": "4316111419998256"
   },
+  "1004924": {
+    "name": "The Drunken Catfish",
+    "internalName": "Riding_Big_Monster_ship_NPC_02",
+    "stringKey": "4316115714965552"
+  },
   "1004438": {
     "name": "Ships",
     "internalName": "Riding_Big_Player_ship_02",
@@ -37700,7 +37705,7 @@
     "stringKey": "4314973253664816"
   },
   "1004646": {
-    "name": "The Sea's Vengeance",
+    "name": "The Twin Vengeances",
     "internalName": "Riding_Big_Monster_Medium_ship_01",
     "stringKey": "4314921714057264"
   },
@@ -37730,27 +37735,27 @@
     "stringKey": "4314810044907568"
   },
   "1004621": {
-    "name": "The Vengeance",
+    "name": "The Avengers",
     "internalName": "Riding_Big_Monster_ship_05",
     "stringKey": "4314814339874864"
   },
   "1004622": {
-    "name": "Faunus",
+    "name": "The Faunus",
     "internalName": "Riding_Big_Monster_ship_06",
     "stringKey": "4314818634842160"
   },
   "1004627": {
-    "name": "The Grim Wind",
+    "name": "The Grim Winds",
     "internalName": "Riding_Big_Monster_ship_07",
     "stringKey": "4314840109678640"
   },
   "1004628": {
-    "name": "The Scarlet Widow",
+    "name": "The Scarlet Widows",
     "internalName": "Riding_Big_Monster_ship_08",
     "stringKey": "4314844404645936"
   },
   "1004629": {
-    "name": "The Bloodied Stake",
+    "name": "The Bloodied Stakes",
     "internalName": "Riding_Big_Monster_ship_09",
     "stringKey": "4314848699613232"
   },
@@ -37760,7 +37765,7 @@
     "stringKey": "4314852994580528"
   },
   "1004631": {
-    "name": "The Black Curved Blade",
+    "name": "The Black Curved Blades",
     "internalName": "Riding_Big_Monster_ship_11",
     "stringKey": "4314857289547824"
   },

@@ -68,9 +68,7 @@ public partial class MainViewModel
                 try { await Task.Run(() => SaveBackups.Mirror(path, recovery, AppContext.BaseDirectory)); }
                 catch (Exception error) when (error is IOException or UnauthorizedAccessException) { warning = Tr.Text(" Secondary backup failed: ") + ErrorCodes.Describe(error); }
             }
-            SkillBaseline = Skills;
             savedInSession = true;
-            OnPropertyChanged(nameof(SkillBaseline));
             Refresh(); ReadBackups();
             Status = Tr.Format("port.saved", ("path", document!.SourcePath)) + warning;
         });

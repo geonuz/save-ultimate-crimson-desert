@@ -4,31 +4,25 @@ using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
 
+// The Misc section's skills tab: skills learned by watching them, learned that way here as in the game.
 public partial class MainViewModel
 {
     public bool IsSkills => CurrentPage == AppPage.Skills;
     [ObservableProperty] private SkillState? skills;
-    public SkillState? SkillBaseline { get; private set; }
 
     [RelayCommand(CanExecute = nameof(CanSave))]
-    private async Task LoadSkillsAsync() => await RunAsync(Tr.Text("Reading skills and investment records…"), async () =>
-    {
-        var state = await Task.Run(() => document!.ReadSkills());
-        SkillBaseline ??= state;
-        Skills = state;
-        Status = Tr.Text("Skills and investment records loaded.");
-    });
+    private async Task LoadSkillsAsync() => await RunAsync(Tr.Text("ui.load_data"), async () => { Skills = await Task.Run(() => document!.ReadSkills()); Status = ""; });
 
-    public async Task LearnSkillAsync(uint key, bool watch)
+    public async Task ObserveSkillsAsync(uint[] keys)
     {
         if (Skills is null || !CanSave()) return;
-        uint target = watch ? 1 : Skills.Level(key) + 1;
-        await RunAsync(Tr.Text("Validating skills, investments and materials…"), async () =>
+        await RunAsync(Tr.Text("skills.observe"), async () =>
         {
-            Skills = await Task.Run(() => document!.LearnSkill(key, target, watch));
+            int before = keys.Count(Skills.Observed);
+            Skills = await Task.Run(() => document!.ObserveSkills(keys));
             if (Knowledge is not null || Fishing is not null || Map is not null) UpdateKnowledgeViews(await Task.Run(() => document!.ReadKnowledge()));
             Refresh();
-            Status = Tr.Format("port.skill_applied", ("name", ItemCatalog.Shared.KnowledgeName(key)), ("level", target));
+            Status = Tr.Format("skills.observed", ("count", keys.Count(Skills.Observed) - before));
         });
     }
 }

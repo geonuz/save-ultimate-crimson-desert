@@ -65,7 +65,8 @@ public sealed class ItemCatalog
         string category = Category(key), detail = Text(group, Tr.Language == "ko" ? "detailKo" : "detail");
         if (detail.Length == 0) detail = Text(group, "detail");
         if (group.TryGetProperty("detailKey", out var detailKey)) detail = Tr.Name("item_groups", detailKey.ToString(), detail);
-        return category + (detail.Length > 0 && detail != category ? "\n" + detail : "") + $"\nCategoryInfo: {group.GetProperty("categoryKey")} ({string.Join("/", group.GetProperty("indices").EnumerateArray())})\nItemGroupInfo: {group.GetProperty("groupKey")} / {group.GetProperty("detailKey")}";
+        // The game's table keys stay out of the tooltip: it names the category and its detail only.
+        return category + (detail.Length > 0 && detail != category ? "\n" + detail : "");
     }
     public ulong MaxStack(uint key) => items.TryGetValue(key, out var row) && row.TryGetProperty("maxStack", out var value) && value.TryGetUInt64(out ulong count) ? count : 0;
     public string Store(ushort key) => Tr.Name("stores", key.ToString(), stores.GetValueOrDefault(key.ToString(), key.ToString()));

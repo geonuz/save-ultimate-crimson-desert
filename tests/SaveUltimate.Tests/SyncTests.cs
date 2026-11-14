@@ -94,8 +94,7 @@ public sealed class SyncTests
     }
 
     [TestMethod]
-    [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
+    [TestCategory("Game")]
     public void InstalledGameSyncMatchesShippedMetadataAndReusesValidatedCache()
     {
         string game = Environment.GetEnvironmentVariable("SAVEULTIMATE_GAME") ?? throw new AssertInconclusiveException("Set game.");
@@ -107,10 +106,8 @@ public sealed class SyncTests
         Assert.IsFalse(result.Reused); Assert.IsTrue(result.Items > 0 && result.Images > 0);
         Assert.IsTrue(GameDataSync.IsCurrent(game, resources, destination));
         // refresh-items ships exactly what a sync of the installed game writes.
-        var shipped = new DirectoryInfo(AppContext.BaseDirectory);
-        while (!File.Exists(Path.Combine(shipped.FullName, "resources/data/max_enchant_map.json"))) shipped = shipped.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
         JsonNode Load(string folder, string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, name)))!;
-        string repository = Path.Combine(shipped.FullName, "resources");
+        string repository = TestFiles.Resources;
         foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
             Assert.IsTrue(JsonNode.DeepEquals(Load(repository, name), Load(destination, name)), name);
         foreach (string part in new[] { "items", "stats" })
@@ -130,20 +127,19 @@ public sealed class SyncTests
 
     // Exercises every client-table reader against the installed game and catches shipped resources drifting from it.
     [TestMethod]
-    [TestCategory("Scenario")]
-    [TestCategory("PrivateFixtures")]
+    [TestCategory("Game")]
     public void ShippedCatalogsAreWhatTheBuildersReadFromTheInstalledGame()
     {
         string game = Environment.GetEnvironmentVariable("SAVEULTIMATE_GAME") ?? throw new AssertInconclusiveException("Set game.");
-        var resources = new DirectoryInfo(AppContext.BaseDirectory);
-        while (!File.Exists(Path.Combine(resources.FullName, "resources/data/knowledge_ui.json"))) resources = resources.Parent ?? throw new AssertInconclusiveException("Repository resources not found.");
-        JsonNode Load(string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources.FullName, "resources", name)))!;
+        JsonNode Load(string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(TestFiles.Resources, name)))!;
         var files = new SaveUltimate.Core.Archives.GameFiles(game);
         var outputs = KnowledgeCatalogBuilder.Build(new ClientSource(files), Load)
             .Concat(CharacterCatalogBuilder.Build(new ClientSource(files), Load))
             .Concat(MapCatalogBuilder.Build(new ClientSource(files), Load))
             .Concat(SkillCatalogBuilder.Build(new ClientSource(files), Load))
             .Append(new("data/dlc_content.json", DlcContentBuilder.Build(new ClientSource(files))))
+            .Append(new("data/collection_catalog.json", CollectionCatalogBuilder.Build(new ClientSource(files))))
+            .Append(new("data/learn_sources.json", LearnSourceBuilder.Build(new ClientSource(files))))
             .Append(new("data/challenge_catalog.json", ChallengeCatalogBuilder.Build(new ClientSource(files), Load("data/challenge_catalog.json").AsObject())));
         foreach (var (name, node) in outputs) Assert.IsTrue(JsonNode.DeepEquals(Load(name), node), name);
     }

@@ -13,6 +13,8 @@ public sealed record FieldClock(ulong Raw)
     public ulong Days => Raw / UnitsPerDay;
     public TimeSpan TimeOfDay => TimeSpan.FromSeconds(Seconds % 86400);
     public FieldClock After(ulong days, ulong hours, ulong minutes) => new(checked(Raw + days * UnitsPerDay + hours * UnitsPerSecond * 3600 + minutes * UnitsPerSecond * 60));
+    /// <summary>The clock on a chosen day and minute. The seconds within the minute are kept, so the change from this clock is whole minutes.</summary>
+    public FieldClock At(ulong day, uint hour, uint minute) => new(checked(day * UnitsPerDay + (hour * 3600UL + minute * 60UL) * UnitsPerSecond + Raw % (UnitsPerSecond * 60)));
 }
 
 public sealed partial class SaveDocument

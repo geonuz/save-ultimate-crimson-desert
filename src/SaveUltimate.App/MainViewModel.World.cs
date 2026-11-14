@@ -6,7 +6,13 @@ namespace SaveUltimate.App;
 
 public partial class MainViewModel
 {
-    public bool IsMap => CurrentPage == AppPage.Map;
+    public bool IsMapPlaces => CurrentPage == AppPage.Map;
+    public bool IsMapFragments => CurrentPage == AppPage.MapFragments;
+    public bool IsMapEnvironment => CurrentPage == AppPage.MapEnvironment;
+    public bool IsMap => Array.IndexOf(MapPages, CurrentPage) >= 0;
+    private static readonly AppPage[] MapPages = [AppPage.Map, AppPage.MapFragments, AppPage.MapEnvironment];
+    [ObservableProperty] private int mapPageIndex;
+    partial void OnMapPageIndexChanged(int value) { if (IsMap) CurrentPage = MapPages[value]; }
     public bool IsCompanions => CurrentPage == AppPage.Companions;
     public bool IsFriendship => CurrentPage == AppPage.Friendship;
     public bool IsPets => CurrentPage == AppPage.Pets;
@@ -47,6 +53,19 @@ public partial class MainViewModel
                 if (Skills is not null) Skills = result.Skills;
                 if (Challenges is not null) Challenges = result.Map.Progress;
             }
+            Refresh(); Status = Tr.Text("Map activation applied. Save the file to apply.");
+        });
+    }
+    /// <summary>Activates the chosen rows of the place and Abyss tables as one undo step.</summary>
+    public async Task ActivateMapEntriesAsync(IReadOnlyCollection<MapEntry> entries)
+    {
+        if (!CanSave() || Map is null || entries.Count == 0) return;
+        await RunAsync(Tr.Text("map.activate_selected"), async () =>
+        {
+            var result = await Task.Run(() => document!.ActivateMapEntries(entries));
+            Map = result.Map; UpdateKnowledgeViews(result.Map.Knowledge);
+            if (Skills is not null) Skills = result.Skills;
+            if (Challenges is not null) Challenges = result.Map.Progress;
             Refresh(); Status = Tr.Text("Map activation applied. Save the file to apply.");
         });
     }

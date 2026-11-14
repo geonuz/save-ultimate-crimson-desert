@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using SaveUltimate.Core.Saves;
@@ -13,42 +12,42 @@ public partial class MapPage : UserControl
     public MapPage()
     {
         InitializeComponent();
-        foreach (string group in new[] { "places", "abyss", "collectibles", "crafting", "resources" })
+        foreach (string group in new[] { "resources", "abyss", "crafting", "collectibles" })
         {
             var body = new StackPanel { Margin = new(12) };
-            body.Children.Add(new TextBlock { Text = Tr.Text("map.effect_" + group), TextWrapping = TextWrapping.Wrap, Margin = new(0, 0, 0, 8) });
-            foreach (var pair in MapAction.All.Select((a, i) => (a, i)).Where(p => p.a.Group == group))
+            foreach (var pair in MapAction.All.Select((a, i) => (a, i)).Where(p => p.a.Group == group && p.a.Mode != "knowledge" && p.a.SceneNames is null))
             {
                 var row = new Grid { Margin = new(0, 4, 0, 4) };
                 row.ColumnDefinitions.Add(new()); row.ColumnDefinitions.Add(new() { Width = GridLength.Auto }); row.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
                 var label = new TextBlock { TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
                 // Badges name what the group also changes in the adventure journal: its knowledge or its challenges.
-                Border Badge(string text, string? hint)
+                // Fixed captions are bound, not copied, so they follow a language switch.
+                Border Badge(string? text, string? hint)
                 {
-                    var content = new TextBlock { FontSize = 12, Text = text }; content.SetResourceReference(TextBlock.ForegroundProperty, "accent");
-                    var border = new Border { CornerRadius = new(9), Padding = new(8, 1, 8, 1), BorderThickness = new(1), Margin = new(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center, Child = content, ToolTip = hint };
+                    var content = new TextBlock { FontSize = 12 }; content.SetResourceReference(TextBlock.ForegroundProperty, "accent");
+                    var border = new Border { CornerRadius = new(9), Padding = new(8, 1, 8, 1), BorderThickness = new(1), Margin = new(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center, Child = content };
+                    if (text is not null) Tr.Bind(content, TextBlock.TextProperty, text);
+                    if (hint is not null) Tr.Bind(border, ToolTipProperty, hint);
                     border.SetResourceReference(Border.BorderBrushProperty, "accent"); DockPanel.SetDock(border, Dock.Right);
                     return border;
                 }
-                var badge = Badge("", null); badge.Visibility = Visibility.Collapsed;
+                var badge = Badge(null, null); badge.Visibility = Visibility.Collapsed;
                 var name = new DockPanel(); name.Children.Add(badge);
-                if (pair.a.ChallengeRoots is { Length: > 0 }) name.Children.Add(Badge(Tr.Text("map.challenge_badge"), Tr.Text("map.challenge_badge_hint")));
+                if (pair.a.ChallengeRoots is { Length: > 0 }) name.Children.Add(Badge("map.challenge_badge", "map.challenge_badge_hint"));
                 name.Children.Add(label);
-                var count = new TextBlock { MinWidth = 70, Margin = new(8, 0, 8, 0), TextAlignment = TextAlignment.Right, VerticalAlignment = VerticalAlignment.Center, ToolTip = Tr.Text("map.registered") };
-                var button = new Button { Content = Tr.Text("map.activate_all"), Style = (Style)FindResource("AccentButton"), MinWidth = 100, IsEnabled = false, Tag = pair.i };
+                var count = new TextBlock { MinWidth = 70, Margin = new(8, 0, 8, 0), TextAlignment = TextAlignment.Right, VerticalAlignment = VerticalAlignment.Center };
+                Tr.Bind(count, ToolTipProperty, "map.registered");
+                var button = new Button { Style = (Style)FindResource("AccentButton"), MinWidth = 100, IsEnabled = false, Tag = pair.i };
+                Tr.Bind(button, ContentProperty, "map.activate_all");
                 button.Click += async (_, _) => await Model.ActivateMapAsync(pair.i);
                 Grid.SetColumn(count, 1); Grid.SetColumn(button, 2); row.Children.Add(name); row.Children.Add(count); row.Children.Add(button); body.Children.Add(row);
                 actions.Add((pair.i, label, badge, count, button));
             }
-            (group is "places" or "resources" ? LeftCards : RightCards).Children.Add(new GroupBox { Header = Tr.Text("map.group_" + group), Content = body, Margin = new(0, 0, 0, 12) });
+            var card = new GroupBox { Content = body, Margin = new(0, 0, 0, 12) }; Tr.Bind(card, HeaderedContentControl.HeaderProperty, "map.group_" + group);
+            (group is "resources" ? LeftCards : RightCards).Children.Add(card);
         }
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Refresh(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Map), Refresh);
     }
-    private void Changed(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(MainViewModel.Map)) Refresh(); }
     private void OnCardsSizeChanged(object sender, SizeChangedEventArgs e)
     {
         bool below = ActualWidth < 1100;
@@ -72,8 +71,7 @@ public partial class MapPage : UserControl
                 count = a.Scenes.Count(s => state?.Discoveries.TryGetValue(s, out var record) == true && (a.Pivots is null || record.Pivot is not null));
                 complete &= count == total;
             }
-            string name = a.LabelKey is not null ? Tr.Text(a.LabelKey) : GameText.Display(a.Names.GetValueOrDefault(Tr.Language, a.Names["en"]));
-            if (a.LabelRef is { Length: 2 } reference) name = GameText.Display(Tr.Name(reference[0].GetString()!, reference[1].ToString(), name));
+            string name = MapRow.ActionName(a);
             bool partial = a.JournalKeys.Length < counted.Length;
             badge.Visibility = a.JournalKeys.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
             ((TextBlock)badge.Child).Text = Tr.Text(partial ? "map.journal_badge_partial" : "map.journal_badge");

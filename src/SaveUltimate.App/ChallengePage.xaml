@@ -14,14 +14,14 @@
   </Style>
  </UserControl.Resources>
  <Grid IsEnabled="{Binding CanEditSelection}">
-  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
-  <local:PageHeader Title="{local:Tr Challenges}" HelpTopic="Challenges" LoadedState="{Binding Challenges, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadChallengesCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
-  <DockPanel Grid.Row="1">
-   <CheckBox x:Name="Incomplete" Content="{local:Tr challenge.incomplete}" DockPanel.Dock="Right" Margin="12,0,0,0" Checked="OnFilter" Unchecked="OnFilter"/>
-   <TextBox x:Name="Search" TextChanged="OnSearch" ToolTip="{local:Tr challenge.search}" AutomationProperties.Name="{local:Tr challenge.search}"/>
-  </DockPanel>
-  <TextBlock x:Name="Count" Grid.Row="2" Margin="0,8" Text="{local:Tr challenge.load_prompt}" TextWrapping="Wrap"/>
-  <Grid Grid.Row="3">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader HelpTopic="Challenges" LoadedState="{Binding Challenges, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadChallengesCommand}"/></local:PageHeader.LoadButton>
+   <CheckBox x:Name="Incomplete" Content="{local:Tr challenge.incomplete}" VerticalAlignment="Center" Margin="0,0,12,0" Checked="OnFilter" Unchecked="OnFilter"/>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox x:Name="Search" Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" TextChanged="OnSearch" ToolTip="{local:Tr challenge.search}" AutomationProperties.Name="{local:Tr challenge.search}"/>
+  </local:PageHeader>
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}"><TextBlock x:Name="Count" Text="{local:Tr challenge.load_prompt}" Style="{StaticResource CountText}"/></DockPanel>
+  <Grid Grid.Row="2">
    <Grid.ColumnDefinitions><ColumnDefinition Width="440*"/><ColumnDefinition Width="6"/><ColumnDefinition Width="850*"/></Grid.ColumnDefinitions>
    <DockPanel Grid.IsSharedSizeScope="True">
     <Grid DockPanel.Dock="Top" Margin="4,0,22,6">
@@ -73,10 +73,10 @@
       <DataGridTextColumn Header="{local:Tr Progress}" Binding="{Binding Progress}"/>
      </DataGrid.Columns>
     </DataGrid>
-    <TextBlock x:Name="DetailNote" Grid.Row="2" TextWrapping="Wrap" Margin="0,8"/>
+    <Border Grid.Row="2" Height="8"/>
     <Button Style="{StaticResource AccentButton}" x:Name="CompleteSelected" Grid.Row="3" Content="{local:Tr challenge.complete_selected}" IsEnabled="False" Click="OnCompleteSelected" ToolTip="{local:Tr challenge.select_checkpoint}"/>
     <Button Style="{StaticResource BulkButton}" x:Name="CompleteAll" Grid.Row="4" Content="{local:Tr challenge.complete_all}" IsEnabled="False" Click="OnCompleteAll" Margin="0,8"/>
-    <TextBlock x:Name="EditNote" Grid.Row="5" Text="{local:Tr challenge.select}" TextWrapping="Wrap"/>
+    <TextBlock x:Name="EditNote" Grid.Row="5" TextWrapping="Wrap" Visibility="Collapsed"/>
    </Grid>
   </Grid>
  </Grid>

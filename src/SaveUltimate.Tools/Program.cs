@@ -182,7 +182,7 @@ completionCommand.SetAction(result =>
     Console.WriteLine($"{completable.Length} of {roots.Length} challenges completable; {roots.Length - completable.Length} need a completed reference save");
 });
 root.Subcommands.Add(completionCommand);
-var catalogs = new Command("catalog-knowledge", "Build the knowledge, fishing, skill, character, NPC and map catalogs on top of the shipped resources");
+var catalogs = new Command("catalog-knowledge", "Build the knowledge, fishing, skill, character, NPC, map, collection and learn-source catalogs on top of the shipped resources");
 var catalogGame = new Argument<string>("game");
 var catalogResources = new Argument<string>("resources");
 var catalogOutput = new Argument<string>("output");
@@ -200,9 +200,22 @@ catalogs.SetAction(result =>
     foreach (var (name, node) in MapCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
     foreach (var (name, node) in SkillCatalogBuilder.Build(new ClientSource(game), Load)) outputs[name] = node;
     outputs["data/dlc_content.json"] = DlcContentBuilder.Build(new ClientSource(game));
-    foreach (var (name, node) in outputs) WriteJson(Path.Combine(target, name), node, name is "data/skills.json" or "data/map_actions.json" or "data/map_catalog.json" or "data/dlc_content.json");
+    outputs["data/collection_catalog.json"] = CollectionCatalogBuilder.Build(new ClientSource(game));
+    outputs["data/learn_sources.json"] = LearnSourceBuilder.Build(new ClientSource(game));
+    foreach (var (name, node) in outputs) WriteJson(Path.Combine(target, name), node, name is "data/skills.json" or "data/map_actions.json" or "data/map_catalog.json" or "data/dlc_content.json" or "data/collection_catalog.json" or "data/learn_sources.json");
     Console.WriteLine($"{outputs["data/knowledge_ui.json"]["itemPaths"]!.AsObject().Count} visible knowledge entries, {outputs["data/fishing_catalog.json"]["fish"]!.AsArray().Count} fish, " +
         $"{outputs["data/skills.json"]["skills"]!.AsObject().Count} skill definitions, {outputs["data/character_names.json"].AsObject().Count} characters, {outputs["data/map_catalog.json"]["scenes"]!.AsArray().Count} map scenes -> {target}");
 });
 root.Subcommands.Add(catalogs);
+var learnPaths = new Command("learn-paths", "Count the learn-from record of every learned knowledge in saves played without an editor, one save per player");
+var learnOutput = new Argument<string>("output");
+var learnSaves = new Argument<string[]>("saves") { Arity = ArgumentArity.OneOrMore };
+learnPaths.Arguments.Add(learnOutput); learnPaths.Arguments.Add(learnSaves);
+learnPaths.SetAction(result =>
+{
+    var catalog = LearnPathBuilder.Build(result.GetValue(learnSaves)!, Console.WriteLine);
+    WriteJson(result.GetValue(learnOutput)!, catalog, compact: true);
+    Console.WriteLine($"{catalog["knowledge"]!.AsObject().Count} knowledge entries");
+});
+root.Subcommands.Add(learnPaths);
 return root.Parse(args).Invoke();

@@ -1,31 +1,31 @@
 {
-  "source": "dlc_01 factionmanagement.staticinfo (2.04.08), shops only: the two Greymane Camp festivals (16979, 16980) are not businesses and are left out. Region names: faction.paloc keys (16960..16964 << 32) | 532 in kor/eng/jpn/rus; Calphade from the game's own shop naming. maxLevel is one more than the record's level-up condition groups (members 0x40A10 + 1024 n).",
+  "source": "dlc_01 factionmanagement.staticinfo (2.04.08), shops only: the two Greymane Camp festivals (16979, 16980) are not businesses and are left out. Region names: faction.paloc keys (16960..16964 << 32) | 532 in kor/eng/jpn/rus; Calphade from the game's own shop naming. maxLevel is one more than the record's level-up condition groups (members 0x40A10 + 1024 n). placeKnowledge: the knowledge of the faction node the shop sits on, matched by internal name (Management_Node_<region>_<node>…), whose localized name is the place.",
   "regions": {
     "Her": { "ko": "에르난드", "en": "Hernand", "ja": "エルナンド", "ru": "Эрнанд" },
     "Dem": { "ko": "데메니스", "en": "Demeniss", "ja": "デメニス", "ru": "Деменисс" },
     "Kwe": { "ko": "페일룬", "en": "Pailune", "ja": "パイルーン", "ru": "Пайлун" },
     "Del": { "ko": "델레시아", "en": "Delesyia", "ja": "デレシア", "ru": "Делесия" },
     "Crim": { "ko": "붉은사막", "en": "Crimson Desert", "ja": "紅の砂漠", "ru": "Багровая пустыня" },
-    "Cal": { "ko": "칼페이드", "en": "Calphade", "ja": "Calphade", "ru": "Calphade" }
+    "Cal": { "ko": "칼페이드", "en": "Calphade", "ja": "カルフェイド", "ru": "Кальфад" }
   },
   "shops": [
-    { "key": 16960, "name": "Management_Node_Her_TimberhamSawmill_01", "region": "Her", "place": "Timberham", "kind": "sawmill", "maxLevel": 5 },
-    { "key": 16961, "name": "Management_Node_Kwe_Pailune_Pub_01", "region": "Kwe", "place": "Pailune", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16963, "name": "Management_Node_Her_Vellua_Restaurant_01", "region": "Her", "place": "Vellua", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16964, "name": "Management_Node_Del_ZarganTankFactory_Forge_01", "region": "Del", "place": "Zargan Tank Factory", "kind": "forge", "maxLevel": 5 },
-    { "key": 16966, "name": "Management_Node_Cal_CalphadeLoggingCamp_Sawmill_01", "region": "Cal", "place": "Calphade Logging Camp", "kind": "sawmill", "maxLevel": 5 },
-    { "key": 16967, "name": "Management_Node_Kwe_BeighenVillage_Sawmill_01", "region": "Kwe", "place": "Beighen Village", "kind": "sawmill", "maxLevel": 5 },
-    { "key": 16968, "name": "Management_Node_Cal_CalphadeFarm_Pub_01", "region": "Cal", "place": "Calphade Farm", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16969, "name": "Management_Node_Cal_CalphadeRefinery_Forge_01", "region": "Cal", "place": "Calphade Refinery", "kind": "forge", "maxLevel": 5 },
-    { "key": 16971, "name": "Management_Node_Dem_BrookfieldManor_ElemoreSawmill_01", "region": "Dem", "place": "Brookfield Manor", "kind": "sawmill", "maxLevel": 5 },
-    { "key": 16972, "name": "Management_Node_Dem_SungroveManor_MarcellaClothier_01", "region": "Dem", "place": "Sungrove Manor", "kind": "clothier", "maxLevel": 5 },
-    { "key": 16973, "name": "Management_Node_Dem_HiddenGroveRanchSawmill_01", "region": "Dem", "place": "Hidden Grove Ranch", "kind": "sawmill", "maxLevel": 5 },
-    { "key": 16974, "name": "Management_Node_Dem_GoldenHoofHorseRace_Restaurant_01", "region": "Dem", "place": "Golden Hoof Racecourse", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16975, "name": "Management_Node_Del_DewhavenLoggingCamp_Restaurant_01", "region": "Del", "place": "Dewhaven Logging Camp", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16977, "name": "Management_Node_Del_StarVillage_Pub_01", "region": "Del", "place": "Star Village", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16978, "name": "Management_Node_Crim_Tashkalp_Pub_01", "region": "Crim", "place": "Tashkalp", "kind": "restaurant", "maxLevel": 5 },
-    { "key": 16981, "name": "Management_Node_Del_DeleysiaDyehouse_Clothier_01", "region": "Del", "place": "Delesyia Dyehouse", "kind": "clothier", "maxLevel": 5 },
-    { "key": 16982, "name": "Management_Node_Crim_BurhumVillage_Forge_01", "region": "Crim", "place": "Burhum Village", "kind": "forge", "maxLevel": 5 },
-    { "key": 16983, "name": "Management_Node_Crim_CaledoraVillage_Clothier_01", "region": "Crim", "place": "Caledora Village", "kind": "clothier", "maxLevel": 5 }
+    { "key": 16960, "name": "Management_Node_Her_TimberhamSawmill_01", "region": "Her", "placeKnowledge": 1001811, "kind": "sawmill", "maxLevel": 5 },
+    { "key": 16961, "name": "Management_Node_Kwe_Pailune_Pub_01", "region": "Kwe", "placeKnowledge": 1002172, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16963, "name": "Management_Node_Her_Vellua_Restaurant_01", "region": "Her", "placeKnowledge": 1002131, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16964, "name": "Management_Node_Del_ZarganTankFactory_Forge_01", "region": "Del", "placeKnowledge": 1002383, "kind": "forge", "maxLevel": 5 },
+    { "key": 16966, "name": "Management_Node_Cal_CalphadeLoggingCamp_Sawmill_01", "region": "Cal", "placeKnowledge": 1002230, "kind": "sawmill", "maxLevel": 5 },
+    { "key": 16967, "name": "Management_Node_Kwe_BeighenVillage_Sawmill_01", "region": "Kwe", "placeKnowledge": 1002197, "kind": "sawmill", "maxLevel": 5 },
+    { "key": 16968, "name": "Management_Node_Cal_CalphadeFarm_Pub_01", "region": "Cal", "placeKnowledge": 1002234, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16969, "name": "Management_Node_Cal_CalphadeRefinery_Forge_01", "region": "Cal", "placeKnowledge": 1002228, "kind": "forge", "maxLevel": 5 },
+    { "key": 16971, "name": "Management_Node_Dem_BrookfieldManor_ElemoreSawmill_01", "region": "Dem", "placeKnowledge": 1002275, "kind": "sawmill", "maxLevel": 5 },
+    { "key": 16972, "name": "Management_Node_Dem_SungroveManor_MarcellaClothier_01", "region": "Dem", "placeKnowledge": 1002329, "kind": "clothier", "maxLevel": 5 },
+    { "key": 16973, "name": "Management_Node_Dem_HiddenGroveRanchSawmill_01", "region": "Dem", "placeKnowledge": 1002332, "kind": "sawmill", "maxLevel": 5 },
+    { "key": 16974, "name": "Management_Node_Dem_GoldenHoofHorseRace_Restaurant_01", "region": "Dem", "placeKnowledge": 1002271, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16975, "name": "Management_Node_Del_DewhavenLoggingCamp_Restaurant_01", "region": "Del", "placeKnowledge": 1002400, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16977, "name": "Management_Node_Del_StarVillage_Pub_01", "region": "Del", "placeKnowledge": 1002415, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16978, "name": "Management_Node_Crim_Tashkalp_Pub_01", "region": "Crim", "placeKnowledge": 1002469, "kind": "restaurant", "maxLevel": 5 },
+    { "key": 16981, "name": "Management_Node_Del_DeleysiaDyehouse_Clothier_01", "region": "Del", "placeKnowledge": 1002413, "kind": "clothier", "maxLevel": 5 },
+    { "key": 16982, "name": "Management_Node_Crim_BurhumVillage_Forge_01", "region": "Crim", "placeKnowledge": 1002500, "kind": "forge", "maxLevel": 5 },
+    { "key": 16983, "name": "Management_Node_Crim_CaledoraVillage_Clothier_01", "region": "Crim", "placeKnowledge": 1002433, "kind": "clothier", "maxLevel": 5 }
   ]
 }

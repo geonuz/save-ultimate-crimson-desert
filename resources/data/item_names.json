@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "items": [
     {
       "itemKey": 1,
@@ -51439,7 +51439,7 @@
     },
     {
       "itemKey": 1000629,
-      "name": "Modest Silver Pouch",
+      "name": "Silver Pouch",
       "internalName": "Small_Silver_Pack",
       "category": "Misc",
       "maxStack": 100,
@@ -70623,7 +70623,7 @@
     },
     {
       "itemKey": 1001502,
-      "name": "Ocher Jar",
+      "name": "Red Clay Jar",
       "internalName": "Collection_Prop_Ceramic_0014",
       "category": "Misc",
       "maxStack": 50,
@@ -96311,7 +96311,7 @@
     },
     {
       "itemKey": 1002675,
-      "name": "Icy White Pavilion Glass Lamp",
+      "name": "Icy White Glass Pavilion Lamp",
       "internalName": "Collection_Lamp_Candle_0002",
       "category": "Misc",
       "maxStack": 50,
@@ -96333,7 +96333,7 @@
     },
     {
       "itemKey": 1002676,
-      "name": "Twilight Pavilion Glass Lamp",
+      "name": "Twilight Glass Pavilion Lamp",
       "internalName": "Collection_Lamp_Candle_0002_index01",
       "category": "Misc",
       "maxStack": 50,
@@ -96355,7 +96355,7 @@
     },
     {
       "itemKey": 1002677,
-      "name": "Lilac Pavilion Glass Lamp",
+      "name": "Lilac Glass Pavilion Lamp",
       "internalName": "Collection_Lamp_Candle_0002_index02",
       "category": "Misc",
       "maxStack": 50,
@@ -96377,7 +96377,7 @@
     },
     {
       "itemKey": 1002678,
-      "name": "Icy White Watchtower Glass Lamp",
+      "name": "Icy White Glass Watchtower Lamp",
       "internalName": "Collection_Lamp_Candle_0003",
       "category": "Misc",
       "maxStack": 50,
@@ -96399,7 +96399,7 @@
     },
     {
       "itemKey": 1002679,
-      "name": "Twilight Watchtower Glass Lamp",
+      "name": "Twilight Glass Watchtower Lamp",
       "internalName": "Collection_Lamp_Candle_0003_index01",
       "category": "Misc",
       "maxStack": 50,
@@ -96421,7 +96421,7 @@
     },
     {
       "itemKey": 1002680,
-      "name": "Lilac Watchtower Glass Lamp",
+      "name": "Lilac Glass Watchtower Lamp",
       "internalName": "Collection_Lamp_Candle_0003_index02",
       "category": "Misc",
       "maxStack": 50,
@@ -117409,7 +117409,7 @@
     },
     {
       "itemKey": 1003658,
-      "name": "Azerian's Whereabouts",
+      "name": "Countess Azerian's Whereabouts",
       "internalName": "Visione_Chip_Mansion_Marseille_Memory_I",
       "category": "Misc",
       "maxStack": 5,
@@ -123723,7 +123723,7 @@
     },
     {
       "itemKey": 1004002,
-      "name": "Small Tree Pot",
+      "name": "Small Potted Tree",
       "internalName": "Item_cd_ex_dpf_flowerpot_21_housing",
       "category": "Misc",
       "maxStack": 10,
@@ -143381,12 +143381,12 @@
           7,
           1
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18284,
+        "name": "Tool",
+        "nameKo": "도구",
+        "detailKey": 18284,
+        "detail": "Tool",
+        "detailKo": "도구"
       }
     },
     {
@@ -143969,9 +143969,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -143991,9 +143991,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144013,9 +144013,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144035,9 +144035,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144057,9 +144057,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144123,9 +144123,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144211,9 +144211,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -144233,9 +144233,9 @@
       "maxStack": 50,
       "socketLimit": 0,
       "gameClassification": {
-        "categoryKey": 5001,
+        "categoryKey": 3001,
         "indices": [
-          10,
+          8,
           0,
           0
         ],
@@ -153413,12 +153413,12 @@
           0,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18306,
+        "name": "Provisions",
+        "nameKo": "요리",
+        "detailKey": 18306,
+        "detail": "Provisions",
+        "detailKo": "요리"
       }
     },
     {
@@ -163191,7 +163191,7 @@
     },
     {
       "itemKey": 1006545,
-      "name": "Pirate Ship Warning - The Crimson Shield",
+      "name": "Pirate Ship Alert - The Crimson Shield",
       "internalName": "Quest_WantedPaper_PirateShip_0002",
       "category": "Quest",
       "maxStack": 1,
@@ -163213,7 +163213,7 @@
     },
     {
       "itemKey": 1006546,
-      "name": "Pirate Ship Warning - The Vengeance",
+      "name": "Pirate Crew Alert - The Avengers",
       "internalName": "Quest_WantedPaper_PirateShip_0003",
       "category": "Quest",
       "maxStack": 1,
@@ -163235,7 +163235,7 @@
     },
     {
       "itemKey": 1006547,
-      "name": "Pirate Ship Warning - Faunus",
+      "name": "Pirate Crew Alert - The Faunus",
       "internalName": "Quest_WantedPaper_PirateShip_0004",
       "category": "Quest",
       "maxStack": 1,
@@ -163257,7 +163257,7 @@
     },
     {
       "itemKey": 1006548,
-      "name": "Pirate Ship Alert - The Grim Wind",
+      "name": "Pirate Crew Alert - The Grim Winds",
       "internalName": "Quest_WantedPaper_PirateShip_0005",
       "category": "Quest",
       "maxStack": 1,
@@ -163279,7 +163279,7 @@
     },
     {
       "itemKey": 1006549,
-      "name": "Pirate Ship Alert - The Scarlet Widow",
+      "name": "Pirate Crew Alert - The Scarlet Widows",
       "internalName": "Quest_WantedPaper_PirateShip_0006",
       "category": "Quest",
       "maxStack": 1,
@@ -163301,7 +163301,7 @@
     },
     {
       "itemKey": 1006550,
-      "name": "Pirate Ship Alert - The Bloodied Stake",
+      "name": "Pirate Crew Alert - The Bloodied Stakes",
       "internalName": "Quest_WantedPaper_PirateShip_0007",
       "category": "Quest",
       "maxStack": 1,
@@ -163323,7 +163323,7 @@
     },
     {
       "itemKey": 1006551,
-      "name": "Pirate Ship Alert - The Devils' Plunder",
+      "name": "Pirate Crew Alert - The Devils' Plunder",
       "internalName": "Quest_WantedPaper_PirateShip_0008",
       "category": "Quest",
       "maxStack": 1,
@@ -163345,7 +163345,7 @@
     },
     {
       "itemKey": 1006552,
-      "name": "Pirate Ship Alert - The Black Curved Blade",
+      "name": "Pirate Crew Alert - The Black Curved Blades",
       "internalName": "Quest_WantedPaper_PirateShip_0009",
       "category": "Quest",
       "maxStack": 1,
@@ -163367,7 +163367,7 @@
     },
     {
       "itemKey": 1006553,
-      "name": "Pirate Ship Alert - The Sea's Vengeance",
+      "name": "Pirate Duo Alert - The Twin Vengeances",
       "internalName": "Quest_WantedPaper_PirateShip_0010",
       "category": "Quest",
       "maxStack": 1,
@@ -165347,7 +165347,7 @@
     },
     {
       "itemKey": 1006648,
-      "name": "Hydrothermal Vents Ecology Research Records",
+      "name": "Hydrothermal Vent Ecological Research Log",
       "internalName": "Paper_Ocean_Hydrothermal_Research",
       "category": "Misc",
       "maxStack": 1,
@@ -165369,7 +165369,7 @@
     },
     {
       "itemKey": 1006649,
-      "name": "Rocky Reef Ecology Research Records",
+      "name": "Rocky Reef Ecology Research Log",
       "internalName": "Paper_Ocean_RockySeabed_Research",
       "category": "Misc",
       "maxStack": 1,
@@ -166711,7 +166711,7 @@
     },
     {
       "itemKey": 1006745,
-      "name": "The Siren's Cry Pirates' Small Sail",
+      "name": "The Siren's Cry's Small Sail",
       "internalName": "item_SmallShip_sail_open_0001_index04",
       "category": "Misc",
       "maxStack": 1,
@@ -166799,7 +166799,7 @@
     },
     {
       "itemKey": 1006749,
-      "name": "The Sea Claw Pirates' Small Sail",
+      "name": "The Sea Claw's Small Sail",
       "internalName": "item_SmallShip_sail_open_0001_index08",
       "category": "Misc",
       "maxStack": 1,
@@ -167085,7 +167085,7 @@
     },
     {
       "itemKey": 1006762,
-      "name": "The Death Blossom Pirates' Medium Sail",
+      "name": "The Death Blossom's Medium Sail",
       "internalName": "item_Ship_sail_open_0001_index05",
       "category": "Misc",
       "maxStack": 1,
@@ -167107,7 +167107,7 @@
     },
     {
       "itemKey": 1006763,
-      "name": "The Sea's Vengeance Pirates' Medium Sail",
+      "name": "The Twin Vengeances' Medium Sail",
       "internalName": "item_Ship_sail_open_0001_index06",
       "category": "Misc",
       "maxStack": 1,
@@ -167195,7 +167195,7 @@
     },
     {
       "itemKey": 1006767,
-      "name": "The Black Bloom Pirates' Large Sail",
+      "name": "The Black Bloom's Large Sail",
       "internalName": "item_bigship_sail_open_0001_index04",
       "category": "Misc",
       "maxStack": 1,
@@ -167217,7 +167217,7 @@
     },
     {
       "itemKey": 1006768,
-      "name": "The Crimson Shield Pirates' Large Sail",
+      "name": "The Crimson Shield's Large Sail",
       "internalName": "item_bigship_sail_open_0001_index05",
       "category": "Misc",
       "maxStack": 1,
@@ -167261,7 +167261,7 @@
     },
     {
       "itemKey": 1006770,
-      "name": "The Bloodied Stake Pirates' Large Sail",
+      "name": "The Bloodied Stakes Pirates' Large Sail",
       "internalName": "item_bigship_sail_open_0001_index10",
       "category": "Misc",
       "maxStack": 1,
@@ -167415,7 +167415,7 @@
     },
     {
       "itemKey": 1006777,
-      "name": "The Black Curved Blade Pirates' Large Sail",
+      "name": "The Black Curved Blades Pirates' Large Sail",
       "internalName": "item_bigship_sail_open_0001_index12",
       "category": "Misc",
       "maxStack": 1,
@@ -167459,7 +167459,7 @@
     },
     {
       "itemKey": 1006779,
-      "name": "The Vengeance Pirates' Large Sail",
+      "name": "The Avengers Pirates' Large Sail",
       "internalName": "item_bigship_sail_open_0001_index06",
       "category": "Misc",
       "maxStack": 1,
@@ -167723,7 +167723,7 @@
     },
     {
       "itemKey": 1006793,
-      "name": "Blueprint: The Siren's Cry Pirates' Small Sail",
+      "name": "A blueprint for the Siren's Cry's Small Sail.",
       "internalName": "Recipe_item_smallship_sail_open_0001_index04",
       "category": "Misc",
       "maxStack": 5,
@@ -167745,7 +167745,7 @@
     },
     {
       "itemKey": 1006794,
-      "name": "Blueprint: The Sea Claw Pirates' Small Sail",
+      "name": "Blueprint: The Sea Claw's Small Sail",
       "internalName": "Recipe_item_smallship_sail_open_0001_index08",
       "category": "Misc",
       "maxStack": 5,
@@ -167767,7 +167767,7 @@
     },
     {
       "itemKey": 1006795,
-      "name": "Blueprint: The Death Blossom Pirates' Medium Sail",
+      "name": "Blueprint: The Death Blossom's Medium Sail",
       "internalName": "Recipe_item_ship_sail_open_0001_index05",
       "category": "Misc",
       "maxStack": 5,
@@ -167789,7 +167789,7 @@
     },
     {
       "itemKey": 1006796,
-      "name": "Blueprint: The Sea's Vengeance Pirates' Medium Sail",
+      "name": "Blueprint: The Twin Vengeances' Medium Sail",
       "internalName": "Recipe_item_ship_sail_open_0001_index06",
       "category": "Misc",
       "maxStack": 5,
@@ -167811,7 +167811,7 @@
     },
     {
       "itemKey": 1006797,
-      "name": "Blueprint: The Black Bloom Pirates' Large Sail",
+      "name": "Blueprint: The Black Bloom's Large Sail",
       "internalName": "Recipe_item_bigship_sail_open_0001_index04",
       "category": "Misc",
       "maxStack": 5,
@@ -167833,7 +167833,7 @@
     },
     {
       "itemKey": 1006798,
-      "name": "Blueprint: The Crimson Shield Pirates' Large Sail",
+      "name": "Blueprint: The Crimson Shield's Large Sail",
       "internalName": "Recipe_item_bigship_sail_open_0001_index05",
       "category": "Misc",
       "maxStack": 5,
@@ -167855,7 +167855,7 @@
     },
     {
       "itemKey": 1006799,
-      "name": "Blueprint: The Vengeance Pirates' Large Sail",
+      "name": "Blueprint: The Avengers Pirates' Large Sail",
       "internalName": "Recipe_item_bigship_sail_open_0001_index06",
       "category": "Misc",
       "maxStack": 5,
@@ -167943,7 +167943,7 @@
     },
     {
       "itemKey": 1006803,
-      "name": "Blueprint: The Bloodied Stake Pirates' Large Sail",
+      "name": "Blueprint: The Bloodied Stakes Pirates' Large Sail",
       "internalName": "Recipe_item_bigship_sail_open_0001_index10",
       "category": "Misc",
       "maxStack": 5,
@@ -167987,7 +167987,7 @@
     },
     {
       "itemKey": 1006805,
-      "name": "Blueprint: The Black Curved Blade Pirates' Large Sail",
+      "name": "Blueprint: The Black Curved Blades Pirates' Large Sail",
       "internalName": "Recipe_item_bigship_sail_open_0001_index12",
       "category": "Misc",
       "maxStack": 5,
@@ -171123,12 +171123,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171145,12 +171145,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171167,12 +171167,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171189,12 +171189,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171211,12 +171211,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171233,12 +171233,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171255,12 +171255,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171277,12 +171277,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -171299,12 +171299,12 @@
           3,
           0
         ],
-        "groupKey": 0,
-        "name": "",
-        "nameKo": "",
-        "detailKey": 0,
-        "detail": "",
-        "detailKo": ""
+        "groupKey": 18307,
+        "name": "Alchemy Result",
+        "nameKo": "연금 결과물",
+        "detailKey": 18307,
+        "detail": "Alchemy Result",
+        "detailKo": "연금 결과물"
       }
     },
     {
@@ -172691,6 +172691,72 @@
         "detailKey": 18303,
         "detail": "Crafting Manual",
         "detailKo": "제작서"
+      }
+    },
+    {
+      "itemKey": 1007054,
+      "name": "Ranek Cloth Cap",
+      "internalName": "Ranek_Fabric_Helm",
+      "category": "Misc",
+      "maxStack": 1,
+      "socketLimit": 1,
+      "gameClassification": {
+        "categoryKey": 412,
+        "indices": [
+          2,
+          1,
+          1
+        ],
+        "groupKey": 17420,
+        "name": "Armor",
+        "nameKo": "방어구",
+        "detailKey": 18285,
+        "detail": "Headgear",
+        "detailKo": "투구"
+      }
+    },
+    {
+      "itemKey": 1007055,
+      "name": "Devron Cloth Cap",
+      "internalName": "Deberon_Fabric_Helm",
+      "category": "Misc",
+      "maxStack": 1,
+      "socketLimit": 1,
+      "gameClassification": {
+        "categoryKey": 412,
+        "indices": [
+          2,
+          1,
+          1
+        ],
+        "groupKey": 17420,
+        "name": "Armor",
+        "nameKo": "방어구",
+        "detailKey": 18285,
+        "detail": "Headgear",
+        "detailKo": "투구"
+      }
+    },
+    {
+      "itemKey": 1007074,
+      "name": "Large Red Stone Staircase",
+      "internalName": "Item_me_00_str_mod_castle_stair_000_0001_index0002",
+      "category": "Misc",
+      "maxStack": 50,
+      "socketLimit": 0,
+      "gameClassification": {
+        "categoryKey": 5001,
+        "indices": [
+          10,
+          0,
+          0
+        ],
+        "groupKey": 17409,
+        "name": "Furniture",
+        "nameKo": "가구",
+        "detailKey": 17409,
+        "detail": "Furniture",
+        "detailKo": "가구"
       }
     },
     {

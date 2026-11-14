@@ -38,7 +38,7 @@ public partial class MainWindow : Window
             if (child is UserControl || child is Grid && Grid.GetRow(child) == 3 && child != ItemArea)
                 ((FrameworkElement)child).Margin = new(20, 16, 20, 16);
         foreach (var (page, name, _) in AppPages.All)
-        { var item = new MenuItem { Header = Tr.Text(name) }; item.Click += (_, _) => { if (!model.Busy) model.CurrentPage = page; }; ViewMenu.Items.Add(item); }
+        { var item = new MenuItem(); Tr.Bind(item, HeaderedItemsControl.HeaderProperty, name); item.Click += (_, _) => { if (!model.Busy) model.CurrentPage = page; }; ViewMenu.Items.Add(item); }
         IconsToggle.IsChecked = SettingsStore.Current.ShowIcons;
         Appearance.Changed += ApplyAppearance;
         ApplyAppearance();
@@ -176,7 +176,7 @@ public partial class MainWindow : Window
     private void UpdateNavigation(MainViewModel model)
     {
         updatingNavigation = true;
-        PrimaryNavigation.SelectedIndex = model.IsItems ? 0 : model.IsSkills ? 2 : model.IsJournal ? 1 : model.IsMap ? 3 : model.IsNpc ? 4 : model.IsLife ? 5 : model.IsMisc ? 6 : 7;
+        PrimaryNavigation.SelectedIndex = model.IsItems ? 0 : model.IsJournal ? 1 : model.IsMap ? 2 : model.IsNpc ? 3 : model.IsLife ? 4 : model.IsMisc ? 5 : 6;
         updatingNavigation = false;
         SetNavigationCollapsed(navigationCollapsed);
     }
@@ -192,7 +192,7 @@ public partial class MainWindow : Window
     {
         if (Keyboard.Modifiers != ModifierKeys.None || DataContext is not MainViewModel { Busy: false }) return;
         if (e.Key == Key.Escape && HelpPanel.Visibility == Visibility.Visible) { HelpPanel.Visibility = Visibility.Collapsed; e.Handled = true; return; }
-        int index = e.Key switch { Key.F1 => 0, Key.F2 => 1, Key.F3 => 2, Key.F4 => 3, Key.F5 => 4, Key.F6 => 5, Key.F7 => 6, Key.F8 => 7, _ => -1 };
+        int index = e.Key switch { Key.F1 => 0, Key.F2 => 1, Key.F3 => 2, Key.F4 => 3, Key.F5 => 4, Key.F6 => 5, Key.F7 => 6, _ => -1 };
         if (index >= 0) { PrimaryNavigation.SelectedIndex = index; e.Handled = true; }
     }
 
@@ -216,7 +216,7 @@ public partial class MainWindow : Window
         NavigationToggle.Content = new ActionGlyph { Kind = collapsed ? "next" : "previous", Width = 16, Height = 16, Foreground = Appearance.Brush("text_dim") };
         NavigationToggle.ToolTip = collapsed ? Tr.Text("Expand navigation") : Tr.Text("Collapse navigation");
         System.Windows.Automation.AutomationProperties.SetName(NavigationToggle, (string)NavigationToggle.ToolTip);
-        string[] names = new[] { "tab.items", "tab.knowledge_quest", "skills.title", "tab.maps", "tab.mercenary", "tab.life", "tab.misc", "tab.backup" }.Select(Tr.Text).ToArray();
+        string[] names = new[] { "tab.items", "tab.knowledge_quest", "tab.maps", "tab.mercenary", "tab.life", "tab.misc", "tab.backup" }.Select(Tr.Text).ToArray();
         SettingsButton.Content = collapsed ? new ActionGlyph { Kind = "settings", Width = 18, Height = 18, Foreground = Appearance.Brush("text") } : Tr.Text("Settings");
         SettingsButton.ToolTip = Tr.Text("Settings");
         UpdateButton.Content = collapsed ? new ActionGlyph { Kind = "update", Width = 18, Height = 18, Foreground = Appearance.Brush("accent_text") } : Tr.Text("menu.update");
@@ -224,7 +224,7 @@ public partial class MainWindow : Window
         System.Windows.Automation.AutomationProperties.SetName(UpdateButton, Tr.Text("menu.update"));
         GameVersion.Text = Tr.Format("ui.game_version", ("version", Ui.GameVersion));
         System.Windows.Automation.AutomationProperties.SetName(SettingsButton, Tr.Text("Settings"));
-        string[] glyphs = ["items", "journal", "skills", "maps", "npcs", "life", "misc", "backup"];
+        string[] glyphs = ["items", "journal", "maps", "npcs", "life", "misc", "backup"];
         for (int i = 0; i < names.Length; i++)
         {
             var item = (ListBoxItem)PrimaryNavigation.Items[i];

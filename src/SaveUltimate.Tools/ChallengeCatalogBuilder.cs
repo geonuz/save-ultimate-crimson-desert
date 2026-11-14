@@ -32,7 +32,7 @@ public static partial class ChallengeCatalogBuilder
         return tags.ToArray();
     }
 
-    private static string StringRef(ClientReader r)
+    internal static string StringRef(ClientReader r)
     {
         byte category = r.U8(); uint member = r.U32(), owner = r.U32(); string value = r.Text();
         if (category == 0 && member == 0 && owner == 0 && value.Length == 0) return "";
@@ -41,7 +41,7 @@ public static partial class ChallengeCatalogBuilder
     }
 
     [GeneratedRegex(@"\x10\x01\x01\x00\x00[\s\S]{4}[\x01-\x20]\x00\x00\x00")]
-    private static partial Regex MissionLabel();
+    internal static partial Regex MissionLabel();
 
     public static JsonObject Build(ClientSource source, JsonObject? previous = null)
     {

@@ -1,12 +1,14 @@
 using System.Buffers.Binary;
+using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 using SaveUltimate.Core.Catalogs;
 
 namespace SaveUltimate.Tools;
 
 // Port of the Python map_exploration scene catalog and map_actions builders, including the DLC scene file.
-public static class MapCatalogBuilder
+public static partial class MapCatalogBuilder
 {
     private static readonly uint[] Travel = [1000000, 1000001, 1000004, 1000008, 1000103, 1000114];
     private static readonly uint[] PlaceGroups = [114, 115, 116, 662, 663, 664, 665, 661];
@@ -15,7 +17,7 @@ public static class MapCatalogBuilder
         ("crafting", [1004140, 1000136, 1001504, 1004758, 1003362, 1003363, 1003357, 1005475, 1005476]),
         ("collectibles", [1004786, 1000079, 1004790]), ("abyss", [1001031, 1001032])
     ];
-    private const uint AbyssNexus = 1001031, AbyssCresset = 1001032, MemoryFragments = 1004786;
+    private const uint AbyssNexus = 1001031, AbyssCresset = 1001032, MemoryFragments = 1004786, Bells = 1004790;
     internal sealed record Scene(string Id, uint Key, string Internal, string Name, string[] Parents, float[] Position, string Category);
 
     private static uint U32(ClientRecord record, int offset) => BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + offset)..]);
@@ -29,15 +31,17 @@ public static class MapCatalogBuilder
             if (!types.TryGetValue(key, out var type)) throw new InvalidDataException("Unsupported scene group.");
             for (int i = 0; i < count; i++)
             {
-                if (r.U32() != key) throw new InvalidDataException("Scene identity mismatch.");
-                r.SkipText(); r.Take(12);  // prefab path (filled for 2.04 housing) and three references
+                // 2.05.00 layout: the attachments and prefab path come first and the type key moved behind the transform.
+                r.Take(checked(r.Count() * 20));  // attachments
+                r.SkipText();  // prefab path (filled for housing)
                 string name = r.Text();
-                string uuid = Convert.ToHexStringLower(r.Take(44)[8..24]);
-                r.SkipText();  // attachment socket
-                var transform = r.Take(93);
+                r.SkipText();  // socket
+                string uuid = Convert.ToHexStringLower(r.Take(16));
+                r.Take(16);
+                var transform = r.Take(92);
                 float[] position = [BitConverter.ToSingle(transform), BitConverter.ToSingle(transform[4..]), BitConverter.ToSingle(transform[8..])];
-                r.Take(4);
-                r.Take(checked(r.Count() * 20));
+                if (r.U32() != key) throw new InvalidDataException("Scene identity mismatch.");
+                r.Take(29);
                 string[] parents = Enumerable.Range(0, r.Count()).Select(_ => r.Text()).ToArray();
                 if (!position.All(float.IsFinite)) throw new InvalidDataException("Invalid scene position.");
                 string category = Travel.Contains(key) ? "travel"
@@ -70,8 +74,9 @@ public static class MapCatalogBuilder
         var iconInfo = new Dictionary<uint, JsonObject>();
         foreach (var (key, record) in icons)
         {
-            // Icons may start with one 18-byte entry (only Actor_* markers, which have no knowledge).
-            uint related = U32(record, U32(record, 0) switch { 0 => 40, 1 => 58, _ => throw new InvalidDataException("Unsupported map icon layout.") });
+            // Icons start with [u32 count][18-byte entries] (one entry only on Actor_* markers, which have no knowledge); the
+            // related knowledge sits 35 bytes after the entries (36 before 2.05.00, which dropped one byte in front of it).
+            uint related = U32(record, U32(record, 0) switch { 0 => 39, 1 => 57, _ => throw new InvalidDataException("Unsupported map icon layout.") });
             if (related != 0 && !knowledge.ContainsKey(related)) throw new InvalidDataException("Unresolved map icon knowledge.");
             int caption = ClientTables.Anchor(record, 25, 0x190, key);
             string label = caption < 0 ? "" : (((ulong)key << 32) | 0x190).ToString();
@@ -123,11 +128,11 @@ public static class MapCatalogBuilder
                     string.Join(" / ", p.Value.Select(k => KnowledgeName(k, l)).Where(n => n.Length > 0).Distinct()))))
             }).ToArray())
         };
-        return new() { ["data/map_catalog.json"] = catalog, ["data/map_actions.json"] = Actions(catalog, load) };
+        return new() { ["data/map_catalog.json"] = catalog, ["data/map_actions.json"] = Actions(catalog, load, source) };
     }
 
     // Bulk map actions over node, journal-group and scene-icon knowledge, as in map_actions.py.
-    private static JsonArray Actions(JsonObject catalog, Func<string, JsonNode> load)
+    private static JsonArray Actions(JsonObject catalog, Func<string, JsonNode> load, ClientSource source)
     {
         var journal = load("data/knowledge_ui.json");
         var visible = journal["itemPaths"]!.AsObject().Select(p => uint.Parse(p.Key)).ToHashSet();
@@ -181,7 +186,9 @@ public static class MapCatalogBuilder
                 else
                 {
                     action = Add(group, info.Names, [key], "icons", placed);
-                    if (key == AbyssCresset) Cressets(action!, placed, load);
+                    var sceneNames = scenes.ToDictionary(s => s.Id, s => s.Name);
+                    if (key == AbyssCresset) Cressets(action!, placed, load, source, sceneNames);
+                    if (key == Bells) BellNames(action!, placed, source, sceneNames);
                 }
                 action!["label_ref"] = Label("knowledge", key);
             }
@@ -189,7 +196,7 @@ public static class MapCatalogBuilder
     }
 
     // Abyss Cressets need fog pivots captured from a save and the challenge quests that place them.
-    private static void Cressets(JsonObject action, string[] placed, Func<string, JsonNode> load)
+    private static void Cressets(JsonObject action, string[] placed, Func<string, JsonNode> load, ClientSource source, Dictionary<string, string> sceneNames)
     {
         var records = load("data/abyss_cresset_records.json");
         var pivots = records["pivots"]!.AsObject().DeepClone().AsObject();
@@ -212,5 +219,83 @@ public static class MapCatalogBuilder
         }
         if (roots.Distinct().Count() != placed.Length) throw new InvalidDataException("Abyss Cresset challenge count does not match placements.");
         action["challenge_roots"] = new JsonArray(roots.Select(r => (JsonNode)r).ToArray());
+        action["scene_roots"] = CressetRoots(placed, roots, quests, source, sceneNames);
     }
+
+    // Each cresset challenge (its root mission or the root's "_0", "_1" sub-missions) references a condition that names
+    // the cresset's level scene, "LevelName(<scene name>)". That pairs every scene with exactly one challenge.
+    private static JsonObject CressetRoots(string[] placed, List<uint> roots, JsonNode quests, ClientSource source, Dictionary<string, string> sceneNames)
+    {
+        var byName = placed.ToDictionary(id => sceneNames[id], id => id);
+        var sceneOf = new Dictionary<uint, string>();
+        foreach (var (key, body) in RawRecords(source.Tables("conditioninfo")))
+            foreach (Match m in LevelName().Matches(Encoding.Latin1.GetString(body.Span)))
+                if (byName.TryGetValue(m.Groups[1].Value, out string? id) && sceneOf.GetValueOrDefault(key, id) == id) sceneOf[key] = id;
+                else if (byName.ContainsKey(m.Groups[1].Value)) throw new InvalidDataException("A condition names two Abyss Cresset scenes.");
+        var missions = ClientTables.Records(source.Tables("missioninfo"));
+        var names = quests.Root["missions"]!;
+        var result = new JsonObject();
+        foreach (uint root in roots)
+        {
+            string name = names[root.ToString()]!["internalName"]!.GetValue<string>();
+            var found = new HashSet<string>();
+            foreach (var record in missions.Values.Where(r => r.Name == name || r.Name.StartsWith(name + "_", StringComparison.Ordinal)))
+            {
+                var bytes = record.Bytes.Span;
+                for (int i = 0; i + 4 <= bytes.Length; i++)
+                    if (sceneOf.TryGetValue(BinaryPrimitives.ReadUInt32LittleEndian(bytes[i..]), out string? id)) found.Add(id);
+            }
+            if (found.Count != 1 || result.ContainsKey(found.Single())) throw new InvalidDataException("An Abyss Cresset challenge does not name exactly one cresset.");
+            result[found.Single()] = root;
+        }
+        if (result.Count != placed.Length) throw new InvalidDataException("Abyss Cresset challenges do not cover every cresset.");
+        return new JsonObject(placed.Select(id => KeyValuePair.Create<string, JsonNode?>(id, result[id]!.GetValue<uint>())));
+    }
+
+    // Each region's bell scene is named after the mission that rings it (Mission_PororinVillage_Bell_All_<region>), whose
+    // localized title names the bell. One scene name extends its mission's ("..._ScholastoneInstitute" for "..._Scholastone"),
+    // so the longest mission name the scene name starts with is the match; every bell must get its own mission.
+    private static void BellNames(JsonObject action, string[] placed, ClientSource source, Dictionary<string, string> sceneNames)
+    {
+        var missions = ClientTables.Records(source.Tables("missioninfo")).Values.GroupBy(r => r.Name).ToDictionary(g => g.Key, g => g.Last());
+        var strings = ClientMetadata.Languages.ToDictionary(l => l.Key, l => source.Strings(l.Value.Name, "quest"));
+        var result = new JsonObject();
+        var used = new HashSet<string>();
+        foreach (string id in placed)
+        {
+            string scene = sceneNames[id];
+            var record = missions.Values.Where(r => scene.StartsWith(r.Name, StringComparison.Ordinal) && r.Name.Contains("_Bell_", StringComparison.Ordinal))
+                .MaxBy(r => r.Name.Length) ?? throw new InvalidDataException("A bell scene has no mission of its name.");
+            if (!used.Add(record.Name)) throw new InvalidDataException("Two bell scenes match one mission.");
+            byte[] body = record.Bytes.ToArray();
+            var labels = ChallengeCatalogBuilder.MissionLabel().Matches(Encoding.Latin1.GetString(body)).Select(m =>
+            {
+                try { return ChallengeCatalogBuilder.StringRef(new ClientReader(body, m.Index)); } catch (InvalidDataException) { return ""; }
+            }).Where(l => strings["en"].ContainsKey(l)).Distinct().ToArray();
+            if (labels.Length != 1) throw new InvalidDataException("A bell mission has no single title.");
+            result[id] = new JsonObject(strings.Select(s => KeyValuePair.Create<string, JsonNode?>(s.Key, s.Value.GetValueOrDefault(labels[0], strings["en"][labels[0]]))));
+        }
+        action["scene_names"] = result;
+    }
+
+    // conditioninfo holds records the strict table reader rejects; only each record's bytes are needed here.
+    private static IEnumerable<(uint Key, ReadOnlyMemory<byte> Body)> RawRecords(IEnumerable<(string Tag, byte[] Header, byte[] Body)> layers)
+    {
+        foreach (var (_, header, body) in layers)
+        {
+            bool wide = header.Length >= 4 && (header.Length - 4) % 8 == 0 && BinaryPrimitives.ReadUInt32LittleEndian(header) == (header.Length - 4) / 8;
+            int start = wide ? 4 : 2, count = wide ? (int)BinaryPrimitives.ReadUInt32LittleEndian(header) : BinaryPrimitives.ReadUInt16LittleEndian(header);
+            if (start + count * 8L > header.Length) throw new InvalidDataException("Invalid table header.");
+            for (int i = 0; i < count; i++)
+            {
+                uint key = BinaryPrimitives.ReadUInt32LittleEndian(header.AsSpan(start + i * 8)), offset = BinaryPrimitives.ReadUInt32LittleEndian(header.AsSpan(start + i * 8 + 4));
+                uint end = i + 1 < count ? BinaryPrimitives.ReadUInt32LittleEndian(header.AsSpan(start + (i + 1) * 8 + 4)) : (uint)body.Length;
+                if (offset > end || end > body.Length) throw new InvalidDataException("Invalid table offsets.");
+                yield return (key, body.AsMemory((int)offset, (int)(end - offset)));
+            }
+        }
+    }
+
+    [GeneratedRegex(@"LevelName\(([^)]*)\)")]
+    private static partial Regex LevelName();
 }

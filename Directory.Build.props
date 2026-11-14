@@ -8,9 +8,9 @@
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.7.1</Version>
+    <Version>1.8.0</Version>
     <!-- Crimson Desert version the release was verified against; shown next to the app version. -->
-    <GameVersion>2.04.08</GameVersion>
+    <GameVersion>2.05.00</GameVersion>
     <Authors>geonuz</Authors>
     <Product>SaveUltimate for Crimson Desert</Product>
     <Copyright>SaveUltimate contributors. See licenses for inherited components.</Copyright>

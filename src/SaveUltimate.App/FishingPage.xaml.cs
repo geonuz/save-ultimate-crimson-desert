@@ -29,13 +29,8 @@ public partial class FishingPage : UserControl
     public FishingPage()
     {
         InitializeComponent();
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Refresh(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Fishing), Refresh);
     }
-    private void Changed(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(MainViewModel.Fishing)) Refresh(); }
     private void Refresh()
     {
         var records = Model.Fishing?.Where(r => r.Fish.RecordSupported && !(DlcContent.Hidden && DlcContent.Shared.Knowledge.Contains(r.Fish.Key))).ToArray() ?? [];

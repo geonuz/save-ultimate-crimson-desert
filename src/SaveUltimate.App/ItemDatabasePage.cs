@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
@@ -17,7 +18,7 @@ public sealed class ItemDatabasePage : UserControl
         public System.Windows.Media.ImageSource? Icon => ItemImages.Get(Key, 32);
     }
     private readonly TextBox search = new();
-    private readonly ComboBox category = new() { MinWidth = 180 };
+    private readonly ComboBox category = new();
     public DataGrid Rows { get; } = new() { AutoGenerateColumns = false, IsReadOnly = true, SelectionMode = DataGridSelectionMode.Extended };
     private readonly TextBlock count = Ui.Text("");
     private readonly TextBlock title = Ui.Text("ui.select_item"), description = Ui.Text("");
@@ -27,14 +28,18 @@ public sealed class ItemDatabasePage : UserControl
     public ItemDatabasePage()
     {
         var root = new DockPanel(); Content = root;
-        var header = new PageHeader { Title = Tr.Text("tab.database"), HelpTopic = "tab.database" }; header.LoadButton.Visibility = Visibility.Collapsed;
-        var top = new StackPanel { Margin = new(0, 0, 0, 12) }; DockPanel.SetDock(top, Dock.Top); root.Children.Add(top); top.Children.Add(header);
-        top.Children.Add(Ui.Text("ui.readonly"));
-        var filters = new DockPanel { Margin = new(0, 12, 0, 12) }; top.Children.Add(filters);
-        DockPanel.SetDock(category, Dock.Right); filters.Children.Add(category); filters.Children.Add(search); top.Children.Add(count);
+        var header = new PageHeader { HelpTopic = "tab.database" }; header.LoadButton.Visibility = Visibility.Collapsed;
+        DockPanel.SetDock(header, Dock.Top); root.Children.Add(header);
+        var categoryLabel = Ui.Text("Category"); categoryLabel.SetResourceReference(StyleProperty, "FilterLabel"); header.Filters.Add(categoryLabel);
+        category.SetResourceReference(StyleProperty, "FilterBox"); Tr.Bind(category, AutomationProperties.NameProperty, "Category"); header.Filters.Add(category);
+        var searchLabel = new Label { Target = search, Margin = new(0, 0, 12, 0) }; Tr.Bind(searchLabel, ContentControl.ContentProperty, "Search:"); header.Filters.Add(searchLabel); header.Filters.Add(search);
+        var counts = new DockPanel(); counts.SetResourceReference(StyleProperty, "CountRow"); count.SetResourceReference(StyleProperty, "CountText");
+        counts.Children.Add(count); DockPanel.SetDock(counts, Dock.Top); root.Children.Add(counts);
         category.ItemsSource = new[] { Tr.Text("All") }.Concat(ItemCatalog.Shared.Choices.Select(c => c.Category).Distinct().Order()).ToArray(); category.SelectedIndex = 0;
         foreach (var (label, path, width) in new[] { ("ItemKey", "Key", 115d), ("Name", "Name", 230d), ("Internal Name", "InternalName", 230d), ("Category", "Category", 200d), ("Max Stack", "MaxStack", 110d) })
-            Rows.Columns.Add(new DataGridTextColumn { Header = Tr.Text(label), Binding = new Binding(path), Width = new(width) });
+        {
+            var column = new DataGridTextColumn { Binding = new Binding(path), Width = new(width) }; Tr.Bind(column, DataGridColumn.HeaderProperty, label); Rows.Columns.Add(column);
+        }
         var image = new FrameworkElementFactory(typeof(Image)); image.SetBinding(Image.SourceProperty, new Binding("Icon")); image.SetValue(Image.WidthProperty, 32d); image.SetValue(Image.HeightProperty, 32d);
         Rows.Columns.Insert(0, new DataGridTemplateColumn { Width = 40, CellTemplate = new DataTemplate { VisualTree = image } });
         Rows.SelectionChanged += (_, _) =>
@@ -45,7 +50,7 @@ public sealed class ItemDatabasePage : UserControl
         };
         var detail = new StackPanel { Margin = new(12) }; detail.Children.Add(title); detail.Children.Add(picture); detail.Children.Add(description);
         detail.Children.Add(Ui.Button("Copy Key", (_, _) => Copy()));
-        var menu = new ContextMenu(); var copy = new MenuItem { Header = Tr.Text("Copy Key") }; copy.Click += (_, _) => Copy(); menu.Items.Add(copy); Rows.ContextMenu = menu;
+        var menu = new ContextMenu(); var copy = new MenuItem(); Tr.Bind(copy, HeaderedItemsControl.HeaderProperty, "Copy Key"); copy.Click += (_, _) => Copy(); menu.Items.Add(copy); Rows.ContextMenu = menu;
         var split = new DetailSplit(); split.Children.Add(Rows); split.Children.Add(Ui.Scroll(detail)); root.Children.Add(split);
         timer.Tick += (_, _) => Filter(); search.TextChanged += (_, _) => { timer.Stop(); timer.Start(); }; category.SelectionChanged += (_, _) => Filter();
         IsVisibleChanged += (_, _) => { if (IsVisible) { Filter(); Rows.Columns[0].Visibility = SettingsStore.Current.ShowIcons ? Visibility.Visible : Visibility.Collapsed; } };

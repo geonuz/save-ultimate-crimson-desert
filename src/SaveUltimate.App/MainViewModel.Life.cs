@@ -4,15 +4,17 @@ using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
 
-// The Life section (business renown) and the Misc section (world clock). Each holds one tab for now.
+// The Life section (business renown) and the Misc section (skills learned by watching, world clock).
 public partial class MainViewModel
 {
     public bool IsManagement => CurrentPage == AppPage.Management;
     public bool IsFieldTime => CurrentPage == AppPage.FieldTime;
     public bool IsLife => IsManagement;
-    public bool IsMisc => IsFieldTime;
+    public bool IsMisc => Array.IndexOf(MiscPages, CurrentPage) >= 0;
+    private static readonly AppPage[] MiscPages = [AppPage.Skills, AppPage.FieldTime];
     [ObservableProperty] private int lifePageIndex;
     [ObservableProperty] private int miscPageIndex;
+    partial void OnMiscPageIndexChanged(int value) { if (IsMisc) CurrentPage = MiscPages[value]; }
     [ObservableProperty] private ManagementState[]? management;
     [ObservableProperty] private FieldClock? clock;
     public bool CanAddWorkers => document?.CanAddWorkers == true;

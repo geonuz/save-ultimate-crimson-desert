@@ -3,7 +3,7 @@ using System.Buffers.Binary;
 namespace SaveUltimate.Core.Saves;
 
 /// <summary>A DLC business (sawmill, restaurant, forge, clothier) from the client's FactionManagement table. The table's two festivals are not businesses and are left out.</summary>
-public sealed record ManagementShop(ushort Key, string Name, string Region, string Place, string Kind, uint MaxLevel);
+public sealed record ManagementShop(ushort Key, string Name, string Region, uint PlaceKnowledge, string Kind, uint MaxLevel);
 public sealed record ManagementCatalog(Dictionary<string, Dictionary<string, string>> Regions, ManagementShop[] Shops)
 {
     public static ManagementCatalog Shared { get; } = Embedded.Load<ManagementCatalog>("Management.json");
@@ -40,7 +40,7 @@ public sealed partial class SaveDocument
                 {
                     var c = row.ChildFields;
                     ushort key = (ushort)c.Named("_managementKey").Scalar(blob, "FactionManagementKey", 2);
-                    var shop = ManagementCatalog.Shared.Shops.FirstOrDefault(s => s.Key == key) ?? new(key, $"Management {key}", "", "", "unknown", 0);
+                    var shop = ManagementCatalog.Shared.Shops.FirstOrDefault(s => s.Key == key) ?? new(key, $"Management {key}", "", 0, "unknown", 0);
                     var name = c.Named("_managementName");
                     var customers = c.Named("_visitedCustomerCount");
                     found.Add((row, new(shop, true, Value32(blob, c.Named("_level")), Value32(blob, c.Named("_highLevel")), Value32(blob, c.Named("_managementScore")),

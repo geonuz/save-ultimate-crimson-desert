@@ -91,7 +91,7 @@ internal static class ClientImages
         }
         var aliases = Embedded.Load<Dictionary<string, Dictionary<string, string>>>("ClientImageAliases.json");
         var skills = Records("skill");
-        foreach (var (key, skill) in SkillCatalog.Shared.Skills)
+        foreach (var (key, skill) in SkillCatalog.Shared.Skills.Where(p => p.Value.Observe is not null))
         {
             string name = skills[skill.Skill].Name;
             if (name.StartsWith("Skill_")) name = name[6..];

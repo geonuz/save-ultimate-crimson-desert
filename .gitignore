@@ -2,6 +2,8 @@
 /docs/
 /artifacts/
 /.tools/
+# Tests that open real saves, with the saves themselves: personal data.
+/tests/SaveUltimate.SaveTests/
 
 # Build outputs.
 **/bin/

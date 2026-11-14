@@ -7,12 +7,16 @@
     <EmbeddedResource Include="../../resources/data/dlc_content.json" LogicalName="DlcContent.json" />
     <EmbeddedResource Include="../../resources/data/companion_types.json" LogicalName="CompanionTypes.json" />
     <EmbeddedResource Include="../../resources/data/management_catalog.json" LogicalName="Management.json" />
+    <EmbeddedResource Include="../../resources/data/collection_catalog.json" LogicalName="Collection.json" />
+    <EmbeddedResource Include="../../resources/data/learn_paths.json" LogicalName="LearnPaths.json" />
+    <EmbeddedResource Include="../../resources/data/learn_sources.json" LogicalName="LearnSources.json" />
     <EmbeddedResource Include="../../resources/data/challenge_catalog.json" LogicalName="Challenges.json" />
     <EmbeddedResource Include="../../resources/data/challenge_completion.json" LogicalName="ChallengeCompletion.json" />
     <EmbeddedResource Include="../../resources/data/skills.json" LogicalName="Skills.json" />
     <EmbeddedResource Include="../../resources/data/max_enchant_map.json" LogicalName="MaxEnchant.json" />
     <EmbeddedResource Include="../../resources/data/item_names.json" LogicalName="ItemCatalog.json" />
     <InternalsVisibleTo Include="SaveUltimate.Tests" />
+    <InternalsVisibleTo Include="SaveUltimate.SaveTests" />
     <!-- The catalog builders live in Tools and read the client tables through Core's internal readers. -->
     <InternalsVisibleTo Include="SaveUltimate.Tools" />
     <PackageReference Include="K4os.Compression.LZ4" />

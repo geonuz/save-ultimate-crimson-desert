@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,11 +24,7 @@ public partial class KnowledgePage : UserControl
     public KnowledgePage()
     {
         InitializeComponent();
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Refresh(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Knowledge), Refresh);
         IsVisibleChanged += (_, e) => { if ((bool)e.NewValue) FitColumns(); };
     }
     // Auto columns keep their first measurement, taken while the page was still hidden; remeasure once shown. The collapsed
@@ -41,10 +36,6 @@ public partial class KnowledgePage : UserControl
         Rows.UpdateLayout();
         for (int i = 0; i < widths.Length; i++) Rows.Columns[i].Width = widths[i];
     }, System.Windows.Threading.DispatcherPriority.Loaded);
-    private void Changed(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(MainViewModel.Knowledge)) Refresh();
-    }
     private static bool Visible(uint key) => !DlcContent.Hidden || !DlcContent.Shared.Knowledge.Contains(key);
     internal static string GroupName(KnowledgeGroup group) => Tr.Name("knowledge_groups", group.Key.ToString(), Tr.Language == "ko" ? group.NameKo : group.Name);
     private Choice Group(uint key, string prefix = "")
@@ -107,9 +98,9 @@ public partial class KnowledgePage : UserControl
         var members = group == 0 ? null : Catalog.Groups.Single(g => g.Key == group).Members.ToHashSet();
         string search = Search.Text.Trim();
         Ui.SetRows(Rows, entries.Where(r => (members is null || members.Contains(r.Key)) &&
-            (Learned.IsChecked != true || r.Learned) && (Unlearned.IsChecked != true || !r.Learned) &&
+            (State.SelectedIndex != 1 || r.Learned) && (State.SelectedIndex != 2 || !r.Learned) &&
             $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase)).ToArray());
-        Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count) + " · " + Tr.Format("ui.count_learned", ("count", entries.Count(r => r.Learned).ToString("N0")));
+        Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count, "ui.count_learned", entries.Count(r => r.Learned));
         Select();
     }
     private uint[] SelectedKeys() => Rows.SelectedItems.Cast<KnowledgeRow>().Select(r => r.Key).ToArray();

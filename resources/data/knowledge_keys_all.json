@@ -15642,7 +15642,7 @@
   {
     "key": 1001002,
     "name": "Knowledge_GoldleafGuildhouse_Investigation",
-    "display_name": "Complete the Investigation on Extinguishing the Last Flames"
+    "display_name": "Complete the Investigation: Extinguishing the Last Flames"
   },
   {
     "key": 1000626,
@@ -15827,7 +15827,7 @@
   {
     "key": 1001482,
     "name": "Knowledge_Pororin_Bell_Scholastone",
-    "display_name": "Bell Ringing at Scholastone Institute"
+    "display_name": "Bell Tolling in Scholastone"
   },
   {
     "key": 1001483,
@@ -18047,7 +18047,7 @@
   {
     "key": 1001487,
     "name": "Knowledge_Visione_Chip_Mansion_Marseille_Memory_I",
-    "display_name": "Azerian's Whereabouts"
+    "display_name": "Countess Azerian's Whereabouts"
   },
   {
     "key": 1001488,
@@ -21837,7 +21837,7 @@
   {
     "key": 1000384,
     "name": "Knowledge_GraceMansionNoEntry",
-    "display_name": "Count Grace's Closed Manor"
+    "display_name": "No entry to Count Grace's manor."
   },
   {
     "key": 1000868,
@@ -34327,42 +34327,42 @@
   {
     "key": 1006567,
     "name": "Knowledge_WantedPaper_PirateShip_0003",
-    "display_name": "Pirate Ship - The Vengeance"
+    "display_name": "Pirate Crew - The Avengers"
   },
   {
     "key": 1006568,
     "name": "Knowledge_WantedPaper_PirateShip_0004",
-    "display_name": "Pirate Ship - Faunus"
+    "display_name": "Pirate Crew - The Faunus"
   },
   {
     "key": 1006569,
     "name": "Knowledge_WantedPaper_PirateShip_0005",
-    "display_name": "Pirate Ship - The Grim Wind"
+    "display_name": "Pirate Crew - The Grim Winds"
   },
   {
     "key": 1006570,
     "name": "Knowledge_WantedPaper_PirateShip_0006",
-    "display_name": "Pirate Ship - The Scarlet Widow"
+    "display_name": "Pirate Crew - The Scarlet Widows"
   },
   {
     "key": 1006571,
     "name": "Knowledge_WantedPaper_PirateShip_0007",
-    "display_name": "Pirate Ship - The Bloodied Stake"
+    "display_name": "Pirate Crew - The Bloodied Stakes"
   },
   {
     "key": 1006572,
     "name": "Knowledge_WantedPaper_PirateShip_0008",
-    "display_name": "Pirate Ship - The Devils' Plunder"
+    "display_name": "Pirate Crew - The Devils' Plunder"
   },
   {
     "key": 1006573,
     "name": "Knowledge_WantedPaper_PirateShip_0009",
-    "display_name": "Pirate Ship - The Black Curved Blade"
+    "display_name": "Pirate Crew - The Black Curved Blades"
   },
   {
     "key": 1006574,
     "name": "Knowledge_WantedPaper_PirateShip_0010",
-    "display_name": "Pirate Ship - The Sea's Vengeance"
+    "display_name": "Pirate Duo - The Twin Vengeances"
   },
   {
     "key": 1006575,
@@ -35557,7 +35557,7 @@
   {
     "key": 1006597,
     "name": "Knowledge_Island_Cave_0008",
-    "display_name": "Castaway's Secret Shelter"
+    "display_name": "Castaway's Hideout"
   },
   {
     "key": 1006741,
@@ -36717,37 +36717,37 @@
   {
     "key": 1006825,
     "name": "Knowledge_Recipe_item_smallship_sail_open_0001_index04",
-    "display_name": "The Siren's Cry Pirates' Small Sail"
+    "display_name": "The Siren's Cry's Small Sail"
   },
   {
     "key": 1006826,
     "name": "Knowledge_Recipe_item_smallship_sail_open_0001_index08",
-    "display_name": "The Sea Claw Pirates' Small Sail"
+    "display_name": "The Sea Claw's Small Sail"
   },
   {
     "key": 1006827,
     "name": "Knowledge_Recipe_item_ship_sail_open_0001_index05",
-    "display_name": "The Death Blossom Pirates' Medium Sail"
+    "display_name": "The Death Blossom's Medium Sail"
   },
   {
     "key": 1006828,
     "name": "Knowledge_Recipe_item_ship_sail_open_0001_index06",
-    "display_name": "The Sea's Vengeance Pirates' Medium Sail"
+    "display_name": "The Twin Vengeances' Medium Sail"
   },
   {
     "key": 1006829,
     "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index04",
-    "display_name": "The Black Bloom Pirates' Large Sail"
+    "display_name": "The Black Bloom's Large Sail"
   },
   {
     "key": 1006830,
     "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index05",
-    "display_name": "The Crimson Shield Pirates' Large Sail"
+    "display_name": "The Crimson Shield's Large Sail"
   },
   {
     "key": 1006831,
     "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index06",
-    "display_name": "The Vengeance Pirates' Large Sail"
+    "display_name": "The Avengers Pirates' Large Sail"
   },
   {
     "key": 1006832,
@@ -36767,7 +36767,7 @@
   {
     "key": 1006835,
     "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index10",
-    "display_name": "The Bloodied Stake Pirates' Large Sail"
+    "display_name": "The Bloodied Stakes Pirates' Large Sail"
   },
   {
     "key": 1006836,
@@ -36777,7 +36777,7 @@
   {
     "key": 1006837,
     "name": "Knowledge_Recipe_item_bigship_sail_open_0001_index12",
-    "display_name": "The Black Curved Blade Pirates' Large Sail"
+    "display_name": "The Black Curved Blades Pirates' Large Sail"
   },
   {
     "key": 1007022,
@@ -36837,7 +36837,7 @@
   {
     "key": 1005941,
     "name": "Knowledge_Recipe_item_ship_sterndecor_0004",
-    "display_name": "Large Skyborne Beast Stern"
+    "display_name": "Skyborne Beast Stern"
   },
   {
     "key": 1006721,
@@ -36892,7 +36892,7 @@
   {
     "key": 1006108,
     "name": "Knowledge_Wavering_Demenis_Colette",
-    "display_name": "Azerian's Whereabouts"
+    "display_name": "Countess Azerian's Whereabouts"
   },
   {
     "key": 1006048,
@@ -38183,5 +38183,15 @@
     "key": 1006276,
     "name": "Knowledge_ShipItemManager_02",
     "display_name": "Juan"
+  },
+  {
+    "key": 1007028,
+    "name": "Knowledge_Node_Ocean_SatyrosIsland_Dock",
+    "display_name": "Satyros Dock"
+  },
+  {
+    "key": 1007026,
+    "name": "Knowledge_Node_Garden_of_Trials",
+    "display_name": "Garden of Trials"
   }
 ]

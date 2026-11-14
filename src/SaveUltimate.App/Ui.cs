@@ -15,11 +15,30 @@ internal static class Ui
     }
     public static Button Button(string key, RoutedEventHandler action, string? style = null)
     {
-        var button = new Button { Content = Tr.Text(key), Margin = new(0, 0, 6, 0) };
+        var button = new Button { Margin = new(0, 0, 6, 0) }; Tr.Bind(button, ContentControl.ContentProperty, key);
         if (style is not null) button.SetResourceReference(FrameworkElement.StyleProperty, style);
         button.Click += action; return button;
     }
-    public static TextBlock Text(string key) => new() { Text = Tr.Text(key), TextWrapping = TextWrapping.Wrap };
+    // A key gives a caption that follows a language switch; code that sets Text later replaces it.
+    public static TextBlock Text(string key)
+    {
+        var text = new TextBlock { TextWrapping = TextWrapping.Wrap };
+        if (key.Length > 0) Tr.Bind(text, TextBlock.TextProperty, key);
+        return text;
+    }
+    /// <summary>
+    /// Keeps a page on its model: runs attached (or changed) when the page gets a model, and changed whenever the model
+    /// raises property. A page given another model stops listening to the old one.
+    /// </summary>
+    public static void Follow(FrameworkElement page, string property, Action changed, Action? attached = null)
+    {
+        System.ComponentModel.PropertyChangedEventHandler handler = (_, e) => { if (e.PropertyName == property) changed(); };
+        page.DataContextChanged += (_, e) =>
+        {
+            if (e.OldValue is MainViewModel old) old.PropertyChanged -= handler;
+            if (e.NewValue is MainViewModel model) { model.PropertyChanged += handler; (attached ?? changed)(); }
+        };
+    }
     public static Window? Owner => Application.Current?.Dispatcher.CheckAccess() == true
         ? Application.Current.Windows.OfType<Window>().LastOrDefault(w => w.IsActive) : null;
     public static void Setup(Window window, string title, double width, double height)

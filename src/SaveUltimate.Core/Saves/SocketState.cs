@@ -12,6 +12,8 @@ public sealed record SocketState(int Capacity, int Unlocked, IReadOnlyList<ItemS
 {
     internal static readonly SocketState Empty = new(0, 0, Array.Empty<ItemSocket>());
     private SaveField valid = new();
+    // Whether the record holds _validSocketCount; unlocking a socket on one that omits it inserts the field.
+    internal bool StoresUnlocked => valid.Present;
     private int maskOffset, maskLength;
 
     internal static SocketState Read(byte[] raw, SaveField item)

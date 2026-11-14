@@ -35,15 +35,10 @@ public partial class ChallengePage : UserControl
     public ChallengePage()
     {
         InitializeComponent();
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Populate(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Challenges), Changed, Populate);
     }
-    private void Changed(object? sender, PropertyChangedEventArgs e)
+    private void Changed()
     {
-        if (e.PropertyName != nameof(MainViewModel.Challenges)) return;
         bool membership = Incomplete.IsChecked == true && AllRoots.Any(k =>
             (previous?.Mission.GetValueOrDefault(k)?.State == 5) != (Model.Challenges?.Mission.GetValueOrDefault(k)?.State == 5));
         if (previous is null || Model.Challenges is null || membership || language != Tr.Language) { language = Tr.Language; Populate(); }
@@ -133,7 +128,6 @@ public partial class ChallengePage : UserControl
         try
         {
             Title.Text = selected?.Name ?? Tr.Text(Model.Challenges is null ? "challenge.load_prompt" : "challenge.select");
-            DetailNote.Text = Tr.Text(selected?.Root is null ? "challenge.select_challenges" : "challenge.checkpoint_note");
             Rows.ItemsSource = roots.Select(key =>
             {
                 var mission = Catalog.Missions[key];
@@ -172,7 +166,9 @@ public partial class ChallengePage : UserControl
         CompleteSelected.Visibility = selected?.Root is null ? Visibility.Collapsed : Visibility.Visible;
         CompleteSelected.IsEnabled = leaves.Checkpoints?.Length > 0;
         CompleteSelected.Content = Tr.Text("challenge.complete_selected") + (leaves.Checkpoints?.Length > 0 ? $" ({leaves.Checkpoints.Length})" : "");
-        EditNote.Text = Tr.Text(selected is null ? "challenge.select" : selected.Root is uint root && !Completable(root) ? "challenge.view_only" : "challenge.edit_scope");
+        // Only a reason the buttons stay off is worth a line under them.
+        bool viewOnly = selected?.Root is uint root && !Completable(root);
+        EditNote.Text = viewOnly ? Tr.Text("challenge.view_only") : ""; EditNote.Visibility = viewOnly ? Visibility.Visible : Visibility.Collapsed;
     }
     private void OnSelected(object sender, RoutedPropertyChangedEventArgs<object> e) { if (!updating) { selected = e.NewValue as ChallengeNode; ShowDetails(); } }
     private void OnRowsSelected(object sender, SelectionChangedEventArgs e) => UpdateActions();

@@ -43,9 +43,8 @@
    <ListBox x:Name="PrimaryNavigation" BorderThickness="0" Background="Transparent" ItemContainerStyle="{StaticResource NavigationItem}" SelectionChanged="OnNavigationChanged" IsEnabled="{Binding CanEditSelection}" AutomationProperties.Name="{local:Tr 'Main navigation'}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
     <ListBoxItem Tag="Inventory" Content="{local:Tr 'tab.items'}" ToolTip="{local:Tr tab.items}" AutomationProperties.Name="{local:Tr 'tab.items'}" MinHeight="44"/>
     <ListBoxItem Tag="Knowledge" Content="{local:Tr 'tab.knowledge_quest'}" ToolTip="{local:Tr tab.knowledge_quest}" MinHeight="44"/>
-    <ListBoxItem Tag="Skills" Content="{local:Tr 'skills.title'}" ToolTip="{local:Tr skills.title}" AutomationProperties.Name="{local:Tr 'skills.title'}" MinHeight="44"/>
     <ListBoxItem Tag="Map" Content="{local:Tr 'tab.maps'}" ToolTip="{local:Tr tab.maps}" MinHeight="44"/>
-    <ListBoxItem Tag="Companions" Content="{local:Tr 'tab.mercenary'}" ToolTip="NPC · F5" MinHeight="44"/>
+    <ListBoxItem Tag="Companions" Content="{local:Tr 'tab.mercenary'}" ToolTip="{local:Tr tab.mercenary}" MinHeight="44"/>
     <ListBoxItem Tag="Management" Content="{local:Tr 'tab.life'}" ToolTip="{local:Tr tab.life}" MinHeight="44"/>
     <ListBoxItem Tag="FieldTime" Content="{local:Tr 'tab.misc'}" ToolTip="{local:Tr tab.misc}" MinHeight="44"/>
     <ListBoxItem Tag="Backups" Content="{local:Tr 'tab.backup'}" ToolTip="{local:Tr tab.backup}" AutomationProperties.Name="{local:Tr 'tab.backup'}" MinHeight="44"/>
@@ -83,7 +82,7 @@
   </Border>
   <CheckBox x:Name="IconsToggle" Grid.Row="1" Panel.ZIndex="2" Content="{local:Tr 'Show Local Icons'}" Checked="OnIconsChanged" Unchecked="OnIconsChanged" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,20,0" Visibility="{Binding IsItems, Converter={StaticResource BooleanVisibility}}"/>
   <TabControl x:Name="ItemTabs" Grid.Row="1" SelectedIndex="{Binding ItemPageIndex}" Visibility="{Binding IsItems, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,220,0">
-   <TabItem Header="{local:Tr 'tab.inventory'}"/><TabItem Header="{local:Tr 'tab.repurchase'}"/><TabItem Header="{local:Tr 'tab.equipment'}"/>
+   <TabItem Header="{local:Tr 'tab.inventory'}"/><TabItem Header="{local:Tr 'tab.repurchase'}"/><TabItem Header="{local:Tr 'tab.equipment'}"/><TabItem Header="{local:Tr collection.title}"/>
    <TabItem Header="{local:Tr tab.database}"/>
   </TabControl>
   <TabControl x:Name="JournalTabs" SelectedIndex="{Binding JournalPageIndex}" Grid.Row="1" Visibility="{Binding IsJournal, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
@@ -93,6 +92,9 @@
   <local:KnowledgePage x:Name="KnowledgeArea" Grid.Row="3" Visibility="{Binding IsKnowledge, Converter={StaticResource BooleanVisibility}}"/>
   <local:ChallengePage x:Name="ChallengeArea" Grid.Row="3" Visibility="{Binding IsChallenges, Converter={StaticResource BooleanVisibility}}"/>
   <local:FishingPage x:Name="FishingArea" Grid.Row="3" Visibility="{Binding IsFishing, Converter={StaticResource BooleanVisibility}}"/>
+  <TabControl x:Name="MapTabs" SelectedIndex="{Binding MapPageIndex}" Grid.Row="1" Visibility="{Binding IsMap, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
+   <TabItem Header="{local:Tr map.group_places}"/><TabItem Header="{local:Tr map.group_fragments}"/><TabItem Header="{local:Tr map.group_environment}"/>
+  </TabControl>
   <TabControl x:Name="NpcTabs" SelectedIndex="{Binding NpcPageIndex}" Grid.Row="1" Visibility="{Binding IsNpc, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
    <TabItem Header="{local:Tr companion.title}"/><TabItem Header="{local:Tr companion.pets}"/><TabItem Header="{local:Tr npc.title}"/>
   </TabControl>
@@ -100,30 +102,28 @@
    <TabItem Header="{local:Tr management.title}"/>
   </TabControl>
   <TabControl x:Name="MiscTabs" SelectedIndex="{Binding MiscPageIndex}" Grid.Row="1" Visibility="{Binding IsMisc, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
-   <TabItem Header="{local:Tr fieldtime.title}"/>
+   <TabItem Header="{local:Tr skills.title}"/><TabItem Header="{local:Tr fieldtime.title}"/>
   </TabControl>
   <local:ManagementPage x:Name="ManagementArea" Grid.Row="3" Visibility="{Binding IsManagement, Converter={StaticResource BooleanVisibility}}"/>
   <local:FieldTimePage x:Name="FieldTimeArea" Grid.Row="3" Visibility="{Binding IsFieldTime, Converter={StaticResource BooleanVisibility}}"/>
-  <local:MapPage x:Name="MapArea" Grid.Row="3" Visibility="{Binding IsMap, Converter={StaticResource BooleanVisibility}}"/>
+  <local:MapPlacesPage x:Name="MapPlacesArea" Grid.Row="3" Visibility="{Binding IsMapPlaces, Converter={StaticResource BooleanVisibility}}"/>
+  <local:MapFragmentsPage x:Name="MapFragmentsArea" Grid.Row="3" Visibility="{Binding IsMapFragments, Converter={StaticResource BooleanVisibility}}"/>
+  <local:MapPage x:Name="MapArea" Grid.Row="3" Visibility="{Binding IsMapEnvironment, Converter={StaticResource BooleanVisibility}}"/>
   <local:NpcPage x:Name="NpcArea" Grid.Row="3" Visibility="{Binding IsFriendship, Converter={StaticResource BooleanVisibility}}"/>
   <local:CompanionPage x:Name="CompanionArea" Grid.Row="3" Visibility="{Binding IsCompanions, Converter={StaticResource BooleanVisibility}}"/>
   <local:CompanionPage x:Name="PetArea" Pets="True" Grid.Row="3" Visibility="{Binding IsPets, Converter={StaticResource BooleanVisibility}}"/>
+  <local:CollectionPage x:Name="CollectionArea" Grid.Row="3" Visibility="{Binding IsCollection, Converter={StaticResource BooleanVisibility}}"/>
   <local:ItemDatabasePage x:Name="DatabaseArea" Grid.Row="3" Visibility="{Binding IsDatabase, Converter={StaticResource BooleanVisibility}}"/>
-  <!-- The character tabs are the skills menu's sub-tabs, so they sit under its title. -->
-  <DockPanel Grid.Row="1" Grid.RowSpan="3" Margin="20,8,20,16" Visibility="{Binding IsSkills, Converter={StaticResource BooleanVisibility}}">
-   <local:PageHeader DockPanel.Dock="Top" Title="{local:Tr skills.title}" HelpTopic="skills.title" LoadedState="{Binding Skills, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button Content="{local:Tr ui.load_data}" Command="{Binding LoadSkillsCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
-   <local:SkillsView x:Name="SkillsArea"/>
-  </DockPanel>
-  <StackPanel Grid.Row="2" Visibility="{Binding IsItemEditor, Converter={StaticResource BooleanVisibility}}" Margin="20,8,20,12">
-   <local:PageHeader Title="{Binding ItemPageTitle}" LoadCommand="{Binding ReloadCommand}" LoadedState="{Binding HasDocument}" HelpTopic="{Binding ItemHelpTopic}" Margin="0,0,0,12"/>
-   <DockPanel>
-   <TextBlock Text="{local:Tr 'ui.storage'}" VerticalAlignment="Center" Margin="0,0,12,0" Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}"/>
-   <ComboBox Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" ItemsSource="{Binding StorageFilters}" SelectedItem="{Binding Storage}" DisplayMemberPath="Label" Width="200" Margin="0,0,12,0" VerticalContentAlignment="Center" AutomationProperties.Name="{local:Tr 'Storage filter'}"/>
-   <TextBlock Text="{local:Tr 'equipment.owner'}" VerticalAlignment="Center" Margin="0,0,12,0" Visibility="{Binding IsEquipment, Converter={StaticResource BooleanVisibility}}"/>
-   <ComboBox Visibility="{Binding IsEquipment, Converter={StaticResource BooleanVisibility}}" ItemsSource="{Binding OwnerFilters}" SelectedItem="{Binding Owner}" DisplayMemberPath="Label" Width="200" Margin="0,0,12,0" VerticalContentAlignment="Center" AutomationProperties.Name="{local:Tr 'equipment.owner_filter'}"/>
-   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=SearchBox}" VerticalAlignment="Center" Padding="0,0,12,0"/>
+  <local:SkillPage x:Name="SkillArea" Grid.Row="3" Visibility="{Binding IsSkills, Converter={StaticResource BooleanVisibility}}"/>
+  <StackPanel Grid.Row="2" Visibility="{Binding IsItemEditor, Converter={StaticResource BooleanVisibility}}" Margin="20,16,20,12">
+   <local:PageHeader LoadCommand="{Binding ReloadCommand}" LoadedState="{Binding HasDocument}" HelpTopic="{Binding ItemHelpTopic}">
+   <TextBlock Text="{local:Tr 'ui.storage'}" Style="{StaticResource FilterLabel}" Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}"/>
+   <ComboBox Style="{StaticResource FilterBox}" Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" ItemsSource="{Binding StorageFilters}" SelectedItem="{Binding Storage}" DisplayMemberPath="Label" AutomationProperties.Name="{local:Tr 'Storage filter'}"/>
+   <TextBlock Text="{local:Tr 'equipment.owner'}" Style="{StaticResource FilterLabel}" Visibility="{Binding IsEquipment, Converter={StaticResource BooleanVisibility}}"/>
+   <ComboBox Style="{StaticResource FilterBox}" Visibility="{Binding IsEquipment, Converter={StaticResource BooleanVisibility}}" ItemsSource="{Binding OwnerFilters}" SelectedItem="{Binding Owner}" DisplayMemberPath="Label" AutomationProperties.Name="{local:Tr 'equipment.owner_filter'}"/>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=SearchBox}" Margin="0,0,12,0"/>
    <TextBox x:Name="SearchBox" Tag="{local:Tr 'Filter by name, internal name, key, or category...'}" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged, Delay=200}" AutomationProperties.Name="{local:Tr 'Search items, IDs or storage'}" ToolTip="{local:Tr 'Search by item name, ID or storage'}"/>
-   </DockPanel><TextBlock Text="{Binding CountText}" Style="{StaticResource SecondaryText}" Margin="0,12,0,0"/>
+   </local:PageHeader><DockPanel Style="{StaticResource CountRow}" Margin="0,12,0,0"><TextBlock Text="{Binding CountText}" Style="{StaticResource CountText}"/></DockPanel>
   </StackPanel>
   <Grid Margin="20,0,20,16" x:Name="ItemArea" Visibility="{Binding IsItemEditor, Converter={StaticResource BooleanVisibility}}" Grid.Row="3" SizeChanged="OnItemAreaSizeChanged">
    <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="0"/><RowDefinition Height="0"/></Grid.RowDefinitions>
@@ -179,7 +179,6 @@
     <Button Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" Foreground="{DynamicResource error}" Content="{local:Tr 'Delete Item'}" Command="{Binding DeleteCommand}" Margin="0,10,0,0"/>
     <StackPanel Visibility="{Binding IsRepurchase, Converter={StaticResource BooleanVisibility}}">
      <Button x:Name="VendorSwap" Style="{StaticResource AccentButton}" Content="{local:Tr 'Swap Selected Item'}" Command="{Binding SwapCommand}" Margin="0,10,0,0"/>
-     <TextBlock Text="{local:Tr 'Swap the sold item, then repurchase it in the game.'}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,0"/>
     </StackPanel>
     </StackPanel>
     <StackPanel x:Name="EnchantActions" Visibility="{Binding IsEquipment, Converter={StaticResource BooleanVisibility}}">
@@ -220,8 +219,8 @@
   <Grid Grid.Row="3" Visibility="{Binding IsBackups, Converter={StaticResource BooleanVisibility}}">
    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
    <StackPanel Margin="0,0,0,12">
-    <local:PageHeader Title="{local:Tr tab.backup}" HelpTopic="tab.backup" LoadCommand="{Binding RefreshBackupsCommand}" LoadedState="{Binding HasDocument}"/><TextBlock Text="{local:Tr 'Restoring a backup replaces the saved file on disk.'}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,8"/><TextBlock Text="{local:Tr backup.reference_hint}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap"/>
-    <TextBlock Text="{Binding BackupCount}" Style="{StaticResource SecondaryText}" Margin="0,8,0,0"/>
+    <local:PageHeader HelpTopic="tab.backup" LoadCommand="{Binding RefreshBackupsCommand}" LoadedState="{Binding HasDocument}"/>
+    <DockPanel Style="{StaticResource CountRow}" Margin="0,12,0,0"><TextBlock Text="{Binding BackupCount}" Style="{StaticResource CountText}"/></DockPanel>
    </StackPanel>
    <Grid x:Name="BackupArea" Grid.Row="1" SizeChanged="OnBackupAreaSizeChanged"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="5"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition/><RowDefinition Height="0"/><RowDefinition Height="0"/></Grid.RowDefinitions>
     <ListBox x:Name="BackupList" ItemsSource="{Binding Backups}" SelectedItem="{Binding SelectedBackup}" DisplayMemberPath="Label" IsEnabled="{Binding CanEditSelection}" ScrollViewer.HorizontalScrollBarVisibility="Auto" AutomationProperties.Name="{local:Tr 'Backups for the current save'}"/>

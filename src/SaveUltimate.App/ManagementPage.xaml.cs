@@ -12,12 +12,17 @@ public sealed class ManagementRow(ManagementState record) : ObservableObject
     public ushort Key => Record.Shop.Key;
     public string Region => Record.Shop.Region.Length == 0 ? "" : ManagementCatalog.Shared.RegionName(Record.Shop.Region, Tr.Language);
     public string Kind => Tr.Text("management.kind." + Record.Shop.Kind);
-    public string Place => Record.Shop.Place.Length > 0 ? Record.Shop.Place : Record.Shop.Name;
+    public string Place => KnowledgeText.Find(Record.Shop.PlaceKnowledge)?.Name ?? "";
     // The player names a shop when opening it; until then it goes by its region and kind.
     public string Name => Record.CustomName is { Length: > 0 } name ? name : $"{Region} {Kind}".Trim();
-    public string State => Tr.Text(Record.Operating ? "management.operating" : Record.InSave ? "management.not_operating" : "management.not_started");
-    // A business the save has never opened shows its state in grey.
-    public bool Dim => !Record.Operating && !Record.InSave;
+    // The save holds a shop once the player opens it; its renown record comes later.
+    public string Running => Tr.Text(Record.InSave ? "management.open" : "management.not_open");
+    public string Editing => Tr.Text(Record.Editable ? "management.editable" : "management.read_only");
+    // Open shops show green, the others grey.
+    public bool Done => Record.InSave;
+    public bool Dim => !Record.InSave;
+    // Why the renown cannot be changed, or nothing when it can.
+    public string Hint => Record.Editable ? "" : Tr.Text(!Record.InSave ? "management.open_first" : !Record.Operating ? "management.no_renown" : "management.no_levels");
     public string Level => Record.Operating ? Record.Shop.MaxLevel > 0 ? $"{Record.Level} / {Record.Shop.MaxLevel}" : $"{Record.Level}" : "—";
     internal void Update(ManagementState value) { Record = value; OnPropertyChanged(""); }
 }
@@ -29,13 +34,8 @@ public partial class ManagementPage : UserControl
     public ManagementPage()
     {
         InitializeComponent();
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Refresh(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Management), Refresh);
     }
-    private void Changed(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(MainViewModel.Management)) Refresh(); }
     private void Refresh()
     {
         var records = Model.Management ?? [];
@@ -44,19 +44,20 @@ public partial class ManagementPage : UserControl
             foreach (var record in records) old[record.Shop.Key].Update(record);
         else Rows.ItemsSource = records.Select(r => new ManagementRow(r)).ToArray();
         Count.Text = Model.Management is null ? Tr.Text("ui.load_prompt")
-            : Tr.Format("management.count", ("operating", records.Count(r => r.Operating)), ("total", records.Length));
+            : Tr.Count(records.Length, records.Length, "management.count", records.Count(r => r.InSave));
         Select();
     }
     private void Select()
     {
         var row = Selected;
         SelectedTitle.Text = row?.Name ?? Tr.Text("ui.select_item");
-        Summary.Text = row is null ? "" : string.Join("\n", new[]
-        {
-            row.Record.Shop.Name,
-            row.Record.Operating ? Tr.Format("management.summary", ("high", row.Record.HighLevel?.ToString() ?? "—"), ("rewarded", row.Record.RewardedLevel?.ToString() ?? "—"),
-                ("customers", row.Record.Customers?.ToString("N0") ?? "0")) : Tr.Text(row.Record.Shop.MaxLevel == 0 ? "management.no_levels" : "management.open_first")
-        });
+        Summary.Text = row is { Record.Operating: true }
+            ? Tr.Format("management.summary", ("high", row.Record.HighLevel?.ToString() ?? "—"), ("rewarded", row.Record.RewardedLevel?.ToString() ?? "—"),
+                ("customers", row.Record.Customers?.ToString("N0") ?? "0"))
+            : "";
+        Summary.Visibility = Summary.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        Hint.Text = row?.Hint ?? "";
+        Hint.Visibility = Hint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
         LevelInput.ItemsSource = row is { Record.Editable: true } ? Enumerable.Range(1, (int)row.Record.Shop.MaxLevel).Select(i => (uint)i).ToArray() : null;
         LevelInput.SelectedItem = row?.Record.Level;
         LevelInput.IsEnabled = row is { Record.Editable: true };

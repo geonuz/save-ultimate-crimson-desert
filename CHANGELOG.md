@@ -1,10 +1,28 @@
 # Changelog
 
-## [1.7.1]
+## [1.8.0]
 
-- Game data sync writes knowledge and skill pictures about four times faster, so the last stretch after the item icons
-  no longer slows down. The pictures stay lossless and take about 5% more space.
-- Life → Business shows "Not opened" in grey, so the shops you run stand out.
+Works with Crimson Desert 2.05.00. New Collection page, and reworked Map and Skills pages.
+
+- Works with game 2.05.00, with bundled game data refreshed for it. Saves from before 2.04 still open but are no longer
+  tested.
+- **New: Items → Collection.** Fill the collection box with chosen items or whole classes (documents, recipes, books,
+  treasure maps, keys and more). An option also learns the knowledge each item teaches.
+- **Map has three tabs:** Nodes and Places (categories on the left, their places on the right), Memory Fragments, and
+  Other Environment.
+- **Skills moved to Other → Skills and only does Watch and Learn**, for the 36 skills the game teaches by watching. The
+  skill tree and level investment are gone; invest in the game.
+- Knowledge learned in the editor is now recorded as the game records it: how it was learned, when, and a "new" mark.
+- Other → Time asks for the day and time to move the clock to, instead of how much to add.
+- Life → Business shows whether each shop is open and whether its renown can be edited, and if not, why.
+- Raising Kliff's bond with a witch no longer changes her romance quest's count. Talk to her once in the game and the
+  quest moves on from the new bond.
+- Pages share one filter and count layout, and help is shorter.
+- Game data sync writes knowledge and skill pictures about four times faster.
+- Fixed: after switching the interface language, some text stayed in the previous language until restart.
+- Fixed: Business place names and, in Japanese and Russian, NPC regions and roles showed in English.
+- Fixed: broken synced game data, for example after a sync stopped part way, closed the editor at every start. It now
+  starts with its bundled data and says why in the status bar.
 
 ## [1.7.0]
 

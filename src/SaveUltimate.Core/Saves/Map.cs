@@ -12,6 +12,12 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
 {
     [JsonPropertyName("label_ref")]
     public System.Text.Json.JsonElement[]? LabelRef { get; init; }
+    // Abyss Cresset scene id -> the challenge mission it completes.
+    [JsonPropertyName("scene_roots")]
+    public Dictionary<string, uint>? SceneRoots { get; init; }
+    // Bell scene id -> localized name by UI language.
+    [JsonPropertyName("scene_names")]
+    public Dictionary<string, Dictionary<string, string>>? SceneNames { get; init; }
     // A found cave, region, hidden space or shrine stands at its last level in natural saves, and the game checks it off only then.
     // Nodes keep level 1: their later levels vary between natural saves and their meaning is unknown. Spires, shadow sanctums,
     // witch hideouts and the Abyss also keep level 1: quests raise their later levels.
@@ -26,9 +32,12 @@ public sealed record MapAction(string Group, Dictionary<string, string> Names, u
     {
         Keys = Keys.Where(k => !dlc.Knowledge.Contains(k)).ToArray(), JournalKeys = JournalKeys.Where(k => !dlc.Knowledge.Contains(k)).ToArray(),
         CountKeys = CountKeys?.Where(k => !dlc.Knowledge.Contains(k)).ToArray(), Scenes = Scenes.Where(s => !dlc.Scenes.Contains(s)).ToArray(),
-        Pivots = Pivots?.Where(p => !dlc.Scenes.Contains(p.Key)).ToDictionary(), ChallengeRoots = ChallengeRoots?.Where(r => !dlc.Missions.Contains(r)).ToArray()
+        Pivots = Pivots?.Where(p => !dlc.Scenes.Contains(p.Key)).ToDictionary(), SceneRoots = SceneRoots?.Where(p => !dlc.Scenes.Contains(p.Key)).ToDictionary(),
+        SceneNames = SceneNames?.Where(p => !dlc.Scenes.Contains(p.Key)).ToDictionary(), ChallengeRoots = ChallengeRoots?.Where(r => !dlc.Missions.Contains(r)).ToArray()
     };
 }
+/// <summary>One map row to activate: a knowledge key, a scene, or (neither) the group's remaining challenges.</summary>
+public sealed record MapEntry(int Action, uint? Key = null, string? Scene = null);
 public sealed record MapDiscovery(byte? Completed, byte? Discovered, string? Pivot);
 public sealed record MapFog(int Offset, byte[] Codes)
 {
@@ -115,12 +124,12 @@ public sealed partial class SaveDocument
     }
 
     private static (List<(int Start, int End, Func<int, byte[]> Encode)> Regions, Dictionary<string, MapDiscovery> Expected)
-        PlanDiscoveries(byte[] raw, ParcLayout layout, MapAction action)
+        PlanDiscoveries(byte[] raw, ParcLayout layout, IReadOnlyCollection<string> scenes, IReadOnlyDictionary<string, string> pivots)
     {
         var list = DiscoveryList(raw, layout);
         var before = ReadDiscoveries(raw, list);
-        var missing = action.Scenes.Except(before.Keys).Order(StringComparer.Ordinal).ToArray();
-        var repair = action.Scenes.Where(s => before.TryGetValue(s, out var r) && r.Pivot is null && action.Pivots?.ContainsKey(s) == true).ToHashSet();
+        var missing = scenes.Except(before.Keys).Order(StringComparer.Ordinal).ToArray();
+        var repair = scenes.Where(s => before.TryGetValue(s, out var r) && r.Pivot is null && pivots.ContainsKey(s)).ToHashSet();
         if (missing.Length == 0 && repair.Count == 0) return ([], before);
         int index = layout.TypeIndex("LevelGimmickSceneObjectElementSaveData");
         var type = layout.Types[index];
@@ -135,17 +144,17 @@ public sealed partial class SaveDocument
             string id = $"{BinaryPrimitives.ReadUInt32LittleEndian(values["_levelGimmickSceneObjectInfoKey"].Span)}:{Convert.ToHexString(values["_sceneObjectUuid"].Span).ToLowerInvariant()}";
             if (repair.Contains(id))
             {
-                byte[] pivot = Convert.FromHexString(action.Pivots![id]);
+                byte[] pivot = Convert.FromHexString(pivots[id]);
                 if (pivot.Length != 12) throw new InvalidDataException("Invalid reference pivot.");
                 values["_fogPivotPosition"] = pivot;
-                expected[id] = expected[id] with { Pivot = action.Pivots[id] };
+                expected[id] = expected[id] with { Pivot = pivots[id] };
             }
             rows.Add(values);
         }
         foreach (string id in missing)
         {
             var parts = id.Split(':'); byte[] uuid = Convert.FromHexString(parts[1]);
-            byte[] pivot = action.Pivots?.TryGetValue(id, out var p) == true ? Convert.FromHexString(p) : [];
+            byte[] pivot = pivots.TryGetValue(id, out var p) ? Convert.FromHexString(p) : [];
             if (uuid.Length != 16 || pivot.Length is not 0 and not 12) throw new InvalidDataException("Invalid map identity.");
             var values = new Dictionary<string, ReadOnlyMemory<byte>>
             {
@@ -175,16 +184,62 @@ public sealed partial class SaveDocument
             var knowledge = LearnMapLocations(actionIndex);
             return (ReadMap(), knowledge.Skills);
         }
+        return ActivateMapEntries(action.Scenes.Select(s => new MapEntry(actionIndex, Scene: s)).Append(new MapEntry(actionIndex)).ToArray());
+    }
+
+    /// <summary>
+    /// Activates chosen map rows in one undo step: knowledge rows (places, memory fragments, Abyss Nexus points) learn
+    /// their key at the group's target level, scene rows (bells, cressets and the other icon groups) add their discovery
+    /// record and, for a cresset, complete its paired challenge. Knowledge the rows share, an icon group's key or the
+    /// memory fragment group key, is learned with any row of the group. An entry with neither key nor scene stands for the
+    /// whole group's remaining challenges (a full activation).
+    /// </summary>
+    public (MapState Map, SkillState Skills) ActivateMapEntries(IReadOnlyCollection<MapEntry> entries)
+    {
+        var all = MapAction.All;
+        var targets = new Dictionary<uint, uint>();
+        void Want(uint key, uint level) => targets[key] = Math.Max(targets.GetValueOrDefault(key), level);
+        var scenes = new HashSet<string>(); var roots = new HashSet<uint>(); var pivots = new Dictionary<string, string>();
+        foreach (var group in entries.GroupBy(e => e.Action))
+        {
+            if (group.Key < 0 || group.Key >= all.Length) throw new ArgumentOutOfRangeException(nameof(entries));
+            var action = all[group.Key];
+            bool icons = action.Mode == "icons";
+            foreach (var entry in group)
+            {
+                if (entry.Key is uint key)
+                {
+                    if (icons || entry.Scene is not null || !action.Keys.Contains(key)) throw new ArgumentException("Unknown map knowledge row.", nameof(entries));
+                    Want(key, action.TargetLevel(key));
+                }
+                else if (entry.Scene is string scene)
+                {
+                    if (!icons || !action.Scenes.Contains(scene)) throw new ArgumentException("Unknown map scene row.", nameof(entries));
+                    scenes.Add(scene);
+                    if (action.Pivots?.TryGetValue(scene, out string? pivot) == true) pivots[scene] = pivot;
+                    if (action.SceneRoots?.TryGetValue(scene, out uint root) == true) roots.Add(root);
+                }
+                else roots.UnionWith(action.ChallengeRoots ?? []);
+            }
+            foreach (uint key in icons ? action.Keys : action.Keys.Except(action.CountKeys ?? action.Keys)) Want(key, action.TargetLevel(key));
+        }
         var knowledgeBlock = SaveRecords.Read(blob, Layout, "KnowledgeSaveData");
         var levels = KnowledgeLevels(blob, knowledgeBlock);
-        var changes = action.Keys.Where(k => levels.GetValueOrDefault(k) == 0).ToDictionary(k => k, _ => 1u);
+        var changes = targets.Where(p => levels.GetValueOrDefault(p.Key) < p.Value).ToDictionary();
         var edits = new List<ListEdit>();
-        if (changes.Count > 0) edits.Add(KnowledgeEdit(Layout, knowledgeBlock.Fields.Named("_list"), changes));
-        var (regions, discoveries) = PlanDiscoveries(blob, Layout, action);
-        ChallengeState? expectedProgress = null;
-        if (action.ChallengeRoots is { Length: > 0 })
+        var expectedPaths = new Dictionary<uint, uint>(SkillState.Read(blob, knowledgeBlock).Follow);
+        if (changes.Count > 0)
         {
-            var plan = PlanChallenges(blob, Layout, action.ChallengeRoots);
+            var paths = NewLearnPaths(knowledgeBlock, levels, changes, expectedPaths);
+            edits.AddRange(KnowledgeEdits(knowledgeBlock, levels, changes, paths));
+            foreach (var p in paths) expectedPaths[p.Key] = p.Value;
+        }
+        var (regions, discoveries) = PlanDiscoveries(blob, Layout, scenes, pivots);
+        ChallengeState? expectedProgress = null;
+        if (roots.Count > 0)
+        {
+            // Catalog order, as a full activation always used.
+            var plan = PlanChallenges(blob, Layout, all.SelectMany(a => a.ChallengeRoots ?? []).Where(roots.Contains).Distinct().ToArray());
             edits.AddRange(plan.Edits); expectedProgress = plan.Expected;
         }
         regions.AddRange(RecordLists.Regions(blob, Layout, edits));
@@ -198,11 +253,13 @@ public sealed partial class SaveDocument
             var afterKnowledge = KnowledgeLevels(candidate, block);
             var progress = ChallengeState.Read(candidate, SaveRecords.Read(candidate, layout, "QuestSaveData"));
             var after = new MapState(ReadFog(candidate, layout), ReadDiscoveries(candidate, DiscoveryList(candidate, layout)), afterKnowledge, progress);
+            var skills = SkillState.Read(candidate, block);
             if (!levels.OrderBy(p => p.Key).SequenceEqual(afterKnowledge.OrderBy(p => p.Key)) ||
                 !discoveries.OrderBy(p => p.Key).SequenceEqual(after.Discoveries.OrderBy(p => p.Key)) ||
-                expectedProgress?.Matches(progress) == false)
+                expectedProgress?.Matches(progress) == false ||
+                !expectedPaths.OrderBy(p => p.Key).SequenceEqual(skills.Follow.OrderBy(p => p.Key)))
                 throw new InvalidDataException("Map transaction verification failed.");
-            result = (after, SkillState.Read(candidate, block, items));
+            result = (after, skills);
         });
         return result;
     }

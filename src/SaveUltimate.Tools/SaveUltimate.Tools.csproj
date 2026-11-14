@@ -2,6 +2,7 @@
   <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="SaveUltimate.Tests" />
+    <InternalsVisibleTo Include="SaveUltimate.SaveTests" />
     <ProjectReference Include="../SaveUltimate.Core/SaveUltimate.Core.csproj" />
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>

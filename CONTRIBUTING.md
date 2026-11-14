@@ -9,7 +9,7 @@ src/
   SaveUltimate.Core/    Save container, records, edits, Undo, backups, game-data sync
   SaveUltimate.Tools/   Command-line helpers and the builders of the baseline catalogs (not shipped)
 resources/              Baseline catalogs, UI translations, fonts and original artwork
-tests/                  MSTest regression suite
+tests/                  MSTest suite that needs no saves
 scripts/                Build and verification scripts
 ```
 
@@ -39,35 +39,22 @@ which validates them against the save layout before replacing the document. Add
 a focused test for changes to save data or nontrivial behavior.
 
 ```powershell
-dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory!=PrivateFixtures"
+dotnet test tests/SaveUltimate.Tests -c Release
 ```
 
-Tests come in four layers, each a `TestCategory`:
+These tests need no saves. Each carries a `TestCategory`:
 
-| Layer | What it checks | Needs |
+| Category | What it checks | Needs |
 |---|---|---|
-| `Unit` | Parsers, formats, error codes | Nothing |
-| `Contract` | Rules that hold on any save: `FeatureContracts` lists every feature with its postcondition and the sections it may change | Saves |
-| `Scenario` | What only a known save can show: exact values, refusals, boundaries | Saves, game |
-| `UI` | Windows and pages, run one at a time | Saves |
+| `Unit` | Parsers, formats, catalogs, settings, error codes | Nothing |
+| `UI` | Windows and dialogs that open without a save | Nothing |
+| `Game` | The shipped catalogs against the installed game | `SAVEULTIMATE_GAME`, the game folder |
 
-A rule that holds on any save belongs in `FeatureContracts`, not in a scenario. A new editor feature needs a contract.
-UI tests start the app with `TestUi.EnsureApp`, which mirrors the resources in `App.xaml`, and never open a real dialog:
-nothing can click it, so the run stops at the 5-minute limit in `test.runsettings`. Use `TempFolder` for temporary files.
-While working, run only the layer you touched, and run everything before a release; the whole suite should stay under
-3 minutes:
+`Game` tests report Inconclusive without the game. UI tests start the app with `TestUi.EnsureApp`, which mirrors the
+resources in `App.xaml`, and never open a real dialog: nothing can click it, so the run stops at the 5-minute limit in
+`test.runsettings`. Use `TempFolder` for temporary files. The whole suite should stay under 3 minutes.
 
-```powershell
-dotnet test tests/SaveUltimate.Tests -c Release --filter "TestCategory=Contract"
-```
-
-`Unit` needs no saves or game installation. Tests marked `PrivateFixtures` edit real saves and report Inconclusive unless
-their inputs are configured through the environment variables `SAVEULTIMATE_FIXTURES` (a folder of saves) and
-`SAVEULTIMATE_GAME` (the installed game). Those inputs are personal data and stay outside Git. Saves are named
-`<player>/<game version>_<stage>_<purpose>.save`, with numbered player folders and no real names; tests name the purpose
-through `FixtureSaves.Named`. `ContractTests` runs every feature on every save that holds what the feature needs, requires
-each feature to reach 3 players, and writes `COVERAGE.md` beside the saves. Keep saves that add a player, a progress stage, a
-format or values a test needs, not more of the same. The README in the private fixture folder describes adding a save.
+Edits are also tested on real saves. Saves are personal data, so those tests and the saves stay outside the repository.
 
 Test classes run side by side. A test that uses WPF or a process-wide static such as `DlcContent.Hidden` must carry
 `[DoNotParallelize]`.

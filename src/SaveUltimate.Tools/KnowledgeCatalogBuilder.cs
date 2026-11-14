@@ -11,7 +11,7 @@ namespace SaveUltimate.Tools;
 public static class KnowledgeCatalogBuilder
 {
     internal sealed record Knowledge(uint Key, string Internal, ClientRecord Record, bool Visible, byte Default, uint Skill, int Levels, int LevelStart);
-    internal sealed record Group(uint Key, string Internal, string Label, uint Parent, uint[] Children, bool Visible, uint[] Keys);
+    internal sealed record Group(uint Key, string Internal, string Label, uint Parent, uint[] Children, bool Visible, uint[] Keys, bool Meditation);
     private const uint NameMember = 0x490, LevelNameMember = 0x49D, DescriptionMember = 0x491;
     private static readonly uint[] FishGroups = [1310, 1311, 1312, 1320, 1321, 1322, 1340, 1330];
 
@@ -28,7 +28,7 @@ public static class KnowledgeCatalogBuilder
             string label = r.Reference(9, 0x92, key); r.Reference(9, 0x94, key, true); r.Reference(9, 0x93, key, true);
             uint[] keys = r.Array32(), children = r.Array32();
             if (head[3] > 3 || head[..3].Any(f => f > 1) || r.Remaining != 0) throw new InvalidDataException("Unsupported knowledge group layout.");
-            groups[key] = new(key, record.Name, label, parent, children, head[1] == 1, keys);
+            groups[key] = new(key, record.Name, label, parent, children, head[1] == 1, keys, head[0] == 1);
         }
         return groups;
     }
@@ -70,7 +70,7 @@ public static class KnowledgeCatalogBuilder
     }
 
     // Knowledge lists its characters in the fifth array after the 42-byte fixed block (checked on every reviewed fish).
-    private static uint[] Characters(ClientRecord record)
+    internal static uint[] Characters(ClientRecord record)
     {
         var r = new ClientReader(record.Bytes, record.Prefix + 42);
         for (int i = 0; i < 4; i++) r.Array(4);

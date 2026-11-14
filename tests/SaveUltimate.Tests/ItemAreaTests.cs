@@ -40,14 +40,6 @@ public sealed class ItemAreaTests
         Assert.IsTrue(unknown.Label.Contains("잠김"));
         Assert.IsTrue(unknown.Choices.Any(g => g.Key == uint.MaxValue));
         Assert.IsNull(ItemImages.Get(uint.MaxValue, 32), "Items without a game image show no placeholder.");
-        var skillIcon = ItemImages.GetFile(Path.Combine(AppContext.BaseDirectory, "resources", "assets", "skill-generic.svg"), 36);
-        Assert.IsNotNull(skillIcon);
-        Assert.IsTrue(skillIcon.IsFrozen);
-        Assert.IsTrue(skillIcon.PixelWidth <= 36 && skillIcon.PixelHeight <= 36);
-        var rgba = new System.Windows.Media.Imaging.FormatConvertedBitmap(skillIcon, System.Windows.Media.PixelFormats.Bgra32, null, 0);
-        byte[] corner = new byte[4];
-        rgba.CopyPixels(new Int32Rect(0, 0, 1, 1), corner, 4, 0);
-        Assert.AreEqual((byte)0, corner[3], "SVG skill icons must preserve transparent corners over tree nodes.");
         string corrupt = Path.Combine(AppContext.BaseDirectory, "icons_local", $"{uint.MaxValue - 2}.webp");
         Directory.CreateDirectory(Path.GetDirectoryName(corrupt)!);
         try
@@ -61,70 +53,5 @@ public sealed class ItemAreaTests
         Assert.AreEqual("캠프 의상점", catalog.Store(6700));
         Assert.AreEqual("Ceramic Artwork", catalog.Store(7000), "A store no NPC runs keeps its label.");
         Assert.AreEqual("65535", catalog.Store(65535));
-    }
-
-    [STATestMethod]
-    [TestCategory("UI")]
-    [DoNotParallelize]
-    [TestCategory("PrivateFixtures")]
-    public void ItemPanelsMatchSelectionStorageAndWindowWidth()
-    {
-        TestUi.EnsureApp();
-        var document = SaveDocument.Open(FixtureSaves.Named("editing_baseline"));
-        var model = new MainViewModel(document);
-        var window = TestUi.Hidden(new MainWindow(model));
-        window.Show(); window.UpdateLayout();
-        try
-        {
-            var grid = (DataGrid)window.FindName("InventoryGrid");
-            var editor = (ScrollViewer)window.FindName("EditorScroll");
-            Assert.AreEqual(2, Grid.GetRow(editor));
-            grid.SelectedItem = grid.Items[0];
-            Assert.IsNotNull(model.Detail);
-            WindowTests.Capture(window, "detail");
-            grid.SelectedItems.Add(grid.Items[1]);
-            Assert.IsNull(model.Detail);
-            Assert.AreEqual(3, Grid.GetColumnSpan((StackPanel)window.FindName("QuantityActions")));
-            model.Storage = model.StorageFilters.Single(f => f.Bag == 2);
-            Assert.IsNull(model.Detail);
-            Assert.AreEqual(document.Items.Count(i => i.Source == ItemSource.Inventory && i.Bag == 2), model.Storage.Count);
-            decimal slots = document.Items.Where(i => i.Source == ItemSource.Inventory && i.Bag == 2).Sum(i => decimal.Ceiling((decimal)i.Quantity / ItemCatalog.Shared.MaxStack(i.Key)));
-            Assert.IsTrue(model.CountText.EndsWith($"약 {slots:N0}슬롯"));
-            model.Search = "unlikely_missing_item";
-            Assert.IsTrue(model.CountText.EndsWith($"약 {slots:N0}슬롯"), "Search must not change slot totals.");
-            model.CurrentPage = AppPage.Equipment;
-            var target = grid.Items.Cast<ItemRow>().First(r => r.Item.Source == ItemSource.Inventory && r.Item.Sockets.Unlocked < ItemRules.Sockets(r.Item.Key));
-            grid.SelectedItem = target;
-            Assert.IsNull(model.Detail);
-            Assert.AreEqual(ItemRules.Sockets(target.Item.Key), model.SocketRows.Length);
-            Assert.IsTrue(model.SocketRows.Skip(target.Item.Sockets.Unlocked).All(r => !r.IsEditable && r.Label.Contains("잠김")));
-            Assert.AreEqual(model.SocketRows.Length + 1, model.SocketOptions.Count());
-            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            var scroll = TestUi.Find<ScrollViewer>(grid).First();
-            scroll.ScrollToVerticalOffset(40); scroll.ScrollToHorizontalOffset(80);
-            grid.Columns[2].Width = 150;
-            window.UpdateLayout();
-            double vertical = scroll.VerticalOffset, horizontal = scroll.HorizontalOffset;
-            model.CurrentPage = AppPage.Repurchase;
-            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            model.CurrentPage = AppPage.Equipment;
-            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            Assert.AreEqual(vertical, scroll.VerticalOffset);
-            Assert.AreEqual(horizontal, scroll.HorizontalOffset, 0.01);
-            Assert.AreEqual(150, grid.Columns[2].Width.Value);
-            WindowTests.Capture(window, "locked-sockets");
-            window.Width = 2300; window.UpdateLayout();
-            // Windows limits a window to the displays attached right now, so a sleeping monitor can keep it narrow.
-            if (window.ActualWidth >= 2300)
-            {
-                Assert.AreEqual(2, Grid.GetColumn(editor));
-                Assert.AreEqual(0, Grid.GetRow(editor));
-                WindowTests.Capture(window, "wide");
-            }
-            window.Width = 800; window.UpdateLayout();
-            Assert.AreEqual(2, Grid.GetRow(editor));
-            WindowTests.Capture(window, "small");
-        }
-        finally { window.Close(); }
     }
 }

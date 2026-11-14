@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -27,7 +26,8 @@ public sealed record CompanionRow(Companion Record, CompanionDetail? Detail = nu
     public string Name => CharacterText.Get(Record.Key).Name;
     public string Custom => string.IsNullOrEmpty(Record.Name) ? Tr.Text("(unnamed)") : Record.Name;
     public string Category => Tr.Text("companion.group." + Record.Group);
-    public string Hint => Record.Editable ? CompanionTypes.Shared.Types.GetValueOrDefault(CompanionTypes.Shared.Characters.GetValueOrDefault(Record.Key), "") : Tr.Text("companion.internal_note");
+    // Only rows the editor cannot change get a tooltip; the game's internal companion type stays out of view.
+    public string? Hint => Record.Editable ? null : Tr.Text("companion.internal_note");
     public ImageSource? Icon => CharacterText.Picture(Record.Key, 32);
 }
 public partial class CompanionPage : UserControl
@@ -49,18 +49,12 @@ public partial class CompanionPage : UserControl
         InitializeComponent();
         // Character pictures follow the same icon setting as item tables.
         IsVisibleChanged += (_, _) => { if (IsVisible) Rows.Columns[0].Visibility = SettingsStore.Current.ShowIcons ? Visibility.Visible : Visibility.Collapsed; };
-        DataContextChanged += (_, e) =>
-        {
-            if (e.OldValue is MainViewModel old) old.PropertyChanged -= Changed;
-            if (e.NewValue is MainViewModel model) { model.PropertyChanged += Changed; Refresh(); }
-        };
+        Ui.Follow(this, nameof(MainViewModel.Companions), Refresh);
     }
-    private void Changed(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(MainViewModel.Companions)) Refresh(); }
     private void Refresh()
     {
         string selected = (GroupBox.SelectedItem as Choice)?.Key ?? (Pets ? "pet" : "all");
-        updating = true;
-        Header.Title = Tr.Text(Pets ? "companion.pets" : "companion.title");
+        updating = true; Header.HelpTopic = Pets ? "companion.pets" : "companion.title";
         NameButtons.Visibility = ClearAll.Visibility = CustomColumn.Visibility = GroupTabs.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         // Pets and mounts show the game's order, which Move Up and Move Down change, so only the companion table sorts by header.
         Rows.CanUserSortColumns = !Pets;

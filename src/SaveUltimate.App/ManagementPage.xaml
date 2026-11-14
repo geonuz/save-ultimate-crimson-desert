@@ -3,17 +3,22 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
  <Grid IsEnabled="{Binding CanEditSelection}">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
-  <local:PageHeader Title="{local:Tr management.title}" HelpTopic="management.title" LoadedState="{Binding Management, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadManagementCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
-  <TextBlock x:Name="Count" Grid.Row="1" Text="{local:Tr ui.load_prompt}" Margin="0,0,0,8"/>
+  <local:PageHeader HelpTopic="management.title" LoadedState="{Binding Management, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadManagementCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}"><TextBlock x:Name="Count" Text="{local:Tr ui.load_prompt}" Style="{StaticResource CountText}"/></DockPanel>
   <local:DetailSplit Grid.Row="2">
    <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelectionChanged">
     <DataGrid.Columns>
-     <DataGridTextColumn Header="{local:Tr management.name}" Binding="{Binding Name}" Width="*" MinWidth="160"/>
+     <DataGridTextColumn Header="{local:Tr management.name}" Binding="{Binding Name}" Width="*" MinWidth="110"/>
      <DataGridTextColumn Header="{local:Tr management.region}" Binding="{Binding Region}" Width="Auto" MinWidth="90"/>
      <DataGridTextColumn Header="{local:Tr management.kind}" Binding="{Binding Kind}" Width="Auto" MinWidth="80"/>
-     <DataGridTextColumn Header="{local:Tr management.place}" Binding="{Binding Place}" Width="Auto" MinWidth="140"/>
-     <DataGridTextColumn Header="{local:Tr management.state}" Binding="{Binding State}" Width="Auto" MinWidth="90" ElementStyle="{StaticResource StatusText}"/>
+     <DataGridTextColumn Header="{local:Tr management.place}" Binding="{Binding Place}" Width="Auto" MinWidth="120"/>
+     <DataGridTextColumn Header="{local:Tr management.running}" Binding="{Binding Running}" Width="Auto" MinWidth="80" ElementStyle="{StaticResource StatusText}"/>
      <DataGridTextColumn Header="{local:Tr management.level}" Binding="{Binding Level}" SortMemberPath="Record.Level" Width="Auto" MinWidth="80"/>
+     <!-- Read-only shops in red, editable ones in yellow: the text says it too. -->
+     <DataGridTextColumn Header="{local:Tr management.state}" Binding="{Binding Editing}" SortMemberPath="Record.Editable" Width="Auto" MinWidth="90">
+      <DataGridTextColumn.ElementStyle><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource error}"/>
+       <Style.Triggers><DataTrigger Binding="{Binding Record.Editable}" Value="True"><Setter Property="Foreground" Value="{DynamicResource warning}"/></DataTrigger></Style.Triggers></Style></DataGridTextColumn.ElementStyle>
+     </DataGridTextColumn>
     </DataGrid.Columns>
    </DataGrid>
    <ScrollViewer x:Name="Details" Grid.Column="2" VerticalScrollBarVisibility="Auto" Padding="12,0,0,0">
@@ -23,7 +28,7 @@
      <TextBlock Text="{local:Tr management.level}" Margin="0,0,0,4"/>
      <ComboBox x:Name="LevelInput" IsEnabled="False" SelectionChanged="OnLevelChanged" AutomationProperties.Name="{local:Tr management.level}"/>
      <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr management.apply}" Click="OnApply" IsEnabled="False" Margin="0,6"/>
-     <TextBlock Text="{local:Tr management.note}" TextWrapping="Wrap" Style="{StaticResource SecondaryText}" Margin="0,8,0,0"/>
+     <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8" Visibility="Collapsed"/>
     </StackPanel>
    </ScrollViewer>
   </local:DetailSplit>

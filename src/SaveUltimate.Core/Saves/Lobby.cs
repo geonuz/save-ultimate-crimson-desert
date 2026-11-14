@@ -35,6 +35,24 @@ public sealed partial class SaveDocument
     public ulong? GeneratedNumber() => lobbyFile is null ? null : Math.Max(LobbyCounter(lobbyFile).Value, HighestNumber());
     private ulong HighestNumber() => ObjectNumbers(CountedBlocks, "_itemNo", "_reserveItemNo", "_mercenaryNo").Where(n => n != ulong.MaxValue).Max();
 
+    // Items and mercenaries share one number sequence whose counter sits in the slot's lobby.save, so new records take the
+    // next numbers as the game would hand them out, and saving raises the lobby past them. Without a lobby they take the
+    // highest numbers below the top inventory item that no bytes in the save hold: ones items used up, below any counter
+    // that matches the save, so the game never hands them out again.
+    internal ulong[] NewNumbers(int count)
+    {
+        if (GeneratedNumber() is ulong generated) return Enumerable.Range(1, count).Select(i => generated + (ulong)i).ToArray();
+        var numbers = new ulong[count];
+        ulong number = ObjectNumbers(["InventorySaveData"], "_itemNo").Where(n => n != ulong.MaxValue).Max();
+        for (int i = 0; i < count; i++)
+        {
+            do if (--number == 0) throw new InvalidOperationException("This save has no free number for a new record.");
+            while (blob.AsSpan().IndexOf(BitConverter.GetBytes(number)) >= 0);
+            numbers[i] = number;
+        }
+        return numbers;
+    }
+
     // Writes the lobby beside a slot's save.save before the save itself: a counter ahead of its save only skips numbers.
     // A save from another slot brings its own lobby; one from outside a slot raises the lobby already there. The counter
     // never goes below what the lobby on disk holds, in case the game saved there since this document was read.

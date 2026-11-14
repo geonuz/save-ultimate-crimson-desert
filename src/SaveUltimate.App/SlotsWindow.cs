@@ -43,7 +43,7 @@ public sealed class SlotsWindow : Window
         Rows.MouseDoubleClick += async (_, e) => { if (ItemsControl.ContainerFromElement(Rows, e.OriginalSource as DependencyObject) is DataGridRow) await OpenSelected(); };
         Rows.PreviewKeyDown += async (_, e) => { if (e.Key == Key.Enter) { e.Handled = true; await OpenSelected(); } };
         var menu = new ContextMenu();
-        void Action(string key, RoutedEventHandler action) { var item = new MenuItem { Header = Tr.Text(key) }; item.Click += action; menu.Items.Add(item); }
+        void Action(string key, RoutedEventHandler action) { var item = new MenuItem(); Tr.Bind(item, HeaderedItemsControl.HeaderProperty, key); item.Click += action; menu.Items.Add(item); }
         Action("Load Save", async (_, _) => await OpenSelected());
         Action("Open File Location", (_, _) => { if (Rows.SelectedItem is SaveSlot slot && Directory.Exists(Path.GetDirectoryName(slot.Path))) Process.Start(new ProcessStartInfo("explorer.exe") { ArgumentList = { "/select,", slot.Path }, UseShellExecute = true }); });
         Action("Copy File Path", (_, _) => { if (Rows.SelectedItem is SaveSlot slot) Clipboard.SetText(slot.Path); });
