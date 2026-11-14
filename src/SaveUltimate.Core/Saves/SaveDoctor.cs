@@ -17,6 +17,7 @@ public sealed partial class SaveDocument
             // Each edit replaces the items, so the selection is taken again for every limit.
             foreach (int limit in document.Items.Where(CanLowerEnchant).Select(i => i.MaxEnchant).Distinct().ToArray())
                 document.SetEnchant(document.Items.Where(i => CanLowerEnchant(i) && i.MaxEnchant == limit), (ushort)limit);
+        if (fixes.Contains(SaveFix.ImportantItems)) document.ReleaseCollection();
         if (document.IsDirty && document.SaveTo(path) is { } recovery) SaveBackups.Mirror(path, recovery, mirrorRoot);
     }
     private static bool CanLowerEnchant(InventoryItem item) => SaveCheckup.OverEnchant(item) && item.MaxEnchant > 0;

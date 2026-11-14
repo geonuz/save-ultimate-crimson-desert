@@ -3,7 +3,7 @@ using SaveUltimate.Core.Catalogs;
 namespace SaveUltimate.Core.Saves;
 
 public enum CheckStatus { Ok, Suspect, Error, NotRun }
-public enum SaveFix { None, Integrity, MissionRows, Enchants }
+public enum SaveFix { None, Integrity, MissionRows, Enchants, ImportantItems }
 
 // Id names the check for the screen; Detail is the reason in the words the failing code used.
 public sealed record SaveCheck(string Id, CheckStatus Status, string Detail = "", int Count = 0, SaveFix Fix = SaveFix.None);
@@ -17,7 +17,7 @@ public static class SaveCheckup
         ("file", ["container", "integrity", "compression"]),
         ("structure", ["schema", "blocks", "pointers", "mission_rows"]),
         ("data", ["game_version", "items", "skills", "knowledge", "challenges", "fishing", "map", "companions", "friendship"]),
-        ("values", ["enchants", "sockets", "unknown_items"])
+        ("values", ["enchants", "sockets", "unknown_items", "important_items"])
     ];
     private static readonly string[] order = Plan.SelectMany(g => g.Ids).ToArray();
 
@@ -82,6 +82,9 @@ public static class SaveCheckup
             Add(Values("enchants", items.Where(OverEnchant).ToArray(), items.Any(i => OverEnchant(i) && i.MaxEnchant > 0) ? SaveFix.Enchants : SaveFix.None));
             Add(Values("sockets", items.Where(OverSockets).ToArray(), SaveFix.None));
             Add(Values("unknown_items", items.Where(i => ItemRules.Stack(i.Key) == 0).ToArray(), SaveFix.None));
+            // An important item in the box cannot be taken out and stored again; the game never leaves one there.
+            Pass("important_items", () => document.ImportantCollectionItems() is { Length: > 0 } keys
+                ? new("important_items", CheckStatus.Error, string.Join(", ", keys.Take(8)), keys.Length, document.CanReleaseImportantItems ? SaveFix.ImportantItems : SaveFix.None) : null, CheckStatus.Suspect);
         }
         foreach (string id in order.Where(id => !results.ContainsKey(id))) Add(new(id, CheckStatus.NotRun));
         return order.Select(id => results[id]).ToArray();

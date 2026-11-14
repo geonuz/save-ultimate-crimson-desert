@@ -49,6 +49,8 @@ public partial class FieldTimePage : UserControl
             Preview.Text = Tr.Format("fieldtime.preview", ("days", (minutes / 1440).ToString("N0")), ("hours", minutes / 60 % 24), ("minutes", minutes % 60));
         }
         else Preview.Text = Model.Clock is null ? "" : Tr.Text("fieldtime.invalid");
+        // The message keeps its place; only its color says whether the inputs can be applied.
+        Preview.SetResourceReference(TextBlock.ForegroundProperty, target is null ? "warning" : "text");
         Apply.IsEnabled = target is not null;
     }
     private void OnInputChanged(object sender, TextChangedEventArgs e) => UpdatePreview();

@@ -18,6 +18,10 @@ public static class CollectionCatalogBuilder
     // Goldleaf guildhouse clues, which the game records as Zoom. Against five unedited saves it agrees on 1,424 of 1,439
     // entries; the rest are knowledge another item or event also teaches (the biology research journal is Zoom in one save).
     internal const ushort ReadAction = 0xD01D, ZoomAction = 0xC10C;
+    // The u16 24 bytes before the end of an iteminfo record is the bag an item goes to when picked up (1, 2, 3, 5, 9, 13 or 14,
+    // all inventory keys). Items whose bag is the quest bag (5) and that sit in any other bag are listed in
+    // InventorySaveData._inventoryChangedItemDataList in every save compared, and the ones in the quest bag never are.
+    private const ushort QuestBag = 5;
 
     public static JsonObject Build(ClientSource source)
     {
@@ -26,6 +30,7 @@ public static class CollectionCatalogBuilder
         uint[] list = List(ClientTables.Records16(layers)[CollectionBox].Reader);
         var items = ClientTables.Records(source.Tables("iteminfo"));
         var knowledge = ClientTables.Records(source.Tables("knowledgeinfo")).Keys.ToHashSet();
+        var bags = ClientTables.Records16(layers).Keys.ToHashSet();
         var rows = new JsonArray();
         foreach (uint key in list)
         {
@@ -43,11 +48,13 @@ public static class CollectionCatalogBuilder
                 if (paths.Length != 1) throw new InvalidDataException($"Collection item {key} teaches {entries.Key} by reading and by zooming.");
                 learned.Add(Entry(Known(entries.Key), paths[0]));
             }
-            rows.Add(new JsonObject { ["key"] = key, ["base"] = baseList.Contains(key), ["knowledge"] = learned });
+            ushort bag = BinaryPrimitives.ReadUInt16LittleEndian(record.Bytes.Span[^24..]);
+            if (!bags.Contains(bag)) throw new InvalidDataException($"Collection item {key} goes to an unknown bag {bag}.");
+            rows.Add(new JsonObject { ["key"] = key, ["base"] = baseList.Contains(key), ["quest"] = bag == QuestBag, ["knowledge"] = learned });
         }
         return new JsonObject
         {
-            ["source"] = "inventory 18 (Housing_Collecting, DLC layer wins) and iteminfo: knowledge at +107 of the fixed block (None) and 9 bytes after each InspectSocket_N name (Read for the u16 inspect action 0xD01D 4 bytes later, Zoom for 0xC10C).",
+            ["source"] = "inventory 18 (Housing_Collecting, DLC layer wins) and iteminfo: the pickup bag 24 bytes before the record end (quest: the quest bag 5), knowledge at +107 of the fixed block (None) and 9 bytes after each InspectSocket_N name (Read for the u16 inspect action 0xD01D 4 bytes later, Zoom for 0xC10C).",
             ["items"] = rows, ["sourceSha256"] = source.Digests()
         };
         uint Known(uint k) => knowledge.Contains(k) ? k : throw new InvalidDataException($"Collection item knowledge {k} is not in KnowledgeInfo.");

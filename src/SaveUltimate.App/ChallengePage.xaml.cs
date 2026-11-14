@@ -155,11 +155,16 @@ public partial class ChallengePage : UserControl
         }
         return ((selected.Root is uint r ? new[] { r } : keys).Where(k => Completable(k) && Catalog.Descendants(k).Any(child => !Done(child))).ToArray(), null);
     }
+    // Every challenge in the tree as filtered now that can be completed here and is not complete yet.
+    private uint[] EveryTarget() => Model.Challenges is null ? [] : All(nodes).Where(n => n.Root is uint root && Completable(root) && Catalog.Descendants(root).Any(k => !Done(k))).Select(n => n.Root!.Value).Distinct().ToArray();
     private void UpdateActions()
     {
         if (updating) return;
         var all = Targets(false);
         var leaves = Targets(true);
+        int every = EveryTarget().Length;
+        CompleteEvery.IsEnabled = every > 0;
+        CompleteEvery.Content = Tr.Text("challenge.complete_every") + (every > 0 ? $" ({every:N0})" : "");
         CompleteAll.IsEnabled = all.Roots.Length > 0;
         CompleteAll.Content = Tr.Text(selected?.Root is null ? "challenge.complete_challenges" : "challenge.complete_all") +
             (selected?.Root is null && all.Roots.Length > 0 ? $" ({all.Roots.Length})" : "");
@@ -177,4 +182,12 @@ public partial class ChallengePage : UserControl
     private void OnSearch(object sender, TextChangedEventArgs e) => (typing ??= new(() => OnFilter(this, e))).Restart(sender);
     private async void OnCompleteAll(object sender, RoutedEventArgs e) { var targets = Targets(false); await Model.CompleteChallengesAsync(targets.Roots); }
     private async void OnCompleteSelected(object sender, RoutedEventArgs e) { var targets = Targets(true); await Model.CompleteChallengesAsync(targets.Roots, targets.Checkpoints); }
+    // A whole-list action, so it asks first; Undo still takes it back in one step.
+    private async void OnCompleteEvery(object sender, RoutedEventArgs e)
+    {
+        uint[] roots = EveryTarget();
+        if (roots.Length > 0 && ThemedMessageBox.Show(Window.GetWindow(this), Tr.Format("challenge.complete_every_confirm", ("count", roots.Length.ToString("N0"))),
+            Tr.Text("challenge.complete_every"), MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            await Model.CompleteChallengesAsync(roots);
+    }
 }

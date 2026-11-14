@@ -89,7 +89,12 @@ public partial class MainViewModel
                 SaveBackups.Restore(path, backup, expected);
                 return SaveDocument.Open(path);
             });
-            Refresh(resetSelection: true); ReadBackups(); Status = Tr.Text("Backup restored and save reloaded.");
+            savedInSession = false;
+            Refresh(resetSelection: true);
+            // Every page reads the restored save at once, as when a save is opened, so no menu keeps the replaced data.
+            string failed = await ReadPagesAsync(document!);
+            ReadBackups(); Status = Tr.Text("Backup restored and save reloaded.") + failed;
+            ThemedMessageBox.Show(Tr.Text("backup.restored_all") + failed, Tr.Text("Restore Backup"), MessageBoxButton.OK, MessageBoxImage.Information);
         });
     }
 

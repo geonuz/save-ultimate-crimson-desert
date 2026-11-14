@@ -3,7 +3,15 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SaveUltimate.App">
  <Grid IsEnabled="{Binding CanEditSelection}">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
-  <local:PageHeader HelpTopic="collection.title" LoadedState="{Binding Collection, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadCollectionCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
+  <!-- Filters like the map's places tab: a state filter and a search box over item names, classes and keys. -->
+  <local:PageHeader HelpTopic="collection.title" LoadedState="{Binding Collection, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadCollectionCommand}"/></local:PageHeader.LoadButton>
+   <TextBlock Text="{local:Tr 'filter.state'}" Style="{StaticResource FilterLabel}"/>
+   <ComboBox x:Name="StateFilter" Style="{StaticResource FilterBox}" SelectedIndex="0" SelectionChanged="OnFilterChanged" AutomationProperties.Name="{local:Tr 'filter.state'}">
+    <ComboBoxItem Content="{local:Tr 'All'}"/><ComboBoxItem Content="{local:Tr collection.state.collected}"/><ComboBoxItem Content="{local:Tr collection.state.missing}"/><ComboBoxItem Content="{local:Tr collection.state.elsewhere}"/>
+   </ComboBox>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox x:Name="Search" Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" TextChanged="OnSearchChanged" ToolTip="{local:Tr collection.search}" AutomationProperties.Name="{local:Tr collection.search}"/>
+  </local:PageHeader>
   <DockPanel Grid.Row="1" Style="{StaticResource CountRow}">
    <CheckBox x:Name="Learn" DockPanel.Dock="Right" Content="{local:Tr collection.learn}" IsChecked="True" Click="OnLearnChanged" VerticalAlignment="Center" Margin="12,0,0,0"/>
    <TextBlock x:Name="Count" Text="{local:Tr ui.load_prompt}" Style="{StaticResource CountText}"/>
@@ -23,7 +31,8 @@
    <Button Style="{StaticResource BulkButton}" x:Name="FillCategories" Grid.Row="2" Content="{local:Tr collection.fill_categories}" Click="OnFillCategories" IsEnabled="False" Margin="0,8,0,0"/>
    <GridSplitter Grid.Column="1" Grid.RowSpan="4" Width="6" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
    <TextBlock x:Name="Title" Grid.Column="2" Text="{local:Tr map.select_category}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,8"/>
-   <DataGrid x:Name="Rows" Grid.Column="2" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" SelectionChanged="OnRowsSelected">
+   <DataGrid x:Name="Rows" Grid.Column="2" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" SelectionChanged="OnRowsSelected"
+    EnableRowVirtualization="True" VirtualizingPanel.VirtualizationMode="Recycling">
     <DataGrid.Columns>
      <DataGridTextColumn Header="{local:Tr collection.name}" Binding="{Binding Name}" Width="*" MinWidth="180"/>
      <DataGridTextColumn Header="{local:Tr collection.state}" Binding="{Binding State}" Width="Auto" MinWidth="100" ElementStyle="{StaticResource StatusText}"/>

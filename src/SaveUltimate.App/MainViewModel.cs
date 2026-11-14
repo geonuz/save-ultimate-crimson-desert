@@ -15,7 +15,6 @@ public sealed record ItemRow(InventoryItem Item, string Name, string Category = 
 {
     public (ItemSource, ulong, uint, ushort, ulong, ushort, ushort, string) Identity =>
         (Item.Source, Item.Number, Item.Key, Item.Bag, Item.OwnerNumber, Item.Slot, Item.StoreKey, Item.OwnerSlot);
-    public int ActualEndurance => Item.Endurance & 0xff;
     public string SocketText => Item.Sockets.Error is null && ItemRules.Sockets(Item.Key) > 0 ? $"{Item.Sockets.Slots.Count(s => s.Key != 0)} / {Item.Sockets.Unlocked} / {ItemRules.Sockets(Item.Key)}" : "—";
     public string EnchantText => Item.EnchantLevel is ushort level ? $"+{level} / {(Item.MaxEnchant < 0 ? "?" : Item.MaxEnchant.ToString())}" : "—";
     public string EnchantValue => Item.EnchantLevel is ushort level ? $"+{level}" : "-";
@@ -47,7 +46,7 @@ public partial class StorageFilter(string name, ushort? Bag = null, bool Other =
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(Label))] private int count;
     public string Label => $"{Name} ({Count:N0})";
 }
-public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets, Management, FieldTime, Collection, MapFragments, MapEnvironment }
+public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets, Management, FieldTime, Collection, MapFragments, MapEnvironment, Doctor }
 public static class AppPages
 {
     /// <summary>Every page in View menu order: its title key, which is also its help topic, and the name of its help text.</summary>
@@ -58,7 +57,7 @@ public static class AppPages
         (AppPage.Map, "map.group_places", "maps"), (AppPage.MapFragments, "map.group_fragments", "maps_fragments"), (AppPage.MapEnvironment, "map.group_environment", "maps_environment"),
         (AppPage.Companions, "companion.title", "companions"),
         (AppPage.Pets, "companion.pets", "pets"), (AppPage.Friendship, "npc.title", "npc"), (AppPage.Management, "management.title", "management"), (AppPage.Skills, "skills.title", "skills"),
-        (AppPage.FieldTime, "fieldtime.title", "fieldtime"), (AppPage.Backups, "tab.backup", "backup"), (AppPage.Database, "tab.database", "items_db")
+        (AppPage.FieldTime, "fieldtime.title", "fieldtime"), (AppPage.Doctor, "ui.doctor", "doctor"), (AppPage.Backups, "tab.backup", "backup"), (AppPage.Database, "tab.database", "items_db")
     ];
 }
 
@@ -67,6 +66,8 @@ public partial class MainViewModel : ObservableObject
     public event Action? ViewChanging;
     public event Action? ViewChanged;
     public event Action? ViewReset;
+    // After the pages took the new language; a page that builds its own text once listens for this.
+    public event Action? LanguageChanged;
     private SaveDocument? document;
     private bool savedInSession, lastLoadSucceeded;
     private string gameFolder = DetectDlc(SaveLocations.GameFolder(SettingsStore.Current));
@@ -211,6 +212,10 @@ public partial class MainViewModel : ObservableObject
     private bool CanSockets() => !Busy && IsEquipment && socketTarget is not null && SocketRows.Any(r => r.IsEditable);
     private bool CanSwap() => !Busy && IsRepurchase && SelectedItems() is { Length: > 0 } items && items.All(i => i.Source == ItemSource.Vendor);
     private bool CanDelete() => IsInventory && CanApply();
+    // Collection documents stuck in the quest bag as important items (see SaveDocument.ReleaseQuestItems).
+    private IReadOnlySet<uint> releasable = new HashSet<uint>();
+    private InventoryItem[] Releasable() => SelectedItems().Where(i => SaveDocument.InQuestBag(i) && releasable.Contains(i.Key)).DistinctBy(i => i.Key).ToArray();
+    private bool CanRelease() => !Busy && IsInventory && Releasable().Length > 0;
     private bool CanUnlockSockets() => !Busy && IsEquipment && socketTarget is not null && SocketCounts.Contains(UnlockedSockets);
     partial void OnUnlockedSocketsChanged(int value) { UnlockSocketsCommand.NotifyCanExecuteChanged(); OnPropertyChanged(nameof(SocketPreview)); }
     partial void OnBusyChanged(bool value) { RefreshCommands(); OnPropertyChanged(nameof(CanEditSelection)); OnPropertyChanged(nameof(HasUnsavedChanges)); }
@@ -220,7 +225,7 @@ public partial class MainViewModel : ObservableObject
         if (value?.Item.EnchantLevel is ushort level) EnchantLevel = (ushort)Math.Clamp((int)level, 1, 10);
         EnchantCommand.NotifyCanExecuteChanged();
         ApplyCommand.NotifyCanExecuteChanged();
-        DeleteCommand.NotifyCanExecuteChanged();
+        DeleteCommand.NotifyCanExecuteChanged(); ReleaseCommand.NotifyCanExecuteChanged();
         RefreshSockets();
         SwapCommand.NotifyCanExecuteChanged();
     }
@@ -242,7 +247,7 @@ public partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(SelectionText)); OnPropertyChanged(nameof(SelectionTitle));
         OnPropertyChanged(nameof(EnchantHint));
         OnPropertyChanged(nameof(Detail));
-        ApplyCommand.NotifyCanExecuteChanged(); DeleteCommand.NotifyCanExecuteChanged();
+        ApplyCommand.NotifyCanExecuteChanged(); DeleteCommand.NotifyCanExecuteChanged(); ReleaseCommand.NotifyCanExecuteChanged();
         EnchantCommand.NotifyCanExecuteChanged();
         RefreshSockets();
         SwapCommand.NotifyCanExecuteChanged();
@@ -259,7 +264,7 @@ public partial class MainViewModel : ObservableObject
         RefreshBackupCommands();
         OpenCommand.NotifyCanExecuteChanged(); SaveCommand.NotifyCanExecuteChanged(); ReloadCommand.NotifyCanExecuteChanged();
         SwapCommand.NotifyCanExecuteChanged();
-        UndoCommand.NotifyCanExecuteChanged(); ApplyCommand.NotifyCanExecuteChanged(); DeleteCommand.NotifyCanExecuteChanged();
+        UndoCommand.NotifyCanExecuteChanged(); ApplyCommand.NotifyCanExecuteChanged(); DeleteCommand.NotifyCanExecuteChanged(); ReleaseCommand.NotifyCanExecuteChanged();
         EnchantCommand.NotifyCanExecuteChanged();
         SocketsCommand.NotifyCanExecuteChanged();
         UnlockSocketsCommand.NotifyCanExecuteChanged();
@@ -302,25 +307,7 @@ public partial class MainViewModel : ObservableObject
             Search = "";
             Storage = StorageFilters[0]; Owner = OwnerFilters[0];
             Refresh(resetSelection: true);
-            Status = Tr.Format("port.inventory_loaded", ("count", document.Items.Count.ToString("N0")));
-            // Like the original prepare_pages: read every page with the save; one unreadable section must not block the rest.
-            var failed = new List<string>();
-            T? Page<T>(string name, Func<T> read) where T : class
-            {
-                try { return read(); }
-                catch (Exception error) when (error is not OutOfMemoryException) { failed.Add(name + ": " + ErrorCodes.Describe(error)); return null; }
-            }
-            var pages = await Task.Run(() =>
-            {
-                var challenges = Page("challenges", loaded.ReadChallenges);
-                return (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
-                    Challenges: challenges, Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", () => loaded.ReadMap(challenges)),
-                    Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship),
-                    Management: Page("management", loaded.ReadManagement), Clock: Page("time", loaded.ReadFieldTime), Collection: Page("collection", loaded.ReadCollection));
-            });
-            (Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Management, Clock, Collection) =
-                (pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship, pages.Management, pages.Clock, pages.Collection);
-            if (failed.Count > 0) Status += " " + string.Join(" · ", failed);
+            Status = Tr.Format("port.inventory_loaded", ("count", document.Items.Count.ToString("N0"))) + await ReadPagesAsync(loaded);
             if (createPristine)
             {
                 try { await Task.Run(() => SaveBackups.Pristine(path)); }
@@ -330,6 +317,29 @@ public partial class MainViewModel : ObservableObject
             // A damaged slot can crash the game at the title screen even if it is never selected.
             if (loaded.DamagedRows > 0) ThemedMessageBox.Show(Tr.Format("ui.doctor_loaded", ("count", loaded.DamagedRows.ToString("N0"))), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
         });
+    }
+
+    /// <summary>Reads every page of a newly opened or restored save, so no page is left showing "not loaded" next to ones
+    /// that are. Like the original prepare_pages, one unreadable section does not block the rest; the result lists failures.</summary>
+    private async Task<string> ReadPagesAsync(SaveDocument loaded)
+    {
+        var failed = new List<string>();
+        T? Page<T>(string name, Func<T> read) where T : class
+        {
+            try { return read(); }
+            catch (Exception error) when (error is not OutOfMemoryException) { failed.Add(name + ": " + ErrorCodes.Describe(error)); return null; }
+        }
+        var pages = await Task.Run(() =>
+        {
+            var challenges = Page("challenges", loaded.ReadChallenges);
+            return (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
+                Challenges: challenges, Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", () => loaded.ReadMap(challenges)),
+                Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship),
+                Management: Page("management", loaded.ReadManagement), Clock: Page("time", loaded.ReadFieldTime), Collection: Page("collection", loaded.ReadCollection));
+        });
+        (Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Management, Clock, Collection) =
+            (pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship, pages.Management, pages.Clock, pages.Collection);
+        return failed.Count > 0 ? " " + string.Join(" · ", failed) : "";
     }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
@@ -449,6 +459,20 @@ public partial class MainViewModel : ObservableObject
         });
     }
 
+    [RelayCommand(CanExecute = nameof(CanRelease))]
+    private async Task ReleaseAsync()
+    {
+        var items = Releasable();
+        string names = string.Join("\n", items.Take(10).Select(i => ItemCatalog.Shared.Name(i.Key)));
+        if (ThemedMessageBox.Show(Tr.Format("port.release_prompt", ("count", items.Length.ToString("N0")), ("names", names)),
+            Tr.Text("port.release"), MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes) return;
+        await RunAsync(Tr.Text("port.release"), async () =>
+        {
+            await Task.Run(() => document!.ReleaseQuestItems(items));
+            Refresh(); Status = Tr.Format("port.released", ("count", items.Length.ToString("N0")));
+        });
+    }
+
     [RelayCommand(CanExecute = nameof(CanUndo))]
     private async Task UndoAsync() => await RunAsync(Tr.Text("Undoing…"), async () =>
     {
@@ -519,6 +543,7 @@ public partial class MainViewModel : ObservableObject
         if (resetSelection) ViewReset?.Invoke(); else ViewChanging?.Invoke();
         var selectedIdentity = resetSelection ? null : Selected;
         SetSelection([]);
+        releasable = document?.ReleasableKeys() ?? new HashSet<uint>();
         var catalog = ItemCatalog.Shared;
         var rows = document?.Items.OrderBy(i => i.RecordOffset).Select(i => new ItemRow(i, catalog.Name(i.Key), catalog.Category(i.Key), catalog.InternalName(i.Key))).ToArray() ?? [];
         foreach (var filter in StorageFilters) filter.Count = document?.Items.Count(i => MatchesStorage(i, filter)) ?? 0;
@@ -552,6 +577,7 @@ public partial class MainViewModel : ObservableObject
         if (!Busy) Status = FileState;
         // Pages compose their counts and summaries in code, so each one rebuilds from its data in the new language.
         foreach (string property in new[] { nameof(Knowledge), nameof(Challenges), nameof(Fishing), nameof(Collection), nameof(Map), nameof(Companions), nameof(Friendship), nameof(Skills), nameof(Management), nameof(Clock) }) OnPropertyChanged(property);
+        LanguageChanged?.Invoke();
     }
     private static string SocketText(InventoryItem target, bool owned) =>
         (target.Sockets.Error ?? Tr.Format("port.socket_info", ("unlocked", target.Sockets.Unlocked), ("capacity", target.Sockets.Capacity), ("limit", ItemRules.Sockets(target.Key)))) +

@@ -15,10 +15,10 @@ public sealed class FishingRow(FishingRecord record) : ObservableObject
     public uint Key => Record.Fish.Key;
     public string Name => KnowledgeText.Get(Key).Name;
     public string Category => KnowledgePage.GroupName(KnowledgeCatalog.Shared.Groups.Single(g => g.Key == Record.Fish.GroupKey));
-    public string Level => $"{Record.Level} / {KnowledgeCatalog.Shared.LevelCounts[Key]}";
+    public bool Learned => Record.Level > 0;
+    public string Level => Tr.Text(Learned ? "Learned" : "Unlearned");
     public string Size => Record.Size?.ToString("F3", CultureInfo.InvariantCulture) ?? Tr.Text("fishing.missing");
     public bool Done => Record.Size is not null;
-    public string Availability => Record.Level == 0 ? Tr.Text("fishing.unlearned") : "";
     internal void Update(FishingRecord value) { Record = value; OnPropertyChanged(""); }
 }
 
@@ -64,6 +64,7 @@ public partial class FishingPage : UserControl
     private void OnStep(object sender, RoutedEventArgs e) => Step(int.Parse((string)((FrameworkElement)sender).Tag, CultureInfo.InvariantCulture));
     private void OnSizeKey(object sender, KeyEventArgs e) { if (e.Key is Key.Up or Key.Down) { Step(e.Key == Key.Up ? 1 : -1); e.Handled = true; } }
     private async void OnApply(object sender, RoutedEventArgs e) { if (Selected is { } row && Apply.IsEnabled && SizeValue(out double size)) await Model.SetFishingRecordAsync(row.Key, Math.Round(size, 3)); }
-    private async void OnLearn(object sender, RoutedEventArgs e) { if (Selected is { Record.Level: 0 } row) await Model.EditKnowledgeAsync([row.Key], KnowledgeAction.Learn); }
+    // A fish is learned to its last stage, as Apply Maximum Level would leave it.
+    private async void OnLearn(object sender, RoutedEventArgs e) { if (Selected is { } row && Learn.IsEnabled) await Model.EditKnowledgeAsync([row.Key], KnowledgeAction.LearnMaximum); }
 }
 

@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using CommunityToolkit.Mvvm.ComponentModel;
 using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
@@ -12,12 +12,30 @@ public sealed record KnowledgeRow(uint Key, string Name, string InternalName, st
     public string Status => Tr.Text(Learned ? "Learned" : "Unlearned");
     public string LevelText => $"{Level} / {Limit}";
     public string InternalLabel => InternalName.Replace("Knowledge_", "").Replace('_', ' ');
+    public string? Description => KnowledgeText.Get(Key).Description is { Length: > 0 } text ? text : null;
+}
+
+/// <summary>A journal category in the left tree: the entries under it (after the filters) and how many are learned.
+/// Key 0 is the "All" node at the top.</summary>
+public partial class KnowledgeNode(uint key, string name, KnowledgeRow[] rows, KnowledgeNode[] children) : ObservableObject
+{
+    public uint Key { get; } = key;
+    public string Name { get; } = name;
+    public KnowledgeRow[] Rows { get; } = rows;
+    public KnowledgeNode[] Children { get; } = children;
+    public bool Expanded { get; set; }
+    public bool Selected { get; set; }
+    public string Count => $"{Rows.Count(r => r.Learned):N0} / {Rows.Length:N0}";
+    public bool Done => Rows.Length > 0 && Rows.All(r => r.Learned);
+    public bool Dim => !Done && !Rows.Any(r => r.Learned);
+    public string Status => Tr.Text(Done ? "knowledge.group.all" : Dim ? "knowledge.group.none" : "knowledge.group.partial");
 }
 
 public partial class KnowledgePage : UserControl
 {
-    private sealed record Choice(uint Key, string Label);
     private KnowledgeRow[] entries = [];
+    private KnowledgeNode[] nodes = [];
+    private uint? selectedGroup = 0;
     private bool updating;
     private MainViewModel Model => (MainViewModel)DataContext;
     private static KnowledgeCatalog Catalog => KnowledgeCatalog.Shared;
@@ -38,69 +56,58 @@ public partial class KnowledgePage : UserControl
     }, System.Windows.Threading.DispatcherPriority.Loaded);
     private static bool Visible(uint key) => !DlcContent.Hidden || !DlcContent.Shared.Knowledge.Contains(key);
     internal static string GroupName(KnowledgeGroup group) => Tr.Name("knowledge_groups", group.Key.ToString(), Tr.Language == "ko" ? group.NameKo : group.Name);
-    private Choice Group(uint key, string prefix = "")
-    {
-        var group = Catalog.Groups.Single(g => g.Key == key);
-        var members = group.Members.Where(Visible).ToArray();
-        return new(key, $"{prefix}{GroupName(group)} ({members.Count(k => Model.Knowledge?.GetValueOrDefault(k) > 0)}/{members.Length})");
-    }
+    private static IEnumerable<KnowledgeNode> All(IEnumerable<KnowledgeNode> source) => source.SelectMany(n => new[] { n }.Concat(All(n.Children)));
     private void Refresh()
     {
-        var selected = SelectedKeys().ToHashSet();
-        uint root = (Root.SelectedItem as Choice)?.Key ?? 0;
-        uint sub = (Subcategory.SelectedItem as Choice)?.Key ?? 0;
-        updating = true;
-        try
+        entries = Model.Knowledge is null ? [] : Catalog.ItemPaths.Where(p => Visible(p.Key)).Select(p =>
         {
-            entries = Model.Knowledge is null ? [] : Catalog.ItemPaths.Where(p => Visible(p.Key)).Select(p =>
-            {
-                var text = KnowledgeText.Get(p.Key);
-                return new KnowledgeRow(p.Key, text.Name, text.InternalName,
-                    string.Join(" › ", p.Value.Select(k => GroupName(Catalog.Groups.Single(g => g.Key == k)))),
-                    Model.Knowledge.GetValueOrDefault(p.Key), Catalog.LevelCounts[p.Key]);
-            }).ToArray();
-            Root.ItemsSource = new[] { new Choice(0, Tr.Text("All")) }.Concat(Model.Knowledge is null ? [] : Catalog.Roots.Select(k => Group(k))).ToArray();
-            Root.SelectedIndex = Math.Max(0, Root.Items.Cast<Choice>().ToList().FindIndex(c => c.Key == root));
-            FillSubcategories(sub);
-            AllMaximum.IsEnabled = entries.Any(r => r.Level < r.Limit);
-        }
-        finally { updating = false; }
-        Filter();
-        foreach (var row in Rows.Items.Cast<KnowledgeRow>().Where(r => selected.Contains(r.Key))) Rows.SelectedItems.Add(row);
-        Select();
-    }
-    private void FillSubcategories(uint selected = 0)
-    {
-        var choices = new List<Choice> { new(0, Tr.Text("map.all")) };
-        void Add(uint parent, string prefix)
-        {
-            foreach (uint child in Catalog.Groups.Single(g => g.Key == parent).Children)
-                if (Catalog.Groups.FirstOrDefault(g => g.Key == child) is { } group)
-                { choices.Add(Group(child, prefix)); Add(child, prefix + GroupName(group) + " › "); }
-        }
-        if (Root.SelectedItem is Choice { Key: > 0 } root) Add(root.Key, "");
-        Subcategory.ItemsSource = choices;
-        Subcategory.SelectedIndex = Math.Max(0, choices.FindIndex(c => c.Key == selected));
-        Subcategory.IsEnabled = choices.Count > 1;
-    }
-    private void OnRootChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (updating || Subcategory is null) return;
-        updating = true;
-        try { FillSubcategories(); } finally { updating = false; }
+            var text = KnowledgeText.Get(p.Key);
+            return new KnowledgeRow(p.Key, text.Name, text.InternalName,
+                string.Join(" › ", p.Value.Select(k => GroupName(Catalog.Groups.Single(g => g.Key == k)))),
+                Model.Knowledge.GetValueOrDefault(p.Key), Catalog.LevelCounts[p.Key]);
+        }).ToArray();
+        // The whole-journal action ignores the filters, as its help text says.
+        AllMaximum.IsEnabled = entries.Any(r => r.Level < r.Limit);
         Filter();
     }
     private void Filter()
     {
-        if (updating || Rows is null) return;
-        uint group = (Subcategory.SelectedItem as Choice)?.Key ?? 0;
-        if (group == 0) group = (Root.SelectedItem as Choice)?.Key ?? 0;
-        var members = group == 0 ? null : Catalog.Groups.Single(g => g.Key == group).Members.ToHashSet();
+        if (updating || Rows is null || DataContext is not MainViewModel) return;
+        var selectedKeys = SelectedKeys().ToHashSet();
+        var expanded = All(nodes).Where(n => n.Expanded).Select(n => n.Key).ToHashSet();
         string search = Search.Text.Trim();
-        Ui.SetRows(Rows, entries.Where(r => (members is null || members.Contains(r.Key)) &&
-            (State.SelectedIndex != 1 || r.Learned) && (State.SelectedIndex != 2 || !r.Learned) &&
-            $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase)).ToArray());
-        Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, Rows.Items.Count, "ui.count_learned", entries.Count(r => r.Learned));
+        var shown = entries.Where(r => (State.SelectedIndex != 1 || r.Learned) && (State.SelectedIndex != 2 || !r.Learned) &&
+            (search.Length == 0 || $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase))).ToArray();
+        // Each entry belongs to every category on its path, so a category lists its subcategories' entries too.
+        var byGroup = shown.SelectMany(r => Catalog.ItemPaths[r.Key].Select(g => (g, r))).ToLookup(p => p.g, p => p.r);
+        KnowledgeNode? Build(uint key)
+        {
+            var group = Catalog.Groups.FirstOrDefault(g => g.Key == key);
+            if (group is null || !byGroup.Contains(key)) return null;
+            var children = group.Children.Select(Build).OfType<KnowledgeNode>().ToArray();
+            return new(key, GroupName(group), byGroup[key].ToArray(), children) { Expanded = search.Length > 0 || expanded.Contains(key) };
+        }
+        updating = true;
+        try
+        {
+            var roots = Model.Knowledge is null ? [] : Catalog.Roots.Select(Build).OfType<KnowledgeNode>().ToArray();
+            nodes = Model.Knowledge is null ? [] : [new(0, Tr.Text("All"), shown, []), .. roots];
+            var target = All(nodes).FirstOrDefault(n => n.Key == selectedGroup) ?? nodes.FirstOrDefault();
+            if (target is not null) target.Selected = true;
+            selectedGroup = target?.Key;
+            Tree.ItemsSource = nodes;
+        }
+        finally { updating = false; }
+        Count.Text = Model.Knowledge is null ? Tr.Text("knowledge.load_prompt") : Tr.Count(entries.Length, shown.Length, "ui.count_learned", entries.Count(r => r.Learned));
+        ShowRows(selectedKeys);
+    }
+    private KnowledgeNode? SelectedNode => All(nodes).FirstOrDefault(n => n.Key == selectedGroup);
+    private void ShowRows(HashSet<uint>? keep = null)
+    {
+        var node = SelectedNode;
+        Title.Text = node?.Name ?? Tr.Text(Model.Knowledge is null ? "knowledge.load_prompt" : "map.select_category");
+        Ui.SetRows(Rows, node?.Rows ?? []);
+        if (keep is not null) foreach (var row in Rows.Items.Cast<KnowledgeRow>().Where(r => keep.Contains(r.Key))) Rows.SelectedItems.Add(row);
         Select();
     }
     private uint[] SelectedKeys() => Rows.SelectedItems.Cast<KnowledgeRow>().Select(r => r.Key).ToArray();
@@ -116,13 +123,20 @@ public partial class KnowledgePage : UserControl
         Level.SelectedItem = Apply.IsEnabled ? row!.Level : null;
         Hint.Text = selected.Length > 1 ? Tr.Format("knowledge.level_multiple", ("count", selected.Length))
             : row is null ? Tr.Text("knowledge.level_select") : !row.Learned ? ""
-            : !Apply.IsEnabled ? Tr.Text("knowledge.level_unsupported") : Tr.Format("knowledge.level_range", ("current", row.Level), ("maximum", row.Limit));
+            : !Apply.IsEnabled ? Tr.Text("knowledge.level_unsupported") : "";
         Hint.Visibility = Hint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
-        Description.Text = row is null ? "" : KnowledgeText.Get(row.Key).Description is { Length: > 0 } text ? text : Tr.Text("No description available");
-        Description.Visibility = SelectedTitle.Visibility = row is null ? Visibility.Collapsed : Visibility.Visible;
-        SelectedTitle.Text = row?.Name ?? "";
+        Description.Text = row is null ? "" : row.Description ?? Tr.Text("No description available");
+        Description.ToolTip = Description.Text.Length > 0 ? Description.Text : null;
+        Description.Visibility = row is null ? Visibility.Collapsed : Visibility.Visible;
     }
-    private void OnFilterChanged(object sender, RoutedEventArgs e) { if (DataContext is MainViewModel) Filter(); }
+    private void OnGroupSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        // A rebuilt tree selects its node again once the container exists; the table already shows that node's rows.
+        if (updating || e.NewValue is not KnowledgeNode node || node == SelectedNode) return;
+        selectedGroup = node.Key;
+        ShowRows();
+    }
+    private void OnFilterChanged(object sender, RoutedEventArgs e) { if (DataContext is MainViewModel && IsInitialized) Filter(); }
     private TypingDelay? typing;
     private void OnSearchChanged(object sender, TextChangedEventArgs e) => (typing ??= new(() => OnFilterChanged(this, e))).Restart(sender);
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) { if (Level is not null) Select(); }
@@ -133,4 +147,3 @@ public partial class KnowledgePage : UserControl
     private async void OnApply(object sender, RoutedEventArgs e) { if (Level.SelectedItem is uint value) await Model.EditKnowledgeAsync(SelectedKeys(), KnowledgeAction.Level, value); }
     private void OnCopy(object sender, RoutedEventArgs e) { if (SelectedKeys() is { Length: > 0 } keys) Clipboard.SetText(string.Join(", ", keys)); }
 }
-

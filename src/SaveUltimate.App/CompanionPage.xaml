@@ -22,7 +22,7 @@
      <DataGridTextColumn Header="{local:Tr companion.key}" Binding="{Binding Record.Key}" Width="100"/>
      <DataGridTextColumn Header="{local:Tr companion.number}" Binding="{Binding Record.Number}" Width="110"/>
      <DataGridTextColumn x:Name="CustomColumn" Header="{local:Tr 'Custom Name'}" Binding="{Binding Custom}" Width="150"/>
-     <DataGridTextColumn Header="{local:Tr Category}" Binding="{Binding Category}" Width="Auto" MinWidth="140"/>
+     <DataGridTextColumn x:Name="CategoryColumn" Header="{local:Tr Category}" Binding="{Binding Category}" Width="Auto" MinWidth="140"/>
      <DataGridTextColumn x:Name="RoleColumn" Header="{local:Tr companion.role}" Binding="{Binding Role}" Width="Auto" MinWidth="130"/>
     </DataGrid.Columns>
     <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="ToolTip" Value="{Binding Hint}"/></Style></DataGrid.RowStyle>

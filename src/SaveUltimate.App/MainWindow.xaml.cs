@@ -42,6 +42,11 @@ public partial class MainWindow : Window
         IconsToggle.IsChecked = SettingsStore.Current.ShowIcons;
         Appearance.Changed += ApplyAppearance;
         ApplyAppearance();
+        // Open wide enough that two-table pages and the item editor keep their side panels, scaled with the UI but never past the screen.
+        double uiScale = ((ScaleTransform)AppShell.LayoutTransform).ScaleX;
+        var area = SystemParameters.WorkArea;
+        Width = Math.Max(MinWidth, Math.Min(Width * uiScale, area.Width * 0.95));
+        Height = Math.Max(MinHeight, Math.Min(Height * uiScale, area.Height * 0.95));
         PreviewKeyDown += OnNavigationKey;
         Closed += (_, _) =>
         {
@@ -112,7 +117,8 @@ public partial class MainWindow : Window
 
     private void OnItemAreaSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        bool below = e.NewSize.Width < 1800;
+        // The detail panel stays at the side down to a narrow window; the table scrolls sideways before the panel drops below.
+        bool below = e.NewSize.Width < 1100;
         if (detailBelow == below) return;
         detailBelow = below;
         ItemArea.ColumnDefinitions[1].Width = new(below ? 0 : 5);
@@ -285,7 +291,8 @@ public partial class MainWindow : Window
     }
     private void OnDoctor(object sender, RoutedEventArgs e)
     {
-        if (DataContext is MainViewModel { Busy: false } model) new DoctorWindow(model) { Owner = this }.ShowDialog();
+        // Save Doctor is a page of the Misc section; the menu entry opens it.
+        if (DataContext is MainViewModel { Busy: false } model) model.CurrentPage = AppPage.Doctor;
     }
     private void OnSettings(object sender, RoutedEventArgs e) => ShowSettings();
     private void OnThemeSettings(object sender, RoutedEventArgs e) => ShowSettings("theme");
@@ -305,10 +312,9 @@ public partial class MainWindow : Window
         SourceColumn.Visibility = model.IsInventory ? Visibility.Visible : Visibility.Collapsed;
         OwnerColumn.Header = model.IsRepurchase ? Tr.Text("tab.stores") : Tr.Text("Owner");
         OwnerColumn.Binding = new System.Windows.Data.Binding(model.IsRepurchase ? nameof(ItemRow.VendorName) : nameof(ItemRow.OwnerText));
-        EnduranceColumn.Visibility = SharpnessColumn.Visibility = model.IsEquipment ? Visibility.Visible : Visibility.Collapsed;
         ((DataGridTextColumn)InventoryGrid.Columns[9]).Binding = new System.Windows.Data.Binding(model.IsEquipment ? nameof(ItemRow.EnchantText) : nameof(ItemRow.EnchantValue));
-        int[] order = model.IsRepurchase ? [0, 5, 1, 2, 3, 6, 7, 8, 9, 4, 10, 11]
-            : model.IsEquipment ? [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 4] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        int[] order = model.IsRepurchase ? [0, 5, 1, 2, 3, 6, 7, 8, 9, 4]
+            : model.IsEquipment ? [0, 1, 2, 3, 5, 6, 7, 8, 9, 4] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         for (int i = 0; i < order.Length; i++) InventoryGrid.Columns[order[i] + 1].DisplayIndex = i + 1;
     }
 

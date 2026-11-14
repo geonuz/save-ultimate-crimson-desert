@@ -4,14 +4,15 @@ using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
 
-// The Life section (business renown) and the Misc section (skills learned by watching, world clock).
+// The Life section (business renown) and the Misc section (skills learned by watching, world clock, Save Doctor).
 public partial class MainViewModel
 {
     public bool IsManagement => CurrentPage == AppPage.Management;
     public bool IsFieldTime => CurrentPage == AppPage.FieldTime;
     public bool IsLife => IsManagement;
     public bool IsMisc => Array.IndexOf(MiscPages, CurrentPage) >= 0;
-    private static readonly AppPage[] MiscPages = [AppPage.Skills, AppPage.FieldTime];
+    private static readonly AppPage[] MiscPages = [AppPage.Skills, AppPage.FieldTime, AppPage.Doctor];
+    public bool IsDoctor => CurrentPage == AppPage.Doctor;
     [ObservableProperty] private int lifePageIndex;
     [ObservableProperty] private int miscPageIndex;
     partial void OnMiscPageIndexChanged(int value) { if (IsMisc) CurrentPage = MiscPages[value]; }

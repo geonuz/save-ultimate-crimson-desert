@@ -4,7 +4,8 @@
  <DockPanel IsEnabled="{Binding CanEditSelection}">
   <local:PageHeader DockPanel.Dock="Top" HelpTopic="fieldtime.title" LoadedState="{Binding Clock, Converter={x:Static local:PresentConverter.Shared}}" Margin="0,0,0,12"><local:PageHeader.LoadButton><Button x:Name="LoadData" DockPanel.Dock="Right" Content="{local:Tr ui.load_data}" Command="{Binding LoadClockCommand}"/></local:PageHeader.LoadButton></local:PageHeader>
   <ScrollViewer VerticalScrollBarVisibility="Auto">
-   <StackPanel MaxWidth="560" HorizontalAlignment="Left">
+   <!-- A fixed width and a reserved message area keep the frame still while the inputs are checked. -->
+   <StackPanel Width="480" HorizontalAlignment="Left">
     <GroupBox Header="{local:Tr fieldtime.current}" Padding="12">
      <StackPanel>
       <TextBlock x:Name="Current" Text="{local:Tr ui.load_prompt}" FontSize="18" FontWeight="SemiBold"/>
@@ -18,7 +19,7 @@
        <StackPanel Grid.Column="2"><TextBlock Text="{local:Tr fieldtime.hour}" Margin="0,0,0,4"/><TextBox x:Name="HourInput" TextChanged="OnInputChanged" AutomationProperties.Name="{local:Tr fieldtime.hour}"/></StackPanel>
        <StackPanel Grid.Column="4"><TextBlock Text="{local:Tr fieldtime.minute}" Margin="0,0,0,4"/><TextBox x:Name="MinuteInput" TextChanged="OnInputChanged" AutomationProperties.Name="{local:Tr fieldtime.minute}"/></StackPanel>
       </Grid>
-      <TextBlock x:Name="Preview" TextWrapping="Wrap" Margin="0,12,0,0"/>
+      <TextBlock x:Name="Preview" TextWrapping="Wrap" Margin="0,12,0,0" MinHeight="40" AutomationProperties.LiveSetting="Polite"/>
       <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr fieldtime.apply}" Click="OnApply" IsEnabled="False" HorizontalAlignment="Left" Margin="0,12,0,0"/>
      </StackPanel>
     </GroupBox>

@@ -26,7 +26,9 @@ and cannot be edited.
 ### Items
 
 - **Inventory**: set the quantity of one or several items (1 to 999,999,999) or
-  delete them. Items carried by mercenaries are skipped.
+  delete them. Items carried by mercenaries are skipped. Collection documents
+  locked in the quest bag as important items can be released to the inventory,
+  as reading them in the game would.
 - **Equipment**: set the enchantment level up to the item's game limit, including
   mercenary equipment; filter by owner.
 - **Sockets**: unlock socket slots up to the equipment's limit and insert,
@@ -35,7 +37,8 @@ and cannot be edited.
   another item, then buy it back in the game.
 - **Collection**: fill the collection box with chosen items or whole classes
   (documents, recipes, books, treasure maps, keys and more), and optionally learn
-  the knowledge each item teaches.
+  the knowledge each item teaches. Items go in as the game stores them, never as
+  important items; filling again releases ones an earlier version left important.
 - **Item Database**: browse every item with its icon, key and localized name.
 
 ### Adventure Journal
@@ -65,7 +68,7 @@ Items, recipes, resources and rewards themselves are not awarded.
 
 ### NPC
 
-- **Companions**: view level, skill points and equipment; add or remove Grey-0
+- **Mercenaries**: view level, skill points and equipment; add or remove Grey-0
   robot workers and festival recruits, even on a save that
   has none yet.
 - **Pets & Special Mounts**: rename them and change their order, which the game
@@ -88,6 +91,7 @@ Items, recipes, resources and rewards themselves are not awarded.
   the game.
 - **Time**: set the day and time to move the game clock to; the time it adds
   shows below. It never goes back.
+- **Save Doctor (Experimental)**: see below.
 
 ### Backup/Restore
 
@@ -96,18 +100,19 @@ first time a save is opened, and restore or delete backups.
 
 ### Save Doctor (Experimental)
 
-**File > Save Doctor** checks every save slot, or a file you choose, against the
-rules this editor knows, without changing anything: the file, its structure,
+**Other > Save Doctor** (also **File > Save Doctor**) checks every save slot, or a file you choose, against the
+rules this editor knows, without changing anything and without an open save: the file, its structure,
 each page and item values. Each check shows as normal, suspect, error or not
 checked. Normal means the rules pass; it does not promise that the game will load
 the save.
 
 It repairs only what can be worked out from the file: mission records that do
 not follow the game's format, which can crash the game at the title screen even
-for a slot that is never loaded, and a signature that no longer matches contents
-that still read. You can also lower enchant levels past their limit. Other damage
+for a slot that is never loaded, a signature that no longer matches contents
+that still read, and collection box items the game shows as important items. You can also lower enchant levels past their limit. Other damage
 cannot be repaired, so it offers the newest backup that still opens. The save is
-backed up first. Close the game before repairing.
+backed up first. Repairs also run while the game is running; load the save in
+the game afterwards, since a save the game makes first overwrites the repair.
 
 ### Editing and saving
 

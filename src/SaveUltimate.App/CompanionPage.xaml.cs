@@ -39,11 +39,12 @@ public partial class CompanionPage : UserControl
     private MainViewModel Model => (MainViewModel)DataContext;
     /// <summary>Pets and special mounts can be renamed; the companion tab shows mercenaries read-only, except Grey-0 robots.</summary>
     public bool Pets { get; set; }
-    private static readonly string[] CompanionGroups = ["mercenary", "playable"];
-    private string[] Groups => Pets ? ["pet", "special", .. CompanionTypes.Groups.Except(["all", "pet", "special", .. CompanionGroups])] : ["all", .. CompanionGroups];
+    // The companion tab lists mercenaries only; playable companions (Damiane, Oongka) have nothing to edit here and show in neither tab.
+    private static readonly string[] CompanionGroups = ["mercenary"];
+    private string[] Groups => Pets ? ["pet", "special", .. CompanionTypes.Groups.Except(["all", "pet", "special", "playable", .. CompanionGroups])] : ["all"];
     private static readonly string[] Orderable = ["pet", "special"];
     private Selector GroupBox => Pets ? GroupTabs : Group;
-    private bool InTab(Companion c) => CompanionGroups.Contains(c.Group) != Pets;
+    private bool InTab(Companion c) => c.Group != "playable" && CompanionGroups.Contains(c.Group) != Pets;
     public CompanionPage()
     {
         InitializeComponent();
@@ -58,7 +59,9 @@ public partial class CompanionPage : UserControl
         NameButtons.Visibility = ClearAll.Visibility = CustomColumn.Visibility = GroupTabs.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         // Pets and mounts show the game's order, which Move Up and Move Down change, so only the companion table sorts by header.
         Rows.CanUserSortColumns = !Pets;
-        CompanionPanel.Visibility = AddRobot.Visibility = RoleColumn.Visibility = SkillsColumn.Visibility = GroupFilter.Visibility = Pets ? Visibility.Collapsed : Visibility.Visible;
+        CompanionPanel.Visibility = AddRobot.Visibility = RoleColumn.Visibility = SkillsColumn.Visibility = Pets ? Visibility.Collapsed : Visibility.Visible;
+        // One category left, so the companion tab needs no category filter.
+        GroupFilter.Visibility = Visibility.Collapsed; CategoryColumn.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         details = []; factionWorkers = [];
         try { if (!Pets && Model.Companions is not null) { details = Model.CompanionDetails(); factionWorkers = Model.FactionWorkers(); } }
         catch (InvalidDataException) { }

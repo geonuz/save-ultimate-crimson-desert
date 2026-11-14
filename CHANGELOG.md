@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.8.1]
+
+Collection documents no longer become important items, Save Doctor moves to a tab, and the game time matches the screen.
+
+- **Fixed: documents filled into the Collection became important items.** Taken out, they were locked in the quest bag
+  and could not be stored, sold or discarded. They now go in as the game stores them; filling again releases ones an
+  earlier version added.
+- **New: Items → Inventory → Release Important Item** moves collection documents already locked in the quest bag to the
+  inventory, as reading them in the game would.
+- **Save Doctor is now a tab under Other.** It works without an open save, finds and repairs important items in the
+  collection box, and repairs while the game is running (backing up first).
+- **Fixed: the game time was off by up to an hour.** Night (21:00–03:00) passes twice as fast as day.
+- Companions is now Mercenaries and lists mercenaries only.
+- Smaller changes to Knowledge, Collection, Challenges, Fishing, Equipment, Time, Item Database, backup restore and the
+  window size.
+
 ## [1.8.0]
 
 Works with Crimson Desert 2.05.00. New Collection page, and reworked Map and Skills pages.

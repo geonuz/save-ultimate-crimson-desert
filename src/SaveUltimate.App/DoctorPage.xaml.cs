@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +51,7 @@ public sealed partial class CheckRow(string id) : StatusRow
     public string Reason => id switch
     {
         "game_version" => "",
-        "enchants" or "sockets" or "unknown_items" when result?.Detail.Length > 0 => Tr.Format("ui.doctor_item_keys", ("keys", result.Detail)),
+        "enchants" or "sockets" or "unknown_items" or "important_items" when result?.Detail.Length > 0 => Tr.Format("ui.doctor_item_keys", ("keys", result.Detail)),
         _ => Tr.Text(result?.Detail ?? "")
     };
     public bool HasReason => Reason.Length > 0;
@@ -103,31 +102,54 @@ public sealed partial class DoctorView : StatusRow
 }
 
 // Checks one save at a time while the list keeps every slot in view: a damaged slot stops the game even when the player never selects it.
-public sealed partial class DoctorWindow : Window
+// A page of the Misc section; every time it is shown it scans the slots again, since the game or this app may have saved since.
+public sealed partial class DoctorPage : UserControl
 {
-    private readonly MainViewModel model;
+    private MainViewModel model => (MainViewModel)DataContext;
     private readonly List<SlotRow> rows = [];
-    private readonly Dictionary<string, CheckRow> checks;
+    private Dictionary<string, CheckRow> checks = [];
     private string? backup;
     private int inspection, scan;
-    private bool closed, scanning;
-    public DoctorView View { get; } = new();
+    private bool scanning;
+    private Task scanned = Task.CompletedTask;
+    public DoctorView View { get; private set; } = null!;
     public IReadOnlyDictionary<string, CheckRow> Checks => checks;
 
-    public DoctorWindow(MainViewModel model)
+    public DoctorPage()
     {
-        this.model = model;
         InitializeComponent();
-        Ui.Setup(this, "ui.doctor", 1180, 760);
-        MinWidth = 1000; MinHeight = 560;
-        checks = View.Groups.SelectMany(g => g.Checks).ToDictionary(c => c.Id);
-        foreach (var check in checks.Values) check.SelectionChanged += () => View.CanRepair = checks.Values.Any(c => c.CanFix && c.Selected);
-        DataContext = View;
-        Loaded += async (_, _) => await Scan();
-        Closed += (_, _) => closed = true;
+        Build();
+        // Queued on the dispatcher so the scan and its continuations stay on the UI thread.
+        IsVisibleChanged += (_, e) => { if (e.NewValue is true) Dispatcher.InvokeAsync(Scan); };
+        DataContextChanged += (_, e) =>
+        {
+            if (e.OldValue is MainViewModel old) old.LanguageChanged -= OnLanguageChanged;
+            if (e.NewValue is MainViewModel now) now.LanguageChanged += OnLanguageChanged;
+        };
     }
 
-    public async Task Scan()
+    // The check names and group titles are read once, so a new language builds the view again and shows the slot anew.
+    private void Build()
+    {
+        View = new();
+        checks = View.Groups.SelectMany(g => g.Checks).ToDictionary(c => c.Id);
+        foreach (var check in checks.Values) check.SelectionChanged += () => View.CanRepair = checks.Values.Any(c => c.CanFix && c.Selected);
+        Root.DataContext = View;
+    }
+    private void OnLanguageChanged()
+    {
+        var selected = Slots.SelectedItem;
+        Build();
+        if (rows.Count == 0) return;
+        ShowSlots();
+        Slots.SelectedItem = selected;
+        if (!scanning) UpdateSummary();
+    }
+
+    /// <summary>Scans every slot; while a scan runs, showing the page or pressing the button waits for it instead of starting over.</summary>
+    public Task Scan() => scanned.IsCompleted ? scanned = ScanSlots() : scanned;
+
+    private async Task ScanSlots()
     {
         int run = ++scan;
         rows.Clear();
@@ -139,11 +161,11 @@ public sealed partial class DoctorWindow : Window
         {
             View.ScanText = Tr.Format("ui.doctor_scanning", ("done", done.ToString("N0")), ("total", rows.Count.ToString("N0")));
             // Selecting a slot already checks it, so wait for that result instead of checking the same file twice.
-            if (slot == Slots.SelectedItem) { await inspected; if (closed || run != scan) return; }
+            if (slot == Slots.SelectedItem) { await inspected; if (run != scan) return; }
             if (!slot.Inspected)
             {
                 var found = await Task.Run(() => SaveCheckup.Run(slot.Path, Ui.GameVersion));
-                if (closed || run != scan) return;
+                if (run != scan) return;
                 if (!slot.Inspected) slot.Status = Worst(found);
             }
         }
@@ -172,7 +194,7 @@ public sealed partial class DoctorWindow : Window
         View.Subtitle = slot is null ? "" : $"{slot.Name} · {slot.SavedAt}"; View.FilePath = slot?.Path ?? "";
         if (slot is null) return;
         var found = await Task.Run(() => SaveCheckup.Run(slot.Path, Ui.GameVersion, report: c => Dispatcher.BeginInvoke(() => { if (run == inspection) checks[c.Id].Show(c); })));
-        if (closed || run != inspection) return;
+        if (run != inspection) return;
         foreach (var check in found) checks[check.Id].Show(check);
         slot.Inspected = true; slot.Status = Worst(found);
         View.Status = slot.Status;
@@ -189,14 +211,14 @@ public sealed partial class DoctorWindow : Window
         if (checks.Values.Any(c => c.Unfixable))
         {
             string? good = await Task.Run(() => SaveDocument.LatestGoodBackup(slot.Path));
-            if (closed || run != inspection) return;
+            if (run != inspection) return;
             backup = good; View.CanRestore = good is not null;
         }
     }
 
     private async void OnBrowse(object sender, RoutedEventArgs e)
     {
-        if (Ui.PickSave(this) is not { } file) return;
+        if (Ui.PickSave(Owner!) is not { } file) return;
         var row = rows.FirstOrDefault(r => string.Equals(r.Path, file, StringComparison.OrdinalIgnoreCase));
         if (row is null)
         {
@@ -207,17 +229,14 @@ public sealed partial class DoctorWindow : Window
         await inspected;
     }
 
-    private void OnClose(object sender, RoutedEventArgs e) => Close();
+    private async void OnRescan(object sender, RoutedEventArgs e) => await Scan();
+    private Window? Owner => Window.GetWindow(this);
 
-    // Both actions replace a save on disk, so they share the same refusals and the reload of a save that is open.
+    // Both actions replace a save on disk, so they share the confirmation and the reload of a save that is open. They run
+    // while the game is running too, as the editor's own saves do; each keeps a backup of the save it replaces.
     private async Task<bool> Change(SlotRow slot, string confirm, Action action)
     {
-        if (Process.GetProcessesByName("CrimsonDesert").Length != 0)
-        {
-            ThemedMessageBox.Show(this, Tr.Text("ui.doctor_game_running"), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
-        }
-        if (ThemedMessageBox.Show(this, confirm, Tr.Text("ui.doctor"), MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes) return false;
+        if (ThemedMessageBox.Show(Owner, confirm, Tr.Text("ui.doctor"), MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes) return false;
         bool loaded = string.Equals(slot.Path, model.LoadedPath, StringComparison.OrdinalIgnoreCase);
         if (loaded && !await model.ConfirmLeaveAsync()) return false;
         IsEnabled = false;
@@ -229,7 +248,7 @@ public sealed partial class DoctorWindow : Window
         }
         catch (Exception error) when (error is not OutOfMemoryException)
         {
-            ThemedMessageBox.Show(this, ErrorCodes.Describe(error), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
+            ThemedMessageBox.Show(Owner, ErrorCodes.Describe(error), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Warning);
             return false;
         }
         finally { IsEnabled = true; await (inspected = Inspect(slot)); }
@@ -245,7 +264,7 @@ public sealed partial class DoctorWindow : Window
         var fixes = chosen.Select(c => c.Fix).ToHashSet();
         string list = string.Join("\n", chosen.Select(c => "• " + c.FixLabel));
         if (await Change(slot, Tr.Format("ui.doctor_confirm", ("list", list)), () => SaveDocument.Repair(slot.Path, AppContext.BaseDirectory, fixes)))
-            ThemedMessageBox.Show(this, Tr.Text("ui.doctor_done"), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Information);
+            ThemedMessageBox.Show(Owner, Tr.Text("ui.doctor_done"), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private async void OnRestore(object sender, RoutedEventArgs e)
@@ -253,6 +272,6 @@ public sealed partial class DoctorWindow : Window
         if (Slots.SelectedItem is not SlotRow slot || backup is not { } chosen) return;
         string date = File.GetLastWriteTime(chosen).ToString("yyyy-MM-dd HH:mm");
         if (await Change(slot, Tr.Format("ui.doctor_restore_prompt", ("date", date)), () => SaveDocument.RestoreBackup(slot.Path, chosen, AppContext.BaseDirectory)))
-            ThemedMessageBox.Show(this, Tr.Text("ui.doctor_restore_done"), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Information);
+            ThemedMessageBox.Show(Owner, Tr.Text("ui.doctor_restore_done"), Tr.Text("ui.doctor"), MessageBoxButton.OK, MessageBoxImage.Information);
     }
 }

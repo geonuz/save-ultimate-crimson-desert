@@ -29,13 +29,22 @@ public sealed class PageHeader : Grid
     public bool LoadedState { get => (bool)GetValue(LoadedStateProperty); set => SetValue(LoadedStateProperty, value); }
     private readonly TextBlock state = new() { VerticalAlignment = VerticalAlignment.Center, Margin = new(8, 0, 8, 0) };
     private readonly FilterPanel filters = new() { VerticalAlignment = VerticalAlignment.Center };
-    private readonly StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
+    // The gap keeps the help button off the search box on pages without a load button (the item database).
+    private readonly StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top, Margin = new(12, 0, 0, 0) };
     private Button load;
     public UIElementCollection Filters => filters.Children;
     public Button LoadButton
     {
         get => load;
-        set { buttons.Children.Remove(load); load = value; buttons.Children.Add(load); state.SetBinding(VisibilityProperty, new Binding(nameof(Visibility)) { Source = load }); }
+        set { buttons.Children.Remove(load); load = value; buttons.Children.Add(load); BindState(); }
+    }
+    // Off for a page whose button does not load the save (Save Doctor scans the slots on disk).
+    public bool ShowState { get => showState; set { showState = value; BindState(); } }
+    private bool showState = true;
+    private void BindState()
+    {
+        if (showState) state.SetBinding(VisibilityProperty, new Binding(nameof(Visibility)) { Source = load });
+        else { BindingOperations.ClearBinding(state, VisibilityProperty); state.Visibility = Visibility.Collapsed; }
     }
     public PageHeader()
     {
@@ -46,7 +55,7 @@ public sealed class PageHeader : Grid
         var help = Ui.Button("ui.help", (_, _) => (Window.GetWindow(this) as MainWindow)?.ShowHelp(HelpTopic)); help.Margin = new(0, 0, 6, 0);
         buttons.Children.Add(help);
         load = new Button(); Tr.Bind(load, ContentControl.ContentProperty, "ui.load_data"); load.SetBinding(Button.CommandProperty, new Binding(nameof(LoadCommand)) { Source = this });
-        buttons.Children.Add(load); state.SetBinding(VisibilityProperty, new Binding(nameof(Visibility)) { Source = load });
+        buttons.Children.Add(load); BindState();
         UpdateState();
     }
     protected override Size MeasureOverride(Size constraint)

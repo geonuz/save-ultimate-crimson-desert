@@ -33,6 +33,7 @@ public sealed class ItemDatabasePage : UserControl
         var categoryLabel = Ui.Text("Category"); categoryLabel.SetResourceReference(StyleProperty, "FilterLabel"); header.Filters.Add(categoryLabel);
         category.SetResourceReference(StyleProperty, "FilterBox"); Tr.Bind(category, AutomationProperties.NameProperty, "Category"); header.Filters.Add(category);
         var searchLabel = new Label { Target = search, Margin = new(0, 0, 12, 0) }; Tr.Bind(searchLabel, ContentControl.ContentProperty, "Search:"); header.Filters.Add(searchLabel); header.Filters.Add(search);
+        Tr.Bind(search, TagProperty, "Search name, key or category"); Tr.Bind(search, AutomationProperties.NameProperty, "Search name, key or category");
         var counts = new DockPanel(); counts.SetResourceReference(StyleProperty, "CountRow"); count.SetResourceReference(StyleProperty, "CountText");
         counts.Children.Add(count); DockPanel.SetDock(counts, Dock.Top); root.Children.Add(counts);
         category.ItemsSource = new[] { Tr.Text("All") }.Concat(ItemCatalog.Shared.Choices.Select(c => c.Category).Distinct().Order()).ToArray(); category.SelectedIndex = 0;
