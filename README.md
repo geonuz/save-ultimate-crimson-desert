@@ -11,10 +11,13 @@ descriptions use the game's localization data.
 
 | Game version | Status |
 |---|---|
-| 2.05.00 with or without the first DLC | Verified with this release |
+| 2.05.01 with or without the first DLC | Verified with this release |
+| 2.05.00 | Saves open and edit; their format is the same as 2.05.01 |
 | 2.04.x | Saves open and edit, and are tested with this release |
-| Earlier 2.x updates | Saves open and edit but are no longer tested. Syncing game data needs a game install of 2.04.06 or later |
+| Earlier 2.x updates | Saves open and edit but are no longer tested |
 | 1.x | Not supported; opening a save reports `[SU-301]` |
+
+Syncing game data reads the installed game, which must be 2.05.01: that update changed the layout of the item table.
 
 Settings shows the editor version and the game version it was verified with.
 Without the DLC installed (no `dlc/dlc_01` in the game folder), the header says
@@ -44,7 +47,8 @@ and cannot be edited.
 ### Adventure Journal
 
 - **Knowledge**: learn or unlearn selected entries, set the level of a learned
-  entry, or apply maximum levels to many at once.
+  entry, or apply maximum levels to many at once. Each entry shows how the save
+  recorded it was learned (the game's code and what it means).
 - **Challenges**: complete whole challenges, several challenges at once or
   selected checkpoints. Challenges that need a step in the game first, such as
   using a sealed artifact, are view-only.
@@ -101,9 +105,9 @@ first time a save is opened, and restore or delete backups.
 ### Save Doctor (Experimental)
 
 **Other > Save Doctor** (also **File > Save Doctor**) checks every save slot, or a file you choose, against the
-rules this editor knows, without changing anything and without an open save: the file, its structure,
-each page and item values. Each check shows as normal, suspect, error or not
-checked. Normal means the rules pass; it does not promise that the game will load
+rules this editor knows, without changing anything and without an open save. Results are grouped by area, named
+like the menus: File, Structure, Items, Adventure Journal, Maps, NPC and Other. Each area shows its worst result as
+normal, suspect, error or not checked, and each problem is listed with its repair. Normal means the rules pass; it does not promise that the game will load
 the save.
 
 It repairs only what can be worked out from the file: mission records that do
@@ -152,7 +156,7 @@ editor_config.json
 error.log         Details of reported errors
 backups/          Copies of your save backups
 game_data/        Synchronized game data and images
-.update/          Files of an update in progress, removed at the next start
+.update/          Files of an update in progress, removed at the next start (GitHub package only)
 ```
 
 Backups are also written to a `backups/` folder beside each save, including a
@@ -169,6 +173,12 @@ new version does not open its window within two minutes, the previous version is
 put back. The download is checked against the hash GitHub publishes; releases are
 not code-signed, so Windows may warn when you first run the program. To update
 from 1.4.0 or earlier, extract the new ZIP over the old folder once.
+
+Each release also has a package without online updates
+(`SaveUltimate-<version>-windows-x64-noupdate.zip`): it never connects to the
+internet, and it has no Update button or **Check for Updates** command. To update
+it, extract the new version over the old folder; settings, backups and
+`game_data/` stay.
 
 Each start also compares the synced data with the installed game and this
 release. If either changed, the sync runs again and reuses unchanged images. If

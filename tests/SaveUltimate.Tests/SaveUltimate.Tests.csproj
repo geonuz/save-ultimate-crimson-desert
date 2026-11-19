@@ -6,4 +6,7 @@
     <ProjectReference Include="../../src/SaveUltimate.App/SaveUltimate.App.csproj" />
     <ProjectReference Include="../../src/SaveUltimate.Tools/SaveUltimate.Tools.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(OnlineUpdate)' != 'true'">
+    <Compile Remove="AppUpdateTests.cs" />
+  </ItemGroup>
 </Project>

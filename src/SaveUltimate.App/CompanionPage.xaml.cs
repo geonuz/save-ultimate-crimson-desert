@@ -59,7 +59,8 @@ public partial class CompanionPage : UserControl
         NameButtons.Visibility = ClearAll.Visibility = CustomColumn.Visibility = GroupTabs.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         // Pets and mounts show the game's order, which Move Up and Move Down change, so only the companion table sorts by header.
         Rows.CanUserSortColumns = !Pets;
-        CompanionPanel.Visibility = AddRobot.Visibility = RoleColumn.Visibility = SkillsColumn.Visibility = Pets ? Visibility.Collapsed : Visibility.Visible;
+        CompanionPanel.Visibility = AddRobot.Visibility = RoleColumn.Visibility = SkillsColumn.Visibility = SearchLabel.Visibility = Search.Visibility =
+            Pets ? Visibility.Collapsed : Visibility.Visible;
         // One category left, so the companion tab needs no category filter.
         GroupFilter.Visibility = Visibility.Collapsed; CategoryColumn.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         details = []; factionWorkers = [];
@@ -75,7 +76,9 @@ public partial class CompanionPage : UserControl
     {
         ulong? selected = (Rows.SelectedItem as CompanionRow)?.Record.Number;
         string group = (GroupBox.SelectedItem as Choice)?.Key ?? "all";
-        Ui.SetRows(Rows, (Model.Companions ?? []).Where(c => InTab(c) && (group == "all" || c.Group == group)).Select(c => new CompanionRow(c, details.GetValueOrDefault(c.Number))).ToArray());
+        string query = Pets ? "" : Search.Text.Trim();
+        Ui.SetRows(Rows, (Model.Companions ?? []).Where(c => InTab(c) && (group == "all" || c.Group == group)).Select(c => new CompanionRow(c, details.GetValueOrDefault(c.Number)))
+            .Where(r => $"{r.Record.Key} {r.Record.Number} {r.Name} {r.Skills} {r.Role} {r.Category}".Contains(query, StringComparison.OrdinalIgnoreCase)).ToArray());
         Rows.SelectedItem = Rows.Items.Cast<CompanionRow>().FirstOrDefault(r => r.Record.Number == selected);
         Count.Text = Model.Companions is null ? Tr.Text("ui.load_prompt") : Tr.Count(Model.Companions.Count(InTab), Rows.Items.Count);
         int named = Model.Companions?.Count(c => InTab(c) && c.Editable && c.Name is not null) ?? 0;
@@ -122,7 +125,7 @@ public partial class CompanionPage : UserControl
     {
         var text = CharacterText.Get(k);
         string skills = CompanionRow.SkillText(k);
-        return new ItemSearchWindow.Choice(k, text.Name, skills, $"{text.Title} {text.Area} {skills}");
+        return new ItemSearchWindow.Choice(k, text.Name, skills, $"{text.Title} {text.Area} {skills}", key => CharacterText.Picture(key, 32));
     }).ToArray(), Tr.Text("companion.worker_pick"), Tr.Text("companion.worker_pick_hint"), Tr.Text("companion.skills"));
     private async void OnAddRobot(object sender, RoutedEventArgs e)
     {
@@ -136,6 +139,8 @@ public partial class CompanionPage : UserControl
             await Model.EditWorkersAsync(0, row.Record);
     }
     private void OnGroup(object sender, SelectionChangedEventArgs e) { if (e.OriginalSource == sender && !updating && DataContext is MainViewModel) Filter(); }
+    private TypingDelay? typing;
+    private void OnSearch(object sender, TextChangedEventArgs e) => (typing ??= new(() => { if (DataContext is MainViewModel && !updating) Filter(); })).Restart(sender);
     private async void OnMove(object sender, RoutedEventArgs e)
     {
         int index = Rows.SelectedIndex, other = index + (sender == MoveUp ? -1 : 1);

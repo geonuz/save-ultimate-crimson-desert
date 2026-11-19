@@ -19,11 +19,13 @@ public partial class App : Application
         var window = new MainWindow(model);
         MainWindow = window;
         window.Show();
-        AppUpdate.ReportStarted();
+        // Before RecommendSync: its dialog would hold back the signal an updating version waits for.
+        StartUpdates(model);
         if (firstRun && !CatalogFiles.Synced) window.RecommendSync();
-        _ = AppUpdate.CleanUpAsync(AppContext.BaseDirectory);
-        _ = model.FindUpdateAsync();
         if (e.Args.Length == 1) await model.LoadFileAsync(e.Args[0], createPristine: true);
         await model.CheckGameDataAsync();
     }
+
+    // Implemented in Updates/App.Updates.cs; without that file (OnlineUpdate=false) the compiler drops the call.
+    partial void StartUpdates(MainViewModel model);
 }

@@ -494,6 +494,8 @@ public partial class MainViewModel : ObservableObject
         if (Companions is not null && changed.Contains("MercenaryClanSaveData")) Companions = await Task.Run(() => document!.ReadCompanions());
         // A trust edit that only synchronizes field NPC copies leaves FriendlySaveData as it was.
         if (Friendship is not null && (changed.Contains("FriendlySaveData") || changed.Contains("FieldNPCSaveData"))) Friendship = await Task.Run(() => document!.ReadFriendship());
+        if (Management is not null && changed.Contains("FactionSaveData")) Management = await Task.Run(() => document!.ReadManagement());
+        if (Clock is not null && changed.Contains("TransformSaveData")) Clock = await Task.Run(() => document!.ReadFieldTime());
         Refresh(); Status = Tr.Text("Last edit undone.");
     });
 
@@ -504,6 +506,18 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanSyncGameData))]
     private Task SyncGameDataAsync() => SyncAsync(showFailure: true);
     private Task SyncAsync(bool showFailure) => RunAsync(Tr.Text("sync.metadata"), () => Sync(gameFolder, text => Status = text, this), showFailure);
+    // Runs at startup because a new release or game patch can leave the synced data out of date.
+    public async Task CheckGameDataAsync()
+    {
+        if (!CatalogFiles.Synced || !CanSyncGameData()) return;
+        string game = gameFolder;
+        bool current;
+        try { current = await Task.Run(() => GameDataSync.IsCurrent(game, CatalogFiles.Resources, CatalogFiles.Cache)); }
+        // A moved or uninstalled game keeps the data already synced.
+        catch (Exception error) when (error is not OutOfMemoryException) { return; }
+        // A game patch this release cannot read would otherwise stop every start with the same error.
+        if (!current) await SyncAsync(showFailure: false);
+    }
     // The Settings window syncs the folder typed there and reports in its own line, so the work itself is shared. Call on the UI thread.
     internal static async Task Sync(string folder, Action<string> report, MainViewModel? model)
     {

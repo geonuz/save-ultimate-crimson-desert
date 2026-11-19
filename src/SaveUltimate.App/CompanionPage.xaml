@@ -6,6 +6,9 @@
    <StackPanel x:Name="GroupFilter" Orientation="Horizontal"><TextBlock Text="{local:Tr 'Category'}" Style="{StaticResource FilterLabel}"/><ComboBox x:Name="Group" Style="{StaticResource FilterBox}" DisplayMemberPath="Label" SelectionChanged="OnGroup" AutomationProperties.Name="{local:Tr 'Category'}"/></StackPanel>
    <!-- Pets and mounts keep one order per category, so each category is its own tab. -->
    <TabControl x:Name="GroupTabs" DisplayMemberPath="Label" SelectionChanged="OnGroup" Visibility="Collapsed"><TabControl.ContentTemplate><DataTemplate/></TabControl.ContentTemplate></TabControl>
+   <!-- Search as on the trust tab; mercenaries only, since Move Up and Move Down on the pet tabs work on the whole order. -->
+   <Label x:Name="SearchLabel" Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" x:Name="Search" TextChanged="OnSearch" ToolTip="{local:Tr companion.search}" AutomationProperties.Name="{local:Tr companion.search}"/>
   </local:PageHeader>
   <!-- Whole-list actions sit with the count, not with the selected row. -->
   <DockPanel Grid.Row="1" Style="{StaticResource CountRow}">

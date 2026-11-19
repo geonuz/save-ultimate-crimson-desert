@@ -8,11 +8,15 @@ public partial class MainViewModel
 {
     public bool IsKnowledge => CurrentPage == AppPage.Knowledge;
     [ObservableProperty] private IReadOnlyDictionary<uint, uint>? knowledge;
+    /// <summary>The learn-from record of each knowledge, read with <see cref="Knowledge"/> and set before it.</summary>
+    public IReadOnlyDictionary<uint, uint> LearnRecords { get; private set; } = new Dictionary<uint, uint>();
 
     [RelayCommand(CanExecute = nameof(CanSave))]
     private async Task LoadKnowledgeAsync() => await RunAsync(Tr.Text("Reading knowledge…"), async () =>
     {
-        Knowledge = await Task.Run(() => document!.ReadKnowledge());
+        var (levels, records) = await Task.Run(() => (document!.ReadKnowledge(), document!.ReadLearnRecords()));
+        LearnRecords = records;
+        Knowledge = levels;
         Status = Tr.Text("Knowledge loaded.");
     });
 

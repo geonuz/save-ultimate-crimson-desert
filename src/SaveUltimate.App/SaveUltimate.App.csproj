@@ -25,4 +25,7 @@
     <Content Include="../../resources/data/npc_catalog.json" Link="resources/data/npc_catalog.json" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="../../resources/assets/app_icon.ico" Link="app_icon.ico" />
   </ItemGroup>
+  <ItemGroup Condition="'$(OnlineUpdate)' != 'true'">
+    <Compile Remove="Updates/**" />
+  </ItemGroup>
 </Project>

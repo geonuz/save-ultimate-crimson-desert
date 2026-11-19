@@ -71,6 +71,7 @@ inherited files retain their existing terms, as listed in [LICENSES.md](LICENSES
 ```powershell
 ./scripts/Build.ps1 -Test -Publish
 ./scripts/Build.ps1 -Publish -OutputDirectory ../releases/SaveUltimate-x.y.z
+./scripts/Build.ps1 -Publish -NoOnlineUpdate   # Nexus Mods package
 ```
 
 `-Publish` creates a self-contained `SaveUltimate.exe` (no .NET installation
@@ -87,9 +88,25 @@ window shows both under Settings. Add the matching `## [x.y.z]` entry to
 `CHANGELOG.md` in the same change.
 
 Every push to `main` runs `.github/workflows/release.yml`, which tests, builds and
-publishes a GitHub release tagged `v<version>-<commit>` with
-`SaveUltimate-<version>-windows-x64.zip`. Editors in the field read that tag, asset
+publishes a GitHub release tagged `v<version>-<commit>` with two packages:
+`SaveUltimate-<version>-windows-x64.zip` (updates itself from GitHub) and
+`SaveUltimate-<version>-windows-x64-noupdate.zip` (no online updates).
+Editors in the field read that tag and the first asset's
 name and hash, so keep them stable, and raise `Version` whenever users should get a
 build: the updater offers only a higher version. The version is also part of the
 game-data check, so each new version syncs once at its first start. Keep commits that
 change only documents local until the next release.
+
+### Online updates
+
+All update code (check, download, install, the Update button and the **Check for
+Updates** menu item) lives in `src/SaveUltimate.App/Updates/`. The rest of the app
+calls it only through partial methods (`App.StartUpdates`,
+`MainWindow.AddUpdateControls`, `MainWindow.LabelUpdateButton`), which the compiler
+drops when their implementation is missing. The `OnlineUpdate` property in
+`Directory.Build.props` (default `true`) decides whether that folder and
+`AppUpdateTests.cs` are compiled; `-NoOnlineUpdate` passes `-p:OnlineUpdate=false`
+and then fails the build if the EXE still contains `AppUpdate` or the GitHub API
+address. That package also leaves out `README.md`, which describes the GitHub
+release and updater; the Nexus Mods page takes its place. Keep new update code inside `Updates/` and reach it through a partial
+method, so the Nexus Mods build stays free of network code.

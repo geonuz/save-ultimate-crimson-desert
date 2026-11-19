@@ -1,6 +1,8 @@
 param(
     [switch]$Test,
     [switch]$Publish,
+    # Leaves out src/SaveUltimate.App/Updates: the package for Nexus Mods, which forbids online updates.
+    [switch]$NoOnlineUpdate,
     [string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -14,9 +16,10 @@ try {
     $dotnet = Join-Path $root '.tools/dotnet/dotnet.exe'
     if (!(Test-Path -LiteralPath $dotnet)) { $dotnet = (Get-Command dotnet -ErrorAction Stop).Source }
     $env:DOTNET_ROOT = Split-Path $dotnet
+    $onlineUpdate = if ($NoOnlineUpdate) { 'false' } else { 'true' }
     & $dotnet restore SaveUltimate.slnx --locked-mode --disable-parallel -m:1
     if ($LASTEXITCODE) { throw 'Locked package restore failed.' }
-    & $dotnet build SaveUltimate.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false
+    & $dotnet build SaveUltimate.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false "-p:OnlineUpdate=$onlineUpdate"
     if ($LASTEXITCODE) { throw 'Managed compilation failed.' }
     if ($Test) {
         $testClock = [Diagnostics.Stopwatch]::StartNew()
@@ -29,9 +32,18 @@ try {
         # .NET resolves relative paths against the process directory, not the PowerShell location.
         $output = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $root $OutputDirectory }))
         if (Test-Path -LiteralPath $output) { throw 'Choose a new publication directory to avoid stale files.' }
-        & $dotnet publish src/SaveUltimate.App -c Release -r win-x64 --self-contained true -o $output -p:RestoreLockedMode=true -p:UseSharedCompilation=false -p:DebugType=None -m:1
+        & $dotnet publish src/SaveUltimate.App -c Release -r win-x64 --self-contained true -o $output -p:RestoreLockedMode=true -p:UseSharedCompilation=false -p:DebugType=None -m:1 "-p:OnlineUpdate=$onlineUpdate"
         if ($LASTEXITCODE) { throw 'Single-file publication failed.' }
-        Copy-Item -LiteralPath LICENSE,LICENSES.md,README.md,CHANGELOG.md -Destination $output
+        if ($NoOnlineUpdate) {
+            # The program is bundled uncompressed, so its type names (UTF-8) and string literals (UTF-16) are readable in the EXE.
+            $program = [Text.Encoding]::GetEncoding(28591).GetString([IO.File]::ReadAllBytes((Join-Path $output 'SaveUltimate.exe')))
+            foreach ($trace in 'AppUpdate', ('api.github.com'.ToCharArray() -join "`0")) {
+                if ($program.Contains($trace)) { throw "The build without online updates still contains update code ($($trace -replace "`0"))." }
+            }
+        }
+        # README.md and CHANGELOG.md are written for the GitHub package (Releases, Issues, the updater and its history); the
+        # Nexus Mods page and its Changelogs tab replace them.
+        Copy-Item -LiteralPath $(if ($NoOnlineUpdate) { 'LICENSE','LICENSES.md' } else { 'LICENSE','LICENSES.md','README.md','CHANGELOG.md' }) -Destination $output
         New-Item -ItemType Directory -Force -Path (Join-Path $output 'licenses') | Out-Null
         foreach ($notice in 'LICENSE.txt', 'ThirdPartyNotices.txt') {
             $sourceNotice = Join-Path (Split-Path $dotnet) $notice
@@ -54,7 +66,7 @@ try {
         $files = @(Get-ChildItem -LiteralPath $output -File -Recurse | Sort-Object FullName | ForEach-Object {
             [ordered]@{ path = $_.FullName.Substring($output.TrimEnd('\').Length + 1); bytes = $_.Length; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
         })
-        [ordered]@{ sdk = (& $dotnet --version); configuration = 'Release'; signed = $false; files = $files } |
+        [ordered]@{ sdk = (& $dotnet --version); configuration = 'Release'; onlineUpdate = !$NoOnlineUpdate; signed = $false; files = $files } |
             ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 (Join-Path $output 'release-manifest.json')
         $all = Get-ChildItem -LiteralPath $output -File -Recurse
         Write-Output ("Published: {0}; {1} files; {2:N1} MiB; unsigned development build" -f $output, $all.Count, (($all | Measure-Object Length -Sum).Sum / 1MB))

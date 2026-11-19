@@ -50,4 +50,34 @@ public sealed class LanguageTests
         }
         finally { Tr.SetLanguage("ko"); }
     }
+
+    [TestMethod]
+    [TestCategory("Unit")]
+    public void EveryLiteralCaptionHasALocaleEntry()
+    {
+        // A missing key shows the key itself (English) in every language. XAML escapes & as &amp;, so a key scan of the
+        // raw text misses "A && B" captions: the 1.8.2 cleanup dropped one that way.
+        var english = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllBytes(Path.Combine(TestFiles.Resources, "locale/en.json")))!;
+        string app = Path.Combine(Path.GetDirectoryName(TestFiles.Resources)!, "src", "SaveUltimate.App");
+        var missing = new List<string>();
+        foreach (string path in Directory.GetFiles(app, "*.xaml", SearchOption.AllDirectories).Where(p => !p.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")))
+            foreach (Match m in Regex.Matches(File.ReadAllText(path), @"\{local:Tr (?:'([^']*)'|([^}']+))\}"))
+            {
+                string key = System.Net.WebUtility.HtmlDecode(m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value.Trim());
+                if (!Known(key)) missing.Add($"{Path.GetFileName(path)}: {key}");
+            }
+        foreach (string path in Directory.GetFiles(app, "*.cs", SearchOption.AllDirectories).Where(p => !p.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")))
+            // Whole literals only: Tr.Text("prefix." + name) builds its key at run time.
+            foreach (Match m in Regex.Matches(File.ReadAllText(path), @"Tr\.(?:Text\(""((?:[^""\\]|\\.)*)""\)|Format\(""((?:[^""\\]|\\.)*)"",)|Tr\.Bind\([^;]*?,\s*""((?:[^""\\]|\\.)*)""\)"))
+            {
+                string key = Regex.Unescape(m.Groups.Values.Skip(1).First(g => g.Success).Value);
+                if (!Known(key)) missing.Add($"{Path.GetFileName(path)}: {key}");
+            }
+        // ThemedMessageBox labels its buttons with the result's name, built at run time.
+        foreach (string key in new[] { "OK", "Cancel", "Yes", "No" })
+            if (!english.ContainsKey(key)) missing.Add("ThemedMessageBox: " + key);
+        Assert.AreEqual(0, missing.Count, string.Join("\n", missing.Distinct()));
+        // Tr.Text also takes an English caption ("View") and finds its key by value.
+        bool Known(string key) => english.ContainsKey(key) || english.ContainsValue(key);
+    }
 }

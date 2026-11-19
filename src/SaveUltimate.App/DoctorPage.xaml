@@ -69,7 +69,7 @@
         <DockPanel>
          <ContentControl Content="{Binding}" ContentTemplate="{StaticResource Badge}" Width="30" Height="30" Margin="0,0,12,0" VerticalAlignment="Top" Focusable="False"/>
          <StackPanel>
-          <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+          <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
           <TextBlock Text="{Binding Problem}" TextWrapping="Wrap" Margin="0,2,0,0"/>
           <TextBlock Text="{Binding Reason}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap" Margin="0,4,0,0" Visibility="{Binding HasReason, Converter={StaticResource BooleanVisibility}}"/>
           <CheckBox Content="{Binding FixLabel}" IsChecked="{Binding Selected}" Margin="0,8,0,0" Visibility="{Binding CanFix, Converter={StaticResource BooleanVisibility}}"/>
@@ -78,25 +78,20 @@
        </Border>
       </DataTemplate></ItemsControl.ItemTemplate>
      </ItemsControl>
-     <ItemsControl ItemsSource="{Binding Groups}" Focusable="False">
+     <!-- One card per area of the save; the tooltip lists what each area checks. -->
+     <TextBlock Text="{local:Tr ui.doctor_areas}" Style="{StaticResource GroupTitle}"/>
+     <ItemsControl ItemsSource="{Binding Areas}" Focusable="False">
+      <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="4"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
       <ItemsControl.ItemTemplate><DataTemplate>
-       <StackPanel>
-        <TextBlock Text="{Binding Name}" Style="{StaticResource GroupTitle}"/>
-        <ItemsControl ItemsSource="{Binding Checks}" Focusable="False">
-         <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-         <ItemsControl.ItemTemplate><DataTemplate>
-          <Border Style="{StaticResource ToneCard}" Padding="10,8" Margin="0,0,6,6" ToolTip="{Binding Name}">
-           <DockPanel>
-            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource Badge}" Width="30" Height="30" Margin="0,0,10,0" Focusable="False"/>
-            <StackPanel VerticalAlignment="Center">
-             <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
-             <TextBlock Text="{Binding State}" Style="{StaticResource ToneText}"/>
-            </StackPanel>
-           </DockPanel>
-          </Border>
-         </DataTemplate></ItemsControl.ItemTemplate>
-        </ItemsControl>
-       </StackPanel>
+       <Border Style="{StaticResource ToneCard}" Padding="10,8" Margin="0,0,6,6" ToolTip="{Binding Details}">
+        <DockPanel>
+         <ContentControl Content="{Binding}" ContentTemplate="{StaticResource Badge}" Width="30" Height="30" Margin="0,0,10,0" Focusable="False"/>
+         <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+          <TextBlock Text="{Binding State}" Style="{StaticResource ToneText}"/>
+         </StackPanel>
+        </DockPanel>
+       </Border>
       </DataTemplate></ItemsControl.ItemTemplate>
      </ItemsControl>
     </StackPanel>

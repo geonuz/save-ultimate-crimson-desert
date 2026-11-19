@@ -6,7 +6,7 @@ using SaveUltimate.Core.Catalogs;
 namespace SaveUltimate.Tools;
 
 // The collection box (inventory 18, "Housing_Collecting") lists every item it can hold; the DLC record replaces the base one.
-// Each item carries the knowledge the game teaches with it: its own knowledge at +107 of the fixed block (journey items,
+// Each item carries the knowledge the game teaches with it: its own knowledge at ClientTables.ItemKnowledge of the fixed block (journey items,
 // learned through the story, recorded as None) and the knowledge each "InspectSocket_N" entry teaches when the item is
 // inspected, recorded as Read or Zoom by the entry's inspect action.
 public static class CollectionCatalogBuilder
@@ -36,7 +36,7 @@ public static class CollectionCatalogBuilder
         {
             var record = items[key];
             var learned = new JsonArray();
-            uint own = BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + 107)..]);
+            uint own = BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + ClientTables.ItemKnowledge)..]);
             if (own != 0) learned.Add(Entry(Known(own), None));
             foreach (var entries in Inspected(record).GroupBy(e => e.Knowledge))
             {
@@ -54,7 +54,7 @@ public static class CollectionCatalogBuilder
         }
         return new JsonObject
         {
-            ["source"] = "inventory 18 (Housing_Collecting, DLC layer wins) and iteminfo: the pickup bag 24 bytes before the record end (quest: the quest bag 5), knowledge at +107 of the fixed block (None) and 9 bytes after each InspectSocket_N name (Read for the u16 inspect action 0xD01D 4 bytes later, Zoom for 0xC10C).",
+            ["source"] = "inventory 18 (Housing_Collecting, DLC layer wins) and iteminfo: the pickup bag 24 bytes before the record end (quest: the quest bag 5), knowledge at +108 of the fixed block (None) and 9 bytes after each InspectSocket_N name (Read for the u16 inspect action 0xD01D 4 bytes later, Zoom for 0xC10C).",
             ["items"] = rows, ["sourceSha256"] = source.Digests()
         };
         uint Known(uint k) => knowledge.Contains(k) ? k : throw new InvalidDataException($"Collection item knowledge {k} is not in KnowledgeInfo.");

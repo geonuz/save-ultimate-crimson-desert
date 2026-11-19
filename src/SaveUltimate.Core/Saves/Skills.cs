@@ -32,7 +32,9 @@ public sealed record SkillState(IReadOnlyDictionary<uint, uint> Levels, IReadOnl
 
     internal static SkillState Read(byte[] raw, ParcLayout layout) => Read(raw, SaveRecords.Read(raw, layout, "KnowledgeSaveData"));
 
-    internal static SkillState Read(byte[] raw, SaveObject block)
+    /// <summary>The learn-from record of each knowledge (_learnedFollowLearnKnowledge): the event that first taught it, as a
+    /// <see cref="LearnFrom"/> value. Knowledge without a record is absent.</summary>
+    internal static Dictionary<uint, uint> ReadFollow(byte[] raw, SaveObject block)
     {
         var follow = new Dictionary<uint, uint>();
         foreach (var element in block.Fields.Named("_learnedFollowLearnKnowledge").Elements("FollowLearnElementSaveData"))
@@ -46,6 +48,12 @@ public sealed record SkillState(IReadOnlyDictionary<uint, uint> Levels, IReadOnl
             uint key = checked((uint)Value("_knowledgeKey", "KnowledgeKey", 4));
             if (key == 0 || !follow.TryAdd(key, (uint)Value("_learnFromTypeRaw", "uint8", 1))) throw new InvalidDataException("Duplicate or invalid skill record.");
         }
+        return follow;
+    }
+
+    internal static SkillState Read(byte[] raw, SaveObject block)
+    {
+        var follow = ReadFollow(raw, block);
         var levels = SaveDocument.KnowledgeLevels(raw, block);
         foreach (var (key, definition) in SkillCatalog.Shared.Skills)
         {

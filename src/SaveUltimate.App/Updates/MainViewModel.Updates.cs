@@ -1,10 +1,10 @@
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SaveUltimate.Core.Catalogs;
 
 namespace SaveUltimate.App;
 
+// Everything in Updates/ is left out of a build with OnlineUpdate=false (see Directory.Build.props).
 public partial class MainViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasUpdate))] private AppRelease? availableUpdate;
@@ -49,18 +49,5 @@ public partial class MainViewModel
             Status = Tr.Text("ui.update_rolled_back");
             ThemedMessageBox.Show(Status, Tr.Text("ui.update_title"), MessageBoxButton.OK, MessageBoxImage.Warning);
         });
-    }
-
-    // Runs at startup because a new release or game patch can leave the synced data out of date.
-    public async Task CheckGameDataAsync()
-    {
-        if (!CatalogFiles.Synced || !CanSyncGameData()) return;
-        string game = gameFolder;
-        bool current;
-        try { current = await Task.Run(() => GameDataSync.IsCurrent(game, CatalogFiles.Resources, CatalogFiles.Cache)); }
-        // A moved or uninstalled game keeps the data already synced.
-        catch (Exception error) when (error is not OutOfMemoryException) { return; }
-        // A game patch this release cannot read would otherwise stop every start with the same error.
-        if (!current) await SyncAsync(showFailure: false);
     }
 }

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.2]
+
+Updated to work with Crimson Desert 2.05.01.
+
+- **Save Doctor groups its checks by area** (File, Items, Maps and so on) and lists every problem with its repair.
+- **Add Mercenary shows every choice on one page**, with pictures and skills.
+- Mercenaries has a search box.
+- The item swap window shows item pictures.
+- Knowledge: a new **Learned From** column shows how each entry was first learned. The Key and Internal Name columns
+  and the descriptions are gone.
+- Fixed: after Undo, the world clock and business renown pages kept showing the undone values.
+- **Each release also has a package without online updates** (`-noupdate`). It never connects to the internet; update
+  it by extracting a newer version over the old folder.
+
 ## [1.8.1]
 
 Collection documents no longer become important items, Save Doctor moves to a tab, and the game time matches the screen.

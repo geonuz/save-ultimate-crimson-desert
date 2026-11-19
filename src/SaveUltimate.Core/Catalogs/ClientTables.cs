@@ -113,15 +113,18 @@ internal static class ClientTables
         if (r.Remaining != 0) throw new InvalidDataException("Trailing PALOC data.");
         return result;
     }
+    // 2.05.01 added one byte to the fixed item block somewhere between +10 and +101: the stack limit stayed at +2, the
+    // category moved from +101 to +102 and the name reference from +152 to +153.
+    public const int ItemBlock = 153, ItemCategory = 102, ItemKnowledge = 108;
     public static ItemFields Item(uint key, ClientRecord record)
     {
-        // A fixed 152-byte block (stack limit at +2, category at +101) precedes the references, then the group label, three
+        // A fixed block (stack limit at +2, category at ItemCategory) precedes the references, then the group label, three
         // optional arrays and the icons. The 12 bytes after the label are [4][sound text][sound name text][two hashed keys];
         // the texts are filled only on ship cannons.
         var r = new ClientReader(record.Bytes, record.Prefix);
         r.Take(2); ulong stack = r.U64();
-        uint category = new ClientReader(record.Bytes, record.Prefix + 101).U16();
-        r = new ClientReader(record.Bytes, record.Prefix + 152);
+        uint category = new ClientReader(record.Bytes, record.Prefix + ItemCategory).U16();
+        r = new ClientReader(record.Bytes, record.Prefix + ItemBlock);
         string name = r.Reference(7, 0x70, key), description = r.Reference(7, 0x71, key);
         string extra = r.U8() switch { 0 => "", 1 => r.Reference(7, 0x72, key), _ => throw new InvalidDataException("Invalid item text flag.") };
         r.SkipText(); r.Take(4); r.SkipText(); r.SkipText(); r.Take(8);

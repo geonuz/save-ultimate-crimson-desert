@@ -17,11 +17,13 @@ public abstract partial class StatusRow : ObservableObject
     };
 }
 
-public sealed partial class CheckRow(string id) : StatusRow
+public sealed partial class CheckRow(string id, string area) : StatusRow
 {
     private SaveCheck? result;
     public string Id => id;
     public string Name => Tr.Text("ui.doctor_check_" + id);
+    /// <summary>The problem list names the area too, as the overview shows areas only.</summary>
+    public string Title => $"{area} · {Name}";
     public string State => Tr.Text(Status switch
     {
         CheckStatus.Ok => "ui.doctor_state_ok", CheckStatus.Suspect => "ui.doctor_state_suspect", CheckStatus.Error => "ui.doctor_state_error",
@@ -67,7 +69,40 @@ public sealed partial class CheckRow(string id) : StatusRow
     }
 }
 
-public sealed record CheckGroup(string Name, CheckRow[] Checks);
+/// <summary>
+/// One area of the save on the overview, such as Items: it shows its worst finding, so a check added to the area
+/// changes no layout. Each problem is listed on its own above the areas, with its repair.
+/// </summary>
+public sealed partial class CheckArea : StatusRow
+{
+    // File and structure are the doctor's own words; the other areas are the editor's menus.
+    private static readonly Dictionary<string, string> captions = new()
+    {
+        ["file"] = "ui.doctor_group_file", ["structure"] = "ui.doctor_group_structure", ["items"] = "tab.items",
+        ["journal"] = "tab.knowledge_quest", ["map"] = "tab.maps", ["npc"] = "tab.mercenary", ["other"] = "tab.misc"
+    };
+    public CheckArea(string id, string[] ids)
+    {
+        Name = Tr.Text(captions[id]);
+        Checks = ids.Select(c => new CheckRow(c, Name)).ToArray();
+        foreach (var check in Checks) check.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(Status)) Update(); };
+    }
+    public string Name { get; }
+    public CheckRow[] Checks { get; }
+    public string State => Tr.Text(Status switch
+    {
+        CheckStatus.Ok => "ui.doctor_state_ok", CheckStatus.Suspect => "ui.doctor_state_suspect", CheckStatus.Error => "ui.doctor_state_error",
+        CheckStatus.NotRun => "ui.doctor_state_notrun", _ => "ui.doctor_state_waiting"
+    });
+    public string Details => string.Join("\n", Checks.Select(c => $"{c.Name}: {c.State}"));
+    private void Update()
+    {
+        var states = Checks.Select(c => c.Status).ToArray();
+        Status = states.Contains(CheckStatus.Error) ? CheckStatus.Error : states.Contains(CheckStatus.Suspect) ? CheckStatus.Suspect
+            : states.Contains(null) ? null : states.Contains(CheckStatus.NotRun) ? CheckStatus.NotRun : CheckStatus.Ok;
+        OnPropertyChanged(nameof(State)); OnPropertyChanged(nameof(Details));
+    }
+}
 public sealed class CountRow : StatusRow
 {
     public CountRow(CheckStatus status, int count) { Status = status; Count = count; }
@@ -87,8 +122,7 @@ public sealed class SlotRow(SaveSlot slot) : StatusRow
 
 public sealed partial class DoctorView : StatusRow
 {
-    public CheckGroup[] Groups { get; } = SaveCheckup.Plan
-        .Select(g => new CheckGroup(Tr.Text("ui.doctor_group_" + g.Group), g.Ids.Select(id => new CheckRow(id)).ToArray())).ToArray();
+    public CheckArea[] Areas { get; } = SaveCheckup.Plan.Select(a => new CheckArea(a.Area, a.Ids)).ToArray();
     [ObservableProperty] private string scanText = "";
     [ObservableProperty] private string verdict = "";
     [ObservableProperty] private string subtitle = "";
@@ -132,7 +166,7 @@ public sealed partial class DoctorPage : UserControl
     private void Build()
     {
         View = new();
-        checks = View.Groups.SelectMany(g => g.Checks).ToDictionary(c => c.Id);
+        checks = View.Areas.SelectMany(a => a.Checks).ToDictionary(c => c.Id);
         foreach (var check in checks.Values) check.SelectionChanged += () => View.CanRepair = checks.Values.Any(c => c.CanFix && c.Selected);
         Root.DataContext = View;
     }
@@ -202,8 +236,9 @@ public sealed partial class DoctorPage : UserControl
         View.Verdict = errors > 0 ? Tr.Format("ui.doctor_verdict_error", ("count", errors.ToString("N0")))
             : suspects > 0 ? Tr.Format("ui.doctor_verdict_suspect", ("count", suspects.ToString("N0"))) : Tr.Text("ui.doctor_verdict_ok");
         if (found.FirstOrDefault(c => c.Id == "game_version") is { Detail.Length: > 0 } version) View.Subtitle += " · " + Tr.Format("ui.doctor_saved_by", ("version", version.Detail));
+        // The counts are of the area cards below; the verdict counts the problems listed.
         View.Counts = new[] { CheckStatus.Ok, CheckStatus.Suspect, CheckStatus.Error, CheckStatus.NotRun }
-            .Select(status => new CountRow(status, found.Count(c => c.Status == status))).Where(c => c.Count > 0 || c.Status == CheckStatus.Ok).ToArray();
+            .Select(status => new CountRow(status, View.Areas.Count(a => a.Status == status))).Where(c => c.Count > 0 || c.Status == CheckStatus.Ok).ToArray();
         View.Issues = checks.Values.Where(c => c.IsIssue).OrderByDescending(c => c.Status).ToArray();
         View.HasFixes = checks.Values.Any(c => c.CanFix);
         View.CanRepair = checks.Values.Any(c => c.CanFix && c.Selected);

@@ -21,6 +21,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = model;
+        AddUpdateControls(model);
         AppVersion.Text = $"v{typeof(MainWindow).Assembly.GetName().Version!.ToString(3)}";
         foreach (var column in InventoryGrid.Columns.OfType<DataGridTextColumn>().Where(c => c != InventoryGrid.Columns[1]))
         {
@@ -58,6 +59,10 @@ public partial class MainWindow : Window
         };
         Closing += OnClosing;
     }
+
+    // Implemented in Updates/MainWindow.Updates.cs; without that file (OnlineUpdate=false) the compiler drops the calls.
+    partial void AddUpdateControls(MainViewModel model);
+    partial void LabelUpdateButton(bool collapsed);
 
     private void CaptureTable()
     {
@@ -225,9 +230,7 @@ public partial class MainWindow : Window
         string[] names = new[] { "tab.items", "tab.knowledge_quest", "tab.maps", "tab.mercenary", "tab.life", "tab.misc", "tab.backup" }.Select(Tr.Text).ToArray();
         SettingsButton.Content = collapsed ? new ActionGlyph { Kind = "settings", Width = 18, Height = 18, Foreground = Appearance.Brush("text") } : Tr.Text("Settings");
         SettingsButton.ToolTip = Tr.Text("Settings");
-        UpdateButton.Content = collapsed ? new ActionGlyph { Kind = "update", Width = 18, Height = 18, Foreground = Appearance.Brush("accent_text") } : Tr.Text("menu.update");
-        UpdateButton.ToolTip = Tr.Text("menu.update");
-        System.Windows.Automation.AutomationProperties.SetName(UpdateButton, Tr.Text("menu.update"));
+        LabelUpdateButton(collapsed);
         GameVersion.Text = Tr.Format("ui.game_version", ("version", Ui.GameVersion));
         System.Windows.Automation.AutomationProperties.SetName(SettingsButton, Tr.Text("Settings"));
         string[] glyphs = ["items", "journal", "maps", "npcs", "life", "misc", "backup"];

@@ -12,12 +12,17 @@ public sealed record SaveCheck(string Id, CheckStatus Status, string Detail = ""
 // will load it. A check that needs an earlier one to pass reports NotRun rather than failing on bytes nothing could read.
 public static class SaveCheckup
 {
-    public static readonly IReadOnlyList<(string Group, string[] Ids)> Plan =
+    // Findings belong to the area of the save they are about, named like the editor's menus. A new check or repair joins
+    // the area it concerns (important items in the box are an item finding), so the overview keeps the same cards.
+    public static readonly IReadOnlyList<(string Area, string[] Ids)> Plan =
     [
-        ("file", ["container", "integrity", "compression"]),
-        ("structure", ["schema", "blocks", "pointers", "mission_rows"]),
-        ("data", ["game_version", "items", "skills", "knowledge", "challenges", "fishing", "map", "companions", "friendship"]),
-        ("values", ["enchants", "sockets", "unknown_items", "important_items"])
+        ("file", ["container", "integrity", "compression", "game_version"]),
+        ("structure", ["schema", "blocks", "pointers"]),
+        ("items", ["items", "enchants", "sockets", "unknown_items", "important_items"]),
+        ("journal", ["knowledge", "challenges", "mission_rows", "fishing"]),
+        ("map", ["map"]),
+        ("npc", ["companions", "friendship"]),
+        ("other", ["skills"])
     ];
     private static readonly string[] order = Plan.SelectMany(g => g.Ids).ToArray();
 

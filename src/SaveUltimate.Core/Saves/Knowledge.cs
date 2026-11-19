@@ -24,6 +24,8 @@ public enum KnowledgeAction { Learn, Unlearn, Level, Maximum, AllMaximum, LearnM
 public sealed partial class SaveDocument
 {
     public IReadOnlyDictionary<uint, uint> ReadKnowledge() => KnowledgeLevels(blob, SaveRecords.Read(blob, Layout, "KnowledgeSaveData"));
+    /// <summary>How the game recorded each knowledge was learned (<see cref="LearnFrom"/> values); see <see cref="SkillState.ReadFollow"/>.</summary>
+    public IReadOnlyDictionary<uint, uint> ReadLearnRecords() => SkillState.ReadFollow(blob, SaveRecords.Read(blob, Layout, "KnowledgeSaveData"));
 
     internal static Dictionary<uint, uint> KnowledgeLevels(byte[] raw, SaveObject block)
     {

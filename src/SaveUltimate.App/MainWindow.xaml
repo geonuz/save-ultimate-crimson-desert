@@ -11,12 +11,11 @@
  </Window.InputBindings>
  <DockPanel x:Name="AppShell" LayoutTransform="{DynamicResource UiTransform}">
  <Menu DockPanel.Dock="Top">
-  <MenuItem Header="{local:Tr File}">
+  <MenuItem x:Name="FileMenu" Header="{local:Tr File}">
    <MenuItem Header="{local:Tr ui.slots}" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O"/>
    <Separator/><MenuItem Header="{local:Tr Save}" Command="{Binding SaveCommand}" InputGestureText="Ctrl+S"/>
    <MenuItem Header="{local:Tr 'Save As...'}" Command="{Binding SaveAsCommand}" InputGestureText="Ctrl+Shift+S"/>
-   <MenuItem Header="{local:Tr ui.doctor}" Click="OnDoctor"/>
-   <MenuItem Header="{local:Tr menu.check_update}" Command="{Binding CheckForUpdateCommand}" IsEnabled="{Binding CanUpdate}"/>
+   <MenuItem x:Name="DoctorMenuItem" Header="{local:Tr ui.doctor}" Click="OnDoctor"/>
    <MenuItem Header="{local:Tr Settings}" Click="OnSettings"/><Separator/><MenuItem Header="{local:Tr Exit}" Click="OnExit" InputGestureText="Alt+F4"/>
   </MenuItem>
   <MenuItem x:Name="ViewMenu" Header="{local:Tr View}"><MenuItem Header="{local:Tr ui.theme}" Click="OnThemeSettings"/><Separator/></MenuItem>
@@ -28,8 +27,8 @@
  <DockPanel x:Name="Shell" SizeChanged="OnShellSizeChanged">
  <Border x:Name="NavigationRail" DockPanel.Dock="Left" Width="212" Background="{DynamicResource panel}" BorderBrush="{DynamicResource border}" BorderThickness="0,0,1,0" Padding="12,20,12,16">
   <DockPanel>
-   <StackPanel DockPanel.Dock="Bottom">
-    <Button x:Name="UpdateButton" Command="{Binding InstallUpdateCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,8" Visibility="{Binding HasUpdate, Converter={StaticResource BooleanVisibility}}"/>
+   <!-- Updates/MainWindow.Updates.cs adds the Update button above Settings. -->
+   <StackPanel x:Name="NavigationFooter" DockPanel.Dock="Bottom">
     <Button x:Name="SettingsButton" Content="{local:Tr Settings}" Click="OnSettings" Margin="0,0,0,12"/>
     <StackPanel x:Name="VersionText" Orientation="Horizontal">
      <TextBlock x:Name="AppVersion" Style="{StaticResource SecondaryText}" VerticalAlignment="Center"/>
@@ -175,7 +174,7 @@
     </DockPanel>
     
     <Button Style="{StaticResource AccentButton}" Content="{local:Tr 'Set Stack'}" Command="{Binding ApplyCommand}"/>
-    <Button Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" Foreground="{DynamicResource error}" Content="{local:Tr 'Delete Item'}" Command="{Binding DeleteCommand}" Margin="0,10,0,0"/>
+    <Button Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" Style="{StaticResource DangerButton}" Content="{local:Tr 'Delete Item'}" Command="{Binding DeleteCommand}" Margin="0,10,0,0"/>
     <!-- For collection documents stuck in the quest bag: moves them to the inventory as reading them in the game would. -->
     <Button x:Name="ReleaseButton" Visibility="{Binding IsInventory, Converter={StaticResource BooleanVisibility}}" Content="{local:Tr port.release}" Command="{Binding ReleaseCommand}" Margin="0,10,0,0" ToolTip="{local:Tr port.release_hint}" ToolTipService.ShowOnDisabled="True"/>
     <StackPanel Visibility="{Binding IsRepurchase, Converter={StaticResource BooleanVisibility}}">
@@ -229,7 +228,7 @@
     <ScrollViewer x:Name="BackupActions" Grid.Column="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="16,8,16,8" MinWidth="248">
      <TextBlock Text="{local:Tr 'backup.selected_actions'}" Margin="0,0,0,8"/>
      <Button Style="{StaticResource AccentButton}" Content="{local:Tr 'Restore Selected'}" Command="{Binding RestoreBackupCommand}"/>
-     <Button Content="{local:Tr 'Delete Selected'}" Command="{Binding DeleteBackupCommand}" Margin="0,8,0,0"/>
+     <Button Style="{StaticResource DangerButton}" Content="{local:Tr 'Delete Selected'}" Command="{Binding DeleteBackupCommand}" Margin="0,8,0,0"/>
      <Separator Margin="0,16,0,16"/>
      <TextBlock Text="{local:Tr 'backup.create_actions'}" Margin="0,0,0,8"/>
      <Button Content="{local:Tr 'Backup to Local Folder'}" Command="{Binding LocalBackupCommand}"/>

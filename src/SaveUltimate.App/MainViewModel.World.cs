@@ -71,7 +71,8 @@ public partial class MainViewModel
     }
     private void UpdateKnowledgeViews(IReadOnlyDictionary<uint, uint> levels)
     {
-        if (Knowledge is not null) Knowledge = levels;
+        // Edits that teach knowledge also write its learn-from record, so the records are read again with the levels.
+        if (Knowledge is not null) { LearnRecords = document!.ReadLearnRecords(); Knowledge = levels; }
         if (Fishing is not null) Fishing = Fishing.Select(r => r with { Level = levels.GetValueOrDefault(r.Fish.Key) }).ToArray();
         if (Map is not null) Map = Map with { Knowledge = levels };
     }

@@ -5,7 +5,7 @@ using SaveUltimate.Core.Catalogs;
 namespace SaveUltimate.Tools;
 
 // Which kinds of client events teach each knowledge, for edits of knowledge no player was seen learning:
-//   item       an item's own knowledge (+107 of the fixed item block), learned with the item
+//   item       an item's own knowledge (ClientTables.ItemKnowledge of the fixed item block), learned with the item
 //   read/zoom  an item's inspect entry with the read (0xD01D) or zoom (0xC10C) action
 //   region     RegionInfo's knowledge (+14) of a region whose type (+4) is not 7
 //   node       the same for type 7 regions (town districts, landmarks, caves)
@@ -14,7 +14,7 @@ namespace SaveUltimate.Tools;
 // The fixed priority over these lives with the chooser (LearnPathCatalog).
 public static class LearnSourceBuilder
 {
-    private const int ItemKnowledge = 107, RegionType = 4, RegionKnowledge = 14;
+    private const int RegionType = 4, RegionKnowledge = 14;
     private const byte NodeRegion = 7;
 
     public static JsonObject Build(ClientSource source)
@@ -29,7 +29,7 @@ public static class LearnSourceBuilder
         }
         foreach (var (key, record) in ClientTables.Records(source.Tables("iteminfo")))
         {
-            uint own = BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + ItemKnowledge)..]);
+            uint own = BinaryPrimitives.ReadUInt32LittleEndian(record.Bytes.Span[(record.Prefix + ClientTables.ItemKnowledge)..]);
             if (own != 0) Add(own, "item", $"Item {key}");
             foreach (var (k, action) in CollectionCatalogBuilder.Inspected(record))
                 Add(k, action switch
@@ -55,7 +55,7 @@ public static class LearnSourceBuilder
             foreach (uint k in group.Keys) Add(k, "meditation", $"Knowledge group {group.Key}");
         return new JsonObject
         {
-            ["source"] = "Client events that teach each knowledge: item (iteminfo +107), read/zoom (inspect entries, action 0xD01D/0xC10C), region/node (regioninfo knowledge +14, node when the region type +4 is 7), character (knowledgeinfo character list), meditation (knowledgegroupinfo meditation flag).",
+            ["source"] = "Client events that teach each knowledge: item (iteminfo +108), read/zoom (inspect entries, action 0xD01D/0xC10C), region/node (regioninfo knowledge +14, node when the region type +4 is 7), character (knowledgeinfo character list), meditation (knowledgegroupinfo meditation flag).",
             ["knowledge"] = new JsonObject(sources.Select(p => KeyValuePair.Create<string, JsonNode?>(p.Key.ToString(),
                 new JsonArray(p.Value.Select(v => (JsonNode)v).ToArray())))),
             ["sourceSha256"] = source.Digests()

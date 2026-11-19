@@ -37,9 +37,10 @@ public sealed class ItemDatabasePage : UserControl
         var counts = new DockPanel(); counts.SetResourceReference(StyleProperty, "CountRow"); count.SetResourceReference(StyleProperty, "CountText");
         counts.Children.Add(count); DockPanel.SetDock(counts, Dock.Top); root.Children.Add(counts);
         category.ItemsSource = new[] { Tr.Text("All") }.Concat(ItemCatalog.Shared.Choices.Select(c => c.Category).Distinct().Order()).ToArray(); category.SelectedIndex = 0;
-        foreach (var (label, path, width) in new[] { ("ItemKey", "Key", 115d), ("Name", "Name", 230d), ("Internal Name", "InternalName", 230d), ("Category", "Category", 200d), ("Max Stack", "MaxStack", 110d) })
+        foreach (var (label, path, width) in new[] { ("ItemKey", "Key", 115d), ("Name", "Name", -1.5), ("Internal Name", "InternalName", -1d), ("Category", "Category", 200d), ("Max Stack", "MaxStack", 110d) })
         {
-            var column = new DataGridTextColumn { Binding = new Binding(path), Width = new(width) }; Tr.Bind(column, DataGridColumn.HeaderProperty, label); Rows.Columns.Add(column);
+            // A negative width is a share of the free space, so the names take the room left over instead of an empty filler column.
+            var column = new DataGridTextColumn { Binding = new Binding(path), Width = width < 0 ? new(-width, DataGridLengthUnitType.Star) : new(width), MinWidth = width < 0 ? 180 : 20 }; Tr.Bind(column, DataGridColumn.HeaderProperty, label); Rows.Columns.Add(column);
         }
         var image = new FrameworkElementFactory(typeof(Image)); image.SetBinding(Image.SourceProperty, new Binding("Icon")); image.SetValue(Image.WidthProperty, 32d); image.SetValue(Image.HeightProperty, 32d);
         Rows.Columns.Insert(0, new DataGridTemplateColumn { Width = 40, CellTemplate = new DataTemplate { VisualTree = image } });

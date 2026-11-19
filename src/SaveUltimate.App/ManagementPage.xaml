@@ -28,7 +28,8 @@
      <TextBlock Text="{local:Tr management.level}" Margin="0,0,0,4"/>
      <ComboBox x:Name="LevelInput" IsEnabled="False" SelectionChanged="OnLevelChanged" AutomationProperties.Name="{local:Tr management.level}"/>
      <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr management.apply}" Click="OnApply" IsEnabled="False" Margin="0,6"/>
-     <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8" Visibility="Collapsed"/>
+     <!-- Shown only for a shop that cannot be edited, in the same red as its state column. -->
+     <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8" Visibility="Collapsed" Foreground="{DynamicResource error}"/>
     </StackPanel>
    </ScrollViewer>
   </local:DetailSplit>

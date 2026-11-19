@@ -5,14 +5,16 @@ using SaveUltimate.Core.Saves;
 
 namespace SaveUltimate.App;
 
-public sealed record KnowledgeRow(uint Key, string Name, string InternalName, string Category, uint Level, uint Limit)
+public sealed record KnowledgeRow(uint Key, string Name, string InternalName, string Category, uint Level, uint Limit, uint? Record = null)
 {
     public bool Learned => Level > 0;
     public bool Done => Learned;
     public string Status => Tr.Text(Learned ? "Learned" : "Unlearned");
     public string LevelText => $"{Level} / {Limit}";
-    public string InternalLabel => InternalName.Replace("Knowledge_", "").Replace('_', ' ');
-    public string? Description => KnowledgeText.Get(Key).Description is { Length: > 0 } text ? text : null;
+    /// <summary>The save's learn-from record as the game names it, with what it means ("Shop · Bought at a shop"). A learned
+    /// entry without one says so (the game writes none for some, such as the main characters); an unlearned one is blank.</summary>
+    public string RecordText => Record is not uint value ? Learned ? Tr.Text("knowledge.from.missing") : "" : Enum.IsDefined((LearnFrom)value)
+        ? $"{(LearnFrom)value} · {Tr.Text($"knowledge.from.{(LearnFrom)value}")}" : $"{value} · {Tr.Text("knowledge.from.unknown")}";
 }
 
 /// <summary>A journal category in the left tree: the entries under it (after the filters) and how many are learned.
@@ -64,7 +66,8 @@ public partial class KnowledgePage : UserControl
             var text = KnowledgeText.Get(p.Key);
             return new KnowledgeRow(p.Key, text.Name, text.InternalName,
                 string.Join(" › ", p.Value.Select(k => GroupName(Catalog.Groups.Single(g => g.Key == k)))),
-                Model.Knowledge.GetValueOrDefault(p.Key), Catalog.LevelCounts[p.Key]);
+                Model.Knowledge.GetValueOrDefault(p.Key), Catalog.LevelCounts[p.Key],
+                Model.LearnRecords.TryGetValue(p.Key, out uint record) ? record : null);
         }).ToArray();
         // The whole-journal action ignores the filters, as its help text says.
         AllMaximum.IsEnabled = entries.Any(r => r.Level < r.Limit);
@@ -77,7 +80,7 @@ public partial class KnowledgePage : UserControl
         var expanded = All(nodes).Where(n => n.Expanded).Select(n => n.Key).ToHashSet();
         string search = Search.Text.Trim();
         var shown = entries.Where(r => (State.SelectedIndex != 1 || r.Learned) && (State.SelectedIndex != 2 || !r.Learned) &&
-            (search.Length == 0 || $"{r.Name} {r.InternalName} {r.Key} {r.Category}".Contains(search, StringComparison.OrdinalIgnoreCase))).ToArray();
+            (search.Length == 0 || $"{r.Name} {r.InternalName} {r.Key} {r.Category} {r.RecordText}".Contains(search, StringComparison.OrdinalIgnoreCase))).ToArray();
         // Each entry belongs to every category on its path, so a category lists its subcategories' entries too.
         var byGroup = shown.SelectMany(r => Catalog.ItemPaths[r.Key].Select(g => (g, r))).ToLookup(p => p.g, p => p.r);
         KnowledgeNode? Build(uint key)
@@ -125,9 +128,6 @@ public partial class KnowledgePage : UserControl
             : row is null ? Tr.Text("knowledge.level_select") : !row.Learned ? ""
             : !Apply.IsEnabled ? Tr.Text("knowledge.level_unsupported") : "";
         Hint.Visibility = Hint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
-        Description.Text = row is null ? "" : row.Description ?? Tr.Text("No description available");
-        Description.ToolTip = Description.Text.Length > 0 ? Description.Text : null;
-        Description.Visibility = row is null ? Visibility.Collapsed : Visibility.Visible;
     }
     private void OnGroupSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
     {

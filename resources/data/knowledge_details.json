@@ -1,20 +1,20 @@
 {
   "sourceSha256": {
-    "eng_knowledge.dlc_01.paloc": "3bb92213150f901738ec62ec36cbc37bcac8f9236d0e04a03704d4fd5eda600e",
+    "eng_knowledge.dlc_01.paloc": "f36e8b58c97d960eec924c9a943772e6f38361656ccf9507a5757757bf823ef3",
     "eng_knowledge.paloc": "f10e66cbc07f96c3a26c451af8e58daaf4fec1fbcd9ddd9f447d356dc6fd25b5",
-    "jpn_knowledge.dlc_01.paloc": "853c9a00b509cd47483d934f5662a583f2858a75506dbec43e38a273b9db3906",
-    "jpn_knowledge.paloc": "ed79fa73f5dea0f51942c5738ea8dd5f2070321fd8f1f97d71b672fbcb85f710",
-    "knowledgegroupinfo.dlc_01.staticinfobody": "c9af7c581eacddbdd7360d50abf6388b4aa0925d4bd46d502c1dc4b29bd4292f",
-    "knowledgegroupinfo.dlc_01.staticinfoheader": "039b523567fa59a4277b492043ac32fcdc0b95971e84a62248bf540cf98b7944",
+    "jpn_knowledge.dlc_01.paloc": "ac6b46fb680b9f8aa782824a2ba90106fea8ad875c8ee34630ec4d9920ea2413",
+    "jpn_knowledge.paloc": "8b43149d2afacc24da6c31a0c70bf0a30b6e0fbe0852faf1c0ab2c2fdd794439",
+    "knowledgegroupinfo.dlc_01.staticinfobody": "2fc25d5c2a8c7f57a8ce265d2b33423702684a9ae4d7f8150da4331cf5ee075a",
+    "knowledgegroupinfo.dlc_01.staticinfoheader": "e6a017bc0d1596d749b92f9b1ac88f1a79eb54930bd941c89787808fd00c40d1",
     "knowledgegroupinfo.staticinfobody": "906e9de46590d95307f8d6035674e28e50c4da6cd84f64e873bd0d318858c222",
     "knowledgegroupinfo.staticinfoheader": "d6bb1b9d981ee21b3d8b7b6ca4b8d4f353c07987caf7c68458865050a6c83a38",
-    "knowledgeinfo.dlc_01.staticinfobody": "f31b62bf34e0d610c963e88bdd5e5ef04b46fc0dd90e36998b17b772d4cdaaaf",
+    "knowledgeinfo.dlc_01.staticinfobody": "274cdca7a96c8402d63ceb7bc3b4b8985ec466dafcdf32061d8e21e945ad7fa4",
     "knowledgeinfo.dlc_01.staticinfoheader": "a10bae6ac61f99328e67ceb72a2e6c1bcc625de51792b349989e831cf10e5080",
     "knowledgeinfo.staticinfobody": "2244bae76e221d483fb2e4db24c9ffee7db4bc84f8d26fcc43bd5c34a4cffe8c",
     "knowledgeinfo.staticinfoheader": "bfe9507920d49d465c636ca92123f9cf5acad16dc398c0a2a2be6352b24c490e",
-    "kor_knowledge.dlc_01.paloc": "d423553fc4ef12ab8322cb3157c3d75c34aa945d76e6794bc8b112850e2a81d1",
+    "kor_knowledge.dlc_01.paloc": "9f66bf6b97c28a018479848cf473e5d05e6990155aa5bc36909d48b346901ed8",
     "kor_knowledge.paloc": "3212530e0170d761738d10c802db5076284a20e5bcba2d61f7c8f21f841b5c7c",
-    "rus_knowledge.dlc_01.paloc": "18e2f10df3adb585613f1213127cd72e0b73de036436d959978ce41ec2cf912e",
+    "rus_knowledge.dlc_01.paloc": "8099daa6e160ed193dd8009beb89d4c63e5fc639109ce4b99939245858875edb",
     "rus_knowledge.paloc": "c8f4f179bc2aa2f4542e88be6d6948c2d30ebd5cbb5c698999d9884e76bc02fc"
   },
   "items": {
