@@ -10,7 +10,7 @@ src/
   SaveUltimate.Tools/   Command-line helpers and the builders of the baseline catalogs (not shipped)
 resources/              Baseline catalogs, UI translations, fonts and original artwork
 tests/                  MSTest suite that needs no saves
-scripts/                Build and verification scripts
+scripts/                Build script
 ```
 
 The application loads `resources/` from beside the EXE. In-app synchronization
@@ -60,8 +60,8 @@ Test classes run side by side. A test that uses WPF or a process-wide static suc
 `[DoNotParallelize]`.
 
 Keep saves, extracted game files, settings, backups, credentials and research
-outputs out of the repository. `docs/` and `artifacts/` hold private notes and
-measurement evidence and are ignored.
+outputs out of the repository. Private notes and measurement evidence are kept
+outside it.
 
 Preserve existing copyright notices. Original contributions use MIT; changes to
 inherited files retain their existing terms, as listed in [LICENSES.md](LICENSES.md).
@@ -70,7 +70,7 @@ inherited files retain their existing terms, as listed in [LICENSES.md](LICENSES
 
 ```powershell
 ./scripts/Build.ps1 -Test -Publish
-./scripts/Build.ps1 -Publish -OutputDirectory ../releases/SaveUltimate-x.y.z
+./scripts/Build.ps1 -Publish -OutputDirectory releases/SaveUltimate-x.y.z
 ./scripts/Build.ps1 -Publish -NoOnlineUpdate   # Nexus Mods package
 ```
 

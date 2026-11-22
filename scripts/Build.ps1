@@ -12,7 +12,8 @@ try {
     $env:DOTNET_CLI_HOME = Join-Path $root '.tools/cli'
     $env:DOTNET_CLI_TELEMETRY_OPTOUT = '1'
     $env:DOTNET_GENERATE_ASPNET_CERTIFICATE = 'false'
-    $env:NUGET_PACKAGES = Join-Path $root '.tools/packages'
+    # The shared NuGet cache; the license step below reads package notices from it.
+    if (!$env:NUGET_PACKAGES) { $env:NUGET_PACKAGES = Join-Path $env:USERPROFILE '.nuget/packages' }
     $dotnet = Join-Path $root '.tools/dotnet/dotnet.exe'
     if (!(Test-Path -LiteralPath $dotnet)) { $dotnet = (Get-Command dotnet -ErrorAction Stop).Source }
     $env:DOTNET_ROOT = Split-Path $dotnet
@@ -23,7 +24,7 @@ try {
     if ($LASTEXITCODE) { throw 'Managed compilation failed.' }
     if ($Test) {
         $testClock = [Diagnostics.Stopwatch]::StartNew()
-        & $dotnet test tests/SaveUltimate.Tests -c Release --no-build --no-restore -m:1 --logger trx --results-directory artifacts/tests
+        & $dotnet test tests/SaveUltimate.Tests -c Release --no-build --no-restore -m:1
         if ($LASTEXITCODE) { throw 'Tests failed.' }
         if ($testClock.Elapsed.TotalMinutes -gt 3) { Write-Warning ('Tests took {0:N1} minutes; keep them under 3.' -f $testClock.Elapsed.TotalMinutes) }
     }
