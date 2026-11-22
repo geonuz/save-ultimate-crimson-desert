@@ -77,8 +77,9 @@ inherited files retain their existing terms, as listed in [LICENSES.md](LICENSES
 `-Publish` creates a self-contained `SaveUltimate.exe` (no .NET installation
 needed) with its native `.dll` files beside it in
 `releases/SaveUltimate-<timestamp>/` unless `-OutputDirectory` is given. The
-folder also contains `resources/`, `licenses/`,
-this repository's license and change notes, `dependencies.lock.json` and a
+folder also contains `resources/`, `licenses/` (the notices in this repository's
+`licenses/` plus those of .NET and the NuGet packages), `LICENSE`, `LICENSES.md`,
+`README.md`, `CHANGELOG.md`, `dependencies.lock.json` and a
 `release-manifest.json` with the SHA-256 of every file. ZIP that folder for
 distribution. Builds are unsigned unless you sign them afterwards; record the
 final hashes again after signing.
@@ -107,6 +108,7 @@ drops when their implementation is missing. The `OnlineUpdate` property in
 `Directory.Build.props` (default `true`) decides whether that folder and
 `AppUpdateTests.cs` are compiled; `-NoOnlineUpdate` passes `-p:OnlineUpdate=false`
 and then fails the build if the EXE still contains `AppUpdate` or the GitHub API
-address. That package also leaves out `README.md`, which describes the GitHub
-release and updater; the Nexus Mods page takes its place. Keep new update code inside `Updates/` and reach it through a partial
+address. That package also leaves out `README.md` and `CHANGELOG.md`, which
+describe the GitHub release and updater; the Nexus Mods page and its Changelogs
+tab take their place. Keep new update code inside `Updates/` and reach it through a partial
 method, so the Nexus Mods build stays free of network code.

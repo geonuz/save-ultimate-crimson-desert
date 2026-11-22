@@ -1,9 +1,10 @@
-# Private documentation, measurement evidence and local SDK/packages.
+# Private notes, measurement evidence and the tests that open real saves are kept outside this repository; these
+# folders, where they once lived, stay ignored so a stray copy is never committed. release.yml also refuses them.
 /docs/
 /artifacts/
-/.tools/
-# Tests that open real saves, with the saves themselves: personal data.
 /tests/SaveUltimate.SaveTests/
+# Local dotnet CLI home used by scripts/Build.ps1.
+/.tools/
 
 # Build outputs.
 **/bin/
