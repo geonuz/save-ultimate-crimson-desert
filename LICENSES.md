@@ -22,4 +22,4 @@ Distribute binaries together with their matching MPL-covered source and build in
 | Hahmlet Regular/SemiBold embedded in the WPF application | SIL OFL 1.1; `licenses/Hahmlet-OFL.txt` |
 | Game catalogs and translated game names | Copyright Pearl Abyss; excluded from the MIT grant |
 
-The app icon and placeholder artwork are original project assets under MIT. Extracted game artwork and personal saves are not release inputs. Legacy Python/Qt notices retained in the source `licenses/` directory describe provenance; Python and Qt are not dependencies of this C# build.
+The app icon and placeholder artwork are original project assets under MIT. Extracted game artwork and personal saves are not release inputs. Python and Qt are not dependencies of this C# build; the notices and license scope of the earlier Python/Qt edition remain in this repository's Git history.
