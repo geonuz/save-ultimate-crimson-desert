@@ -69,10 +69,10 @@ public sealed record SaveContainer(ushort Version, byte[] Header, byte[] Blob)
     internal static void Write(ReadOnlySpan<byte> source, byte[] blob, string destination)
     {
         var original = Decode(source);
-        int schema = ParcLayout.Parse(original.Blob).SchemaEnd;
         var layout = ParcLayout.Parse(blob);
         ParcReader.Validate(blob, layout);
-        if (!blob.AsSpan(0, layout.SchemaEnd).SequenceEqual(original.Blob.AsSpan(0, schema)))
+        // Edits keep the loaded schema; a house import may append the types its parts need.
+        if (!ParcLayout.Extends(blob, layout, original.Blob, ParcLayout.Parse(original.Blob)))
             throw new InvalidDataException("Edited save schema differs from the loaded source schema.");
         Store(Encode(source, blob), blob, destination);
     }

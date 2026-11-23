@@ -38,8 +38,8 @@
      <Button Style="{StaticResource AccentButton}" x:Name="Rename" Content="{local:Tr 'Rename Selected'}" Click="OnRename" IsEnabled="False"/>
      <Button Style="{StaticResource DangerButton}" x:Name="Clear" Content="{local:Tr 'Clear Name'}" Click="OnClear" IsEnabled="False" Margin="0,8"/>
      <StackPanel x:Name="OrderButtons" Margin="0,8,0,0">
-      <Button x:Name="MoveUp" Content="{local:Tr companion.move_up}" Click="OnMove" IsEnabled="False"/>
-      <Button x:Name="MoveDown" Content="{local:Tr companion.move_down}" Click="OnMove" IsEnabled="False" Margin="0,8"/>
+      <Button Style="{StaticResource AccentButton}" x:Name="MoveUp" Content="{local:Tr companion.move_up}" Click="OnMove" IsEnabled="False"/>
+      <Button Style="{StaticResource AccentButton}" x:Name="MoveDown" Content="{local:Tr companion.move_down}" Click="OnMove" IsEnabled="False" Margin="0,8"/>
      </StackPanel>
     </StackPanel>
     <StackPanel x:Name="CompanionPanel">

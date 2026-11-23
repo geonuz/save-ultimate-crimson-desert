@@ -45,17 +45,8 @@ public partial class KnowledgePage : UserControl
     {
         InitializeComponent();
         Ui.Follow(this, nameof(MainViewModel.Knowledge), Refresh);
-        IsVisibleChanged += (_, e) => { if ((bool)e.NewValue) FitColumns(); };
+        IsVisibleChanged += (_, e) => { if ((bool)e.NewValue) Ui.FitAutoColumns(Rows); };
     }
-    // Auto columns keep their first measurement, taken while the page was still hidden; remeasure once shown. The collapsed
-    // layout must run before widths are restored, or Auto columns keep shrinking and star columns stop sharing the space.
-    private void FitColumns() => Dispatcher.InvokeAsync(() =>
-    {
-        var widths = Rows.Columns.Select(c => c.Width).ToArray();
-        foreach (var column in Rows.Columns.Where(c => c.Width.IsAuto)) column.Width = 0;
-        Rows.UpdateLayout();
-        for (int i = 0; i < widths.Length; i++) Rows.Columns[i].Width = widths[i];
-    }, System.Windows.Threading.DispatcherPriority.Loaded);
     private static bool Visible(uint key) => !DlcContent.Hidden || !DlcContent.Shared.Knowledge.Contains(key);
     internal static string GroupName(KnowledgeGroup group) => Tr.Name("knowledge_groups", group.Key.ToString(), Tr.Language == "ko" ? group.NameKo : group.Name);
     private static IEnumerable<KnowledgeNode> All(IEnumerable<KnowledgeNode> source) => source.SelectMany(n => new[] { n }.Concat(All(n.Children)));

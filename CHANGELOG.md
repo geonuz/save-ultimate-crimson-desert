@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.9.0]
+
+### New
+
+- **Life → Housing:** activate the DLC plots, and export or import houses.
+- **NPC → Pets & Mounts:** reorder ships.
+- **French, German, Spanish and Brazilian Portuguese.**
+- Update notes appear in the editor's language.
+
+### Fixed
+
+- Knowledge: Learned From showed No record right after opening a save.
+- Restoring a backup now also keeps a copy in the editor's `backups/` folder.
+
+### Other
+
+- Tab help is clearer. Backup/Restore help says each save keeps its 10 newest backups.
+
 ## [1.8.2]
 
 Updated to work with Crimson Desert 2.05.01.

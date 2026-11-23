@@ -202,17 +202,19 @@ public sealed partial class SaveDocument
 
     // Every edit ends here: the candidate replaces the document only if it passes all checks, and Undo can always return from it.
     // changed names the blocks the edit means to touch; verify is the edit's own check of its result.
-    internal void Transact(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify = null)
+    // addsTypes lets the edit append types to the schema (a house import that uses part kinds the save has never held).
+    // addsBlock names the one block the edit may add, which the save must not hold yet (the first free-construction house).
+    internal void Transact(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify = null, bool addsTypes = false, string? addsBlock = null)
     {
         var patches = Difference(candidate);
         // The last structural edit's result is this edit's input unless another edit intervened.
         var before = patches is not null ? null : undo.TryPeek(out var previous) && previous.Patches is null ? previous.After! : Snapshot.Capture(blob, snapshotBuffer);
         var after = patches is not null ? null : Snapshot.Capture(candidate, snapshotBuffer);
-        Adopt(candidate, changed, verify, restoring: false);
+        Adopt(candidate, changed, verify, restoring: false, addsTypes, addsBlock);
         if (patches is not { Length: 0 }) undo.Push((patches, before, after, changed));
     }
 
-    private void Adopt(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify, bool restoring)
+    private void Adopt(byte[] candidate, string[] changed, Action<ParcLayout, IReadOnlyList<InventoryItem>>? verify, bool restoring, bool addsTypes = false, string? addsBlock = null)
     {
         Guid next = Guid.NewGuid();
         var layout = Layout.Reparse(candidate, blob);
@@ -222,10 +224,18 @@ public sealed partial class SaveDocument
         {
             // Rows like these crash the game at the title screen, so no edit may add one. Undo may bring back what Save Doctor repaired.
             if (damaged > DamagedRows) throw new InvalidDataException("The edit would damage mission rows.");
-            if (!candidate.AsSpan(0, layout.SchemaEnd).SequenceEqual(blob.AsSpan(0, Layout.SchemaEnd)) ||
-                !layout.Blocks.Select(b => (b.Name, b.TypeIndex)).SequenceEqual(Layout.Blocks.Select(b => (b.Name, b.TypeIndex))))
+            // The blocks the save held, in their order; an added block may only be the one named, once, where the old list had none.
+            var kept = layout.Blocks.ToList();
+            if (addsBlock is not null)
+            {
+                if (!changed.Contains(addsBlock) || Layout.Blocks.Any(b => b.Name == addsBlock) || kept.Count(b => b.Name == addsBlock) != 1)
+                    throw new InvalidDataException("Edit changed the save schema.");
+                kept.RemoveAll(b => b.Name == addsBlock);
+            }
+            if (!(addsTypes ? ParcLayout.Extends(candidate, layout, blob, Layout) : candidate.AsSpan(0, layout.SchemaEnd).SequenceEqual(blob.AsSpan(0, Layout.SchemaEnd))) ||
+                !kept.Select(b => (b.Name, b.TypeIndex)).SequenceEqual(Layout.Blocks.Select(b => (b.Name, b.TypeIndex))))
                 throw new InvalidDataException("Edit changed the save schema.");
-            if (Layout.Blocks.Zip(layout.Blocks).Any(p => !changed.Contains(p.First.Name) && p.First.Size != p.Second.Size))
+            if (Layout.Blocks.Zip(kept).Any(p => !changed.Contains(p.First.Name) && p.First.Size != p.Second.Size))
                 throw new InvalidDataException("Edit changed an unrelated block layout.");
             static IEnumerable<(ItemSource, ulong, uint, ulong)> Others(IEnumerable<InventoryItem> all, string[] changed) => all
                 .Where(i => !changed.Contains(Inventory.ClassName(i.Source))).Select(i => (i.Source, i.Number, i.Key, i.Quantity));

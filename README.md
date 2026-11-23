@@ -4,8 +4,8 @@ SaveUltimate is an unofficial save editor for Crimson Desert on Windows
 x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
 Developed and maintained by geonuz with assistance from AI agents.
 
-The interface supports English, Korean, Japanese and Russian. Game names and
-descriptions use the game's localization data.
+The interface supports English, Korean, Japanese, Russian, French, German, Spanish and Brazilian Portuguese. Game
+names and descriptions use the game's localization data.
 
 ## Supported game versions
 
@@ -75,8 +75,8 @@ Items, recipes, resources and rewards themselves are not awarded.
 - **Mercenaries**: view level, skill points and equipment; add or remove Grey-0
   robot workers and festival recruits, even on a save that
   has none yet.
-- **Pets & Special Mounts**: rename them and change their order, which the game
-  does not offer.
+- **Pets & Mounts**: rename pets, special mounts and ships, and change their
+  order, which the game does not offer.
 - **Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
   toward Kliff, Oongka or Damiane. After raising Kliff's bond with a witch, talk
   to her once in the game and her romance quest moves on from the new bond.
@@ -86,6 +86,14 @@ Items, recipes, resources and rewards themselves are not awarded.
 - **Business**: see every DLC sawmill, restaurant, forge and clothier,
   and set the renown (1–5) of the shops you run. A shop you have not opened, or
   one with no renown yet, says what to do in the game first.
+- **Housing**: activate the 15 DLC plots without finding them or sending
+  mercenaries, export a free-construction house to a `.suhouse` file, and import
+  one into any active plot, replacing the house there. A ready-built house is
+  switched to free construction; one with furniture in it needs the furniture
+  recalled in the game first. Every plot has the same build area, so a house
+  built on one plot fits another. Structures the save has never had, and parts
+  you lack the knowledge for, go in too. Decorations go in without their items,
+  and recalling them in the game gives those items.
 
 ### Other
 
@@ -100,7 +108,8 @@ Items, recipes, resources and rewards themselves are not awarded.
 ### Backup/Restore
 
 Back up the save before writing it, keep a reference (PRISTINE) copy made the
-first time a save is opened, and restore or delete backups.
+first time a save is opened, and restore or delete backups. Each save keeps its
+10 newest backups; older ones are deleted, and PRISTINE is always kept.
 
 ### Save Doctor (Experimental)
 

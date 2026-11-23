@@ -168,7 +168,7 @@ public static class KnowledgeCatalogBuilder
         };
 
         var names = load("data/knowledge_keys_all.json").AsArray().Select(n => n!.AsObject()).ToDictionary(n => n["key"]!.GetValue<uint>(), n => (JsonObject)n.DeepClone());
-        var packs = new[] { "ko", "ja", "ru" }.ToDictionary(c => c, c => load($"locale/names_{c}.json").AsObject());
+        var packs = ClientMetadata.Translated.ToDictionary(c => c, c => load($"locale/names_{c}.json").AsObject());
         void Pack(string section, string key, Func<string, string> text)
         {
             foreach (var (code, pack) in packs)

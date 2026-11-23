@@ -86,7 +86,12 @@ final hashes again after signing.
 
 Set `Version` and the verified `GameVersion` in `Directory.Build.props`; the
 window shows both under Settings. Add the matching `## [x.y.z]` entry to
-`CHANGELOG.md` in the same change.
+`CHANGELOG.md` in the same change, and the same entry in every other interface
+language in `changelog/<code>.md`. An entry lists what users notice, briefly,
+under `### New`, `### Fixed` and `### Other` in that order; a fix to something new
+in the same release is not listed. The release workflow refuses a version that a
+language lacks, and uploads the entries as `release-notes.json`, from which the
+updater shows the notes in the editor's language.
 
 Every push to `main` runs `.github/workflows/release.yml`, which tests, builds and
 publishes a GitHub release tagged `v<version>-<commit>` with two packages:

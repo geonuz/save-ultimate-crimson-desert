@@ -8,7 +8,12 @@ using System.Text.RegularExpressions;
 
 namespace SaveUltimate.App;
 
-public sealed record AppRelease(Version Version, string Notes, string Package, string Sha256);
+public sealed record AppRelease(Version Version, string Notes, string Package, string Sha256, string? NotesFile = null)
+{
+    /// <summary>The release notes by interface language (release-notes.json); empty when the release has none or it did not download.</summary>
+    public IReadOnlyDictionary<string, string> Translated { get; init; } = new Dictionary<string, string>();
+    public string NotesIn(string language) => Translated.GetValueOrDefault(language) ?? Notes;
+}
 
 public static class AppUpdate
 {
@@ -25,7 +30,14 @@ public static class AppUpdate
         return client;
     }
 
-    public static async Task<AppRelease?> CheckAsync() => ReadRelease(await http.GetStringAsync(LatestRelease), Current);
+    public static async Task<AppRelease?> CheckAsync()
+    {
+        var release = ReadRelease(await http.GetStringAsync(LatestRelease), Current);
+        if (release?.NotesFile is not { } notes) return release;
+        // Only text to show: without it the English notes of the release page stand.
+        try { return release with { Translated = ReadNotes(await http.GetStringAsync(notes)) }; }
+        catch (Exception error) when (error is HttpRequestException or TaskCanceledException or JsonException or InvalidOperationException) { return release; }
+    }
 
     public static AppRelease? ReadRelease(string json, Version current)
     {
@@ -34,12 +46,22 @@ public static class AppUpdate
         if (!tag.Success) throw new InvalidDataException("The latest release has an unknown version.");
         var version = new Version(tag.Groups[1].Value);
         if (version <= current) return null;
-        foreach (var asset in release.RootElement.GetProperty("assets").EnumerateArray())
+        var assets = release.RootElement.GetProperty("assets").EnumerateArray().ToArray();
+        string? notes = assets.Where(a => a.GetProperty("name").GetString() == "release-notes.json").Select(a => a.GetProperty("browser_download_url").GetString()).FirstOrDefault();
+        foreach (var asset in assets)
             if (asset.GetProperty("name").GetString() == $"SaveUltimate-{version}-windows-x64.zip" && asset.TryGetProperty("digest", out var digest) &&
                 Regex.Match(digest.GetString() ?? "", "^sha256:([0-9a-f]{64})$") is { Success: true } hash)
-                return new(version, Regex.Replace(release.RootElement.GetProperty("body").GetString() ?? "", @"\*\*|`|\s*Source: \S+\s*$", ""), asset.GetProperty("browser_download_url").GetString()!, hash.Groups[1].Value);
+                return new(version, Plain(release.RootElement.GetProperty("body").GetString() ?? ""), asset.GetProperty("browser_download_url").GetString()!, hash.Groups[1].Value, notes);
         throw new InvalidDataException("The latest release has no verifiable package.");
     }
+
+    // release-notes.json: {"en": "...", "ko": "...", ...}, each the CHANGELOG entry in that language.
+    public static Dictionary<string, string> ReadNotes(string json)
+        => (JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? throw new JsonException("No release notes.")).ToDictionary(p => p.Key, p => Plain(p.Value));
+
+    // Changelog markdown as message text: headings and emphasis marks go, wrapped bullet lines join, the source link goes.
+    private static string Plain(string text) => Regex.Replace(Regex.Replace(text, @"\r?\n[ \t]+(?=\S)", " "),
+        @"\*\*|`|^#+ |\s*Source: \S+\s*$", "", RegexOptions.Multiline).Trim();
 
     public static async Task<string> DownloadAsync(AppRelease release, string folder, IProgress<int> progress)
     {

@@ -44,6 +44,34 @@ public sealed record ParcLayout(IReadOnlyList<ParcType> Types, IReadOnlyList<Par
         return ReadBlocks(blob, types, schemaEnd);
     }
 
+    // The schema header: 14 bytes, two u16, then the u16 type count; the type definitions follow it.
+    internal const int TypeCountOffset = 18;
+
+    // A grown schema is the original with types appended: the same bytes but the type count, then new names only.
+    internal static bool Extends(ReadOnlySpan<byte> grown, ParcLayout grownLayout, ReadOnlySpan<byte> original, ParcLayout originalLayout)
+    {
+        int end = originalLayout.SchemaEnd, start = TypeCountOffset + 2;
+        if (grownLayout.SchemaEnd < end || !grown[..TypeCountOffset].SequenceEqual(original[..TypeCountOffset]) || !grown[start..end].SequenceEqual(original[start..end]))
+            return false;
+        var names = originalLayout.Types.Select(t => t.Name).ToHashSet(StringComparer.Ordinal);
+        return grownLayout.Types.Skip(originalLayout.Types.Count).All(t => names.Add(t.Name));
+    }
+
+    // One type definition as the schema stores it: name, u16 field count, then each field's name, type name, kind, size and auxiliary.
+    internal static byte[] TypeBytes(ParcType type)
+    {
+        using var s = new MemoryStream();
+        void Text(string value) { byte[] b = System.Text.Encoding.UTF8.GetBytes(value); s.Write(BitConverter.GetBytes(b.Length)); s.Write(b); }
+        Text(type.Name);
+        s.Write(BitConverter.GetBytes(checked((ushort)type.Fields.Count)));
+        foreach (var f in type.Fields)
+        {
+            Text(f.Name); Text(f.TypeName);
+            s.Write(BitConverter.GetBytes(f.Kind)); s.Write(BitConverter.GetBytes(f.Size)); s.Write(BitConverter.GetBytes(f.Auxiliary));
+        }
+        return s.ToArray();
+    }
+
     internal ParcLayout Reparse(ReadOnlySpan<byte> blob, ReadOnlySpan<byte> previous)
         => blob.Length >= SchemaEnd && previous[..SchemaEnd].SequenceEqual(blob[..SchemaEnd])
             ? ReadBlocks(blob, Types, SchemaEnd) : Parse(blob);

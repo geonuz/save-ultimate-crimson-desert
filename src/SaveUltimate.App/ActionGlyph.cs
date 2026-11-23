@@ -41,6 +41,9 @@ public sealed class ActionGlyph : FrameworkElement
                 ("refresh", ["load","refresh","sync","불러오기","새로고침","동기화"]), ("help", ["help","도움말"]),
                 ("settings", ["settings","설정"]), ("next", ["next","다음"]), ("previous", ["previous","이전"]) })
                 if (words.Any(text.Contains)) return kind;
+            // Whole words only: "Release Important Item" is no import.
+            if (System.Text.RegularExpressions.Regex.IsMatch(text, @"\bexport\b")) return "export";
+            if (System.Text.RegularExpressions.Regex.IsMatch(text, @"\bimport\b")) return "import";
             return "apply";
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;

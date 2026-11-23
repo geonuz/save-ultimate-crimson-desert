@@ -6,7 +6,12 @@ namespace SaveUltimate.Core.Catalogs;
 internal static class ClientMetadata
 {
     internal static readonly Dictionary<string, (string Group, string Name)> Languages = new()
-    { ["en"] = ("0020", "eng"), ["ko"] = ("0019", "kor"), ["ja"] = ("0021", "jpn"), ["ru"] = ("0022", "rus") };
+    {
+        ["en"] = ("0020", "eng"), ["ko"] = ("0019", "kor"), ["ja"] = ("0021", "jpn"), ["ru"] = ("0022", "rus"),
+        ["fr"] = ("0026", "fre"), ["de"] = ("0027", "ger"), ["es"] = ("0024", "spa-es"), ["pt"] = ("0030", "por-br"),
+    };
+    /// <summary>The languages with a game-name pack (locale/names_xx.json): all but English, which the data files hold.</summary>
+    internal static IEnumerable<string> Translated => Languages.Keys.Where(c => c != "en");
     private static readonly Dictionary<string, string> BroadNames = new()
     {
         ["ItemGroup_Equip_Weapon"] = "3090942479503982768", ["ItemGroup_Equip_Armor"] = "10295248913040408752",
@@ -64,7 +69,7 @@ internal static class ClientMetadata
             return BroadNames.TryGetValue(group.Internal, out var name) ? uiTexts[code].GetValueOrDefault(name, "") : groupTexts[code].GetValueOrDefault(group.Reference, "");
         }
         var packs = new Dictionary<string, JsonObject>();
-        foreach (string code in Languages.Keys.Where(c => c != "en"))
+        foreach (string code in Translated)
         {
             string name = $"locale/names_{code}.json";
             var pack = JsonNode.Parse(File.ReadAllBytes(Path.Combine(resources, name)))!.AsObject();

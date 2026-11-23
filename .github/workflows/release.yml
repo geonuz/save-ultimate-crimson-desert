@@ -44,6 +44,16 @@ jobs:
           New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/release" | Out-Null
           $notes = $match.Groups[1].Value.Trim() + "`n`nSource: https://github.com/$env:GITHUB_REPOSITORY/commit/$env:GITHUB_SHA"
           Set-Content -Encoding utf8 "$env:RUNNER_TEMP/release/notes.md" $notes
+          # The editor shows these notes in its own language; every interface language needs changelog/<code>.md.
+          $translated = [ordered]@{ en = $match.Groups[1].Value.Trim() }
+          foreach ($code in Get-ChildItem resources/locale -Filter *.json | Where-Object Name -notlike 'names_*' | ForEach-Object BaseName | Where-Object { $_ -ne 'en' } | Sort-Object) {
+            $file = "changelog/$code.md"
+            if (!(Test-Path $file)) { throw "$file is missing" }
+            $entry = [regex]::Match((Get-Content -Raw -Encoding utf8 $file), "(?ms)^## \[$([regex]::Escape($version))\]\s*\r?\n(.*?)(?=^## \[|\z)")
+            if (!$entry.Success) { throw "$file has no ## [$version] entry" }
+            $translated[$code] = $entry.Groups[1].Value.Trim()
+          }
+          Set-Content -Encoding utf8 "$env:RUNNER_TEMP/release/release-notes.json" ($translated | ConvertTo-Json)
           $tag = "v$version-$($env:GITHUB_SHA.Substring(0, 12))"
           "version=$version" >> $env:GITHUB_OUTPUT
           "tag=$tag" >> $env:GITHUB_OUTPUT
@@ -87,7 +97,7 @@ jobs:
             gh release create $env:RELEASE_TAG --draft --target $env:GITHUB_SHA --title "SaveUltimate $env:RELEASE_TAG" --notes-file "$env:RUNNER_TEMP/release/notes.md"
             if ($LASTEXITCODE) { throw 'Could not create release draft' }
           }
-          gh release upload $env:RELEASE_TAG "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip" "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64-noupdate.zip" --clobber
+          gh release upload $env:RELEASE_TAG "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip" "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64-noupdate.zip" "$env:RUNNER_TEMP/release/release-notes.json" --clobber
           if ($LASTEXITCODE) { throw 'Could not upload release packages' }
           gh release edit $env:RELEASE_TAG --draft=false --latest
           if ($LASTEXITCODE) { throw 'Could not publish release' }

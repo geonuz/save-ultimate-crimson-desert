@@ -39,13 +39,16 @@ public static partial class SkillCatalogBuilder
             if (KeyboardKey().Match(input.Groups[2].Value) is { Success: true } key) result.TryAdd(input.Groups[1].Value.Replace("_", ""), key.Groups[1].Value);
         return result;
     }
-    // By language: en, ko, ja, ru.
+    // By language, in ClientMetadata.Languages order: en, ko, ja, ru, fr, de, es, pt.
     private static readonly Dictionary<string, string[]> KeyNames = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["mouseL"] = ["Left Click", "좌클릭", "左クリック", "ЛКМ"], ["mouseR"] = ["Right Click", "우클릭", "右クリック", "ПКМ"],
-        ["mouseM"] = ["Middle Click", "휠 클릭", "ホイールクリック", "СКМ"], ["mouseX1"] = ["Mouse 4", "마우스 4", "マウス4", "Мышь 4"],
-        ["mouseX2"] = ["Mouse 5", "마우스 5", "マウス5", "Мышь 5"], ["mouseWheel"] = ["Mouse Wheel", "마우스 휠", "マウスホイール", "Колесо мыши"],
-        ["lshift"] = ["Shift", "Shift", "Shift", "Shift"], ["caps"] = ["Caps Lock", "Caps Lock", "Caps Lock", "Caps Lock"], ["escape"] = ["Esc", "Esc", "Esc", "Esc"]
+        ["mouseL"] = ["Left Click", "좌클릭", "左クリック", "ЛКМ", "Clic gauche", "Linksklick", "Clic izquierdo", "Clique esquerdo"],
+        ["mouseR"] = ["Right Click", "우클릭", "右クリック", "ПКМ", "Clic droit", "Rechtsklick", "Clic derecho", "Clique direito"],
+        ["mouseM"] = ["Middle Click", "휠 클릭", "ホイールクリック", "СКМ", "Clic molette", "Mittelklick", "Clic central", "Clique do meio"],
+        ["mouseX1"] = ["Mouse 4", "마우스 4", "マウス4", "Мышь 4", "Souris 4", "Maus 4", "Ratón 4", "Mouse 4"],
+        ["mouseX2"] = ["Mouse 5", "마우스 5", "マウス5", "Мышь 5", "Souris 5", "Maus 5", "Ratón 5", "Mouse 5"],
+        ["mouseWheel"] = ["Mouse Wheel", "마우스 휠", "マウスホイール", "Колесо мыши", "Molette", "Mausrad", "Rueda del ratón", "Roda do mouse"],
+        ["lshift"] = [.. Enumerable.Repeat("Shift", 8)], ["caps"] = [.. Enumerable.Repeat("Caps Lock", 8)], ["escape"] = [.. Enumerable.Repeat("Esc", 8)]
     };
     private static string KeyName(string key, int language) => KeyNames.TryGetValue(key, out var names) ? names[language]
         : key.Length == 1 || key[0] == 'f' && key[1..].All(char.IsAsciiDigit) ? key.ToUpperInvariant() : char.ToUpperInvariant(key[0]) + key[1..];
@@ -151,8 +154,10 @@ public static partial class SkillCatalogBuilder
         var records = KnowledgeCatalogBuilder.Records(source, KnowledgeCatalogBuilder.Groups(source).Keys.ToHashSet());
         var tables = ClientTables.Records(source.Tables("skilltreeinfo"));
         var en = source.Strings("eng", "knowledge"); var ko = source.Strings("kor", "knowledge");
-        var ja = source.Strings("jpn", "knowledge"); var ru = source.Strings("rus", "knowledge");
-        var packs = new[] { "ja", "ru" }.Select(c => load($"locale/names_{c}.json").AsObject()).ToArray();
+        // Languages past Korean keep their descriptions in their name packs; language index 2 + i in KeyNames.
+        var others = ClientMetadata.Translated.Where(c => c != "ko").ToArray();
+        var otherTexts = others.Select(c => source.Strings(ClientMetadata.Languages[c].Name, "knowledge")).ToArray();
+        var packs = others.Select(c => load($"locale/names_{c}.json").AsObject()).ToArray();
         var bindings = KeyBindings(System.Text.Encoding.UTF8.GetString(source.Ui("ui/inputmap.xml")));
         var trees = Trees.ToDictionary(t => t.Owner, t => Tree(t.Key, tables[t.Key]));
         var skillIds = trees.Values.SelectMany(n => n).ToHashSet();
@@ -202,7 +207,7 @@ public static partial class SkillCatalogBuilder
             string description = definition["description"]!.GetValue<string>();
             if (definition["observe"] is null) { definition.Remove("description"); continue; }
             definition["description"] = new JsonArray(Clean(en.GetValueOrDefault(description, ""), 0), Clean(ko.GetValueOrDefault(description, ""), 1));
-            foreach (var (texts, index) in new[] { ja, ru }.Select((t, i) => (t, i)))
+            foreach (var (texts, index) in otherTexts.Select((t, i) => (t, i)))
                 if (Clean(texts.GetValueOrDefault(description, ""), index + 2) is { Length: > 0 } text) described[index][key.ToString()] = text;
         }
         for (int i = 0; i < packs.Length; i++) packs[i]["skill_descriptions"] = described[i];
@@ -213,6 +218,8 @@ public static partial class SkillCatalogBuilder
             ["names"] = new JsonObject(names.Select(n => KeyValuePair.Create<string, JsonNode?>(n.Key.ToString(), new JsonArray(n.Value[0], n.Value[1])))),
             ["sourceSha256"] = source.Digests()
         };
-        return new() { ["data/skills.json"] = catalog, ["locale/names_ja.json"] = packs[0], ["locale/names_ru.json"] = packs[1] };
+        var outputs = new Dictionary<string, JsonNode> { ["data/skills.json"] = catalog };
+        for (int i = 0; i < others.Length; i++) outputs[$"locale/names_{others[i]}.json"] = packs[i];
+        return outputs;
     }
 }

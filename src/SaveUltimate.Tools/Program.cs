@@ -68,7 +68,7 @@ refresh.SetAction(result =>
     if (Path.Exists(target)) throw new IOException("The output folder must be new.");
     string cache = Path.Combine(target, "game_data");
     var sync = GameDataSync.Run(result.GetValue(gameFolder)!, result.GetValue(resourceFolder)!, cache);
-    foreach (string name in new[] { "data/item_names.json", "data/item_details.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
+    foreach (string name in new[] { "data/item_names.json", "data/item_details.json", "data/max_enchant_map.json" }.Concat(ClientMetadata.Translated.Select(c => $"locale/names_{c}.json")))
     {
         var node = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllBytes(Path.Combine(cache, name)))!;
         if (name == "data/item_details.json")
@@ -182,6 +182,20 @@ completionCommand.SetAction(result =>
     Console.WriteLine($"{completable.Length} of {roots.Length} challenges completable; {roots.Length - completable.Length} need a completed reference save");
 });
 root.Subcommands.Add(completionCommand);
+var localeNames = new Command("locale-names", "Build the game-name pack of an added language from the Japanese and Russian packs and the game's string tables");
+var localeGame = new Argument<string>("game");
+var localeResources = new Argument<string>("resources");
+var localeCode = new Argument<string>("language") { Description = "fr, de, es or pt" };
+var localeName = new Argument<string>("name") { Description = "The language's own name, e.g. Français" };
+var localeOutput = new Argument<string>("output");
+foreach (var argument in new[] { localeGame, localeResources, localeCode, localeName, localeOutput }) localeNames.Arguments.Add(argument);
+localeNames.SetAction(result =>
+{
+    var (pack, coverage) = LocaleNamesBuilder.Build(new GameFiles(result.GetValue(localeGame)!), result.GetValue(localeResources)!, result.GetValue(localeCode)!, result.GetValue(localeName)!);
+    WriteJson(result.GetValue(localeOutput)!, pack);
+    foreach (var (section, (total, found)) in coverage) Console.WriteLine($"{section}: {found}/{total}");
+});
+root.Subcommands.Add(localeNames);
 var catalogs = new Command("catalog-knowledge", "Build the knowledge, fishing, skill, character, NPC, map, collection and learn-source catalogs on top of the shipped resources");
 var catalogGame = new Argument<string>("game");
 var catalogResources = new Argument<string>("resources");

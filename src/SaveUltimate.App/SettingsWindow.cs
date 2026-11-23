@@ -38,7 +38,7 @@ public sealed class SettingsWindow : Window
         Navigation.ItemContainerStyle = (Style)FindResource("NavigationItem");
         Navigation.SelectionChanged += (_, _) => { for (int i = 0; i < pages.Children.Count; i++) pages.Children[i].Visibility = i == Navigation.SelectedIndex ? Visibility.Visible : Visibility.Collapsed; };
         var general = Page(); var display = Group(general, "settings.language_group");
-        foreach (var (code, name) in new[] { ("en", "English"), ("ko", "한국어"), ("ja", "日本語"), ("ru", "Русский") }) language.Items.Add(new Choice(code, name));
+        foreach (var (code, name) in Tr.Languages) language.Items.Add(new Choice(code, name));
         language.DisplayMemberPath = nameof(Choice.Label); language.SelectedItem = language.Items.Cast<Choice>().FirstOrDefault(c => c.Key == original.Language) ?? language.Items[0];
         Row(display, "ui.language", language);
         var saves = Group(general, "settings.saves_group");

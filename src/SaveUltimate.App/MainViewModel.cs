@@ -46,7 +46,7 @@ public partial class StorageFilter(string name, ushort? Bag = null, bool Other =
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(Label))] private int count;
     public string Label => $"{Name} ({Count:N0})";
 }
-public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets, Management, FieldTime, Collection, MapFragments, MapEnvironment, Doctor }
+public enum AppPage { Inventory, Repurchase, Equipment, Backups, Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Database, Pets, Management, FieldTime, Collection, MapFragments, MapEnvironment, Doctor, Housing }
 public static class AppPages
 {
     /// <summary>Every page in View menu order: its title key, which is also its help topic, and the name of its help text.</summary>
@@ -56,7 +56,7 @@ public static class AppPages
         (AppPage.Knowledge, "tab.knowledge", "knowledge"), (AppPage.Challenges, "Challenges", "challenges"), (AppPage.Fishing, "tab.fishing", "fishing"),
         (AppPage.Map, "map.group_places", "maps"), (AppPage.MapFragments, "map.group_fragments", "maps_fragments"), (AppPage.MapEnvironment, "map.group_environment", "maps_environment"),
         (AppPage.Companions, "companion.title", "companions"),
-        (AppPage.Pets, "companion.pets", "pets"), (AppPage.Friendship, "npc.title", "npc"), (AppPage.Management, "management.title", "management"), (AppPage.Skills, "skills.title", "skills"),
+        (AppPage.Pets, "companion.pets", "pets"), (AppPage.Friendship, "npc.title", "npc"), (AppPage.Management, "management.title", "management"), (AppPage.Housing, "housing.title", "housing"), (AppPage.Skills, "skills.title", "skills"),
         (AppPage.FieldTime, "fieldtime.title", "fieldtime"), (AppPage.Doctor, "ui.doctor", "doctor"), (AppPage.Backups, "tab.backup", "backup"), (AppPage.Database, "tab.database", "items_db")
     ];
 }
@@ -109,7 +109,7 @@ public partial class MainViewModel : ObservableObject
     public AppPage SectionPage(AppPage page) => page switch
     {
         AppPage.Inventory => ItemPages[ItemPageIndex], AppPage.Knowledge => JournalPages[JournalPageIndex], AppPage.Map => MapPages[MapPageIndex], AppPage.Companions => NpcPages[NpcPageIndex],
-        AppPage.FieldTime => MiscPages[MiscPageIndex], _ => page
+        AppPage.FieldTime => MiscPages[MiscPageIndex], AppPage.Management => LifePages[LifePageIndex], _ => page
     };
     // What a page switch changes: every IsX page test, so a new page needs no entry here, and the captions that follow the page.
     private static readonly string[] PageProperties = typeof(MainViewModel).GetProperties()
@@ -138,6 +138,7 @@ public partial class MainViewModel : ObservableObject
         if (Array.IndexOf(NpcPages, value) is >= 0 and var npc) NpcPageIndex = npc;
         if (Array.IndexOf(MapPages, value) is >= 0 and var mapTab) MapPageIndex = mapTab;
         if (Array.IndexOf(MiscPages, value) is >= 0 and var misc) MiscPageIndex = misc;
+        if (Array.IndexOf(LifePages, value) is >= 0 and var life) LifePageIndex = life;
         SetSelection([]); Selected = null;
         Search = pageSearches[(int)value];
         ItemsView.Refresh();
@@ -260,7 +261,7 @@ public partial class MainViewModel : ObservableObject
         LoadChallengesCommand.NotifyCanExecuteChanged();
         LoadFishingCommand.NotifyCanExecuteChanged();
         LoadMapCommand.NotifyCanExecuteChanged(); LoadCompanionsCommand.NotifyCanExecuteChanged(); LoadFriendshipCommand.NotifyCanExecuteChanged(); RevealMapCommand.NotifyCanExecuteChanged();
-        LoadManagementCommand.NotifyCanExecuteChanged(); LoadClockCommand.NotifyCanExecuteChanged();
+        LoadManagementCommand.NotifyCanExecuteChanged(); LoadHousingCommand.NotifyCanExecuteChanged(); LoadClockCommand.NotifyCanExecuteChanged();
         RefreshBackupCommands();
         OpenCommand.NotifyCanExecuteChanged(); SaveCommand.NotifyCanExecuteChanged(); ReloadCommand.NotifyCanExecuteChanged();
         SwapCommand.NotifyCanExecuteChanged();
@@ -332,13 +333,15 @@ public partial class MainViewModel : ObservableObject
         var pages = await Task.Run(() =>
         {
             var challenges = Page("challenges", loaded.ReadChallenges);
-            return (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge),
+            return (Skills: Page("skills", loaded.ReadSkills), Knowledge: Page("knowledge", loaded.ReadKnowledge), Records: Page("knowledge", loaded.ReadLearnRecords),
                 Challenges: challenges, Fishing: Page("fishing", loaded.ReadFishing), Map: Page("map", () => loaded.ReadMap(challenges)),
                 Companions: Page("companions", loaded.ReadCompanions), Friendship: Page("npc", loaded.ReadFriendship),
-                Management: Page("management", loaded.ReadManagement), Clock: Page("time", loaded.ReadFieldTime), Collection: Page("collection", loaded.ReadCollection));
+                Management: Page("management", loaded.ReadManagement), Housing: Page("housing", loaded.ReadHousing), Clock: Page("time", loaded.ReadFieldTime), Collection: Page("collection", loaded.ReadCollection));
         });
-        (Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Management, Clock, Collection) =
-            (pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship, pages.Management, pages.Clock, pages.Collection);
+        // The knowledge page reads the learn-from records when Knowledge changes, so they are set first.
+        LearnRecords = pages.Records ?? new Dictionary<uint, uint>();
+        (Skills, Knowledge, Challenges, Fishing, Map, Companions, Friendship, Management, Housing, Clock, Collection) =
+            (pages.Skills, pages.Knowledge, pages.Challenges, pages.Fishing, pages.Map, pages.Companions, pages.Friendship, pages.Management, pages.Housing, pages.Clock, pages.Collection);
         return failed.Count > 0 ? " " + string.Join(" · ", failed) : "";
     }
 
@@ -495,6 +498,8 @@ public partial class MainViewModel : ObservableObject
         // A trust edit that only synchronizes field NPC copies leaves FriendlySaveData as it was.
         if (Friendship is not null && (changed.Contains("FriendlySaveData") || changed.Contains("FieldNPCSaveData"))) Friendship = await Task.Run(() => document!.ReadFriendship());
         if (Management is not null && changed.Contains("FactionSaveData")) Management = await Task.Run(() => document!.ReadManagement());
+        // Activation and switching a house to free construction change the house list in ContentsMiscSaveData.
+        if (Housing is not null && (changed.Contains("CustomHouseSaveData") || changed.Contains("ContentsMiscSaveData"))) Housing = await Task.Run(() => document!.ReadHousing());
         if (Clock is not null && changed.Contains("TransformSaveData")) Clock = await Task.Run(() => document!.ReadFieldTime());
         Refresh(); Status = Tr.Text("Last edit undone.");
     });
@@ -549,7 +554,7 @@ public partial class MainViewModel : ObservableObject
 
     private void Refresh(bool resetSelection = false)
     {
-        if (resetSelection) { Skills = null; Knowledge = null; Challenges = null; Fishing = null; Map = null; Companions = null; Friendship = null; Management = null; Clock = null; Collection = null; }
+        if (resetSelection) { Skills = null; Knowledge = null; Challenges = null; Fishing = null; Map = null; Companions = null; Friendship = null; Management = null; Housing = null; Clock = null; Collection = null; }
         // Every item or knowledge edit and Undo can change what the box holds; reading it takes a few milliseconds.
         if (!resetSelection && Collection is not null && document is not null) Collection = document.ReadCollection();
         changingView = true;
@@ -590,7 +595,7 @@ public partial class MainViewModel : ObservableObject
         Refresh();
         if (!Busy) Status = FileState;
         // Pages compose their counts and summaries in code, so each one rebuilds from its data in the new language.
-        foreach (string property in new[] { nameof(Knowledge), nameof(Challenges), nameof(Fishing), nameof(Collection), nameof(Map), nameof(Companions), nameof(Friendship), nameof(Skills), nameof(Management), nameof(Clock) }) OnPropertyChanged(property);
+        foreach (string property in new[] { nameof(Knowledge), nameof(Challenges), nameof(Fishing), nameof(Collection), nameof(Map), nameof(Companions), nameof(Friendship), nameof(Skills), nameof(Management), nameof(Housing), nameof(Clock) }) OnPropertyChanged(property);
         LanguageChanged?.Invoke();
     }
     private static string SocketText(InventoryItem target, bool owned) =>

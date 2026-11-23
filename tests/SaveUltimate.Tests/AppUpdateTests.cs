@@ -30,6 +30,35 @@ public sealed class AppUpdateTests
 
     [TestMethod]
     [TestCategory("Unit")]
+    public void ReleaseNotesShowInTheEditorLanguage()
+    {
+        string json = $$"""{"tag_name":"v1.5.0-f27c809fd557","body":"### New\r\n\r\n- **Housing:** one\r\n  two\r\n\r\nSource: https://example.test/commit/1","assets":[{"name":"SaveUltimate-1.5.0-windows-x64.zip","digest":"sha256:{{Digest}}","browser_download_url":"https://example.test/p.zip"},{"name":"release-notes.json","browser_download_url":"https://example.test/n.json"}]}""";
+        var release = AppUpdate.ReadRelease(json, new Version(1, 4, 0))!;
+        Assert.AreEqual("https://example.test/n.json", release.NotesFile);
+        Assert.AreEqual("New\r\n\r\n- Housing: one two", release.Notes);
+        Assert.AreEqual(release.Notes, release.NotesIn("ko"), "Without the notes file the release page's notes stand.");
+        release = release with { Translated = AppUpdate.ReadNotes("""{"ko":"### 신규\n\n- **하우징:** `.suhouse`"}""") };
+        Assert.AreEqual("신규\n\n- 하우징: .suhouse", release.NotesIn("ko"));
+        Assert.AreEqual(release.Notes, release.NotesIn("de"));
+    }
+
+    [TestMethod]
+    [TestCategory("Unit")]
+    public void EveryLanguageHasThisVersionsChangelog()
+    {
+        // The release workflow refuses a version without every translation; this finds it before pushing.
+        string root = Path.GetDirectoryName(TestFiles.Resources)!;
+        foreach (var (code, _) in Tr.Languages.Where(l => l.Code != "en"))
+        {
+            string path = Path.Combine(root, "changelog", code + ".md");
+            Assert.IsTrue(File.Exists(path), path);
+            StringAssert.Contains(File.ReadAllText(path), $"## [{AppUpdate.Current}]", path);
+        }
+        StringAssert.Contains(File.ReadAllText(Path.Combine(root, "CHANGELOG.md")), $"## [{AppUpdate.Current}]");
+    }
+
+    [TestMethod]
+    [TestCategory("Unit")]
     public void InstallReplacesReleaseFilesAndKeepsUserData() => InFolders((app, package) =>
     {
         InstalledRelease(app);

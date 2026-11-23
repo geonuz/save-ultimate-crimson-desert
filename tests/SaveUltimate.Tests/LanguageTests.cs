@@ -13,11 +13,13 @@ public sealed class LanguageTests
     [TestMethod]
     [TestCategory("UI")]
     [DoNotParallelize]
-    public void DefaultEnglishAndFourLanguagesHaveMatchingKeysAndPlaceholders()
+    public void DefaultEnglishAndEveryLanguageHaveMatchingKeysAndPlaceholders()
     {
         Assert.AreEqual("en", new EditorSettings().Language);
         Assert.AreEqual("en", SettingsStore.Read(Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".json")).Language);
-        var packs = new[] { "en", "ko", "ja", "ru" }.ToDictionary(l => l, l =>
+        // The settings list and the game language groups must name the same languages.
+        CollectionAssert.AreEquivalent(SaveUltimate.Core.Catalogs.ClientMetadata.Languages.Keys.ToArray(), Tr.Languages.Select(l => l.Code).ToArray());
+        var packs = Tr.Languages.Select(l => l.Code).ToDictionary(l => l, l =>
             JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "resources/locale", l + ".json")))!);
         foreach (var (language, pack) in packs)
             foreach (var (key, value) in packs["en"])

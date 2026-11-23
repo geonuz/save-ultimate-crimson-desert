@@ -13,6 +13,16 @@ internal static class Ui
         grid.ItemsSource = rows;
         foreach (var sort in sorts) grid.Items.SortDescriptions.Add(sort);
     }
+    /// <summary>Remeasures a table's Auto columns. They keep their first measurement, taken while the page was hidden or
+    /// before a row's text changed in place (a house imported into a plot), so a longer value would be cut off. The collapsed
+    /// layout must run before widths are restored, or Auto columns keep shrinking and star columns stop sharing the space.</summary>
+    public static void FitAutoColumns(DataGrid grid) => grid.Dispatcher.InvokeAsync(() =>
+    {
+        var widths = grid.Columns.Select(c => c.Width).ToArray();
+        foreach (var column in grid.Columns.Where(c => c.Width.IsAuto)) column.Width = 0;
+        grid.UpdateLayout();
+        for (int i = 0; i < widths.Length; i++) grid.Columns[i].Width = widths[i];
+    }, System.Windows.Threading.DispatcherPriority.Loaded);
     public static Button Button(string key, RoutedEventHandler action, string? style = null)
     {
         var button = new Button { Margin = new(0, 0, 6, 0) }; Tr.Bind(button, ContentControl.ContentProperty, key);

@@ -26,7 +26,7 @@ public sealed record SyncResult(int Items, int Added, int Changed, int Images, i
 public static class GameDataSync
 {
     private static readonly string[] Metadata = ["data/item_names.json", "data/item_details.json", "data/max_enchant_map.json",
-        "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json"];
+        .. ClientMetadata.Translated.Select(c => $"locale/names_{c}.json")];
     private static readonly JsonSerializerOptions Json = new() { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower };
     internal static string Hash(byte[] data) => Convert.ToHexStringLower(SHA256.HashData(data));
     private static string FileHash(string path) { using var stream = File.OpenRead(path); return Convert.ToHexStringLower(SHA256.HashData(stream)); }
@@ -34,7 +34,7 @@ public static class GameDataSync
     {
         var result = new SortedDictionary<string, string>(StringComparer.Ordinal);
         foreach (string? dlc in new GameFiles(game).Dlcs.Prepend(null))
-            foreach (string group in new[] { "0008", "0012", "0019", "0020", "0021", "0022" })
+            foreach (string group in new[] { "0008", "0012" }.Concat(ClientMetadata.Languages.Values.Select(l => l.Group).Order(StringComparer.Ordinal)))
             {
                 string root = GameFiles.GroupDirectory(game, dlc, group), prefix = dlc is null ? group : $"dlc/{dlc}/{group}";
                 if (dlc is not null && !File.Exists(Path.Combine(root, "0.pamt"))) continue;

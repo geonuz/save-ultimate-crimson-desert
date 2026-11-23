@@ -8,7 +8,7 @@
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.8.2</Version>
+    <Version>1.9.0</Version>
     <!-- Crimson Desert version the release was verified against; shown next to the app version. -->
     <GameVersion>2.05.01</GameVersion>
     <!-- false builds the editor without online updates (the Nexus Mods package): src/SaveUltimate.App/Updates/ and its

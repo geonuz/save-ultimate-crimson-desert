@@ -82,11 +82,10 @@ public partial class MainViewModel
             Tr.Text("Restore Backup"), MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes || !await ConfirmLeaveAsync()) return;
         await RunAsync(Tr.Text("Validating and restoring backup…"), async () =>
         {
-            byte[] expected = SaveBackups.Hash(path);
             document = await Task.Run(() =>
             {
                 _ = SaveDocument.Open(backup);
-                SaveBackups.Restore(path, backup, expected);
+                SaveDocument.RestoreBackup(path, backup, AppContext.BaseDirectory);
                 return SaveDocument.Open(path);
             });
             savedInSession = false;

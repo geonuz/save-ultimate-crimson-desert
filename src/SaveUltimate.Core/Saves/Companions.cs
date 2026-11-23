@@ -9,6 +9,8 @@ public sealed record CompanionTypes(Dictionary<uint, uint> Characters, Dictionar
     // Mercenary character key to its work-skill knowledge keys, in game order.
     public Dictionary<uint, uint[]> Skills { get; init; } = [];
     public static string[] Groups { get; } = ["all", "horse", "pet", "special", "mercenary", "playable", "dedicated", "domestic", "fish", "wagon", "ship", "internal", "unknown"];
+    /// <summary>The groups whose order the editor changes (<see cref="SaveDocument.SwapCompanions"/>).</summary>
+    public static string[] Orderable { get; } = ["pet", "special", "ship"];
     public string Group(uint key) => Characters.GetValueOrDefault(key) switch
     {
         64 => "playable", 78 => "horse", 67 => "pet", 81 => "special", 79 or 80 or 82 => "dedicated",
@@ -25,15 +27,41 @@ public sealed partial class SaveDocument
 {
     private static SaveField MercenaryList(byte[] raw, ParcLayout layout) => SaveRecords.Read(raw, layout, "MercenaryClanSaveData").Fields.Named("_mercenaryDataList");
     // Adopts the candidate only if it reads back as the expected roster.
-    private Companion[] CommitCompanions(byte[] candidate, Companion[] expected, string failure)
+    private Companion[] CommitCompanions(byte[] candidate, Companion[] expected, string failure, ulong[]? expectedLinks = null)
     {
         Companion[] after = [];
-        Transact(candidate, ["MercenaryClanSaveData"], (layout, _) =>
+        Transact(candidate, expectedLinks is null ? ["MercenaryClanSaveData"] : ["MercenaryClanSaveData", QuestBlock], (layout, _) =>
         {
             after = CompanionRecords(candidate, layout).Select(r => r.Value).ToArray();
             if (!after.SequenceEqual(expected)) throw new InvalidDataException(failure);
+            if (expectedLinks is not null && !QuestLinks(candidate, layout).Select(l => l.Number).SequenceEqual(expectedLinks)) throw new InvalidDataException(failure);
         });
         return after;
+    }
+
+    private const string QuestBlock = "QuestSaveData";
+    /// <summary>The mercenaries quests name (`_connectCharacterList` entries in QuestSaveData: character key and number), with
+    /// where each number is written. Ships, wagons, horses and some special mounts appear there.</summary>
+    internal static (int Offset, uint Key, ulong Number)[] QuestLinks(byte[] raw, ParcLayout layout)
+    {
+        var links = new List<(int, uint, ulong)>();
+        void Walk(SaveField field)
+        {
+            if (!field.Present) return;
+            if (field.Name == "_connectCharacterList")
+                foreach (var entry in field.ListElements)
+                {
+                    var number = entry.ChildFields.FirstOrDefault(c => c.Name == "_mercenaryNo");
+                    var key = entry.ChildFields.FirstOrDefault(c => c.Name == "_characterKey");
+                    if (number is not { Present: true } || number.TypeName != "MercenaryNo" || number.MetaSize != 8) continue;
+                    links.Add((number.StartOffset, key is { Present: true } ? (uint)key.Scalar(raw, "CharacterKey", 4) : 0, number.Scalar(raw, "MercenaryNo", 8)));
+                }
+            foreach (var child in field.ChildFields) Walk(child);
+            foreach (var element in field.ListElements) Walk(element);
+        }
+        if (layout.Blocks.Any(b => b.Name == QuestBlock))
+            foreach (var field in SaveRecords.Read(raw, layout, QuestBlock).Fields) Walk(field);
+        return links.ToArray();
     }
     private static (Companion Value, int MaskOffset, int NameIndex, int Start, int End)[] CompanionRecords(byte[] raw, ParcLayout layout)
     {
@@ -219,20 +247,28 @@ public sealed partial class SaveDocument
         return copy;
     }
 
-    // The game lists pets and special mounts in acquisition order, which is both their list order and their number order.
-    // Their numbers are referenced nowhere outside their own records (horses and dedicated mounts appear in quests), so two of
-    // them trade places by exchanging everything except the number.
+    // The game lists pets, special mounts and ships in acquisition order, which is both their list order and their number
+    // order, so two of them trade places by exchanging everything except the number. Outside their own records only quests
+    // name them (`_connectCharacterList`: ships, a few special mounts), by character key and number; such an entry follows its
+    // character to the other number.
     public Companion[] SwapCompanions(Companion first, Companion second)
     {
         var before = ReadCompanions();
-        if (first.Number == second.Number || first.Group != second.Group || first.Group is not ("pet" or "special") || !before.Contains(first) || !before.Contains(second))
+        if (first.Number == second.Number || first.Group != second.Group || !CompanionTypes.Orderable.Contains(first.Group) || !before.Contains(first) || !before.Contains(second))
             throw new InvalidOperationException("The order cannot change or the selection changed. Load the save again.");
         var rows = MercenaryList(blob, Layout).Elements("MercenarySaveData");
         SaveField Row(Companion c) => rows.Single(r => r.ChildFields.Named("_mercenaryNo").Scalar(blob, "MercenaryNo", 8) == c.Number);
         SaveField a = Row(first), b = Row(second);
-        byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer,
-            [(a.StartOffset, a.EndOffset, start => MovedRecord(b, start, first.Number)), (b.StartOffset, b.EndOffset, start => MovedRecord(a, start, second.Number))]);
+        var regions = new List<(int Start, int End, Func<int, byte[]> Encode)>
+            { (a.StartOffset, a.EndOffset, start => MovedRecord(b, start, first.Number)), (b.StartOffset, b.EndOffset, start => MovedRecord(a, start, second.Number)) };
+        var links = QuestLinks(blob, Layout);
+        ulong Moved((int Offset, uint Key, ulong Number) l) => l.Number == first.Number && l.Key == first.Key ? second.Number
+            : l.Number == second.Number && l.Key == second.Key ? first.Number : l.Number;
+        foreach (var link in links.Where(l => Moved(l) != l.Number))
+            regions.Add((link.Offset, link.Offset + 8, _ => BitConverter.GetBytes(Moved(link))));
+        byte[] candidate = RecordLists.RewriteRegions(blob, EditBuffer, regions);
         var expected = before.Select(c => c.Number == first.Number ? second with { Number = first.Number } : c.Number == second.Number ? first with { Number = second.Number } : c).ToArray();
-        return CommitCompanions(candidate, expected, "Companion order verification failed.");
+        return CommitCompanions(candidate, expected, "Companion order verification failed.",
+            regions.Count > 2 ? links.Select(Moved).ToArray() : null);
     }
 }

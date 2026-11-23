@@ -38,7 +38,7 @@ public sealed class ErrorCodeTests
         var english = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllBytes(Locale("en")))!
             .Keys.Where(k => k.StartsWith("error.SU-", StringComparison.Ordinal)).Order().ToArray();
         Assert.AreEqual(11, english.Length);
-        foreach (string language in new[] { "ko", "ja", "ru" })
+        foreach (string language in new[] { "ko", "ja", "ru", "fr", "de", "es", "pt" })
         {
             var keys = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllBytes(Locale(language)))!
                 .Keys.Where(k => k.StartsWith("error.SU-", StringComparison.Ordinal)).Order().ToArray();

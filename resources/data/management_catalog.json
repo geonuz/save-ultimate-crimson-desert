@@ -1,12 +1,12 @@
 {
-  "source": "dlc_01 factionmanagement.staticinfo (2.04.08), shops only: the two Greymane Camp festivals (16979, 16980) are not businesses and are left out. Region names: faction.paloc keys (16960..16964 << 32) | 532 in kor/eng/jpn/rus; Calphade from the game's own shop naming. maxLevel is one more than the record's level-up condition groups (members 0x40A10 + 1024 n). placeKnowledge: the knowledge of the faction node the shop sits on, matched by internal name (Management_Node_<region>_<node>…), whose localized name is the place.",
+  "source": "dlc_01 factionmanagement.staticinfo (2.04.08), shops only: the two Greymane Camp festivals (16979, 16980) are not businesses and are left out. Region names: faction.paloc keys (16960..16964 << 32) | 532 in kor/eng/jpn/rus and fre/ger/spa-es/por-br; Calphade from the game's own shop naming. maxLevel is one more than the record's level-up condition groups (members 0x40A10 + 1024 n). placeKnowledge: the knowledge of the faction node the shop sits on, matched by internal name (Management_Node_<region>_<node>…), whose localized name is the place.",
   "regions": {
-    "Her": { "ko": "에르난드", "en": "Hernand", "ja": "エルナンド", "ru": "Эрнанд" },
-    "Dem": { "ko": "데메니스", "en": "Demeniss", "ja": "デメニス", "ru": "Деменисс" },
-    "Kwe": { "ko": "페일룬", "en": "Pailune", "ja": "パイルーン", "ru": "Пайлун" },
-    "Del": { "ko": "델레시아", "en": "Delesyia", "ja": "デレシア", "ru": "Делесия" },
-    "Crim": { "ko": "붉은사막", "en": "Crimson Desert", "ja": "紅の砂漠", "ru": "Багровая пустыня" },
-    "Cal": { "ko": "칼페이드", "en": "Calphade", "ja": "カルフェイド", "ru": "Кальфад" }
+    "Her": { "ko": "에르난드", "en": "Hernand", "ja": "エルナンド", "ru": "Эрнанд", "fr": "Hernand", "de": "Hernand", "es": "Hernand", "pt": "Hernand" },
+    "Dem": { "ko": "데메니스", "en": "Demeniss", "ja": "デメニス", "ru": "Деменисс", "fr": "Déméniss", "de": "Demeniss", "es": "Demeniss", "pt": "Demeniss" },
+    "Kwe": { "ko": "페일룬", "en": "Pailune", "ja": "パイルーン", "ru": "Пайлун", "fr": "Pailune", "de": "Pailune", "es": "Pailune", "pt": "Pailune" },
+    "Del": { "ko": "델레시아", "en": "Delesyia", "ja": "デレシア", "ru": "Делесия", "fr": "Délésyie", "de": "Delesyia", "es": "Delesyia", "pt": "Delesyia" },
+    "Crim": { "ko": "붉은사막", "en": "Crimson Desert", "ja": "紅の砂漠", "ru": "Багровая пустыня", "fr": "Désert pourpre", "de": "Rote Wüste", "es": "Desierto Carmesí", "pt": "Deserto Escarlate" },
+    "Cal": { "ko": "칼페이드", "en": "Calphade", "ja": "カルフェイド", "ru": "Кальфад", "fr": "Calphade", "de": "Calphade", "es": "Calphade", "pt": "Calphade" }
   },
   "shops": [
     { "key": 16960, "name": "Management_Node_Her_TimberhamSawmill_01", "region": "Her", "placeKnowledge": 1001811, "kind": "sawmill", "maxLevel": 5 },

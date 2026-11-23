@@ -98,12 +98,13 @@
    <TabItem Header="{local:Tr companion.title}"/><TabItem Header="{local:Tr companion.pets}"/><TabItem Header="{local:Tr npc.title}"/>
   </TabControl>
   <TabControl x:Name="LifeTabs" SelectedIndex="{Binding LifePageIndex}" Grid.Row="1" Visibility="{Binding IsLife, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
-   <TabItem Header="{local:Tr management.title}"/>
+   <TabItem Header="{local:Tr management.title}"/><TabItem Header="{local:Tr housing.title}"/>
   </TabControl>
   <TabControl x:Name="MiscTabs" SelectedIndex="{Binding MiscPageIndex}" Grid.Row="1" Visibility="{Binding IsMisc, Converter={StaticResource BooleanVisibility}}" IsEnabled="{Binding CanEditSelection}" Margin="20,0,0,0">
    <TabItem Header="{local:Tr skills.title}"/><TabItem Header="{local:Tr fieldtime.title}"/><TabItem Header="{local:Tr ui.doctor}"/>
   </TabControl>
   <local:ManagementPage x:Name="ManagementArea" Grid.Row="3" Visibility="{Binding IsManagement, Converter={StaticResource BooleanVisibility}}"/>
+  <local:HousingPage x:Name="HousingArea" Grid.Row="3" Visibility="{Binding IsHousing, Converter={StaticResource BooleanVisibility}}"/>
   <local:FieldTimePage x:Name="FieldTimeArea" Grid.Row="3" Visibility="{Binding IsFieldTime, Converter={StaticResource BooleanVisibility}}"/>
   <local:DoctorPage x:Name="DoctorArea" Grid.Row="3" Visibility="{Binding IsDoctor, Converter={StaticResource BooleanVisibility}}"/>
   <local:MapPlacesPage x:Name="MapPlacesArea" Grid.Row="3" Visibility="{Binding IsMapPlaces, Converter={StaticResource BooleanVisibility}}"/>

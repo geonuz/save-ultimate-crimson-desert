@@ -23,6 +23,9 @@ public sealed class Tr(string key) : MarkupExtension
     }
     private static readonly Source source = new();
     private static readonly Lookup lookup = new();
+    /// <summary>The editor's languages, by code, with their own names. Game names come from locale/names_xx.json; English is built in.</summary>
+    public static readonly (string Code, string Name)[] Languages =
+        [("en", "English"), ("ko", "한국어"), ("ja", "日本語"), ("ru", "Русский"), ("fr", "Français"), ("de", "Deutsch"), ("es", "Español"), ("pt", "Português (Brasil)")];
     public static string Language { get; private set; } = "en";
     private static Dictionary<string, string> Read(string language) => JsonSerializer.Deserialize<Dictionary<string, string>>(
         File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "resources", "locale", language + ".json")))!;
@@ -50,7 +53,7 @@ public sealed class Tr(string key) : MarkupExtension
     }
     public static void SetLanguage(string language)
     {
-        language = new[] { "ko", "en", "ja", "ru" }.Contains(language) ? language : "en";
+        language = Languages.Any(l => l.Code == language) ? language : "en";
         if (language == Language) return;
         var old = strings; strings = Read(language); Language = language; names = null;
         ItemCatalog.Reset(); GameText.Reset(); KnowledgeText.Reset(); CharacterText.Reset();

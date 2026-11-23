@@ -225,6 +225,55 @@ internal static class RecordLists
         return low;
     }
 
+    // Appends type definitions to the schema. Everything after it moves by their length, so every record address, block offset and
+    // the stream size move with it; record sizes are relative and stay. Existing type indices do not change.
+    internal static byte[] AddTypes(byte[] raw, IReadOnlyList<ParcType> types)
+    {
+        if (types.Count == 0) return raw;
+        var layout = ParcLayout.Parse(raw);
+        var (pointers, _, _) = ParcReader.Validate(raw, layout);
+        byte[] added = types.SelectMany(ParcLayout.TypeBytes).ToArray();
+        int shift = added.Length, end = layout.SchemaEnd;
+        if (layout.Types.Count + types.Count > ushort.MaxValue || raw.Length > Array.MaxLength - shift) throw new InvalidDataException("Too many schema types.");
+        byte[] result = new byte[raw.Length + shift];
+        raw.AsSpan(0, end).CopyTo(result);
+        added.CopyTo(result, end);
+        raw.AsSpan(end).CopyTo(result.AsSpan(end + shift));
+        BinaryPrimitives.WriteUInt16LittleEndian(result.AsSpan(ParcLayout.TypeCountOffset), (ushort)(layout.Types.Count + types.Count));
+        void Move(int position) => BinaryPrimitives.WriteInt32LittleEndian(result.AsSpan(position + shift), checked(BinaryPrimitives.ReadInt32LittleEndian(raw.AsSpan(position)) + shift));
+        foreach (int pointer in pointers) Move(pointer);
+        for (int i = 0; i < layout.Blocks.Count; i++) Move(end + 12 + 20 * i + 12);
+        BinaryPrimitives.WriteInt32LittleEndian(result.AsSpan(end + shift + 8), result.Length);
+        return result;
+    }
+
+    // A block the save has never held, put where the game puts it: its table entry (type, two FFFFFFFF, start, size) and its bytes
+    // go just before the first block named before, and every record address, block start and the stream size move past them.
+    internal static byte[] AddBlock(byte[] raw, string name, string before, Func<int, byte[]> encode)
+    {
+        var layout = ParcLayout.Parse(raw);
+        if (layout.Blocks.Any(b => b.Name == name)) throw new InvalidDataException($"The save already has a {name} block.");
+        int type = layout.TypeIndex(name);
+        var next = layout.Blocks.FirstOrDefault(b => b.Name == before) ?? throw new InvalidDataException($"The save has no {before} block.");
+        var (pointers, _, _) = ParcReader.Validate(raw, layout);
+        int table = layout.SchemaEnd + 12, entry = table + 20 * next.Index, at = next.Offset;
+        byte[] block = encode(at + 20);
+        if (block.Length == 0 || raw.Length > Array.MaxLength - 20 - block.Length) throw new InvalidDataException("Invalid new block.");
+        byte[] result = new byte[raw.Length + 20 + block.Length];
+        raw.AsSpan(0, entry).CopyTo(result);
+        raw.AsSpan(entry, at - entry).CopyTo(result.AsSpan(entry + 20));
+        block.CopyTo(result, at + 20);
+        raw.AsSpan(at).CopyTo(result.AsSpan(at + 20 + block.Length));
+        int Moved(int position) => position < entry ? position : position < at ? position + 20 : position + 20 + block.Length;
+        void Write(int position, int value) => BinaryPrimitives.WriteInt32LittleEndian(result.AsSpan(position), value);
+        foreach (int pointer in pointers) Write(Moved(pointer), Moved(pointer + 4));
+        for (int i = 0; i < layout.Blocks.Count; i++) Write(table + 20 * (i < next.Index ? i : i + 1) + 12, Moved(layout.Blocks[i].Offset));
+        Write(entry, type); Write(entry + 4, -1); Write(entry + 8, -1); Write(entry + 12, at + 20); Write(entry + 16, block.Length);
+        Write(layout.SchemaEnd + 4, layout.Blocks.Count + 1);
+        Write(layout.SchemaEnd + 8, result.Length);
+        return result;
+    }
+
     // Replaces byte ranges, sorted by position, then points every record address, record size, block bound and the stream size
     // at where their targets moved. What lies inside a replacement is the replacement's own business.
     internal static byte[] Relocate(byte[] raw, IReadOnlyList<(int Start, int End, byte[] Value)> regions, Func<int, byte[]> bufferForEdit)

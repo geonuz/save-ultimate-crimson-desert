@@ -19,6 +19,8 @@
   "next": "M9 4l8 8-8 8",
   "previous": "M15 4l-8 8 8 8",
   "update": "M12 3v12M7 10l5 5 5-5M4 20h16",
+  "export": "M12 15V3M7 8l5-5 5 5M4 13v7h16v-7",
+  "import": "M12 3v12M7 10l5 5 5-5M4 13v7h16v-7",
   "status_ok": "M5 12.5l4.5 4.5L19 7.5",
   "status_suspect": "M12 4L21.5 20H2.5ZM12 10v4.5M12 17.2v.3",
   "status_error": "M6.5 6.5l11 11M17.5 6.5l-11 11",

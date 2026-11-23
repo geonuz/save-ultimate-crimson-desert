@@ -76,7 +76,7 @@ public static class CharacterCatalogBuilder
             ["data/npc_catalog.json"] = new JsonObject { ["sourceSha256"] = digests.DeepClone(), ["characters"] = links, ["npcs"] = npcRows },
             ["data/store_names.json"] = storeNames
         };
-        foreach (string code in new[] { "ko", "ja", "ru" })
+        foreach (string code in ClientMetadata.Translated)
         {
             var pack = load($"locale/names_{code}.json").AsObject();
             pack["characters"] = new JsonObject(characters.Keys.Select(k => (k, Text: names[code].GetValueOrDefault((((ulong)k << 32) | NameMember).ToString(), "")))

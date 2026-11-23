@@ -108,7 +108,7 @@ public sealed class SyncTests
         // refresh-items ships exactly what a sync of the installed game writes.
         JsonNode Load(string folder, string name) => JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, name)))!;
         string repository = TestFiles.Resources;
-        foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json", "locale/names_ko.json", "locale/names_ja.json", "locale/names_ru.json" })
+        foreach (string name in new[] { "data/item_names.json", "data/max_enchant_map.json" }.Concat(new[] { "ko", "ja", "ru", "fr", "de", "es", "pt" }.Select(c => $"locale/names_{c}.json")))
             Assert.IsTrue(JsonNode.DeepEquals(Load(repository, name), Load(destination, name)), name);
         foreach (string part in new[] { "items", "stats" })
             Assert.IsTrue(JsonNode.DeepEquals(Load(repository, "data/item_details.json")[part], Load(destination, "data/item_details.json")[part]), part);

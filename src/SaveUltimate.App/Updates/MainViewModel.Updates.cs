@@ -34,7 +34,7 @@ public partial class MainViewModel
     private async Task InstallUpdateAsync()
     {
         if (Busy || AvailableUpdate is not { } release) return;
-        if (ThemedMessageBox.Show(Tr.Format("ui.update_prompt", ("version", release.Version), ("current", AppUpdate.Current), ("notes", release.Notes)), Tr.Text("ui.update_title"),
+        if (ThemedMessageBox.Show(Tr.Format("ui.update_prompt", ("version", release.Version), ("current", AppUpdate.Current), ("notes", release.NotesIn(Tr.Language))), Tr.Text("ui.update_title"),
             MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.OK, new() { [MessageBoxResult.OK] = Tr.Text("ui.update_now"), [MessageBoxResult.Cancel] = Tr.Text("ui.later") }) != MessageBoxResult.OK ||
             !await ConfirmLeaveAsync()) return;
         await RunAsync(Tr.Format("ui.update_downloading", ("percent", 0)), async () =>

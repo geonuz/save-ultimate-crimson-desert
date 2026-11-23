@@ -67,4 +67,17 @@ public sealed class WindowTests
         Assert.IsFalse(Sold(contents: true).CanBecome(stone));
         Assert.IsFalse(Sold().CanBecome(uint.MaxValue), "Unknown items are refused.");
     }
+
+    [TestMethod]
+    [TestCategory("Unit")]
+    public void OpeningASaveClearsEveryPageItReads()
+    {
+        // A page read on open but not cleared first would show the previous save's data if reading it fails.
+        string source = File.ReadAllText(Path.Combine(Path.GetDirectoryName(TestFiles.Resources)!, "src", "SaveUltimate.App", "MainViewModel.cs"));
+        var cleared = System.Text.RegularExpressions.Regex.Match(source, @"if \(resetSelection\) \{ ((?:\w+ = null; )+)\}").Groups[1].Value
+            .Split("= null;", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var read = System.Text.RegularExpressions.Regex.Match(source, @"\(((?:\w+, )+\w+)\) =\s*\(pages\.").Groups[1].Value.Split(", ");
+        Assert.IsTrue(read.Length > 5, "The page list in ReadPagesAsync was not found.");
+        CollectionAssert.AreEquivalent(read, cleared);
+    }
 }

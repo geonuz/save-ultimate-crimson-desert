@@ -19,7 +19,7 @@ public sealed class AppearanceTests
         string previous = Tr.Language;
         try
         {
-            foreach (string language in new[] { "en", "ko", "ja", "ru" })
+            foreach (string language in new[] { "en", "ko", "ja", "ru", "fr", "de", "es", "pt" })
             {
                 Tr.SetLanguage(language);
                 Assert.AreEqual("fallback", Tr.Name("missing-category", "missing-key", "fallback"));

@@ -42,7 +42,9 @@ public partial class CompanionPage : UserControl
     // The companion tab lists mercenaries only; playable companions (Damiane, Oongka) have nothing to edit here and show in neither tab.
     private static readonly string[] CompanionGroups = ["mercenary"];
     private string[] Groups => Pets ? ["pet", "special", .. CompanionTypes.Groups.Except(["all", "pet", "special", "playable", .. CompanionGroups])] : ["all"];
-    private static readonly string[] Orderable = ["pet", "special"];
+    // Pets and special mounts always get a tab; their order and the ships' order can change.
+    private static readonly string[] AlwaysShown = ["pet", "special"];
+    private static string[] Orderable => CompanionTypes.Orderable;
     private Selector GroupBox => Pets ? GroupTabs : Group;
     private bool InTab(Companion c) => c.Group != "playable" && CompanionGroups.Contains(c.Group) != Pets;
     public CompanionPage()
@@ -68,7 +70,7 @@ public partial class CompanionPage : UserControl
         catch (InvalidDataException) { }
         int Count(string g) => Model.Companions?.Count(c => InTab(c) && (g == "all" || c.Group == g)) ?? 0;
         // Tabs list only the categories this save has; the filter keeps every category.
-        GroupBox.ItemsSource = Groups.Where(g => !Pets || Orderable.Contains(g) || Count(g) > 0).Select(g => new Choice(g, $"{Tr.Text("companion.group." + g)} ({Count(g)})")).ToArray();
+        GroupBox.ItemsSource = Groups.Where(g => !Pets || AlwaysShown.Contains(g) || Count(g) > 0).Select(g => new Choice(g, $"{Tr.Text("companion.group." + g)} ({Count(g)})")).ToArray();
         GroupBox.SelectedItem = GroupBox.Items.Cast<Choice>().FirstOrDefault(c => c.Key == selected) ?? GroupBox.Items.Cast<Choice>().First();
         updating = false; Filter();
     }
@@ -96,7 +98,8 @@ public partial class CompanionPage : UserControl
         Rename.IsEnabled = Clear.IsEnabled = Pets && row?.Record.Editable == true;
         Rename.ToolTip = Clear.ToolTip = row is { Record.Editable: false } ? Tr.Text("companion.internal_note") : null;
         bool orderable = Pets && Orderable.Contains((GroupBox.SelectedItem as Choice)?.Key);
-        OrderButtons.Visibility = orderable ? Visibility.Visible : Visibility.Collapsed;
+        // Groups the game orders elsewhere (horses, wagons) keep the buttons, disabled, as every tab does.
+        OrderButtons.Visibility = Pets ? Visibility.Visible : Visibility.Collapsed;
         int index = Rows.SelectedIndex;
         MoveUp.IsEnabled = orderable && row is not null && index > 0;
         MoveDown.IsEnabled = orderable && row is not null && index < Rows.Items.Count - 1;

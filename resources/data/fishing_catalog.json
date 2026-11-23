@@ -7,6 +7,10 @@
     "characterinfo.staticinfoheader": "363ebdb8564495d9b9d7f04bbe393e1f65e7869b22f06621ae55c36fed4b7f50",
     "eng_knowledge.dlc_01.paloc": "f36e8b58c97d960eec924c9a943772e6f38361656ccf9507a5757757bf823ef3",
     "eng_knowledge.paloc": "f10e66cbc07f96c3a26c451af8e58daaf4fec1fbcd9ddd9f447d356dc6fd25b5",
+    "fre_knowledge.dlc_01.paloc": "da6cc22c845c7b3b4dbba266e7c2ed23d5903a424ebbb24a9a0b83f209a100f7",
+    "fre_knowledge.paloc": "e8b1002835d24578f46de38f31ea35a281b74e32b9ab598393b176cf1cd558ad",
+    "ger_knowledge.dlc_01.paloc": "61a4043841a0e894220a7d2a53a53c7fe8ba48472a5d42c320a111e51b7a238f",
+    "ger_knowledge.paloc": "c8a2125899cf59921e8ad95f6f38b8612aee79f1710ace27de7100c49ad4cb06",
     "jpn_knowledge.dlc_01.paloc": "ac6b46fb680b9f8aa782824a2ba90106fea8ad875c8ee34630ec4d9920ea2413",
     "jpn_knowledge.paloc": "8b43149d2afacc24da6c31a0c70bf0a30b6e0fbe0852faf1c0ab2c2fdd794439",
     "knowledgegroupinfo.dlc_01.staticinfobody": "2fc25d5c2a8c7f57a8ce265d2b33423702684a9ae4d7f8150da4331cf5ee075a",
@@ -19,8 +23,12 @@
     "knowledgeinfo.staticinfoheader": "bfe9507920d49d465c636ca92123f9cf5acad16dc398c0a2a2be6352b24c490e",
     "kor_knowledge.dlc_01.paloc": "9f66bf6b97c28a018479848cf473e5d05e6990155aa5bc36909d48b346901ed8",
     "kor_knowledge.paloc": "3212530e0170d761738d10c802db5076284a20e5bcba2d61f7c8f21f841b5c7c",
+    "por-br_knowledge.dlc_01.paloc": "9bfea329cbd0b619efac92067cfc04924df31a23a5793e9b1a515016b290ab7a",
+    "por-br_knowledge.paloc": "967379c7a6d875cee9255df40ada70ff76b94f5739c6a954e2461223cd6f985c",
     "rus_knowledge.dlc_01.paloc": "8099daa6e160ed193dd8009beb89d4c63e5fc639109ce4b99939245858875edb",
-    "rus_knowledge.paloc": "c8f4f179bc2aa2f4542e88be6d6948c2d30ebd5cbb5c698999d9884e76bc02fc"
+    "rus_knowledge.paloc": "c8f4f179bc2aa2f4542e88be6d6948c2d30ebd5cbb5c698999d9884e76bc02fc",
+    "spa-es_knowledge.dlc_01.paloc": "359daa4b49487c4b60f670a83041c6237325ffd46c459984df4220a88a235767",
+    "spa-es_knowledge.paloc": "5b7a80ce9552df9a90c796b40dfce627d4842b73a33d0cd1d4cf4f0eca1d1aea"
   },
   "eligibilityNote": "Client size-parameter analysis; game UI behavior still needs in-game verification.",
   "fish": [
