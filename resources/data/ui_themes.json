@@ -1,5 +1,57 @@
 {
   "dark": {
+    "name": "CDSE Obsidian",
+    "description": "The CDSE brand theme: obsidian slate surfaces, crimson for where you are, amber for edits.",
+    "colors": {
+      "bg": "#11181F",
+      "panel": "#182129",
+      "header": "#212C36",
+      "accent": "#7FB8DC",
+      "text": "#F0F5F9",
+      "text_dim": "#8FA3B5",
+      "selected": "#36222E",
+      "border": "#354657",
+      "input_bg": "#141C23",
+      "panel_text": "#F0F5F9",
+      "primary_text": "#F0F5F9",
+      "accent_text": "#0E1620",
+      "selection_text": "#F0F5F9",
+      "success": "#22C55E",
+      "warning": "#FFB547",
+      "error": "#FF7B7B",
+      "brand": "#C81D4E",
+      "brand_end": "#DC2A42",
+      "brand_text": "#FFFFFF",
+      "hover": "#2A3845"
+    }
+  },
+  "light": {
+    "name": "CDSE Daylight",
+    "description": "The CDSE brand on light canvas surfaces, for daytime use.",
+    "colors": {
+      "bg": "#F6F8FA",
+      "panel": "#FFFFFF",
+      "header": "#EAEEF2",
+      "accent": "#22679A",
+      "text": "#161F27",
+      "text_dim": "#4F6072",
+      "selected": "#FBE1E8",
+      "border": "#A7B4C1",
+      "input_bg": "#FFFFFF",
+      "panel_text": "#161F27",
+      "primary_text": "#161F27",
+      "accent_text": "#FFFFFF",
+      "selection_text": "#161F27",
+      "success": "#15803D",
+      "warning": "#A15C00",
+      "error": "#B91C1C",
+      "brand": "#A61143",
+      "brand_end": "#C81D4E",
+      "brand_text": "#FFFFFF",
+      "hover": "#E1E7ED"
+    }
+  },
+  "charcoal_gold": {
     "name": "Charcoal Gold",
     "description": "Neutral charcoal surfaces with a warm gold accent.",
     "colors": {
@@ -19,12 +71,7 @@
       "success": "#95d0ae",
       "warning": "#e4bd74",
       "error": "#f29a9f"
-    },
-    "tab": [
-      "#2a3040",
-      "#e0eaff",
-      "#70a8ff"
-    ]
+    }
   },
   "obsidian_blue": {
     "name": "Obsidian Blue",
@@ -46,12 +93,7 @@
       "success": "#78d49a",
       "warning": "#e6ba59",
       "error": "#e26972"
-    },
-    "tab": [
-      "#193b5d",
-      "#e8f4ff",
-      "#4da3ff"
-    ]
+    }
   },
   "forest_emerald": {
     "name": "Forest Emerald",
@@ -73,12 +115,7 @@
       "success": "#78d49a",
       "warning": "#e6ba59",
       "error": "#e26972"
-    },
-    "tab": [
-      "#214e34",
-      "#edfff2",
-      "#55c983"
-    ]
+    }
   },
   "royal_purple": {
     "name": "Royal Purple",
@@ -100,12 +137,7 @@
       "success": "#78d49a",
       "warning": "#e6ba59",
       "error": "#e26972"
-    },
-    "tab": [
-      "#482b66",
-      "#f6edff",
-      "#b67cff"
-    ]
+    }
   },
   "crimson_night": {
     "name": "Crimson Night",
@@ -127,12 +159,7 @@
       "success": "#78d49a",
       "warning": "#e6ba59",
       "error": "#e26972"
-    },
-    "tab": [
-      "#5a222d",
-      "#fff0f2",
-      "#e05262"
-    ]
+    }
   },
   "slate_cyan": {
     "name": "Slate Cyan",
@@ -154,38 +181,6 @@
       "success": "#78d49a",
       "warning": "#e6ba59",
       "error": "#e26972"
-    },
-    "tab": [
-      "#214f54",
-      "#efffff",
-      "#4fc6c8"
-    ]
-  },
-  "light": {
-    "name": "Daylight",
-    "description": "A bright, high-contrast theme for daytime use.",
-    "colors": {
-      "bg": "#f5f5f5",
-      "panel": "#ffffff",
-      "header": "#d8d8d8",
-      "accent": "#8B3A00",
-      "text": "#111111",
-      "text_dim": "#3d3d3d",
-      "selected": "#b8d9ff",
-      "border": "#a0a0a0",
-      "input_bg": "#ffffff",
-      "panel_text": "#111111",
-      "primary_text": "#111111",
-      "accent_text": "#FFFFFF",
-      "selection_text": "#111111",
-      "success": "#1b5e20",
-      "warning": "#bf5500",
-      "error": "#b71c1c"
-    },
-    "tab": [
-      "#cfe3ff",
-      "#103060",
-      "#2277dd"
-    ]
+    }
   }
 }

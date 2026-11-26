@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="CDSE.Tests" />
+    <InternalsVisibleTo Include="CDSE.SaveTests" />
+    <ProjectReference Include="../CDSE.Core/CDSE.Core.csproj" />
+    <PackageReference Include="System.CommandLine" />
+  </ItemGroup>
+</Project>

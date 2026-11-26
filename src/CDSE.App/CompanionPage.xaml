@@ -1,0 +1,67 @@
+<UserControl x:Class="CDSE.App.CompanionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CDSE.App">
+ <Grid IsEnabled="{Binding CanEditSelection}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <!-- Pets and mounts are one page; their kinds are its tabs, where other sections have theirs. -->
+  <TabControl x:Name="GroupTabs" DisplayMemberPath="Label" SelectionChanged="OnGroup" Visibility="Collapsed" Margin="0,-16,200,16"><TabControl.ContentTemplate><DataTemplate/></TabControl.ContentTemplate></TabControl>
+  <local:PageHeader Grid.Row="1" x:Name="Header" HelpTopic="companion.title" LoadedState="{Binding Companions, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadCompanionsCommand}"/></local:PageHeader.LoadButton>
+   <!-- Search as on the trust tab; mercenaries only, since Move Up and Move Down on the pet tabs work on the whole order. -->
+   <Label x:Name="SearchLabel" Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" x:Name="Search" TextChanged="OnSearch" ToolTip="{local:Tr companion.search}" AutomationProperties.Name="{local:Tr companion.search}"/>
+  </local:PageHeader>
+  <!-- Whole-list actions sit with the count, not with the selected row; the rare one is in the menu. -->
+  <DockPanel Grid.Row="2" Style="{StaticResource CountRow}">
+   <Button x:Name="More" DockPanel.Dock="Right" Style="{StaticResource IconButton}" Click="OnMore" Margin="8,0,0,0" ToolTip="{local:Tr ui.more}" AutomationProperties.Name="{local:Tr ui.more}"><Button.ContextMenu><ContextMenu><MenuItem x:Name="ClearAll" Click="OnClearAll" IsEnabled="False"/></ContextMenu></Button.ContextMenu><local:ActionGlyph Kind="more" Width="20" Height="20"/></Button>
+   <Button Style="{StaticResource AccentButton}" x:Name="AddRobot" DockPanel.Dock="Right" Content="{local:Tr companion.robot_add}" Click="OnAddRobot" IsEnabled="False"/>
+   <Button Style="{StaticResource AccentButton}" x:Name="AddPet" DockPanel.Dock="Right" Content="{local:Tr companion.add}" Click="OnAddPet" IsEnabled="False" ToolTipService.ShowOnDisabled="True"/>
+   <TextBlock x:Name="Count" Style="{StaticResource CountText}"/>
+  </DockPanel>
+  <local:DetailSplit Grid.Row="3">
+   <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" RowHeight="{DynamicResource PictureRowHeight}" SelectionChanged="OnSelect">
+    <DataGrid.Columns>
+     <DataGridTemplateColumn Width="Auto" MinWidth="40" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate><Image Source="{Binding Icon}" Width="{DynamicResource PictureSize}" Height="{DynamicResource PictureSize}"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+     <DataGridTextColumn Header="{local:Tr 'Default Name'}" Binding="{Binding Name}" Width="*" MinWidth="140"/>
+     <DataGridTextColumn x:Name="SkillsColumn" Header="{local:Tr companion.skills}" Binding="{Binding Skills}" Width="2*" MinWidth="160"/>
+     <DataGridTextColumn x:Name="CustomColumn" Header="{local:Tr 'Custom Name'}" Binding="{Binding Custom}" Width="*" MinWidth="140"/>
+     <DataGridTextColumn Header="{local:Tr companion.key}" Binding="{Binding Record.Key}" Width="100"/>
+     <DataGridTextColumn Header="{local:Tr companion.number}" Binding="{Binding Record.Number}" Width="110"/>
+     <DataGridTextColumn x:Name="RoleColumn" Header="{local:Tr companion.role}" Binding="{Binding Role}" Width="Auto" MinWidth="130"/>
+    </DataGrid.Columns>
+   </DataGrid>
+   <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+    <TextBlock x:Name="SelectedTitle" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+    <Image x:Name="Picture" MaxHeight="180" Margin="0,0,0,12"/>
+    <!-- Actions come first, two to a row; the description is for reading and goes last. -->
+    <StackPanel x:Name="NameButtons">
+     <UniformGrid Style="{StaticResource ButtonPair}">
+      <Button Style="{StaticResource PairAccent}" x:Name="Rename" Content="{local:Tr companion.rename}" Click="OnRename" IsEnabled="False"/>
+      <Button Style="{StaticResource PairDanger}" x:Name="Clear" Content="{local:Tr 'Clear Name'}" Click="OnClear" IsEnabled="False"/>
+     </UniformGrid>
+     <UniformGrid x:Name="OrderButtons" Style="{StaticResource ButtonPair}">
+      <Button Style="{StaticResource PairAccent}" x:Name="MoveUp" Content="{local:Tr companion.move_up}" Click="OnMove" IsEnabled="False"/>
+      <Button Style="{StaticResource PairAccent}" x:Name="MoveDown" Content="{local:Tr companion.move_down}" Click="OnMove" IsEnabled="False"/>
+     </UniformGrid>
+     <StackPanel x:Name="GearPanel" Visibility="Collapsed">
+      <TextBlock Text="{local:Tr companion.gear}" Style="{StaticResource SectionTitle}"/>
+      <ItemsControl x:Name="Gear" Focusable="False"><ItemsControl.ItemTemplate><DataTemplate>
+       <DockPanel Margin="0,0,0,8">
+        <Button DockPanel.Dock="Right" Style="{StaticResource IconAccent}" Click="OnGearOff" IsEnabled="{Binding CanTakeOff}" Margin="6,0,0,0" ToolTip="{Binding OffHint}" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="{Binding OffLabel}"><local:ActionGlyph Kind="window_close" Width="16" Height="16"/></Button>
+        <Button DockPanel.Dock="Right" Style="{StaticResource IconAccent}" Click="OnGear" IsEnabled="{Binding CanChange}" Margin="8,0,0,0" ToolTip="{Binding ChangeHint}" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="{Binding ChangeLabel}"><local:ActionGlyph Kind="swap" Width="16" Height="16"/></Button>
+        <Border Width="44" Height="44" Margin="0,0,10,0" CornerRadius="4" Background="{DynamicResource input_bg}" BorderBrush="{DynamicResource border}" BorderThickness="1"><Image Source="{Binding Icon}" Margin="2"/></Border>
+        <StackPanel VerticalAlignment="Center"><TextBlock Text="{Binding Label}" Style="{StaticResource SecondaryText}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/></StackPanel>
+       </DockPanel>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel>
+     <Button Style="{StaticResource DangerButton}" x:Name="Release" Content="{local:Tr companion.remove}" Click="OnRelease" IsEnabled="False" Margin="0,12,0,0"/>
+     <TextBlock x:Name="ReleaseReason" TextWrapping="Wrap" Foreground="{DynamicResource error}" Margin="0,8,0,0"/>
+    </StackPanel>
+    <StackPanel x:Name="CompanionPanel">
+     <TextBlock x:Name="Details" TextWrapping="Wrap" Margin="0,0,0,12"/>
+     <Button Style="{StaticResource DangerButton}" x:Name="RemoveRobot" Content="{local:Tr companion.robot_remove}" Click="OnRemoveRobot" IsEnabled="False" Margin="0,0,0,8"/>
+     <TextBlock x:Name="RemoveReason" TextWrapping="Wrap" Foreground="{DynamicResource error}"/>
+    </StackPanel>
+    <TextBlock x:Name="Profile" TextWrapping="Wrap" Margin="0,16,0,12"/>
+   </StackPanel></ScrollViewer>
+  </local:DetailSplit>
+ </Grid>
+</UserControl>

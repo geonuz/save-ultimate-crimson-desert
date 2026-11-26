@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <EmbeddedResource Include="../../resources/data/client_image_aliases.json" LogicalName="ClientImageAliases.json" />
+    <EmbeddedResource Include="../../resources/data/knowledge_ui.json" LogicalName="Knowledge.json" />
+    <EmbeddedResource Include="../../resources/data/fishing_catalog.json" LogicalName="Fishing.json" />
+    <EmbeddedResource Include="../../resources/data/map_actions.json" LogicalName="MapActions.json" />
+    <EmbeddedResource Include="../../resources/data/dlc_content.json" LogicalName="DlcContent.json" />
+    <EmbeddedResource Include="../../resources/data/companion_types.json" LogicalName="CompanionTypes.json" />
+    <EmbeddedResource Include="../../resources/data/management_catalog.json" LogicalName="Management.json" />
+    <EmbeddedResource Include="../../resources/data/collection_catalog.json" LogicalName="Collection.json" />
+    <EmbeddedResource Include="../../resources/data/learn_paths.json" LogicalName="LearnPaths.json" />
+    <EmbeddedResource Include="../../resources/data/learn_sources.json" LogicalName="LearnSources.json" />
+    <EmbeddedResource Include="../../resources/data/challenge_catalog.json" LogicalName="Challenges.json" />
+    <EmbeddedResource Include="../../resources/data/challenge_completion.json" LogicalName="ChallengeCompletion.json" />
+    <EmbeddedResource Include="../../resources/data/skills.json" LogicalName="Skills.json" />
+    <EmbeddedResource Include="../../resources/data/max_enchant_map.json" LogicalName="MaxEnchant.json" />
+    <EmbeddedResource Include="../../resources/data/item_names.json" LogicalName="ItemCatalog.json" />
+    <EmbeddedResource Include="../../resources/data/gear_catalog.json" LogicalName="Gear.json" />
+    <InternalsVisibleTo Include="CDSE.Tests" />
+    <InternalsVisibleTo Include="CDSE.SaveTests" />
+    <!-- The catalog builders live in Tools and read the client tables through Core's internal readers. -->
+    <InternalsVisibleTo Include="CDSE.Tools" />
+    <PackageReference Include="K4os.Compression.LZ4" />
+    <PackageReference Include="Magick.NET-Q8-x64" />
+  </ItemGroup>
+</Project>

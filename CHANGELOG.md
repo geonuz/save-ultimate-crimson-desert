@@ -1,5 +1,49 @@
 # Changelog
 
+## [1.10.0]
+
+Updated to work with Crimson Desert 2.06.00.
+
+### New
+
+- **SaveUltimate is now CDSE** (Crimson Desert Save Editor), with a new logo, colors and fonts. The default theme is
+  CDSE Obsidian; the former one is still available as Charcoal Gold. An update from 1.9.0 keeps the file name
+  `SaveUltimate.exe` until the next update renames it `CDSE.exe`. Error codes now start with `CDSE-` instead of `SU-`; the numbers are unchanged.
+- **History:** every edit is listed on the right. Click one to go back to that point, or forward again (Ctrl+Y).
+  Saving keeps the list.
+- **Items → Item Database:** add ordinary items to the inventory, one kind or several at once. The slots they take are
+  shown first; quest items, keys and papers cannot be added.
+- **Inventory:** raising an item that does not stack, such as equipment, above 1 adds that many separate copies with
+  the same enhancement, sockets and dye.
+- **Equipment:** each socket shows its gear with a picture, like pet gear, and the gear picker lists only the Abyss
+  Gear that fits, each with what it does: the amount of a stat gear (Attack +2, Move Speed +4%) or the effect of a skill
+  gear, and the game's description on hover. Item lists no longer have the slot column.
+- **New Pets & Mounts menu:** add and remove pets, horses, special mounts, wagons and ships. A ship comes with its own
+  sail and cannon. Removing one deletes what it wears. When one cannot be removed, the reason is shown: it is the main
+  one, a quest names it, or it carries cargo.
+- **Pets & Mounts → Equipment:** change what pets, horses, special mounts, ships and the A.T.A.G. wear, ship cannons
+  and A.T.A.G. weapons included. The gear is made new and replaces what was worn.
+- **Character → Dyes:** see the color, dye, material and grime of every dye part. Export checked items, or the set
+  Kliff, Oongka or Damiane wears, to a file or as a code to paste in a message, and import either. For each entry, pick which of your items gets the dye,
+  shown with where it is, its enhancement and its dye now, or make a new one already dyed.
+- **Life → Housing:** rotate a whole free construction house by 180°.
+
+### Fixed
+
+- Selecting a cell no longer cuts off its text.
+- Knowledge: the level box no longer goes empty after a level is applied.
+- Mercenaries all show a face portrait framed like the game's mercenary list; 46 that had no picture now have one.
+- Skills: Item Fishing is no longer listed; it does not appear to be in the game yet.
+
+### Other
+
+- New Character menu with Equipment, Skills and Dyes.
+- Pet, mount and fish pictures are larger, without a background, and show each color.
+- Pets & Mounts no longer lists farm animals, caught fish and internal records.
+- Detail panels have fewer buttons, two to a row; rare actions are in the ⋯ menu.
+- Every window has the editor's own title bar.
+- Synced game images take about a third of the disk space (590 MB → 195 MB), and syncing is faster. The first start after updating syncs again once.
+
 ## [1.9.0]
 
 ### New

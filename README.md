@@ -1,236 +1,225 @@
-# SaveUltimate for Crimson Desert
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/cdse-horizontal-dark-1200w.png">
+    <source media="(prefers-color-scheme: light)" srcset=".github/assets/cdse-horizontal-light-1200w.png">
+    <img src=".github/assets/cdse-horizontal-light-1200w.png" alt="CDSE — Crimson Desert Save Editor" width="440">
+  </picture>
+</p>
 
-SaveUltimate is an unofficial save editor for Crimson Desert on Windows
-x64. This is the C#/.NET edition, a rewrite of the original Python/Qt editor.
-Developed and maintained by geonuz with assistance from AI agents.
+<h3 align="center">Edit your save. Leave no trace.</h3>
+<p align="center">Native-faithful save editing for <i>Crimson Desert</i> — every change written the way the game itself would.</p>
 
-The interface supports English, Korean, Japanese, Russian, French, German, Spanish and Brazilian Portuguese. Game
-names and descriptions use the game's localization data.
+<p align="center">
+  <a href="#supported-versions">Versions</a> · <a href="#install"><b>Install</b></a> ·
+  <a href="#features">Features</a> · <a href="#safety-and-save-doctor">Save Doctor</a> ·
+  <a href="#updates">Updates</a> · <a href="#support">Support</a>
+</p>
 
-## Supported game versions
+<p align="center">
+  <a href="https://github.com/geonuz/save-ultimate-crimson-desert/releases/latest"><img src="https://img.shields.io/github/v/release/geonuz/save-ultimate-crimson-desert?label=release&color=C81D4E" alt="Latest Release"></a>
+  <a href="https://github.com/geonuz/save-ultimate-crimson-desert/releases"><img src="https://img.shields.io/github/downloads/geonuz/save-ultimate-crimson-desert/total?label=downloads&color=E53538" alt="Total Downloads"></a>
+  <a href="https://discord.gg/heESrXvMqj"><img src="https://img.shields.io/badge/Discord-Presets%20%26%20Community-5865F2?logo=discord&logoColor=white" alt="Join Discord"></a>
+  <img src="https://img.shields.io/badge/platform-Windows%20x64-182129" alt="Windows x64">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/geonuz/save-ultimate-crimson-desert?color=3A4B5C" alt="License"></a>
+</p>
+
+<p align="center"><sub>UI Languages: English · 한국어 · 日本語 · Русский · Français · Deutsch · Español · Português (BR)</sub></p>
+
+**Open source, structure-faithful, and built for safety.** CDSE (called SaveUltimate up to 1.9.0) is an unofficial Windows x64 save editor for *Crimson Desert*, rebuilt in C#/.NET from the original Python/Qt editor. Developed and maintained by geonuz with assistance from AI agents.
+
+<!-- Optional hero screenshot. Uncomment when a screenshot is ready.
+<p align="center">
+  <img src=".github/assets/app-overview.png" width="900" alt="CDSE main interface">
+  <br><sub>Clean, localized editing backed by your own game data.</sub>
+</p>
+-->
+
+## Supported Versions
 
 | Game version | Status |
-|---|---|
-| 2.05.01 with or without the first DLC | Verified with this release |
-| 2.05.00 | Saves open and edit; their format is the same as 2.05.01 |
-| 2.04.x | Saves open and edit, and are tested with this release |
-| Earlier 2.x updates | Saves open and edit but are no longer tested |
-| 1.x | Not supported; opening a save reports `[SU-301]` |
+| --- | --- |
+| **2.06.00** (with or without DLC 1) | Verified with this release |
+| **2.05.x** and **2.04.x** | Opens, edits, and tested with this release |
+| **Earlier 2.x** | Opens and edits, no longer actively tested |
+| **1.x** | Not supported — opening reports `[CDSE-301]` |
 
-Syncing game data reads the installed game, which must be 2.05.01: that update changed the layout of the item table.
+> [!NOTE]
+> - **Game Data Sync** requires an installed **2.06.00** game folder (that update changed the layout of every game data table).
+> - **DLC Detection**: Without `dlc/dlc_01` in the game folder, the header says so, and DLC items, knowledge, fish, skills, challenges, and map places are hidden and cannot be edited.
+> - **Settings** shows the editor version and the game version it was verified with.
+> - Game names, icons, and descriptions are read directly from your local installation's localization data.
 
-Settings shows the editor version and the game version it was verified with.
-Without the DLC installed (no `dlc/dlc_01` in the game folder), the header says
-so and DLC items, knowledge, fish, skills, challenges and map places are hidden
-and cannot be edited.
+## Install
+
+**[Download CDSE for Windows x64 →](https://github.com/geonuz/save-ultimate-crimson-desert/releases/latest)**
+
+No separate .NET runtime is required.
+
+1. Download the Windows ZIP from [Releases](https://github.com/geonuz/save-ultimate-crimson-desert/releases/latest) and extract it to a writable folder.
+2. Run **`CDSE.exe`** (keep all shipped `.dll` files and `resources/` beside the executable; it does not run without them).
+3. Open **Settings**, select your *Crimson Desert* installation folder, and run **Sync game data**.
+4. Click **Open** to load a save, make your edits, and click **Save**.
+
+<details>
+<summary><b>Folder layout & local game data sync</b></summary>
+
+Sync reads your installed game **without modifying it**, extracting item data, localized names, and item/fish/skill images locally (no game images are bundled or downloaded). Placeholder icons appear until the first sync.
+
+```text
+CDSE.exe
+*.dll               Native libraries for images and the interface (shipped)
+resources/          Baseline catalogs, translations, and artwork (shipped)
+licenses/           Third-party notices (shipped)
+editor_config.json  Editor preferences
+error.log           Details of reported errors
+backups/            Copies of your save backups
+game_data/          Synchronized game data and images
+.update/            Files of an update in progress, removed at the next start (GitHub package only)
+```
+
+</details>
 
 ## Features
 
-### Items
+Every edit is designed to match *Crimson Desert*'s native save structure and record patterns, validated against the full file format before and after writing.
 
-- **Inventory**: set the quantity of one or several items (1 to 999,999,999) or
-  delete them. Items carried by mercenaries are skipped. Collection documents
-  locked in the quest bag as important items can be released to the inventory,
-  as reading them in the game would.
-- **Equipment**: set the enchantment level up to the item's game limit, including
-  mercenary equipment; filter by owner.
-- **Sockets**: unlock socket slots up to the equipment's limit and insert,
-  replace or remove Abyss Gear.
-- **Item Swap (Repurchase)**: replace an item in a vendor's buy-back list with
-  another item, then buy it back in the game.
-- **Collection**: fill the collection box with chosen items or whole classes
-  (documents, recipes, books, treasure maps, keys and more), and optionally learn
-  the knowledge each item teaches. Items go in as the game stores them, never as
-  important items; filling again releases ones an earlier version left important.
-- **Item Database**: browse every item with its icon, key and localized name.
+| Category | Highlights |
+| --- | --- |
+| **Items** | Inventory quantities & copies, vendor repurchase swap, collection box, item database with item add |
+| **Character** | Equipment enchantments, Abyss Gear sockets with effects, Watch-and-Learn skills, dyes with `.sudye` file & code sharing |
+| **Adventure Journal** | Knowledge entries & levels, challenge completion, fishing records |
+| **Map** | Nodes & places, memory fragments, full map reveal, Abyss points, crafting stations, chests & ore deposits |
+| **NPC** | Mercenaries & Grey-0 recruits, trust & DLC bonds |
+| **Pets & Mounts** | Pets, horses, special mounts, wagons & ships — add, remove, rename, reorder, change gear |
+| **Life** | DLC business renown, 15 housing plots, `.suhouse` house export & import, 180° house rotation |
+| **Other** | Forward game clock adjustment, Save Doctor, edit history, eight themes + custom colors |
 
-### Adventure Journal
+<details>
+<summary><b>Items</b> — Inventory, Item Swap, Collection, Database</summary>
 
-- **Knowledge**: learn or unlearn selected entries, set the level of a learned
-  entry, or apply maximum levels to many at once. Each entry shows how the save
-  recorded it was learned (the game's code and what it means).
-- **Challenges**: complete whole challenges, several challenges at once or
-  selected checkpoints. Challenges that need a step in the game first, such as
-  using a sealed artifact, are view-only.
-- **Fishing**: learn fish knowledge and set the size of a recorded catch. One fish
-  caught in the game is needed before records can be edited.
+- **Inventory**: Set the quantity of one or several items (`1`–`999,999,999`) or delete them. An item that does not stack, such as equipment, becomes that many separate copies as long as the bag has room; for one that stacks, the editor shows how many slots the game uses. Items carried by mercenaries are skipped. Collection documents locked in the quest bag as important items can be released into the inventory, as reading them in the game would.
+- **Item Swap (Repurchase)**: Replace an item in a vendor's buy-back list with another item, then buy it back in the game.
+- **Collection**: Fill the collection box by item or by class (documents, recipes, books, treasure maps, keys and more) and optionally learn the knowledge each item teaches. Items go in as the game stores them, never as important items; filling again releases ones an earlier version left important.
+- **Item Database**: Browse every item with its icon, key, localized name, and how many you own, and add ordinary items to the inventory. Items the game handles in its own way, such as quest items, keys, and papers, cannot be added.
 
-### Map
+</details>
 
-- **Nodes and Places**: categories (nodes, regions, hidden spaces, caves, spires,
-  shadow sanctums, witch hideouts, Greymane shrines, the Abyss and each region's
-  bell) on the left, their places on the right. Activate whole categories or
-  chosen places.
-- **Memory Fragments**: activate memory fragments one, several or all at once.
-- **Other Environment**: reveal the whole map, and activate by group the Abyss
-  Nexus points and Abyss Cressets, crafting and utility stations (bonfires,
-  grindstones, cauldrons, special cooking pots and griddles, anvils, wells, looms
-  and workstations), treasure chests and 13 kinds of ore and mineral deposits.
-  Activating Abyss Cressets also completes the challenge paired with each.
+<details>
+<summary><b>Character</b> — Equipment, Sockets, Skills, Dyes</summary>
 
-Items, recipes, resources and rewards themselves are not awarded.
+- **Equipment**: Set enchantment levels up to each item's game limit, including mercenary gear, with owner filtering.
+- **Sockets**: Unlock slots up to the equipment's limit and insert, replace, or remove Abyss Gear. Only gears the game lets that equipment hold are listed, each with what it does: the amount of a stat gear (Attack +2, Move Speed +4%) or the effect of a skill gear.
+- **Skills**: Learn Watch-and-Learn skills for Kliff, Oongka, and Damiane — one, several, or all at once — using the record the game writes when you watch them (level investments stay in-game).
+- **Dyes**: See the color, dye, material, and grime of each dye part of your gear. Export checked items, or the set Kliff, Oongka, or Damiane wears, to a `.sudye` file or as a code to paste in a message (`CDSE-DYE:…`), and import either: owned items are dyed, missing ones are made in the inventory already dyed. Importing needs a save in which the game has dyed one item; no dye is used up.
 
-### NPC
+</details>
 
-- **Mercenaries**: view level, skill points and equipment; add or remove Grey-0
-  robot workers and festival recruits, even on a save that
-  has none yet.
-- **Pets & Mounts**: rename pets, special mounts and ships, and change their
-  order, which the game does not offer.
-- **Trust**: set trust from 0 to 100 in steps of 5, and raise the DLC's bond
-  toward Kliff, Oongka or Damiane. After raising Kliff's bond with a witch, talk
-  to her once in the game and her romance quest moves on from the new bond.
+<details>
+<summary><b>Adventure Journal</b> — Knowledge, Challenges, Fishing</summary>
 
-### Life
+- **Knowledge**: Learn/unlearn selected entries, set the level of a learned entry, or apply maximum levels in bulk. Each entry shows how the save recorded it was learned (the game's code and what it means).
+- **Challenges**: Complete whole challenges, several at once, or selected checkpoints. Challenges that need a step in the game first, such as using a sealed artifact, are view-only.
+- **Fishing**: Learn fish knowledge and set the size of a recorded catch (requires at least one fish caught in-game).
 
-- **Business**: see every DLC sawmill, restaurant, forge and clothier,
-  and set the renown (1–5) of the shops you run. A shop you have not opened, or
-  one with no renown yet, says what to do in the game first.
-- **Housing**: activate the 15 DLC plots without finding them or sending
-  mercenaries, export a free-construction house to a `.suhouse` file, and import
-  one into any active plot, replacing the house there. A ready-built house is
-  switched to free construction; one with furniture in it needs the furniture
-  recalled in the game first. Every plot has the same build area, so a house
-  built on one plot fits another. Structures the save has never had, and parts
-  you lack the knowledge for, go in too. Decorations go in without their items,
-  and recalling them in the game gives those items.
+</details>
 
-### Other
+<details>
+<summary><b>Map</b> — Nodes & Places, Memory Fragments, Environment</summary>
 
-- **Skills**: learn the skills the game teaches by watching (Watch and Learn) for
-  Kliff, Oongka and Damiane, one, several or all at once. The editor writes
-  the record the game writes when you watch them. Level investments are left to
-  the game.
-- **Time**: set the day and time to move the game clock to; the time it adds
-  shows below. It never goes back.
-- **Save Doctor (Experimental)**: see below.
+- **Nodes & Places**: Activate whole categories or chosen places (nodes, regions, hidden spaces, caves, spires, shadow sanctums, witch hideouts, Greymane shrines, the Abyss, and each region's bell).
+- **Memory Fragments**: Activate one, several, or all at once.
+- **Other Environment**: Reveal the full map and activate by group the Abyss Nexus points and Abyss Cressets (completing the challenge paired with each), crafting and utility stations, treasure chests, and 13 kinds of ore and mineral deposits. *(Items, recipes, resources, and rewards themselves are not awarded.)*
 
-### Backup/Restore
+</details>
 
-Back up the save before writing it, keep a reference (PRISTINE) copy made the
-first time a save is opened, and restore or delete backups. Each save keeps its
-10 newest backups; older ones are deleted, and PRISTINE is always kept.
+<details>
+<summary><b>NPC</b> — Mercenaries, Trust</summary>
+
+- **Mercenaries**: Inspect levels, skill points, and gear; add or remove Grey-0 robot workers and festival recruits, even on a save that has none yet.
+- **Trust**: Set trust (`0`–`100` in steps of `5`) and raise DLC bonds toward Kliff, Oongka, or Damiane. After raising Kliff's bond with a witch, talk to her once in the game and her romance quest moves on from the new bond.
+
+</details>
+
+<details>
+<summary><b>Pets & Mounts</b> — Pets, Horses, Special Mounts, Blackstar / A.T.A.G., Wagons, Ships</summary>
+
+- **Rename & Reorder**: Rename them, and change the order of pets, special mounts, and ships, which the game does not offer.
+- **Add & Remove**: Add pets, horses, special mounts, wagons, and ships you do not have yet, or remove them. A ship comes with the sail and cannon it has in the game. The main one, one named by a quest, or one carrying cargo cannot be removed; neither can Blackstar, the A.T.A.G., or the first ship of the story.
+- **Gear**: Change or take off what they wear, ship cannons and A.T.A.G. parts included. The gear is made new and what was worn is gone, so of what you try on, only the last stays. Removing a companion deletes what it wears too.
+
+</details>
+
+<details>
+<summary><b>Life</b> — Business, Housing</summary>
+
+- **Business**: Inspect every DLC sawmill, restaurant, forge, and clothier; set renown (`1`–`5`) for the shops you run. A shop you have not opened, or one with no renown yet, says what to do in the game first.
+- **Housing**: Activate all 15 DLC plots without finding them or sending mercenaries, export a free-construction house to `.suhouse`, and import one into any active plot, replacing the house there. A ready-built house is switched to free construction; one with furniture in it needs the furniture recalled in the game first. Every plot has the same 28 × 24 m build area, so a house built on one plot fits another and can be turned by 180° (not 90°). Structures the save has never had and parts you lack the knowledge for go in too; decorations go in without their items, and recalling them in the game gives those items.
+
+</details>
+
+<details>
+<summary><b>Other</b> — Time, Editing, Interface</summary>
+
+- **Time**: Set the day and time to move the game clock to; the time it adds shows below. It never goes back.
+- **Editing**: Opening a save reads every page at once, and edits preview instantly across all pages. `Ctrl+Z` / `Ctrl+Y` undo and redo, **History** lists every edit and jumps to any point with one click (kept across saves until the file is closed), and **Reset All Changes** reloads the file from disk.
+- **Interface**: Eight built-in themes, CDSE Obsidian (the default) and CDSE Daylight among them, plus custom colors.
+
+</details>
+
+## Safety and Save Doctor
+
+CDSE treats save integrity as a hard constraint rather than an afterthought:
+
+- **Two-pass validation**: Structural edits (adding, removing, or moving records) are verified against the full save schema before applying. On **Save**, data is validated before writing, then read back and re-validated — a file that fails any check is never replaced.
+- **Automatic backups & `.PRISTINE.bak`**: Every write backs up the previous file into `backups/` (both in the editor folder and beside each save), keeping the 10 newest backups per save plus a permanent `.PRISTINE.bak` copy made the first time a save is opened. **Backup/Restore** restores or deletes them.
 
 ### Save Doctor (Experimental)
 
-**Other > Save Doctor** (also **File > Save Doctor**) checks every save slot, or a file you choose, against the
-rules this editor knows, without changing anything and without an open save. Results are grouped by area, named
-like the menus: File, Structure, Items, Adventure Journal, Maps, NPC and Other. Each area shows its worst result as
-normal, suspect, error or not checked, and each problem is listed with its repair. Normal means the rules pass; it does not promise that the game will load
-the save.
+Accessible from **Other > Save Doctor** or **File > Save Doctor** without opening a save first.
 
-It repairs only what can be worked out from the file: mission records that do
-not follow the game's format, which can crash the game at the title screen even
-for a slot that is never loaded, a signature that no longer matches contents
-that still read, and collection box items the game shows as important items. You can also lower enchant levels past their limit. Other damage
-cannot be repaired, so it offers the newest backup that still opens. The save is
-backed up first. Repairs also run while the game is running; load the save in
-the game afterwards, since a save the game makes first overwrites the repair.
+- Checks every save slot (or a chosen file) read-only against the rules this editor knows, grouped like the menus — **File, Structure, Items, Adventure Journal, Maps, NPC, and Other** — and reports each area's worst result as `normal`, `suspect`, `error`, or `not checked`, with each problem listed with its repair.
+- Repairs only what can be worked out from the file, after backing it up first: mission records that do not follow the game's format (which can crash the game at the title screen even for a slot that is never loaded), a signature that no longer matches contents that still read, collection box items the game shows as important items, and enchant levels past their limit. Other damage cannot be repaired, so it offers the newest backup that still opens.
+- Repairs also run while the game is running; load the save in the game afterwards, since a save the game makes first overwrites the repair.
+- *Note: `normal` means the known rules pass; it does not promise that the game will load the save.*
 
-### Editing and saving
+## Updates
 
-Opening a save reads every page at once. Edits appear immediately in the editor;
-**Save** writes them to disk. **Ctrl+Z** undoes the last unsaved edit and
-**Reset All Changes** reloads the file from disk.
+- **Standard build** asks GitHub for the latest release on startup (sending nothing about you or your saves; editing works offline) and shows an **Update** button above Settings when one is available (also via **File > Check for Updates**). Downloads are checked against the hash GitHub publishes, settings/backups/`game_data/` are kept, and if the new version does not open its window within two minutes, the previous version is put back.
+- **Offline build** (`CDSE-<version>-windows-x64-noupdate.zip`) never connects to the internet and has no update UI. Update manually by extracting over your existing folder; settings, backups, and `game_data/` stay.
+- **Auto re-sync**: Each start compares the synced data with the installed game and this release, and re-syncs automatically if either changed, reusing unchanged images. If that sync fails, the status bar says so and the existing data stays.
 
-Edits that add, remove or move records are checked against the save's full
-structure before they are applied. Saving validates the edited data, writes it,
-then reads the written file back and validates it again; a file that fails a
-check is never replaced.
+> [!NOTE]
+> - Releases are not code-signed, so Windows SmartScreen may warn on first launch. To update from `1.4.0` or earlier, extract the new ZIP over the old folder once.
+> - SaveUltimate 1.9.0 and earlier update to CDSE as usual. The program file keeps the name `SaveUltimate.exe` until the update after that, which renames it to `CDSE.exe`; a shortcut to the old name then needs to be made again.
 
-The interface offers seven themes and custom colors.
+## Disclaimer & Copyright
 
-## Installation
+> [!WARNING]
+> CDSE is an **unofficial** third-party tool. You assume all responsibility for its use; correct operation and data safety are not guaranteed. Always keep your own save backups.
 
-1. Download the Windows ZIP from [Releases](../../releases/latest), extract it to
-   a writable folder and run `SaveUltimate.exe`. No .NET installation is needed.
-   Keep the `.dll` files beside `SaveUltimate.exe`; the editor does not run
-   without them.
-2. In Settings, select your Crimson Desert installation and choose **Sync game data**.
-3. Choose **Open**, make your edits and use **Save** to save them.
-
-Sync reads the installed game without modifying it. It extracts item information,
-localized names and item, fish and skill images locally; images are not downloaded
-or bundled with the editor. Placeholder icons appear until the first sync.
-
-Keep `resources/` beside the EXE. The editor stores its settings, backups and
-synchronized data in the same folder:
-
-```text
-SaveUltimate.exe
-*.dll             Native libraries for images and the interface (shipped)
-resources/        Baseline catalogs, translations and artwork (shipped)
-licenses/         Third-party notices (shipped)
-editor_config.json
-error.log         Details of reported errors
-backups/          Copies of your save backups
-game_data/        Synchronized game data and images
-.update/          Files of an update in progress, removed at the next start (GitHub package only)
-```
-
-Backups are also written to a `backups/` folder beside each save, including a
-`.PRISTINE.bak` copy made the first time a save is opened.
-
-### Updates
-
-When it starts, the editor asks GitHub for the latest release; it sends nothing
-about you or your saves, and editing works without a connection. If a newer
-release exists, an **Update** button appears above Settings. **File > Check for
-Updates** does the same check on demand. Updating replaces the release's files,
-keeps your settings, backups and `game_data/`, and restarts the editor. If the
-new version does not open its window within two minutes, the previous version is
-put back. The download is checked against the hash GitHub publishes; releases are
-not code-signed, so Windows may warn when you first run the program. To update
-from 1.4.0 or earlier, extract the new ZIP over the old folder once.
-
-Each release also has a package without online updates
-(`SaveUltimate-<version>-windows-x64-noupdate.zip`): it never connects to the
-internet, and it has no Update button or **Check for Updates** command. To update
-it, extract the new version over the old folder; settings, backups and
-`game_data/` stay.
-
-Each start also compares the synced data with the installed game and this
-release. If either changed, the sync runs again and reuses unchanged images. If
-that automatic sync fails, the status bar says so and the existing data stays.
-
-## Use and copyright
-
-SaveUltimate is unofficial. You assume all responsibility for its use. Correct
-operation and data safety are not guaranteed. Back up your saves before editing.
-
-Copyright in Crimson Desert and all game assets and information belongs to
-Pearl Abyss.
+Copyright in *Crimson Desert* and all game assets and data belongs to **Pearl Abyss**.
 
 ## Credits
 
-- [NattKh](https://github.com/NattKh/CRIMSON-DESERT-SAVE-EDITOR-AND-GAME-MODS):
-  the original editor and CrimsonSaveEditor 2.1.0, which SaveUltimate builds on.
-- jacobdyoung20-tech / jkiip: community updates to Save Editor v1.17-v11.
-- gek: the original Qt desktop editor and save encryption/decryption work.
-- potter4208467 / Potter420 and crimson_rs contributors: Rust parsing and archive
-  tools; the archive reader here is derived from crimson-rs. The MIT notice credits Tommy Tran.
-- LukeFZ: pycrimson utilities and binary/archive analysis.
-- Tooltip: companion name parsing and renaming.
-- Hahmlet: The Hahmlet Project Authors / Hypertype, Minjoo Ham and Mark Frömberg.
+- **[NattKh](https://github.com/NattKh/CRIMSON-DESERT-SAVE-EDITOR-AND-GAME-MODS)** — Original editor and CrimsonSaveEditor 2.1.0, on which CDSE builds.
+- **jacobdyoung20-tech / jkiip** — Community updates to Save Editor v1.17–v11.
+- **gek** — Original Qt desktop editor and save encryption/decryption work.
+- **potter4208467 / Potter420 & crimson_rs contributors** — Rust parsing and archive tools (archive reader derived from `crimson-rs`; MIT notice credits Tommy Tran).
+- **LukeFZ** — `pycrimson` utilities and binary/archive analysis.
+- **Tooltip** — Companion name parsing and renaming.
+- **Pretendard** — Kil Hyung-jin (orioncactus). **Rajdhani** — Indian Type Foundry. Both fonts are under the SIL Open Font License 1.1.
 
-The editor uses .NET and WPF, CommunityToolkit.Mvvm, K4os.Compression.LZ4,
-Magick.NET and LZ4. Their
-notices are included in `licenses/` and Settings → About.
+Built with **.NET / WPF**, **CommunityToolkit.Mvvm**, **K4os.Compression.LZ4**, **Magick.NET**, and **LZ4**. Third-party notices are included in `licenses/` and **Settings → About**.
 
-## License
+## Support
 
-Original SaveUltimate code is available under the [MIT license](LICENSE).
-Inherited MPL-2.0 code, third-party components, fonts and game assets retain
-their own terms; see [license scope](LICENSES.md). The MIT license does not
-authorize redistribution of Pearl Abyss assets.
+[Releases](https://github.com/geonuz/save-ultimate-crimson-desert/releases) · [Discord (Housing & Dye Presets)](https://discord.gg/heESrXvMqj) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Report a Bug](https://github.com/geonuz/save-ultimate-crimson-desert/issues/new/choose)
 
-## Development and support
+When reporting a bug, include your **editor version**, **game version**, **DLC status**, **steps to reproduce**, and the **error code** (e.g. `[CDSE-301]`) along with `error.log` from the program folder. Do not attach personal saves or credentials. Build, test, and packaging instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Build, test and packaging instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
-See [CHANGELOG.md](CHANGELOG.md) for release changes.
+---
 
-Report bugs through Issues with the editor and game versions, whether the DLC is
-installed and steps to reproduce the problem. Errors show a code such as
-`[SU-301]` with an explanation; include the code and `error.log` from the
-program folder, which holds the details. Do not attach personal saves or
-credentials.
+<p align="center">
+  <a href="LICENSE">MIT License</a> · <a href="LICENSES.md">License Scope</a> · <a href="CHANGELOG.md">Changelog</a> · <a href="CONTRIBUTING.md">Contributing</a>
+</p>
+<p align="center"><sub>Original CDSE code is MIT-licensed. Inherited MPL-2.0 code, third-party libraries, fonts, and Pearl Abyss game assets remain under their respective terms; the MIT license does not authorize redistribution of Pearl Abyss assets.</sub></p>

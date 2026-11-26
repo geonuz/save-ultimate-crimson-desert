@@ -1,0 +1,45 @@
+<UserControl x:Class="CDSE.App.NpcPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CDSE.App">
+ <Grid IsEnabled="{Binding CanEditSelection}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader HelpTopic="npc.title" LoadedState="{Binding Friendship, Converter={x:Static local:PresentConverter.Shared}}"><local:PageHeader.LoadButton><Button x:Name="LoadData" Content="{local:Tr ui.load_data}" Command="{Binding LoadFriendshipCommand}"/></local:PageHeader.LoadButton>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" x:Name="Search" TextChanged="OnSearch" ToolTip="{local:Tr npc.search}" AutomationProperties.Name="{local:Tr npc.search}"/>
+  </local:PageHeader>
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}"><TextBlock x:Name="Count" Style="{StaticResource CountText}"/></DockPanel>
+  <local:DetailSplit Grid.Row="2">
+   <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelect">
+    <DataGrid.Columns>
+     <DataGridTemplateColumn Width="40" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate><Image Source="{Binding Icon}" Width="32" Height="32"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+     <DataGridTextColumn Header="{local:Tr Name}" Binding="{Binding Name}" Width="*" MinWidth="130"/>
+     <DataGridTextColumn Header="{local:Tr npc.area}" Binding="{Binding Area}" Width="Auto" MinWidth="140"/>
+     <DataGridTextColumn Header="{local:Tr npc.role}" Binding="{Binding Service}" Width="Auto" MinWidth="120"/>
+     <DataGridTextColumn Header="{local:Tr npc.value}" Binding="{Binding Value}" SortMemberPath="Record.Value" Width="Auto" MinWidth="70"/>
+     <DataGridTextColumn Header="{local:Tr npc.affinity}" Binding="{Binding Affinity}" Width="Auto" MinWidth="170"/>
+    </DataGrid.Columns>
+    <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="ToolTip" Value="{Binding Title}"/></Style></DataGrid.RowStyle>
+   </DataGrid>
+   <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+    <TextBlock x:Name="SelectedTitle" TextWrapping="Wrap" FontWeight="Bold" Margin="0,0,0,12"/>
+    <Image x:Name="Picture" MaxHeight="200"/>
+    <TextBlock x:Name="Profile" TextWrapping="Wrap" Margin="0,8,0,12"/>
+    <TextBlock Text="{local:Tr npc.new_value}"/>
+    <ComboBox x:Name="Value" SelectionChanged="OnValue" IsEnabled="False" Margin="0,6"/>
+    <Button Style="{StaticResource AccentButton}" x:Name="Apply" Content="{local:Tr npc.apply}" IsEnabled="False" Click="OnApply"/>
+    <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,8"/>
+    <!-- Each playable character keeps its own bond with the NPC, one tab each. -->
+    <TabControl x:Name="Bonds" Margin="0,12,0,0">
+     <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Character}"/></DataTemplate></TabControl.ItemTemplate>
+     <TabControl.ContentTemplate><DataTemplate>
+      <StackPanel Margin="0,8,0,0">
+       <TextBlock Text="{Binding Partner}" TextWrapping="Wrap"/>
+       <TextBlock Text="{local:Tr npc.affinity_new}" Margin="0,8,0,0"/>
+       <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding Value}" IsEnabled="{Binding Gauge.Editable}" Margin="0,6"/>
+       <Button Style="{StaticResource AccentButton}" Content="{local:Tr npc.affinity_apply}" IsEnabled="{Binding CanApply}" Click="OnApplyAffinity"/>
+      </StackPanel>
+     </DataTemplate></TabControl.ContentTemplate>
+    </TabControl>
+   </StackPanel></ScrollViewer>
+  </local:DetailSplit>
+ </Grid>
+</UserControl>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CDSE.App/CDSE.App.csproj" />
+    <Project Path="src/CDSE.Core/CDSE.Core.csproj" />
+    <Project Path="src/CDSE.Tools/CDSE.Tools.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CDSE.Tests/CDSE.Tests.csproj" />
+  </Folder>
+</Solution>

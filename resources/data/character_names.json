@@ -21150,32 +21150,32 @@
     "stringKey": "4299288033099824"
   },
   "1001292": {
-    "name": "Everfrost Poisonous Thorny Vine",
+    "name": "Everfrost Poisonous Thornvine",
     "internalName": "MON_WhiteFlower_ThornVine_Poison_900048",
     "stringKey": "4300516393746480"
   },
   "900046": {
-    "name": "Everfrost Thorny Vine",
+    "name": "Everfrost Thornvine",
     "internalName": "MON_ThornVine_900046",
     "stringKey": "3865668134895664"
   },
   "900056": {
-    "name": "Everfrost Thorny Vine Poison Spore",
+    "name": "Everfrost Thornvine Poison Spore",
     "internalName": "MON_ThornVine_Flower_RedPoison_900056",
     "stringKey": "3865711084568624"
   },
   "900052": {
-    "name": "Everfrost Thorny Vine Poison Spore Variety",
+    "name": "Everfrost Thornvine Poison Spore Variety",
     "internalName": "MON_ThornVine_Flower_MultiRedPoison_900052",
     "stringKey": "3865693904699440"
   },
   "1003515": {
-    "name": "Poisonous Thorny Vine",
+    "name": "Poisonous Thornvine",
     "internalName": "MON_WhiteFlower_ThornVine_Poison_1",
     "stringKey": "4310064106045488"
   },
   "1003516": {
-    "name": "Thorny Vine",
+    "name": "Thornvine",
     "internalName": "MON_ThornVine_1",
     "stringKey": "4310068401012784"
   },
@@ -21190,7 +21190,7 @@
     "stringKey": "4310076990947376"
   },
   "1003519": {
-    "name": "Meadow Poisonous Thorny Vine",
+    "name": "Meadow Poisonous Thornvine",
     "internalName": "MON_WhiteFlower_ThornVine_Poison_2",
     "stringKey": "4310081285914672"
   },
@@ -36670,7 +36670,7 @@
     "stringKey": "4314672605954096"
   },
   "1004589": {
-    "name": "Greymane Furniture Shop",
+    "name": "Greymane Facilities Vendor",
     "internalName": "NHM_Unique_GreyMane_Furniture",
     "stringKey": "4314676900921392"
   },

@@ -1,29 +1,21 @@
 {
   "sourceSha256": {
-    "eng_knowledge.dlc_01.paloc": "f36e8b58c97d960eec924c9a943772e6f38361656ccf9507a5757757bf823ef3",
-    "eng_knowledge.paloc": "f10e66cbc07f96c3a26c451af8e58daaf4fec1fbcd9ddd9f447d356dc6fd25b5",
-    "fre_knowledge.dlc_01.paloc": "da6cc22c845c7b3b4dbba266e7c2ed23d5903a424ebbb24a9a0b83f209a100f7",
-    "fre_knowledge.paloc": "e8b1002835d24578f46de38f31ea35a281b74e32b9ab598393b176cf1cd558ad",
-    "ger_knowledge.dlc_01.paloc": "61a4043841a0e894220a7d2a53a53c7fe8ba48472a5d42c320a111e51b7a238f",
-    "ger_knowledge.paloc": "c8a2125899cf59921e8ad95f6f38b8612aee79f1710ace27de7100c49ad4cb06",
-    "jpn_knowledge.dlc_01.paloc": "ac6b46fb680b9f8aa782824a2ba90106fea8ad875c8ee34630ec4d9920ea2413",
-    "jpn_knowledge.paloc": "8b43149d2afacc24da6c31a0c70bf0a30b6e0fbe0852faf1c0ab2c2fdd794439",
-    "knowledgegroupinfo.dlc_01.staticinfobody": "2fc25d5c2a8c7f57a8ce265d2b33423702684a9ae4d7f8150da4331cf5ee075a",
-    "knowledgegroupinfo.dlc_01.staticinfoheader": "e6a017bc0d1596d749b92f9b1ac88f1a79eb54930bd941c89787808fd00c40d1",
-    "knowledgegroupinfo.staticinfobody": "906e9de46590d95307f8d6035674e28e50c4da6cd84f64e873bd0d318858c222",
-    "knowledgegroupinfo.staticinfoheader": "d6bb1b9d981ee21b3d8b7b6ca4b8d4f353c07987caf7c68458865050a6c83a38",
-    "knowledgeinfo.dlc_01.staticinfobody": "274cdca7a96c8402d63ceb7bc3b4b8985ec466dafcdf32061d8e21e945ad7fa4",
-    "knowledgeinfo.dlc_01.staticinfoheader": "a10bae6ac61f99328e67ceb72a2e6c1bcc625de51792b349989e831cf10e5080",
-    "knowledgeinfo.staticinfobody": "2244bae76e221d483fb2e4db24c9ffee7db4bc84f8d26fcc43bd5c34a4cffe8c",
-    "knowledgeinfo.staticinfoheader": "bfe9507920d49d465c636ca92123f9cf5acad16dc398c0a2a2be6352b24c490e",
-    "kor_knowledge.dlc_01.paloc": "9f66bf6b97c28a018479848cf473e5d05e6990155aa5bc36909d48b346901ed8",
-    "kor_knowledge.paloc": "3212530e0170d761738d10c802db5076284a20e5bcba2d61f7c8f21f841b5c7c",
-    "por-br_knowledge.dlc_01.paloc": "9bfea329cbd0b619efac92067cfc04924df31a23a5793e9b1a515016b290ab7a",
-    "por-br_knowledge.paloc": "967379c7a6d875cee9255df40ada70ff76b94f5739c6a954e2461223cd6f985c",
-    "rus_knowledge.dlc_01.paloc": "8099daa6e160ed193dd8009beb89d4c63e5fc639109ce4b99939245858875edb",
-    "rus_knowledge.paloc": "c8f4f179bc2aa2f4542e88be6d6948c2d30ebd5cbb5c698999d9884e76bc02fc",
-    "spa-es_knowledge.dlc_01.paloc": "359daa4b49487c4b60f670a83041c6237325ffd46c459984df4220a88a235767",
-    "spa-es_knowledge.paloc": "5b7a80ce9552df9a90c796b40dfce627d4842b73a33d0cd1d4cf4f0eca1d1aea"
+    "eng_knowledge.paloc": "6660669d0ed1a8d111f9a012c91c765058cf91274000199cfab44c5a9b98999f",
+    "fre_knowledge.paloc": "e7ed44906f6899d47ca866c7fd32133bfe6336e1bf2d83ef6e3d30cda6bcefab",
+    "ger_knowledge.paloc": "5bec6a3cc701ccf43d4ba4b9533323799fb5ee1c56a40b135621eab4a38ab26b",
+    "jpn_knowledge.paloc": "fb8349e6b32c82e350eca0ba4528edc23a39ded0ce3d6e1d3e88b8c7ee2fa48b",
+    "knowledgegroupinfo.dlc_01.staticinfobody": "7cb78697d49ab95225183865a6e6933d66667c66520a93c3b4275f05da681380",
+    "knowledgegroupinfo.dlc_01.staticinfoheader": "c460346fc6cf0bbb22a9b73fcaf557f48cfced7d2b683ee7d1cf0d3ea6784637",
+    "knowledgegroupinfo.staticinfobody": "b1595e637a335b3003113e73d8e73e6ba8fcea336b9008dbf18a50a0ff7b0323",
+    "knowledgegroupinfo.staticinfoheader": "9333d4069f16d807ea6c3db92b180d153fa849c1e16b529feec20baf8fdb48c2",
+    "knowledgeinfo.dlc_01.staticinfobody": "6c22b51a44ca0883b21625ef63c60dde67125241e8b563b45942a4172811684c",
+    "knowledgeinfo.dlc_01.staticinfoheader": "0a05697cca39504accaf844615b93a45141ea5de26465abce451bd7f08d3b847",
+    "knowledgeinfo.staticinfobody": "f4d9ff66cd7a55a82b66716f04e7bfc115a066d4c75cb134e98b103140cd08c6",
+    "knowledgeinfo.staticinfoheader": "d9dc13e743b2ef1810f07db94aa90170ab666a281b434522406aa00ca22ca76b",
+    "kor_knowledge.paloc": "678ad989b659385bfef459ef8a705b3dfec832cff6275a3341701ce8125f6720",
+    "por-br_knowledge.paloc": "87bb9e4aca356b4dc83aa4ee0157f2479d19f6fdc8b18ae030b67f12eca05e04",
+    "rus_knowledge.paloc": "f387b65ac4b517c2228b0d12414166061180fc2b439256dbe6ad4f144f9c8823",
+    "spa-es_knowledge.paloc": "580015837de017393a15b2e3dd5912f1554e1c41365fa9f1b99d36ade1d8af8e"
   },
   "items": {
     "1000424": {
@@ -6919,7 +6911,7 @@
       "descriptionKo": "가로수와 구분되지 않는 외형을 지닌 괴상한 생물.<br/>겉보기에는 그저 한 나무처럼 서 있지만, 주변을 은밀히 살피고 있는 존재다. 움직임 없이 위장한 채 잠복하다가, 누군가 가까이 오면 갑자기 기습 공격을 가한다."
     },
     "1003913": {
-      "description": "A grotesque creature that blends seamlessly with thorny vines. It hides tangled in dense forests or wedged between rocks, silently watching its surroundings. Rooted in place and merged with the terrain, it disguises itself until an unwary passerby finds unbreakable thorns driven into their skin.",
+      "description": "A grotesque creature that blends seamlessly with Thornvines. It hides tangled in dense forests or wedged between rocks, silently watching its surroundings. Rooted in place and merged with the terrain, it disguises itself until an unwary passerby finds unbreakable thorns driven into their skin.",
       "descriptionKo": "가시넝쿨과 구분되지 않는 외형을 지닌 괴상한 생물.<br/>울창한 숲속이나 바위틈에 뒤엉켜 숨은 채 주변을 살피고 있는 존재다. 몸을 고정한 채 주변 지형에 녹아들어 위장하며, 무심코 지나가는 이들의 피부에 부서지지 않는 가시를 박아 넣는다."
     },
     "1003914": {
@@ -14189,10 +14181,6 @@
     "1005915": {
       "description": "[Crafting Method]<br/>Tool: Workstation<br/>Materials: {StaticInfo:MultiChange:Item_wagon_wheel_0007:1}<br/><br/>A dignified, immaculate wheel once used by the kingdom's envoys. It powers a wagon laden with heavy cargo forward with ease.",
       "descriptionKo": "[제작 방법]<br/>필요 도구: 작업대<br/>필요 재료: {StaticInfo:MultiChange:Item_wagon_wheel_0007:1}<br/><br/>왕국의 사절단이 사용하던 위엄 있고 정갈한 바퀴.<br/>무거운 짐을 실은 마차를 힘차게 움직여준다."
-    },
-    "1005916": {
-      "description": "[Crafting Method]<br/>Tool: Workstation<br/>Materials: {StaticInfo:MultiChange:Item_Wagon_Base_lantern_0001:1}<br/><br/>A practical lantern that lights the wagon's path ahead. It brightly illuminates the surroundings even on the darkest roads.",
-      "descriptionKo": "[제작 방법]<br/>필요 도구: 작업대<br/>필요 재료: {StaticInfo:MultiChange:Item_Wagon_Base_lantern_0001:1}<br/><br/>마차의 앞길을 밝혀주는 실용적인 등불.<br/>어두운 길에서도 주변을 환하게 비춰준다."
     },
     "1003555": {
       "description": "The key's surface is engraved with the symbol of Duke Charles Celeste of Hernand.",
@@ -28150,6 +28138,14 @@
       "description": "A mysterious entity of the ocean that enchants sailors with their songs. Legends say they lure ships into the deep sea with their mesmerizing voice. Because so few have ever survived an encounter with a siren, nothing remains of their true identity except for wild rumors and folklore.",
       "descriptionKo": "노래로 뱃사람을 홀리는 바다의 신비한 존재.<br/>아름다운 노랫소리로 배를 깊은 심해로 유인한다고 전해진다. 세이렌을 마주하고 살아 돌아온 자가 드물어, 그 정체에 대해서는 무성한 소문과 전설만이 남아 있다."
     },
+    "1007029": {
+      "description": "A duck with a body made of stone. Distinctive patterns are carved into its body. It darts away when you get close, but if you're quick, you can grab onto its back and race across the water.",
+      "descriptionKo": "돌로 이루어진 몸을 지닌 오리.<br/>몸에 독특한 문양이 새겨져 있다. 곁에 다가가면 빠르게 달아나지만, 재빨리 등에 매달려 물 위를 빠르게 이동할 수 있다."
+    },
+    "1007030": {
+      "description": "A bird with a body made of twigs. Its branches spread out in every direction, forming what looks like a body and wings. You can cling to it and fly around together.",
+      "descriptionKo": "나뭇가지로 이루어진 몸을 지닌 새.<br/>여러 갈래로 뻗은 가지가 마치 몸통과 날개처럼 보인다. 몸에 매달려 함께 날아다닐 수 있다."
+    },
     "1006325": {
       "description": "A mystery of the sea, passed down as legend among those who sail the great ocean, said to form an equestrian bond with humans through the waves of the heart. With its enormous pink wings, it guides ships that have lost their way. It responds only to the call of a pure soul, and is said to appear in the deep waters of the great ocean.",
       "descriptionKo": "대양을 항해하는 자들에게 전설로 전해지는 바다의 신비.<br/>마음의 파동으로 인간과 교감한다고 전해지는 전설 속 존재다. 거대한 분홍빛 날개로 길 잃은 배를 인도한다. 순수한 영혼의 부름에만 반응하며, 대양의 깊은 바다에서 출몰한다고 전해진다."
@@ -29919,20 +29915,20 @@
       "descriptionKo": "기술의 정점에 올라서다."
     },
     "1005948": {
-      "description": "Reduces Stamina cost of {Staticinfo:Knowledge:Knowledge_MoveCutting_I#Forward Slash}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_MoveCutting_I#전진 베기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_MoveCutting_I#전진 베기}의 극에 달해 보다 적은 기력를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of {Staticinfo:Knowledge:Knowledge_MoveCutting_I#Forward Slash}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_MoveCutting_I#전진 베기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_MoveCutting_I#전진 베기}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다."
     },
     "1005949": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_RotationBash_I#Turning Slash}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_RotationBash_I#회전 가르기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_RotationBash_I#회전 가르기}의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_RotationBash_I#Turning Slash}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_RotationBash_I#회전 가르기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_RotationBash_I#회전 가르기}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1005950": {
       "description": "Applies certain Abyss gear effects for {Staticinfo:Knowledge:Knowledge_Rush#Blinding Flash Finisher}.",
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Rush#질풍 베기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Rush#질풍 베기}의 극에 달해 공격에 일부 어비스 기어의 효과가 적용된다."
     },
     "1005951": {
-      "description": "Reduces the Stamina cost of maintaining {Staticinfo:Knowledge:Knowledge_CrowWing#Flight}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_CrowWing#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_CrowWing#비행} 상태를 유지하는 기력이 감소한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of maintaining {Staticinfo:Knowledge:Knowledge_CrowWing#Flight}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_CrowWing#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_CrowWing#비행} 상태를 유지하는 {Staticinfo:Knowledge:Knowledge_Sp#기력}이 감소한다."
     },
     "1005989": {
       "description": "Shortens the charging time needed for {Staticinfo:Knowledge:Knowledge_Lunge_I#Stab}.",
@@ -29943,108 +29939,108 @@
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_EvadeAttack#회피 베기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_EvadeAttack#회피 베기}의 극에 달해 보다 기민하게 대처할 수 있다."
     },
     "1005991": {
-      "description": "Reduces Stamina cost of Lariat.",
-      "descriptionKo": "사용 방법: 메치기 사용 시 자동 적용<br/><br/>메치기의 극에 달해 보다 적은 기력을 사용한다"
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of  {Staticinfo:Knowledge:Knowledge_Wrestle_Takedown#Lariat}",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Wrestle_Takedown#잡아 메치기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Wrestle_Takedown#잡아 메치기}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다"
     },
     "1005992": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_RollCancel#Evasive Roll}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>회피의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_RollCancel#Evasive Roll}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_RollCancel#피격 탈출}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1005993": {
-      "description": "Reduces Spirit cost of imbuing elements on skills.",
-      "descriptionKo": "사용 방법: 원소 활용의 극에 달해 보다 적은 용기로 기술에 원소의 힘을 부여한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_ElementalReinforce#Imbue Element}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_ElementalReinforce#원소 강화}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}로 기술에 원소의 힘을 부여한다."
     },
     "1006438": {
-      "description": "Master the art of unarmed combat, restoring health and spirit with every successful attack.",
-      "descriptionKo": "사용 방법: 타격의 경지에 올라, 공격을 적중시킬 때마다 체력과 용기를 회복한다."
+      "description": "Restores Health and {Staticinfo:Knowledge:Knowledge_Mp#Spirit} on every {Staticinfo:Knowledge:Knowledge_UnArmedMastery_I#unarmed strike}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_UnArmedMastery_I#타격}의 경지에 올라, 공격을 적중시킬 때마다 체력과 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 회복한다."
     },
     "1005994": {
       "description": "Reach the pinnacle of the skill.",
       "descriptionKo": "기술의 정점에 올라서다."
     },
     "1005952": {
-      "description": "Reduces Stamina cost of {Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#Smiting Bolt}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#천상의 창} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#천상의 창}의 극에 달해 보다 적은 기력을 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of {Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#Smiting Bolt}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#천상의 창} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_HeavenSpear_I#천상의 창}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다."
     },
     "1005953": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#Smiting Strike}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#단죄의 검} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#단죄의 검}의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#Smiting Strike}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#단죄의 검} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_RotationBash_I#단죄의 검}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1005954": {
       "description": "Applies certain Abyss gear effects for {Staticinfo:Knowledge:Knowledge_Damian_Rush#Reckoning}.",
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_Rush#천벌} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_Rush#천벌}의 극에 달해 공격에 일부 어비스 기어의 효과가 적용된다."
     },
     "1005955": {
-      "description": "Reduces the Stamina cost of maintaining {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#Flight}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#비행} 상태를 유지하는 기력이 감소한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of maintaining {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#Flight}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_Damian_ShieldGlider#비행} 상태를 유지하는 {Staticinfo:Knowledge:Knowledge_Sp#기력}이 감소한다."
     },
     "1005995": {
-      "description": "Shortens the charging time needed for {Staticinfo:Knowledge:Knowledge_Lunge_I#Slash}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Lunge_I#찌르기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_Lunge#날카로운 빛}의 극에 달해 짧은 순간에 강력한 힘을 모을 수 있다."
+      "description": "Shortens the charging time needed for {Staticinfo:Knowledge:Knowledge_Lunge_I#Piercing Light}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_Lunge#날카로운 빛} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_Lunge#날카로운 빛}의 극에 달해 짧은 순간에 강력한 힘을 모을 수 있다."
     },
     "1005996": {
       "description": "Use during another skill to quickly chain into {Staticinfo:Knowledge:Knowledge_Damian_EvadeAttack#Evasive Smite}.",
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_EvadeAttack#심판의 빛} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_EvadeAttack#심판의 빛}의 극에 달해 보다 기민하게 대처할 수 있다."
     },
     "1005997": {
-      "description": "Reduces Stamina cost of Lariat.",
-      "descriptionKo": "사용 방법: 메치기 사용 시 자동 적용<br/><br/>메치기의 극에 달해 보다 적은 기력을 사용한다"
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of {Staticinfo:Knowledge:Knowledge_Damian_Wrestle_Takedown#Lariat}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_Wrestle_Takedown#잡아 메치기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_Wrestle_Takedown#잡아 메치기}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다"
     },
     "1005998": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_Damian_RollCancel#Evasive Roll}",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>회피의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Damian_RollCancel#Evasive Roll}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Damian_RollCancel#피격 탈출}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1005999": {
-      "description": "Reduces Spirit cost of imbuing elements on skills.",
-      "descriptionKo": "사용 방법: 원소 활용의 극에 달해 보다 적은 용기로 기술에 원소의 힘을 부여한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Damian_ElementalReinforce#Imbue Element}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_ElementalReinforce#원소 강화}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}로 기술에 원소의 힘을 부여한다."
     },
     "1006439": {
-      "description": "Master the art of unarmed combat, restoring health and spirit with every successful attack.",
-      "descriptionKo": "사용 방법: 타격의 경지에 올라, 공격을 적중시킬 때마다 체력과 용기를 회복한다."
+      "description": "Restores Health and {Staticinfo:Knowledge:Knowledge_Mp#Spirit} on every {Staticinfo:Knowledge:Knowledge_Damian_UnArmedMastery_I#unarmed strike}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Damian_UnArmedMastery_I#타격}의 경지에 올라, 공격을 적중시킬 때마다 체력과 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 회복한다."
     },
     "1006000": {
       "description": "Reach the pinnacle of the skill.",
       "descriptionKo": "기술의 정점에 올라서다."
     },
     "1005956": {
-      "description": "Reduces Stamina cost of {Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#Rampage}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#광분의 파괴자} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#광분의 파괴자}의 극에 달해 보다 적은 기력을 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of {Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#Rampage}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#광분의 파괴자} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_GroundSmash_I#광분의 파괴자}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다."
     },
     "1005957": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#Quaking Fury}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#야수의 진노} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#야수의 진노}의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#Quaking Fury}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#야수의 진노} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_RotationBash_I#야수의 진노}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1005958": {
       "description": "Applies certain Abyss gear effects for {Staticinfo:Knowledge:Knowledge_Oongka_Rush#Devastation}.",
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_Rush#황폐화} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_Rush#황폐화}의 극에 달해 공격에 일부 어비스 기어의 효과가 적용된다."
     },
     "1005959": {
-      "description": "Reduces the Stamina cost of maintaining {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#Flight}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#비행} 상태를 유지하는 기력이 감소한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina} cost of {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#Flight}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#비행} 사용 시 자동 적용<br/><br/>비행술의 극에 달해 {Staticinfo:Knowledge:Knowledge_Oongka_RocketPack#비행} 상태를 유지하는 {Staticinfo:Knowledge:Knowledge_Sp#기력}이 감소한다."
     },
     "1006001": {
-      "description": "Shortens the charging time needed for {Staticinfo:Knowledge:Knowledge_Oongka_Lunge_I#Slash}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_Lunge_I#찌르기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_Lunge_I#찌르기}의 극에 달해 짧은 순간에 강력한 힘을 모을 수 있다."
+      "description": "Shortens the charging time needed for {Staticinfo:Knowledge:Knowledge_Oongka_Lunge#Smash}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_Lunge#찍어 누르기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_Lunge#찍어 누르기}의 극에 달해 짧은 순간에 강력한 힘을 모을 수 있다."
     },
     "1006002": {
       "description": "Use during another skill to quickly chain into {Staticinfo:Knowledge:Knowledge_Oongka_JumpSmash#Leaping Smash}.",
       "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_JumpSmash#도약 강타} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_JumpSmash#도약 강타}의 극에 달해 보다 기민하게 대처할 수 있다."
     },
     "1006003": {
-      "description": "Reduces Stamina cost of Lariat.",
-      "descriptionKo": "사용 방법: 메치기 사용 시 자동 적용<br/><br/>메치기의 극에 달해 보다 적은 기력을 사용한다"
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Sp#Stamina}cost of {Staticinfo:Knowledge:Knowledge_Oongka_Wrestle_Takedown.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_Wrestle_Takedown#잡아 메치기} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_Wrestle_Takedown#잡아 메치기}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Sp#기력}을 사용한다"
     },
     "1006004": {
-      "description": "Reduces Spirit cost of {Staticinfo:Knowledge:Knowledge_Oongka_RollCancel#Evasive Roll}.",
-      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>회피의 극에 달해 보다 적은 용기를 사용한다."
+      "description": "Reduces  {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Oongka_RollCancel#Evasive Roll}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_RollCancel#피격 탈출} 사용 시 자동 적용<br/><br/>{Staticinfo:Knowledge:Knowledge_Oongka_RollCancel#피격 탈출}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 사용한다."
     },
     "1006005": {
-      "description": "Reduces Spirit cost of imbuing elements.",
-      "descriptionKo": "사용 방법: 원소 활용의 극에 달해 보다 적은 용기로 원소의 힘을 부여한다."
+      "description": "Reduces {Staticinfo:Knowledge:Knowledge_Mp#Spirit} cost of {Staticinfo:Knowledge:Knowledge_Oongka_ElementalReinforce#Imbue Element}.",
+      "descriptionKo": "사용 방법: {Staticinfo:Knowledge:Knowledge_Oongka_ElementalReinforce#원소 강화}의 극에 달해 보다 적은 {Staticinfo:Knowledge:Knowledge_Mp#용기}로 원소의 힘을 부여한다."
     },
     "1006440": {
-      "description": "Master the art of unarmed combat, restoring health and spirit with every successful attack.",
-      "descriptionKo": "사용 방법: 타격의 경지에 올라, 공격을 적중시킬 때마다 체력과 용기를 회복한다."
+      "description": "Restores Health and {Staticinfo:Knowledge:Knowledge_Mp#Spirit} on every {Staticinfo:Knowledge:Knowledge_Oongka_UnArmedMastery_I#unarmed strike}.",
+      "descriptionKo": "사용 방법:  {Staticinfo:Knowledge:Knowledge_Oongka_UnArmedMastery_I#타격}의 경지에 올라, 공격을 적중시킬 때마다 체력과 {Staticinfo:Knowledge:Knowledge_Mp#용기}를 회복한다."
     },
     "1005960": {
       "description": "A step learned by facing the powerful.",

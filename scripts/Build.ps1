@@ -1,9 +1,12 @@
 param(
     [switch]$Test,
     [switch]$Publish,
-    # Leaves out src/SaveUltimate.App/Updates: the package for Nexus Mods, which forbids online updates.
+    # Leaves out src/CDSE.App/Updates: the package for Nexus Mods, which forbids online updates.
     [switch]$NoOnlineUpdate,
-    [string]$OutputDirectory
+    [string]$OutputDirectory,
+    # SaveUltimate.exe publishes the package the updater of 1.9.0 and earlier (SaveUltimate) installs and starts.
+    [ValidateSet('CDSE.exe', 'SaveUltimate.exe')]
+    [string]$ExecutableName = 'CDSE.exe'
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot
@@ -18,26 +21,28 @@ try {
     if (!(Test-Path -LiteralPath $dotnet)) { $dotnet = (Get-Command dotnet -ErrorAction Stop).Source }
     $env:DOTNET_ROOT = Split-Path $dotnet
     $onlineUpdate = if ($NoOnlineUpdate) { 'false' } else { 'true' }
-    & $dotnet restore SaveUltimate.slnx --locked-mode --disable-parallel -m:1
+    & $dotnet restore CDSE.slnx --locked-mode --disable-parallel -m:1
     if ($LASTEXITCODE) { throw 'Locked package restore failed.' }
-    & $dotnet build SaveUltimate.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false "-p:OnlineUpdate=$onlineUpdate"
+    & $dotnet build CDSE.slnx -c Release --no-restore --disable-build-servers -m:1 -p:UseSharedCompilation=false "-p:OnlineUpdate=$onlineUpdate"
     if ($LASTEXITCODE) { throw 'Managed compilation failed.' }
     if ($Test) {
         $testClock = [Diagnostics.Stopwatch]::StartNew()
-        & $dotnet test tests/SaveUltimate.Tests -c Release --no-build --no-restore -m:1
+        & $dotnet test tests/CDSE.Tests -c Release --no-build --no-restore -m:1
         if ($LASTEXITCODE) { throw 'Tests failed.' }
         if ($testClock.Elapsed.TotalMinutes -gt 3) { Write-Warning ('Tests took {0:N1} minutes; keep them under 3.' -f $testClock.Elapsed.TotalMinutes) }
     }
     if ($Publish) {
-        if (!$OutputDirectory) { $OutputDirectory = Join-Path $root ('releases/SaveUltimate-' + (Get-Date -Format yyyyMMdd-HHmmss)) }
+        if (!$OutputDirectory) { $OutputDirectory = Join-Path $root ('releases/CDSE-' + (Get-Date -Format yyyyMMdd-HHmmss)) }
         # .NET resolves relative paths against the process directory, not the PowerShell location.
         $output = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $root $OutputDirectory }))
         if (Test-Path -LiteralPath $output) { throw 'Choose a new publication directory to avoid stale files.' }
-        & $dotnet publish src/SaveUltimate.App -c Release -r win-x64 --self-contained true -o $output -p:RestoreLockedMode=true -p:UseSharedCompilation=false -p:DebugType=None -m:1 "-p:OnlineUpdate=$onlineUpdate"
+        & $dotnet publish src/CDSE.App -c Release -r win-x64 --self-contained true -o $output -p:RestoreLockedMode=true -p:UseSharedCompilation=false -p:DebugType=None -m:1 "-p:OnlineUpdate=$onlineUpdate"
         if ($LASTEXITCODE) { throw 'Single-file publication failed.' }
+        # The bundle does not depend on its file name, so the same program runs under the old one. Renamed before the manifest.
+        if ($ExecutableName -ne 'CDSE.exe') { Rename-Item -LiteralPath (Join-Path $output 'CDSE.exe') -NewName $ExecutableName }
         if ($NoOnlineUpdate) {
             # The program is bundled uncompressed, so its type names (UTF-8) and string literals (UTF-16) are readable in the EXE.
-            $program = [Text.Encoding]::GetEncoding(28591).GetString([IO.File]::ReadAllBytes((Join-Path $output 'SaveUltimate.exe')))
+            $program = [Text.Encoding]::GetEncoding(28591).GetString([IO.File]::ReadAllBytes((Join-Path $output $ExecutableName)))
             foreach ($trace in 'AppUpdate', ('api.github.com'.ToCharArray() -join "`0")) {
                 if ($program.Contains($trace)) { throw "The build without online updates still contains update code ($($trace -replace "`0"))." }
             }
@@ -53,7 +58,7 @@ try {
         foreach ($name in 'Upstream-MPL-2.0.txt','crimson-rs-MIT.txt','K4os-LZ4-MIT.txt','LZ4-native-BSD-2-Clause.txt') {
             Copy-Item -LiteralPath (Join-Path $root "licenses/$name") -Destination (Join-Path $output 'licenses')
         }
-        $assets = Get-Content -Raw src/SaveUltimate.App/obj/project.assets.json | ConvertFrom-Json
+        $assets = Get-Content -Raw src/CDSE.App/obj/project.assets.json | ConvertFrom-Json
         foreach ($library in $assets.libraries.PSObject.Properties) {
             if ($library.Value.type -ne 'package') { continue }
             $package = Join-Path $env:NUGET_PACKAGES $library.Value.path
@@ -63,7 +68,7 @@ try {
                 Copy-Item -LiteralPath $notice.FullName -Destination (Join-Path $output "licenses/$label")
             }
         }
-        Copy-Item -LiteralPath src/SaveUltimate.App/packages.lock.json -Destination (Join-Path $output 'dependencies.lock.json')
+        Copy-Item -LiteralPath src/CDSE.App/packages.lock.json -Destination (Join-Path $output 'dependencies.lock.json')
         $files = @(Get-ChildItem -LiteralPath $output -File -Recurse | Sort-Object FullName | ForEach-Object {
             [ordered]@{ path = $_.FullName.Substring($output.TrimEnd('\').Length + 1); bytes = $_.Length; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
         })

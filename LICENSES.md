@@ -1,10 +1,10 @@
 # License scope — C# port
 
-The root MIT license covers original SaveUltimate code. It does not replace third-party notices or grant rights to game assets.
+The root MIT license covers original CDSE code (named SaveUltimate up to 1.9.0). It does not replace third-party notices or grant rights to game assets.
 
 ## Inherited MPL-2.0 code
 
-`src/SaveUltimate.Core/Saves/SaveContainer.cs` and `src/SaveUltimate.Core/Saves/ParcLayout.cs` derive from the original editor and retain MPL-2.0. Preserve `licenses/Upstream-MPL-2.0.txt` and the original copyright notice (Copyright 2026 RicePaddySoftware). Corresponding source is in this directory. Earlier releases also shipped C++ libraries derived from that editor; their sources and provenance remain in this repository's Git history.
+`src/CDSE.Core/Saves/SaveContainer.cs` and `src/CDSE.Core/Saves/ParcLayout.cs` derive from the original editor and retain MPL-2.0. Preserve `licenses/Upstream-MPL-2.0.txt` and the original copyright notice (Copyright 2026 RicePaddySoftware). Corresponding source is in this directory. Earlier releases also shipped C++ libraries derived from that editor; their sources and provenance remain in this repository's Git history.
 
 Distribute binaries together with their matching MPL-covered source and build instructions (this repository and [CONTRIBUTING.md](CONTRIBUTING.md)).
 
@@ -19,7 +19,8 @@ Distribute binaries together with their matching MPL-covered source and build in
 | Magick.NET / Magick.NET.Core 15.0.0 and bundled codecs | Apache-2.0 and component-specific terms; package Notice.txt copied by build script |
 | .NET runtime / Windows Desktop runtime | Microsoft distribution notices, copied from the SDK by build script |
 | System.CommandLine and MSTest (tools/tests) | MIT; NuGet metadata and package notices |
-| Hahmlet Regular/SemiBold embedded in the WPF application | SIL OFL 1.1; `licenses/Hahmlet-OFL.txt` |
+| Pretendard 1.3.9 Regular/SemiBold/Bold embedded in the WPF application | SIL OFL 1.1; `licenses/Pretendard-OFL.txt` |
+| Rajdhani SemiBold/Bold (Indian Type Foundry) embedded in the WPF application | SIL OFL 1.1; `licenses/Rajdhani-OFL.txt` |
 | Game catalogs and translated game names | Copyright Pearl Abyss; excluded from the MIT grant |
 
-The app icon and placeholder artwork are original project assets under MIT. Extracted game artwork and personal saves are not release inputs. Python and Qt are not dependencies of this C# build; the notices and license scope of the earlier Python/Qt edition remain in this repository's Git history.
+The app icon and the README logo images in `.github/assets/` (the CDSE logo) and placeholder artwork are original project assets under MIT. Extracted game artwork and personal saves are not release inputs. Python and Qt are not dependencies of this C# build; the notices and license scope of the earlier Python/Qt edition remain in this repository's Git history.

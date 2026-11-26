@@ -1,947 +1,2345 @@
 [
   {
-    "key": 1002785,
-    "name": "Destruction I",
-    "category": "Damage"
-  },
-  {
-    "key": 1002786,
-    "name": "Destruction II",
-    "category": "Damage"
-  },
-  {
-    "key": 1002787,
-    "name": "Destruction III",
-    "category": "Damage"
-  },
-  {
-    "key": 1002862,
-    "name": "Greater Destruction",
-    "category": "Damage"
-  },
-  {
-    "key": 1002794,
-    "name": "Fortification I",
-    "category": "Defense"
-  },
-  {
-    "key": 1002795,
-    "name": "Fortification II",
-    "category": "Defense"
-  },
-  {
-    "key": 1002796,
-    "name": "Fortification III",
-    "category": "Defense"
-  },
-  {
-    "key": 1002791,
-    "name": "Insight I",
-    "category": "Crit Rate"
-  },
-  {
-    "key": 1002792,
-    "name": "Insight II",
-    "category": "Crit Rate"
-  },
-  {
-    "key": 1002793,
-    "name": "Insight III",
-    "category": "Crit Rate"
-  },
-  {
-    "key": 1002969,
-    "name": "Greater Insight",
-    "category": "Crit Rate"
-  },
-  {
-    "key": 1002797,
-    "name": "Aegis I",
-    "category": "Damage Reduction"
-  },
-  {
-    "key": 1002798,
-    "name": "Aegis II",
-    "category": "Damage Reduction"
-  },
-  {
-    "key": 1002799,
-    "name": "Aegis III",
-    "category": "Damage Reduction"
-  },
-  {
-    "key": 1002810,
-    "name": "Swift I",
-    "category": "Attack Speed"
-  },
-  {
-    "key": 1002811,
-    "name": "Swift II",
-    "category": "Attack Speed"
-  },
-  {
-    "key": 1002812,
-    "name": "Swift III",
-    "category": "Attack Speed"
-  },
-  {
-    "key": 1002970,
-    "name": "Greater Swift",
-    "category": "Attack Speed"
-  },
-  {
-    "key": 1002813,
-    "name": "Haste I",
-    "category": "Move Speed"
-  },
-  {
-    "key": 1002814,
-    "name": "Haste II",
-    "category": "Move Speed"
-  },
-  {
-    "key": 1002815,
-    "name": "Haste III",
-    "category": "Move Speed"
-  },
-  {
-    "key": 1002822,
-    "name": "Vitality I",
-    "category": "HP Regen"
-  },
-  {
-    "key": 1002823,
-    "name": "Vitality II",
-    "category": "HP Regen"
-  },
-  {
-    "key": 1002824,
-    "name": "Vitality III",
-    "category": "HP Regen"
-  },
-  {
-    "key": 1002747,
-    "name": "Vigor I",
-    "category": "Stamina Regen"
-  },
-  {
-    "key": 1002748,
-    "name": "Vigor II",
-    "category": "Stamina Regen"
-  },
-  {
-    "key": 1002751,
-    "name": "Vigor III",
-    "category": "Stamina Regen"
-  },
-  {
-    "key": 1002752,
-    "name": "Composure I",
-    "category": "MP Regen"
-  },
-  {
-    "key": 1002753,
-    "name": "Composure II",
-    "category": "MP Regen"
-  },
-  {
-    "key": 1002754,
-    "name": "Composure III",
-    "category": "MP Regen"
-  },
-  {
-    "key": 1001424,
-    "name": "Flameward I",
-    "category": "Fire Resist"
-  },
-  {
-    "key": 1001425,
-    "name": "Flameward II",
-    "category": "Fire Resist"
-  },
-  {
-    "key": 1001426,
-    "name": "Flameward III",
-    "category": "Fire Resist"
-  },
-  {
-    "key": 1002972,
-    "name": "Greater Flameward",
-    "category": "Fire Resist"
-  },
-  {
-    "key": 1002167,
-    "name": "Frostward I",
-    "category": "Ice Resist"
-  },
-  {
-    "key": 1002389,
-    "name": "Frostward II",
-    "category": "Ice Resist"
-  },
-  {
-    "key": 1002467,
-    "name": "Frostward III",
-    "category": "Ice Resist"
-  },
-  {
-    "key": 1002973,
-    "name": "Greater Frostward",
-    "category": "Ice Resist"
-  },
-  {
-    "key": 1002497,
-    "name": "Shockward I",
-    "category": "Lightning Resist"
-  },
-  {
-    "key": 1002498,
-    "name": "Shockward II",
-    "category": "Lightning Resist"
-  },
-  {
-    "key": 1002499,
-    "name": "Shockward III",
-    "category": "Lightning Resist"
-  },
-  {
-    "key": 1002974,
-    "name": "Greater Shockward",
-    "category": "Lightning Resist"
-  },
-  {
-    "key": 1002807,
-    "name": "Fortitude I",
-    "category": "Guard Defense"
-  },
-  {
-    "key": 1002808,
-    "name": "Fortitude II",
-    "category": "Guard Defense"
-  },
-  {
-    "key": 1002809,
-    "name": "Fortitude III",
-    "category": "Guard Defense"
-  },
-  {
-    "key": 1002816,
-    "name": "Ascent I",
-    "category": "Climb Speed"
-  },
-  {
-    "key": 1002817,
-    "name": "Ascent II",
-    "category": "Climb Speed"
-  },
-  {
-    "key": 1002818,
-    "name": "Ascent III",
-    "category": "Climb Speed"
-  },
-  {
-    "key": 1002837,
-    "name": "Surge I",
-    "category": "Swim Speed"
-  },
-  {
-    "key": 1002838,
-    "name": "Surge II",
-    "category": "Swim Speed"
-  },
-  {
-    "key": 1002839,
-    "name": "Surge III",
-    "category": "Swim Speed"
-  },
-  {
-    "key": 1002578,
-    "name": "Storm Fang",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002848,
-    "name": "Orbs of Lightning",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002569,
-    "name": "Wind Slash",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002583,
-    "name": "Karmic Pulse",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002548,
-    "name": "Slashing Reeds",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002805,
-    "name": "Tempest of Destruction",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002602,
-    "name": "Crow Storm",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002539,
-    "name": "Crow's Pursuit",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002523,
-    "name": "Spirit's Judgment",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002606,
-    "name": "Abyssal Rays",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002509,
-    "name": "Groundsurge",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002592,
-    "name": "Hound's Claws",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002766,
-    "name": "Volcanic Eruption",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002764,
-    "name": "Frost Hail",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002843,
-    "name": "Frost Spike",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002845,
-    "name": "Shattering Frost",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002841,
-    "name": "Greysoul Howling",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002580,
-    "name": "Wound of Darkness",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002855,
-    "name": "Kinetic Burst",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002849,
-    "name": "Piercing Bloom",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002852,
-    "name": "Arrow Rain",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1001067,
-    "name": "Relentless",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002858,
-    "name": "Ator's Orb",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002920,
-    "name": "Fortune I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002921,
-    "name": "Fortune II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002922,
-    "name": "Fortune III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002929,
-    "name": "Efficiency I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002930,
-    "name": "Efficiency II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002931,
-    "name": "Efficiency III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002926,
-    "name": "Gourmet I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002927,
-    "name": "Gourmet II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002928,
-    "name": "Gourmet III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002950,
-    "name": "Aptitude I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002951,
-    "name": "Aptitude II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002952,
-    "name": "Aptitude III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002947,
-    "name": "Service I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002948,
-    "name": "Service II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002949,
-    "name": "Service III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002662,
-    "name": "Equestrian I",
-    "category": "Special Effects"
+    "key": 1000121,
+    "name": "Flames of Judgment",
+    "category": "Special Effects",
+    "knowledge": 1003089
   },
   {
     "key": 1000449,
     "name": "Equestrian II",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003235,
+    "effect": {
+      "en": "+2 Horse EXP Gain",
+      "ko": "말 경험치 획득량 2 추가",
+      "ja": "馬の経験値獲得量2追加",
+      "ru": "+2 к опыту лошади",
+      "fr": "Gain d'EXP de cheval +2",
+      "de": "+2 Pferde-EP-Erhalt",
+      "es": "2 de EXP de caballo adicional.",
+      "pt": "+2 Ganho de EXP de cavalo"
+    }
   },
   {
     "key": 1000531,
     "name": "Equestrian III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002538,
-    "name": "Companionship I",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003235,
+    "effect": {
+      "en": "+3 Horse EXP Gain",
+      "ko": "말 경험치 획득량 3 추가",
+      "ja": "馬の経験値獲得量3追加",
+      "ru": "+3 к опыту лошади",
+      "fr": "Gain d'EXP de cheval +3",
+      "de": "+3 Pferde-EP-Erhalt",
+      "es": "3 de EXP de caballo adicional.",
+      "pt": "+3 Ganho de EXP de cavalo"
+    }
   },
   {
     "key": 1000861,
     "name": "Companionship II",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003237,
+    "effect": {
+      "en": "+2 Pet Trust Gain",
+      "ko": "반려동물 친밀도 획득 시 2 추가",
+      "ja": "ペットの好感度獲得時2追加",
+      "ru": "+2 к получаемому Доверию питомцев",
+      "fr": "+2 confiance avec les familiers",
+      "de": "Erlangtes Vertrauen zu Haustier +2",
+      "es": "2 adicional de vínculo con la mascota.",
+      "pt": "2 adicional ao obter Vínculo com o Mascote"
+    }
   },
   {
     "key": 1000890,
     "name": "Companionship III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002908,
-    "name": "Malicebane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002909,
-    "name": "Malicebane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002910,
-    "name": "Malicebane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002911,
-    "name": "Beastbane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002912,
-    "name": "Beastbane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002913,
-    "name": "Beastbane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002905,
-    "name": "Primalbane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002906,
-    "name": "Primalbane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002907,
-    "name": "Primalbane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002899,
-    "name": "Hexebane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002900,
-    "name": "Hexebane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002901,
-    "name": "Hexebane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002902,
-    "name": "Bloodbane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002903,
-    "name": "Bloodbane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002904,
-    "name": "Bloodbane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002914,
-    "name": "Abyssbane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002915,
-    "name": "Abyssbane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002916,
-    "name": "Abyssbane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002896,
-    "name": "Steelbane I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002897,
-    "name": "Steelbane II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002898,
-    "name": "Steelbane III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002979,
-    "name": "Greater Malicebane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002980,
-    "name": "Greater Beastbane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002978,
-    "name": "Greater Primalbane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002976,
-    "name": "Greater Hexebane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002977,
-    "name": "Greater Bloodbane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002981,
-    "name": "Greater Abyssbane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002975,
-    "name": "Greater Steelbane",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003762,
-    "name": "Rend I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003763,
-    "name": "Rend II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003764,
-    "name": "Rend III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003765,
-    "name": "Shred I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003766,
-    "name": "Shred II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003767,
-    "name": "Shred III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003759,
-    "name": "Shatter I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003760,
-    "name": "Shatter II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003761,
-    "name": "Shatter III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002923,
-    "name": "Infinite Arrows I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002924,
-    "name": "Infinite Arrows II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002925,
-    "name": "Infinite Arrows III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002982,
-    "name": "Greater Infinite Arrows",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002953,
-    "name": "Energy Drain I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002954,
-    "name": "Energy Drain II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002955,
-    "name": "Energy Drain III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003229,
-    "name": "Disarm I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003230,
-    "name": "Disarm II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003231,
-    "name": "Disarm III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002520,
-    "name": "Solidarity I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002521,
-    "name": "Solidarity II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002522,
-    "name": "Solidarity III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002932,
-    "name": "Ledgermain I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002933,
-    "name": "Ledgermain II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002934,
-    "name": "Ledgermain III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002935,
-    "name": "Blessing of the Earth I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002936,
-    "name": "Blessing of the Earth II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002937,
-    "name": "Blessing of the Earth III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002938,
-    "name": "Blessing of Nature I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002939,
-    "name": "Blessing of Nature II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002940,
-    "name": "Blessing of Nature III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002941,
-    "name": "Blessing of the Beast I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002942,
-    "name": "Blessing of the Beast II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002943,
-    "name": "Blessing of the Beast III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002944,
-    "name": "Blessing of the Forest I",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002945,
-    "name": "Blessing of the Forest II",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002946,
-    "name": "Blessing of the Forest III",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003281,
-    "name": "Life Transference",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003290,
-    "name": "Spirit Transference",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003291,
-    "name": "Stamina Transference",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002863,
-    "name": "Abyssal Assimilation",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002865,
-    "name": "Heart of the Serpent",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002866,
-    "name": "Heart of Stone",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002658,
-    "name": "Crescent Moon Slash",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002659,
-    "name": "Half Moon Slash",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1002660,
-    "name": "Fullmoon Slash",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1000121,
-    "name": "Flames of Judgment",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003237,
+    "effect": {
+      "en": "+3 Pet Trust Gain",
+      "ko": "반려동물 친밀도 획득 시 3 추가",
+      "ja": "ペットの好感度獲得時3追加",
+      "ru": "+3 к получаемому Доверию питомцев",
+      "fr": "+3 confiance avec les familiers",
+      "de": "Erlangtes Vertrauen zu Haustier +3",
+      "es": "3 adicional de vínculo con la mascota.",
+      "pt": "3 adicional ao obter Vínculo com o Mascote"
+    }
+  },
+  {
+    "key": 1001067,
+    "name": "Relentless",
+    "category": "Special Effects",
+    "knowledge": 1003297,
+    "effect": {
+      "en": "Damage increases with consecutive attacks",
+      "ko": "연속 공격 시 피해량 증가",
+      "ja": "連続攻撃時にダメージ増加",
+      "ru": "Повышенный урон за серию атак",
+      "fr": "Dégâts des attaques consécutives augmentés",
+      "de": "Erhöhter Schaden bei aufeinanderfolgenden Angriffen",
+      "es": "Daño aumentado con ataques consecutivos",
+      "pt": "Dano aumentado com ataques consecutivos"
+    }
+  },
+  {
+    "key": 1001424,
+    "name": "Flameward I",
+    "category": "Fire Resist",
+    "knowledge": 1000512,
+    "level": 1
+  },
+  {
+    "key": 1001425,
+    "name": "Flameward II",
+    "category": "Fire Resist",
+    "knowledge": 1000512,
+    "level": 2
+  },
+  {
+    "key": 1001426,
+    "name": "Flameward III",
+    "category": "Fire Resist",
+    "knowledge": 1000512,
+    "level": 3
   },
   {
     "key": 1001893,
     "name": "Rising Torrent",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002326
+  },
+  {
+    "key": 1002167,
+    "name": "Frostward I",
+    "category": "Ice Resist",
+    "knowledge": 1001152,
+    "level": 1
+  },
+  {
+    "key": 1002389,
+    "name": "Frostward II",
+    "category": "Ice Resist",
+    "knowledge": 1001152,
+    "level": 2
+  },
+  {
+    "key": 1002467,
+    "name": "Frostward III",
+    "category": "Ice Resist",
+    "knowledge": 1001152,
+    "level": 3
   },
   {
     "key": 1002496,
     "name": "Lightning God's Affliction",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003234
+  },
+  {
+    "key": 1002497,
+    "name": "Shockward I",
+    "category": "Lightning Resist",
+    "knowledge": 1001153,
+    "level": 1
+  },
+  {
+    "key": 1002498,
+    "name": "Shockward II",
+    "category": "Lightning Resist",
+    "knowledge": 1001153,
+    "level": 2
+  },
+  {
+    "key": 1002499,
+    "name": "Shockward III",
+    "category": "Lightning Resist",
+    "knowledge": 1001153,
+    "level": 3
+  },
+  {
+    "key": 1002509,
+    "name": "Groundsurge",
+    "category": "Special Effects",
+    "knowledge": 1003486
   },
   {
     "key": 1002510,
     "name": "The Showstopper",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002828
+  },
+  {
+    "key": 1002520,
+    "name": "Solidarity I",
+    "category": "Special Effects",
+    "knowledge": 1000393,
+    "effect": {
+      "en": "+1 Trust Gain",
+      "ko": "친밀도 획득 시 1 추가",
+      "ja": "好感度獲得時1追加",
+      "ru": "+1 к доверию",
+      "fr": "+1 Confiance",
+      "de": "1 mehr Vertrauen",
+      "es": "1 de confianza adicional",
+      "pt": "+1 em ganho de confiança"
+    }
+  },
+  {
+    "key": 1002521,
+    "name": "Solidarity II",
+    "category": "Special Effects",
+    "knowledge": 1000393,
+    "effect": {
+      "en": "+2 Trust Gain",
+      "ko": "친밀도 획득 시 2 추가",
+      "ja": "好感度獲得時2追加",
+      "ru": "+2 к доверию",
+      "fr": "+2 Confiance",
+      "de": "2 mehr Vertrauen",
+      "es": "2 de confianza adicional",
+      "pt": "+2 em ganho de confiança"
+    }
+  },
+  {
+    "key": 1002522,
+    "name": "Solidarity III",
+    "category": "Special Effects",
+    "knowledge": 1000393,
+    "effect": {
+      "en": "+3 Trust Gain",
+      "ko": "친밀도 획득 시 3 추가",
+      "ja": "好感度獲得時3追加",
+      "ru": "+3 к доверию",
+      "fr": "+3 Confiance",
+      "de": "3 mehr Vertrauen",
+      "es": "3 de confianza adicional",
+      "pt": "+3 em ganho de confiança"
+    }
+  },
+  {
+    "key": 1002523,
+    "name": "Spirit's Judgment",
+    "category": "Special Effects",
+    "knowledge": 1003539
+  },
+  {
+    "key": 1002538,
+    "name": "Companionship I",
+    "category": "Special Effects",
+    "knowledge": 1003237,
+    "effect": {
+      "en": "+1 Pet Trust Gain",
+      "ko": "반려동물 친밀도 획득 시 1 추가",
+      "ja": "ペットの好感度獲得時1追加",
+      "ru": "+1 к получаемому Доверию питомцев",
+      "fr": "+1 confiance avec les familiers",
+      "de": "Erlangtes Vertrauen zu Haustier +1",
+      "es": "1 adicional de vínculo con la mascota.",
+      "pt": "1 adicional ao obter Vínculo com o Mascote"
+    }
+  },
+  {
+    "key": 1002539,
+    "name": "Crow's Pursuit",
+    "category": "Special Effects",
+    "knowledge": 1003540
   },
   {
     "key": 1002542,
     "name": "Pillar of Wind",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002737
+  },
+  {
+    "key": 1002548,
+    "name": "Slashing Reeds",
+    "category": "Special Effects",
+    "knowledge": 1003541
   },
   {
     "key": 1002552,
     "name": "Warden of Darkness",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002997
   },
   {
     "key": 1002554,
     "name": "Ancient Reckoning",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002827
+  },
+  {
+    "key": 1002569,
+    "name": "Wind Slash",
+    "category": "Special Effects",
+    "knowledge": 1003543
+  },
+  {
+    "key": 1002578,
+    "name": "Storm Fang",
+    "category": "Special Effects",
+    "knowledge": 1003544
+  },
+  {
+    "key": 1002580,
+    "name": "Wound of Darkness",
+    "category": "Special Effects",
+    "knowledge": 1002994
+  },
+  {
+    "key": 1002583,
+    "name": "Karmic Pulse",
+    "category": "Special Effects",
+    "knowledge": 1003545
+  },
+  {
+    "key": 1002592,
+    "name": "Hound's Claws",
+    "category": "Special Effects",
+    "knowledge": 1003547
+  },
+  {
+    "key": 1002602,
+    "name": "Crow Storm",
+    "category": "Special Effects",
+    "knowledge": 1003550
+  },
+  {
+    "key": 1002606,
+    "name": "Abyssal Rays",
+    "category": "Special Effects",
+    "knowledge": 1003552
+  },
+  {
+    "key": 1002658,
+    "name": "Crescent Moon Slash",
+    "category": "Special Effects",
+    "knowledge": 1002999
+  },
+  {
+    "key": 1002659,
+    "name": "Half Moon Slash",
+    "category": "Special Effects",
+    "knowledge": 1003000
+  },
+  {
+    "key": 1002660,
+    "name": "Fullmoon Slash",
+    "category": "Special Effects",
+    "knowledge": 1003001
+  },
+  {
+    "key": 1002662,
+    "name": "Equestrian I",
+    "category": "Special Effects",
+    "knowledge": 1003235,
+    "effect": {
+      "en": "+1 Horse EXP Gain",
+      "ko": "말 경험치 획득량 1 추가",
+      "ja": "馬の経験値獲得量1追加",
+      "ru": "+1 к опыту лошади",
+      "fr": "Gain d'EXP de cheval +1",
+      "de": "+1 Pferde-EP-Erhalt",
+      "es": "1 de EXP de caballo adicional.",
+      "pt": "+1 Ganho de EXP de cavalo"
+    }
+  },
+  {
+    "key": 1002747,
+    "name": "Vigor I",
+    "category": "Stamina Regen",
+    "knowledge": 1001470,
+    "status": "Stamina_UseResourceIncreaseRate",
+    "amount": 4,
+    "percent": true
+  },
+  {
+    "key": 1002748,
+    "name": "Vigor II",
+    "category": "Stamina Regen",
+    "knowledge": 1001470,
+    "status": "Stamina_UseResourceIncreaseRate",
+    "amount": 6,
+    "percent": true
+  },
+  {
+    "key": 1002751,
+    "name": "Vigor III",
+    "category": "Stamina Regen",
+    "knowledge": 1001470,
+    "status": "Stamina_UseResourceIncreaseRate",
+    "amount": 8,
+    "percent": true
+  },
+  {
+    "key": 1002752,
+    "name": "Composure I",
+    "category": "MP Regen",
+    "knowledge": 1001471,
+    "status": "Mp",
+    "amount": 0.1,
+    "percent": false
+  },
+  {
+    "key": 1002753,
+    "name": "Composure II",
+    "category": "MP Regen",
+    "knowledge": 1001471,
+    "status": "Mp",
+    "amount": 0.2,
+    "percent": false
+  },
+  {
+    "key": 1002754,
+    "name": "Composure III",
+    "category": "MP Regen",
+    "knowledge": 1001471,
+    "status": "Mp",
+    "amount": 0.3,
+    "percent": false
+  },
+  {
+    "key": 1002764,
+    "name": "Frost Hail",
+    "category": "Special Effects",
+    "knowledge": 1000661
+  },
+  {
+    "key": 1002766,
+    "name": "Volcanic Eruption",
+    "category": "Special Effects",
+    "knowledge": 1000662
+  },
+  {
+    "key": 1002785,
+    "name": "Destruction I",
+    "category": "Damage",
+    "knowledge": 1003840,
+    "status": "DDD",
+    "amount": 1,
+    "percent": false
+  },
+  {
+    "key": 1002786,
+    "name": "Destruction II",
+    "category": "Damage",
+    "knowledge": 1003840,
+    "status": "DDD",
+    "amount": 2,
+    "percent": false
+  },
+  {
+    "key": 1002787,
+    "name": "Destruction III",
+    "category": "Damage",
+    "knowledge": 1003840,
+    "status": "DDD",
+    "amount": 3,
+    "percent": false
+  },
+  {
+    "key": 1002791,
+    "name": "Insight I",
+    "category": "Crit Rate",
+    "knowledge": 1003842,
+    "status": "CriticalRate",
+    "amount": 2.9,
+    "percent": true
+  },
+  {
+    "key": 1002792,
+    "name": "Insight II",
+    "category": "Crit Rate",
+    "knowledge": 1003842,
+    "status": "CriticalRate",
+    "amount": 5.5,
+    "percent": true
+  },
+  {
+    "key": 1002793,
+    "name": "Insight III",
+    "category": "Crit Rate",
+    "knowledge": 1003842,
+    "status": "CriticalRate",
+    "amount": 7.8,
+    "percent": true
+  },
+  {
+    "key": 1002794,
+    "name": "Fortification I",
+    "category": "Defense",
+    "knowledge": 1003843,
+    "status": "DPV",
+    "amount": 3,
+    "percent": false
+  },
+  {
+    "key": 1002795,
+    "name": "Fortification II",
+    "category": "Defense",
+    "knowledge": 1003843,
+    "status": "DPV",
+    "amount": 6,
+    "percent": false
+  },
+  {
+    "key": 1002796,
+    "name": "Fortification III",
+    "category": "Defense",
+    "knowledge": 1003843,
+    "status": "DPV",
+    "amount": 9,
+    "percent": false
+  },
+  {
+    "key": 1002797,
+    "name": "Aegis I",
+    "category": "Damage Reduction",
+    "knowledge": 1003844,
+    "status": "AttackedDamageReduction",
+    "amount": 1,
+    "percent": false
+  },
+  {
+    "key": 1002798,
+    "name": "Aegis II",
+    "category": "Damage Reduction",
+    "knowledge": 1003844,
+    "status": "AttackedDamageReduction",
+    "amount": 2,
+    "percent": false
+  },
+  {
+    "key": 1002799,
+    "name": "Aegis III",
+    "category": "Damage Reduction",
+    "knowledge": 1003844,
+    "status": "AttackedDamageReduction",
+    "amount": 3,
+    "percent": false
+  },
+  {
+    "key": 1002805,
+    "name": "Tempest of Destruction",
+    "category": "Special Effects",
+    "knowledge": 1002998
+  },
+  {
+    "key": 1002807,
+    "name": "Fortitude I",
+    "category": "Guard Defense",
+    "knowledge": 1003845,
+    "status": "GuardPVRate",
+    "amount": 3,
+    "percent": false
+  },
+  {
+    "key": 1002808,
+    "name": "Fortitude II",
+    "category": "Guard Defense",
+    "knowledge": 1003845,
+    "status": "GuardPVRate",
+    "amount": 6,
+    "percent": false
+  },
+  {
+    "key": 1002809,
+    "name": "Fortitude III",
+    "category": "Guard Defense",
+    "knowledge": 1003845,
+    "status": "GuardPVRate",
+    "amount": 9,
+    "percent": false
+  },
+  {
+    "key": 1002810,
+    "name": "Swift I",
+    "category": "Attack Speed",
+    "knowledge": 1003846,
+    "status": "AttackSpeedRate",
+    "amount": 2.9,
+    "percent": true
+  },
+  {
+    "key": 1002811,
+    "name": "Swift II",
+    "category": "Attack Speed",
+    "knowledge": 1003846,
+    "status": "AttackSpeedRate",
+    "amount": 5.5,
+    "percent": true
+  },
+  {
+    "key": 1002812,
+    "name": "Swift III",
+    "category": "Attack Speed",
+    "knowledge": 1003846,
+    "status": "AttackSpeedRate",
+    "amount": 7.8,
+    "percent": true
+  },
+  {
+    "key": 1002813,
+    "name": "Haste I",
+    "category": "Move Speed",
+    "knowledge": 1003847,
+    "status": "MoveSpeedRate",
+    "amount": 2,
+    "percent": true
+  },
+  {
+    "key": 1002814,
+    "name": "Haste II",
+    "category": "Move Speed",
+    "knowledge": 1003847,
+    "status": "MoveSpeedRate",
+    "amount": 4,
+    "percent": true
+  },
+  {
+    "key": 1002815,
+    "name": "Haste III",
+    "category": "Move Speed",
+    "knowledge": 1003847,
+    "status": "MoveSpeedRate",
+    "amount": 6,
+    "percent": true
+  },
+  {
+    "key": 1002816,
+    "name": "Ascent I",
+    "category": "Climb Speed",
+    "knowledge": 1003854,
+    "status": "ClimbSpeedRate",
+    "amount": 2,
+    "percent": true
+  },
+  {
+    "key": 1002817,
+    "name": "Ascent II",
+    "category": "Climb Speed",
+    "knowledge": 1003854,
+    "status": "ClimbSpeedRate",
+    "amount": 4,
+    "percent": true
+  },
+  {
+    "key": 1002818,
+    "name": "Ascent III",
+    "category": "Climb Speed",
+    "knowledge": 1003854,
+    "status": "ClimbSpeedRate",
+    "amount": 6,
+    "percent": true
+  },
+  {
+    "key": 1002822,
+    "name": "Vitality I",
+    "category": "HP Regen",
+    "knowledge": 1003856,
+    "status": "Hp",
+    "amount": 0.2,
+    "percent": false
+  },
+  {
+    "key": 1002823,
+    "name": "Vitality II",
+    "category": "HP Regen",
+    "knowledge": 1003856,
+    "status": "Hp",
+    "amount": 0.4,
+    "percent": false
+  },
+  {
+    "key": 1002824,
+    "name": "Vitality III",
+    "category": "HP Regen",
+    "knowledge": 1003856,
+    "status": "Hp",
+    "amount": 0.6,
+    "percent": false
+  },
+  {
+    "key": 1002837,
+    "name": "Surge I",
+    "category": "Swim Speed",
+    "knowledge": 1003861,
+    "status": "SwimSpeedRate",
+    "amount": 2,
+    "percent": true
+  },
+  {
+    "key": 1002838,
+    "name": "Surge II",
+    "category": "Swim Speed",
+    "knowledge": 1003861,
+    "status": "SwimSpeedRate",
+    "amount": 4,
+    "percent": true
+  },
+  {
+    "key": 1002839,
+    "name": "Surge III",
+    "category": "Swim Speed",
+    "knowledge": 1003861,
+    "status": "SwimSpeedRate",
+    "amount": 6,
+    "percent": true
+  },
+  {
+    "key": 1002841,
+    "name": "Greysoul Howling",
+    "category": "Special Effects",
+    "knowledge": 1003183
+  },
+  {
+    "key": 1002843,
+    "name": "Frost Spike",
+    "category": "Special Effects",
+    "knowledge": 1000677
+  },
+  {
+    "key": 1002845,
+    "name": "Shattering Frost",
+    "category": "Special Effects",
+    "knowledge": 1000679
+  },
+  {
+    "key": 1002848,
+    "name": "Orbs of Lightning",
+    "category": "Special Effects",
+    "knowledge": 1002993
+  },
+  {
+    "key": 1002849,
+    "name": "Piercing Bloom",
+    "category": "Special Effects",
+    "knowledge": 1003862
+  },
+  {
+    "key": 1002852,
+    "name": "Arrow Rain",
+    "category": "Special Effects",
+    "knowledge": 1003863
+  },
+  {
+    "key": 1002855,
+    "name": "Kinetic Burst",
+    "category": "Special Effects",
+    "knowledge": 1003864
+  },
+  {
+    "key": 1002858,
+    "name": "Ator's Orb",
+    "category": "Special Effects",
+    "knowledge": 1003865
+  },
+  {
+    "key": 1002862,
+    "name": "Greater Destruction",
+    "category": "Damage",
+    "knowledge": 1003840,
+    "status": "DDD",
+    "amount": 10,
+    "percent": false
+  },
+  {
+    "key": 1002863,
+    "name": "Abyssal Assimilation",
+    "category": "Special Effects",
+    "knowledge": 1002327,
+    "effect": {
+      "en": "Abyssal Toxin Immunity",
+      "ko": "심연의 독 면역",
+      "ja": "深淵の毒無効化",
+      "ru": "Иммунитет к яду Бездны",
+      "fr": "Immunité au poison abyssal",
+      "de": "Abyssgift-Immunität",
+      "es": "Inmunidad al veneno abisal",
+      "pt": "Imunidade a veneno abissal"
+    }
+  },
+  {
+    "key": 1002865,
+    "name": "Heart of the Serpent",
+    "category": "Special Effects",
+    "knowledge": 1002430,
+    "effect": {
+      "en": "Poison Immunity",
+      "ko": "지상의 독 면역",
+      "ja": "地上の毒無効化",
+      "ru": "Иммунитет к яду",
+      "fr": "Immunité au poison terrestre",
+      "de": "Immunität gegen Bodengift",
+      "es": "Inmunidad al veneno terrenal",
+      "pt": "Imunidade a veneno do solo"
+    }
+  },
+  {
+    "key": 1002866,
+    "name": "Heart of Stone",
+    "category": "Special Effects",
+    "knowledge": 1002431,
+    "effect": {
+      "en": "Petrification Immunity",
+      "ko": "석화 면역",
+      "ja": "石化無効化",
+      "ru": "Иммунитет к окаменению",
+      "fr": "Immunité à la pétrification",
+      "de": "Immunität gegen Versteinerung",
+      "es": "Inmunidad a la petrificación",
+      "pt": "Imunidade à petrificação"
+    }
   },
   {
     "key": 1002867,
     "name": "Momentum",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003668,
-    "name": "Colossal Might",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003685,
-    "name": "Order from Above",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003686,
-    "name": "Dark Crescent",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003691,
-    "name": "Queen's Fangs",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003692,
-    "name": "Putrid Touch",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003699,
-    "name": "Shadow Claw",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003700,
-    "name": "Parting Gift",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003702,
-    "name": "Ancient Retribution",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003714,
-    "name": "Howling of Chaos",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003715,
-    "name": "Judgment of the Soul",
-    "category": "Special Effects"
-  },
-  {
-    "key": 1003718,
-    "name": "Ancient Wrath",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1002432,
+    "effect": {
+      "en": "+35% Turning Slash Damage",
+      "ko": "회전 가르기 추가 피해 35%",
+      "ja": "回転割りの追加ダメージ35%",
+      "ru": "Удар с разворота: бонусный урон 35 % (1/1)",
+      "fr": "Dégâts bonus d'Entaille circulaire : 35 % (1/1)",
+      "de": "Bonus-Schaden für Drehhieb 35 %",
+      "es": "Daño adicional de Tajo rotatorio 35 % (1/1)",
+      "pt": "+35% de Dano de Ataque de Virada"
+    }
   },
   {
     "key": 1002887,
     "name": "Earthrending Strike",
-    "category": "Special Effects"
+    "category": "Special Effects",
+    "knowledge": 1003038
+  },
+  {
+    "key": 1002896,
+    "name": "Steelbane I",
+    "category": "Special Effects",
+    "knowledge": 1003866,
+    "effect": {
+      "en": "+4% damage to machines",
+      "ko": "기계형 추가 피해 4%",
+      "ja": "機械型追加ダメージ4%",
+      "ru": "4% дополнительного урона механизмам",
+      "fr": "4 % de dégâts supplémentaires aux machines",
+      "de": "4 % zusätzlicher Schaden gegen Maschinen",
+      "es": "4 % de daño adicional a máquinas",
+      "pt": "+4% de dano contra máquinas"
+    }
+  },
+  {
+    "key": 1002897,
+    "name": "Steelbane II",
+    "category": "Special Effects",
+    "knowledge": 1003866,
+    "effect": {
+      "en": "+8% damage to machines",
+      "ko": "기계형 추가 피해 8%",
+      "ja": "機械型追加ダメージ8%",
+      "ru": "8% дополнительного урона механизмам",
+      "fr": "8 % de dégâts supplémentaires aux machines",
+      "de": "8 % zusätzlicher Schaden gegen Maschinen",
+      "es": "8 % de daño adicional a máquinas",
+      "pt": "+8% de dano contra máquinas"
+    }
+  },
+  {
+    "key": 1002898,
+    "name": "Steelbane III",
+    "category": "Special Effects",
+    "knowledge": 1003866,
+    "effect": {
+      "en": "+12% damage to machines",
+      "ko": "기계형 추가 피해 12%",
+      "ja": "機械型追加ダメージ12%",
+      "ru": "12% дополнительного урона механизмам",
+      "fr": "12 % de dégâts supplémentaires aux machines",
+      "de": "12 % zusätzlicher Schaden gegen Maschinen",
+      "es": "12 % de daño adicional a máquinas",
+      "pt": "+12% de dano contra máquinas"
+    }
+  },
+  {
+    "key": 1002899,
+    "name": "Hexebane I",
+    "category": "Special Effects",
+    "knowledge": 1003867,
+    "effect": {
+      "en": "+4% damage to earthen beings",
+      "ko": "헥세형 추가 피해 4%",
+      "ja": "ヘッサ型追加ダメージ4%",
+      "ru": "Дополнительный урон по типу Хекса 4%",
+      "fr": "+4 % de dégâts contre le type Hexe",
+      "de": "4 % zusätzlicher Schaden gegen Hexen",
+      "es": "4 % de daño adicional contra tipo Hexe.",
+      "pt": "+4% de dano contra tipo Hexe"
+    }
+  },
+  {
+    "key": 1002900,
+    "name": "Hexebane II",
+    "category": "Special Effects",
+    "knowledge": 1003867,
+    "effect": {
+      "en": "+8% damage to earthen beings",
+      "ko": "헥세형 추가 피해 8%",
+      "ja": "ヘッサ型追加ダメージ8%",
+      "ru": "Дополнительный урон по типу Хекса 8%",
+      "fr": "+8 % de dégâts contre le type Hexe",
+      "de": "8 % zusätzlicher Schaden gegen Hexen",
+      "es": "8 % de daño adicional contra tipo Hexe.",
+      "pt": "+8% de dano contra tipo Hexe"
+    }
+  },
+  {
+    "key": 1002901,
+    "name": "Hexebane III",
+    "category": "Special Effects",
+    "knowledge": 1003867,
+    "effect": {
+      "en": "+12% damage to earthen beings",
+      "ko": "헥세형 추가 피해 12%",
+      "ja": "ヘッサ型追加ダメージ12%",
+      "ru": "Дополнительный урон по типу Хекса 12%",
+      "fr": "+12 % de dégâts contre le type Hexe",
+      "de": "12 % zusätzlicher Schaden gegen Hexen",
+      "es": "12 % de daño adicional contra tipo Hexe.",
+      "pt": "+12% de dano contra tipo Hexe"
+    }
+  },
+  {
+    "key": 1002902,
+    "name": "Bloodbane I",
+    "category": "Special Effects",
+    "knowledge": 1003868,
+    "effect": {
+      "en": "+4% damage to humanoids",
+      "ko": "인간형 추가 피해 4%",
+      "ja": "人型追加ダメージ4%",
+      "ru": "4% дополнительного урона по противникам-людям",
+      "fr": "4 % de dégâts supplémentaires aux ennemis humains",
+      "de": "4 % zusätzlicher Schaden gegen menschliche Gegner",
+      "es": "4 % de daño adicional a enemigos humanos.",
+      "pt": "+4% de dano contra inimigos humanos"
+    }
+  },
+  {
+    "key": 1002903,
+    "name": "Bloodbane II",
+    "category": "Special Effects",
+    "knowledge": 1003868,
+    "effect": {
+      "en": "+8% damage to humanoids",
+      "ko": "인간형 추가 피해 8%",
+      "ja": "人型追加ダメージ8%",
+      "ru": "8% дополнительного урона по противникам-людям",
+      "fr": "8 % de dégâts supplémentaires aux ennemis humains",
+      "de": "8 % zusätzlicher Schaden gegen menschliche Gegner",
+      "es": "8 % de daño adicional a enemigos humanos.",
+      "pt": "+8% de dano contra inimigos humanos"
+    }
+  },
+  {
+    "key": 1002904,
+    "name": "Bloodbane III",
+    "category": "Special Effects",
+    "knowledge": 1003868,
+    "effect": {
+      "en": "+12% damage to humanoids",
+      "ko": "인간형 추가 피해 12%",
+      "ja": "人型追加ダメージ12%",
+      "ru": "12% дополнительного урона по противникам-людям",
+      "fr": "12 % de dégâts supplémentaires aux ennemis humains",
+      "de": "12 % zusätzlicher Schaden gegen menschliche Gegner",
+      "es": "12 % de daño adicional a enemigos humanos.",
+      "pt": "+12% de dano contra inimigos humanos"
+    }
+  },
+  {
+    "key": 1002905,
+    "name": "Primalbane I",
+    "category": "Special Effects",
+    "knowledge": 1003869,
+    "effect": {
+      "en": "+4% damage to Walkers",
+      "ko": "워커형 추가 피해 4%",
+      "ja": "ウォーカー型に追加ダメージ4%",
+      "ru": "Доп. урон против Скитальцев 4 %",
+      "fr": "Dégâts bonus contre les Marcheurs 4 %",
+      "de": "Bonus-Schaden gegen Läufer 4 %",
+      "es": "4 % de daño adicional a caminantes.",
+      "pt": "+4% de Dano contra Caminhantes"
+    }
+  },
+  {
+    "key": 1002906,
+    "name": "Primalbane II",
+    "category": "Special Effects",
+    "knowledge": 1003869,
+    "effect": {
+      "en": "+8% damage to Walkers",
+      "ko": "워커형 추가 피해 8%",
+      "ja": "ウォーカー型に追加ダメージ8%",
+      "ru": "Доп. урон против Скитальцев 8 %",
+      "fr": "Dégâts bonus contre les Marcheurs 8 %",
+      "de": "Bonus-Schaden gegen Läufer 8 %",
+      "es": "8 % de daño adicional a caminantes.",
+      "pt": "+8% de Dano contra Caminhantes"
+    }
+  },
+  {
+    "key": 1002907,
+    "name": "Primalbane III",
+    "category": "Special Effects",
+    "knowledge": 1003869,
+    "effect": {
+      "en": "+12% damage to Walkers",
+      "ko": "워커형 추가 피해 12%",
+      "ja": "ウォーカー型に追加ダメージ12%",
+      "ru": "Доп. урон против Скитальцев 12 %",
+      "fr": "Dégâts bonus contre les Marcheurs 12 %",
+      "de": "Bonus-Schaden gegen Läufer 12 %",
+      "es": "12 % de daño adicional a caminantes.",
+      "pt": "+12% de Dano contra Caminhantes"
+    }
+  },
+  {
+    "key": 1002908,
+    "name": "Malicebane I",
+    "category": "Special Effects",
+    "knowledge": 1003870,
+    "effect": {
+      "en": "+4% damage to mighty foes",
+      "ko": "강적 추가 피해 4%",
+      "ja": "強者追加ダメージ4%",
+      "ru": "4% дополнительного урона элитным противникам",
+      "fr": "4 % de dégâts supplémentaires aux ennemis puissants",
+      "de": "4 % zusätzlicher Schaden gegen mächtige Gegner",
+      "es": "4 % de daño adicional a enemigos de élite.",
+      "pt": "+4% de dano contra inimigos fortes"
+    }
+  },
+  {
+    "key": 1002909,
+    "name": "Malicebane II",
+    "category": "Special Effects",
+    "knowledge": 1003870,
+    "effect": {
+      "en": "+8% damage to mighty foes",
+      "ko": "강적 추가 피해 8%",
+      "ja": "強者追加ダメージ8%",
+      "ru": "8% дополнительного урона элитным противникам",
+      "fr": "8 % de dégâts supplémentaires aux ennemis puissants",
+      "de": "8 % zusätzlicher Schaden gegen mächtige Gegner",
+      "es": "8 % de daño adicional a enemigos de élite.",
+      "pt": "+8% de dano contra inimigos fortes"
+    }
+  },
+  {
+    "key": 1002910,
+    "name": "Malicebane III",
+    "category": "Special Effects",
+    "knowledge": 1003870,
+    "effect": {
+      "en": "+12% damage to mighty foes",
+      "ko": "강적 추가 피해 12%",
+      "ja": "強者追加ダメージ12%",
+      "ru": "12% дополнительного урона элитным противникам",
+      "fr": "12 % de dégâts supplémentaires aux ennemis puissants",
+      "de": "12 % zusätzlicher Schaden gegen mächtige Gegner",
+      "es": "12 % de daño adicional a enemigos de élite.",
+      "pt": "+12% de dano contra inimigos fortes"
+    }
+  },
+  {
+    "key": 1002911,
+    "name": "Beastbane I",
+    "category": "Special Effects",
+    "knowledge": 1003871,
+    "effect": {
+      "en": "+4% damage to beasts",
+      "ko": "야수형 추가 피해 4%",
+      "ja": "野獣型追加ダメージ4%",
+      "ru": "4% дополнительного урона зверям",
+      "fr": "4 % de dégâts supplémentaires aux bêtes",
+      "de": "4 % zusätzlicher Schaden gegen Bestien",
+      "es": "4 % de daño adicional a bestias.",
+      "pt": "+4% de dano contra feras"
+    }
+  },
+  {
+    "key": 1002912,
+    "name": "Beastbane II",
+    "category": "Special Effects",
+    "knowledge": 1003871,
+    "effect": {
+      "en": "+8% damage to beasts",
+      "ko": "야수형 추가 피해 8%",
+      "ja": "野獣型追加ダメージ8%",
+      "ru": "8% дополнительного урона зверям",
+      "fr": "8 % de dégâts supplémentaires aux bêtes",
+      "de": "8 % zusätzlicher Schaden gegen Bestien",
+      "es": "8 % de daño adicional a bestias.",
+      "pt": "+8% de dano contra feras"
+    }
+  },
+  {
+    "key": 1002913,
+    "name": "Beastbane III",
+    "category": "Special Effects",
+    "knowledge": 1003871,
+    "effect": {
+      "en": "+12% damage to beasts",
+      "ko": "야수형 추가 피해 12%",
+      "ja": "野獣型追加ダメージ12%",
+      "ru": "12% дополнительного урона зверям",
+      "fr": "12 % de dégâts supplémentaires aux bêtes",
+      "de": "12 % zusätzlicher Schaden gegen Bestien",
+      "es": "12 % de daño adicional a bestias.",
+      "pt": "+12% de dano contra feras"
+    }
+  },
+  {
+    "key": 1002914,
+    "name": "Abyssbane I",
+    "category": "Special Effects",
+    "knowledge": 1003872,
+    "effect": {
+      "en": "+4% damage to Abyssal creatures",
+      "ko": "심연종 추가 피해 4%",
+      "ja": "深淵種追加ダメージ4%",
+      "ru": "4% дополнительного урона существам Бездны",
+      "fr": "4 % de dégâts supplémentaires aux créatures de l'Abysse",
+      "de": "4 % zusätzlicher Schaden gegen Abyss-Kreaturen",
+      "es": "4 % de daño adicional a criaturas del Abismo.",
+      "pt": "+4% de dano contra criaturas do Abismo."
+    }
+  },
+  {
+    "key": 1002915,
+    "name": "Abyssbane II",
+    "category": "Special Effects",
+    "knowledge": 1003872,
+    "effect": {
+      "en": "+8% damage to Abyssal creatures",
+      "ko": "심연종 추가 피해 8%",
+      "ja": "深淵種追加ダメージ8%",
+      "ru": "8% дополнительного урона существам Бездны",
+      "fr": "8 % de dégâts supplémentaires aux créatures de l'Abysse",
+      "de": "8 % zusätzlicher Schaden gegen Abyss-Kreaturen",
+      "es": "8 % de daño adicional a criaturas del Abismo.",
+      "pt": "+8% de dano contra criaturas do Abismo."
+    }
+  },
+  {
+    "key": 1002916,
+    "name": "Abyssbane III",
+    "category": "Special Effects",
+    "knowledge": 1003872,
+    "effect": {
+      "en": "+12% damage to Abyssal creatures",
+      "ko": "심연종 추가 피해 12%",
+      "ja": "深淵種追加ダメージ12%",
+      "ru": "12% дополнительного урона существам Бездны",
+      "fr": "12 % de dégâts supplémentaires aux créatures de l'Abysse",
+      "de": "12 % zusätzlicher Schaden gegen Abyss-Kreaturen",
+      "es": "12 % de daño adicional a criaturas del Abismo.",
+      "pt": "+12% de dano contra criaturas do Abismo."
+    }
+  },
+  {
+    "key": 1002920,
+    "name": "Fortune I",
+    "category": "Special Effects",
+    "knowledge": 1003874,
+    "effect": {
+      "en": "Silver acquired increased by 10%",
+      "ko": "은화 획득량 10% 증가",
+      "ja": "銀貨獲得量 10% 増加",
+      "ru": "Вы получаете на 10% больше серебра",
+      "fr": "+10 % d'argent obtenu",
+      "de": "Erlangtes Silber um 10 % erhöht.",
+      "es": "Plata obtenida +10%",
+      "pt": "Aumento de 10% na Prata adquirida"
+    }
+  },
+  {
+    "key": 1002921,
+    "name": "Fortune II",
+    "category": "Special Effects",
+    "knowledge": 1003874,
+    "effect": {
+      "en": "Silver acquired increased by 20%",
+      "ko": "은화 획득량 20% 증가",
+      "ja": "銀貨獲得量 20% 増加",
+      "ru": "Вы получаете на 20% больше серебра",
+      "fr": "+20 % d'argent obtenu",
+      "de": "Erlangtes Silber um 20 % erhöht.",
+      "es": "Plata obtenida +20%",
+      "pt": "Aumento de 20% na Prata adquirida"
+    }
+  },
+  {
+    "key": 1002922,
+    "name": "Fortune III",
+    "category": "Special Effects",
+    "knowledge": 1003874,
+    "effect": {
+      "en": "Silver acquired increased by 30%",
+      "ko": "은화 획득량 30% 증가",
+      "ja": "銀貨獲得量 30% 増加",
+      "ru": "Вы получаете на 30% больше серебра",
+      "fr": "+30 % d'argent obtenu",
+      "de": "Erlangtes Silber um 30 % erhöht.",
+      "es": "Plata obtenida +30%",
+      "pt": "Aumento de 30% na Prata adquirida"
+    }
+  },
+  {
+    "key": 1002923,
+    "name": "Infinite Arrows I",
+    "category": "Special Effects",
+    "knowledge": 1003875,
+    "effect": {
+      "en": "20% chance to not consume arrows",
+      "ko": "20% 확률로 화살 미소모",
+      "ja": "20%の確率で矢を未消費",
+      "ru": "20% шанса не расходовать стрелу",
+      "fr": "20 % de ne pas consommer de flèches",
+      "de": "20 % Chance, keinen Pfeil zu verbrauchen",
+      "es": "20 % de probabilidad de no consumir flechas.",
+      "pt": "20% de chance de não consumir Flecha"
+    }
+  },
+  {
+    "key": 1002924,
+    "name": "Infinite Arrows II",
+    "category": "Special Effects",
+    "knowledge": 1003875,
+    "effect": {
+      "en": "40% chance to not consume arrows",
+      "ko": "40% 확률로 화살 미소모",
+      "ja": "40%の確率で矢を未消費",
+      "ru": "40% шанса не расходовать стрелу",
+      "fr": "40 % de ne pas consommer de flèches",
+      "de": "40 % Chance, keinen Pfeil zu verbrauchen",
+      "es": "40 % de probabilidad de no consumir flechas.",
+      "pt": "40% de chance de não consumir Flecha"
+    }
+  },
+  {
+    "key": 1002925,
+    "name": "Infinite Arrows III",
+    "category": "Special Effects",
+    "knowledge": 1003875,
+    "effect": {
+      "en": "60% chance to not consume arrows",
+      "ko": "60% 확률로 화살 미소모",
+      "ja": "60%の確率で矢を未消費",
+      "ru": "60% шанса не расходовать стрелу",
+      "fr": "60 % de ne pas consommer de flèches",
+      "de": "60 % Chance, keinen Pfeil zu verbrauchen",
+      "es": "60 % de probabilidad de no consumir flechas.",
+      "pt": "60% de chance de não consumir Flecha"
+    }
+  },
+  {
+    "key": 1002926,
+    "name": "Gourmet I",
+    "category": "Special Effects",
+    "knowledge": 1003876,
+    "effect": {
+      "en": "Food Effect Lv +1",
+      "ko": "음식 사용 효과 Lv1 증가",
+      "ja": "料理の使用効果 Lv.1増加",
+      "ru": "Уровень эффекта использования готовки +1",
+      "fr": "Effet des aliments : +1 Niv.",
+      "de": "Erhöht den Effekt von Gerichten um Lv 1",
+      "es": "Aumenta el nivel de los efectos de cocina en 1",
+      "pt": "Aumenta o Nv. do Efeito da comida em 1"
+    }
+  },
+  {
+    "key": 1002927,
+    "name": "Gourmet II",
+    "category": "Special Effects",
+    "knowledge": 1003876,
+    "effect": {
+      "en": "Food Effect Lv +2",
+      "ko": "음식 사용 효과 Lv2 증가",
+      "ja": "料理の使用効果 Lv.2増加",
+      "ru": "Уровень эффекта использования готовки +2",
+      "fr": "Effet des aliments : +2 Niv.",
+      "de": "Erhöht den Effekt von Gerichten um Lv 2",
+      "es": "Aumenta el nivel de los efectos de cocina en 2",
+      "pt": "Aumenta o Nv. do Efeito da comida em 2"
+    }
+  },
+  {
+    "key": 1002928,
+    "name": "Gourmet III",
+    "category": "Special Effects",
+    "knowledge": 1003876,
+    "effect": {
+      "en": "Food Effect Lv +3",
+      "ko": "음식 사용 효과 Lv3 증가",
+      "ja": "料理の使用効果 Lv.3増加",
+      "ru": "Уровень эффекта использования готовки +3",
+      "fr": "Effet des aliments : +3 Niv.",
+      "de": "Erhöht den Effekt von Gerichten um Lv 3",
+      "es": "Aumenta el nivel de los efectos de cocina en 3",
+      "pt": "Aumenta o Nv. do Efeito da comida em 3"
+    }
+  },
+  {
+    "key": 1002929,
+    "name": "Efficiency I",
+    "category": "Special Effects",
+    "knowledge": 1003877,
+    "effect": {
+      "en": "1% reduction in materials consumed when crafting",
+      "ko": "제작 시 소모 재료 1% 감소",
+      "ja": "製作時の消費素材1%減少",
+      "ru": "Расход материалов при изготовлении -1%<br/>",
+      "fr": "Matériaux requis pour fabriquer réduits de 1 %",
+      "de": "Materialkosten bei der Herstellung um 1 % verringert",
+      "es": "Reduce un 1% los materiales necesarios al fabricar",
+      "pt": "Materiais consumidos na fabricação -1%"
+    }
+  },
+  {
+    "key": 1002930,
+    "name": "Efficiency II",
+    "category": "Special Effects",
+    "knowledge": 1003877,
+    "effect": {
+      "en": "2% reduction in materials consumed when crafting",
+      "ko": "제작 시 소모 재료 2% 감소",
+      "ja": "製作時の消費素材2%減少",
+      "ru": "Расход материалов при изготовлении -2%<br/>",
+      "fr": "Matériaux requis pour fabriquer réduits de 2 %",
+      "de": "Materialkosten bei der Herstellung um 2 % verringert",
+      "es": "Reduce un 2% los materiales necesarios al fabricar",
+      "pt": "Materiais consumidos na fabricação -2%"
+    }
+  },
+  {
+    "key": 1002931,
+    "name": "Efficiency III",
+    "category": "Special Effects",
+    "knowledge": 1003877,
+    "effect": {
+      "en": "3% reduction in materials consumed when crafting",
+      "ko": "제작 시 소모 재료 3% 감소",
+      "ja": "製作時の消費素材3%減少",
+      "ru": "Расход материалов при изготовлении -3%<br/>",
+      "fr": "Matériaux requis pour fabriquer réduits de 3 %",
+      "de": "Materialkosten bei der Herstellung um 3 % verringert",
+      "es": "Reduce un 3% los materiales necesarios al fabricar",
+      "pt": "Materiais consumidos na fabricação -3%"
+    }
+  },
+  {
+    "key": 1002932,
+    "name": "Ledgermain I",
+    "category": "Special Effects",
+    "knowledge": 1003878,
+    "effect": {
+      "en": "10% chance to pickpocket additional items",
+      "ko": "10% 확률로 소매치기 시 추가 획득",
+      "ja": "10%の確率でスリで追加獲得",
+      "ru": "10% шанса украсть дополнительные предметы",
+      "fr": "10 % de voler des objets supplémentaires",
+      "de": "10 % Chance, beim Stehlen zusätzliche Gegenstände zu erhalten",
+      "es": "10 % de probabilidad de robar objetos adicionales.",
+      "pt": "10% de chance de roubar itens adicionais"
+    }
+  },
+  {
+    "key": 1002933,
+    "name": "Ledgermain II",
+    "category": "Special Effects",
+    "knowledge": 1003878,
+    "effect": {
+      "en": "20% chance to pickpocket additional items",
+      "ko": "20% 확률로 소매치기 시 추가 획득",
+      "ja": "20%の確率でスリで追加獲得",
+      "ru": "20% шанса украсть дополнительные предметы",
+      "fr": "20 % de voler des objets supplémentaires",
+      "de": "20 % Chance, beim Stehlen zusätzliche Gegenstände zu erhalten",
+      "es": "20 % de probabilidad de robar objetos adicionales.",
+      "pt": "20% de chance de roubar itens adicionais"
+    }
+  },
+  {
+    "key": 1002934,
+    "name": "Ledgermain III",
+    "category": "Special Effects",
+    "knowledge": 1003878,
+    "effect": {
+      "en": "30% chance to pickpocket additional items",
+      "ko": "30% 확률로 소매치기 시 추가 획득",
+      "ja": "30%の確率でスリで追加獲得",
+      "ru": "30% шанса украсть дополнительные предметы",
+      "fr": "30 % de voler des objets supplémentaires",
+      "de": "30 % Chance, beim Stehlen zusätzliche Gegenstände zu erhalten",
+      "es": "30 % de probabilidad de robar objetos adicionales.",
+      "pt": "30% de chance de roubar itens adicionais"
+    }
+  },
+  {
+    "key": 1002935,
+    "name": "Blessing of the Earth I",
+    "category": "Special Effects",
+    "knowledge": 1003879,
+    "effect": {
+      "en": "10% chance to mine additional minerals",
+      "ko": "10% 확률로 광물 추가 획득",
+      "ja": "10%の確率で鉱物を追加獲得",
+      "ru": "10%-й шанс получить дополнительные минералы",
+      "fr": "10 % d'obtenir des minerais en bonus",
+      "de": "10% Chance, zusätzliche Mineralien zu erlangen.",
+      "es": "10 % de probabilidad de obtener minerales adicionales.",
+      "pt": "10% de chance de obter minerais adicionais"
+    }
+  },
+  {
+    "key": 1002936,
+    "name": "Blessing of the Earth II",
+    "category": "Special Effects",
+    "knowledge": 1003879,
+    "effect": {
+      "en": "20% chance to mine additional minerals",
+      "ko": "20% 확률로 광물 추가 획득",
+      "ja": "20%の確率で鉱物を追加獲得",
+      "ru": "20%-й шанс получить дополнительные минералы",
+      "fr": "20 % d'obtenir des minerais en bonus",
+      "de": "20% Chance, zusätzliche Mineralien zu erlangen.",
+      "es": "20 % de probabilidad de obtener minerales adicionales.",
+      "pt": "20% de chance de obter minerais adicionais"
+    }
+  },
+  {
+    "key": 1002937,
+    "name": "Blessing of the Earth III",
+    "category": "Special Effects",
+    "knowledge": 1003879,
+    "effect": {
+      "en": "30% chance to mine additional minerals",
+      "ko": "30% 확률로 광물 추가 획득",
+      "ja": "30%の確率で鉱物を追加獲得",
+      "ru": "30%-й шанс получить дополнительные минералы",
+      "fr": "30 % d'obtenir des minerais en bonus",
+      "de": "30% Chance, zusätzliche Mineralien zu erlangen.",
+      "es": "30 % de probabilidad de obtener minerales adicionales.",
+      "pt": "30% de chance de obter minerais adicionais"
+    }
+  },
+  {
+    "key": 1002938,
+    "name": "Blessing of Nature I",
+    "category": "Special Effects",
+    "knowledge": 1003880,
+    "effect": {
+      "en": "10% chance to gather additional items",
+      "ko": "10% 확률로 채집물 추가 획득",
+      "ja": "10%の確率で採集物を追加獲得",
+      "ru": "10%-й шанс получить дополнительные собираемые ресурсы",
+      "fr": "10 % d'obtenir des ressources en bonus",
+      "de": "10 % Chance, zusätzliche Sammelobjekte zu erlangen",
+      "es": "10 % de probabilidad de obtener recursos adicionales",
+      "pt": "10% de chance de obter itens adicionais"
+    }
+  },
+  {
+    "key": 1002939,
+    "name": "Blessing of Nature II",
+    "category": "Special Effects",
+    "knowledge": 1003880,
+    "effect": {
+      "en": "20% chance to gather additional items",
+      "ko": "20% 확률로 채집물 추가 획득",
+      "ja": "20%の確率で採集物を追加獲得",
+      "ru": "20%-й шанс получить дополнительные собираемые ресурсы",
+      "fr": "20 % d'obtenir des ressources en bonus",
+      "de": "20 % Chance, zusätzliche Sammelobjekte zu erlangen",
+      "es": "20 % de probabilidad de obtener recursos adicionales",
+      "pt": "20% de chance de obter itens adicionais"
+    }
+  },
+  {
+    "key": 1002940,
+    "name": "Blessing of Nature III",
+    "category": "Special Effects",
+    "knowledge": 1003880,
+    "effect": {
+      "en": "30% chance to gather additional items",
+      "ko": "30% 확률로 채집물 추가 획득",
+      "ja": "30%の確率で採集物を追加獲得",
+      "ru": "30%-й шанс получить дополнительные собираемые ресурсы",
+      "fr": "30 % d'obtenir des ressources en bonus",
+      "de": "30 % Chance, zusätzliche Sammelobjekte zu erlangen",
+      "es": "30 % de probabilidad de obtener recursos adicionales",
+      "pt": "30% de chance de obter itens adicionais"
+    }
+  },
+  {
+    "key": 1002941,
+    "name": "Blessing of the Beast I",
+    "category": "Special Effects",
+    "knowledge": 1003881,
+    "effect": {
+      "en": "10% chance to skin additional materials",
+      "ko": "10% 확률로 무두질 결과물 추가 획득",
+      "ja": "10%の確率で解体時に追加獲得",
+      "ru": "Шанс 10% получить дополнительные материалы при дублении.",
+      "fr": "10 % d'obtenir des produits de tannage en bonus",
+      "de": "10% Chance, zusätzliche Beute beim Gerben zu erlangen.",
+      "es": "10 % de probabilidad de obtener materiales adicionales al curtir",
+      "pt": "10% de chance de obter pele adicional ao curtir"
+    }
+  },
+  {
+    "key": 1002942,
+    "name": "Blessing of the Beast II",
+    "category": "Special Effects",
+    "knowledge": 1003881,
+    "effect": {
+      "en": "20% chance to skin additional materials",
+      "ko": "20% 확률로 무두질 결과물 추가 획득",
+      "ja": "20%の確率で解体時に追加獲得",
+      "ru": "Шанс 20% получить дополнительные материалы при дублении.",
+      "fr": "20 % d'obtenir des produits de tannage en bonus",
+      "de": "20% Chance, zusätzliche Beute beim Gerben zu erlangen.",
+      "es": "20 % de probabilidad de obtener materiales adicionales al curtir",
+      "pt": "20% de chance de obter pele adicional ao curtir"
+    }
+  },
+  {
+    "key": 1002943,
+    "name": "Blessing of the Beast III",
+    "category": "Special Effects",
+    "knowledge": 1003881,
+    "effect": {
+      "en": "30% chance to skin additional materials",
+      "ko": "30% 확률로 무두질 결과물 추가 획득",
+      "ja": "30%の確率で解体時に追加獲得",
+      "ru": "Шанс 30% получить дополнительные материалы при дублении.",
+      "fr": "30 % d'obtenir des produits de tannage en bonus",
+      "de": "30% Chance, zusätzliche Beute beim Gerben zu erlangen.",
+      "es": "30 % de probabilidad de obtener materiales adicionales al curtir",
+      "pt": "30% de chance de obter pele adicional ao curtir"
+    }
+  },
+  {
+    "key": 1002944,
+    "name": "Blessing of the Forest I",
+    "category": "Special Effects",
+    "knowledge": 1003885,
+    "effect": {
+      "en": "10% chance to log additional timber",
+      "ko": "10% 확률로 목재 추가 획득",
+      "ja": "10%の確率で木材を追加獲得",
+      "ru": "10%-й шанс получить дополнительную древесину.",
+      "fr": "10 % d'obtenir du bois en bonus",
+      "de": "10% Chance auf zusätzliches Holz",
+      "es": "10 % de probabilidad de obtener madera adicional",
+      "pt": "10% de chance de obter Madeira adicional"
+    }
+  },
+  {
+    "key": 1002945,
+    "name": "Blessing of the Forest II",
+    "category": "Special Effects",
+    "knowledge": 1003885,
+    "effect": {
+      "en": "20% chance to log additional timber",
+      "ko": "20% 확률로 목재 추가 획득",
+      "ja": "20%の確率で木材を追加獲得",
+      "ru": "20%-й шанс получить дополнительную древесину.",
+      "fr": "20 % d'obtenir du bois en bonus",
+      "de": "20% Chance auf zusätzliches Holz",
+      "es": "20 % de probabilidad de obtener madera adicional",
+      "pt": "20% de chance de obter Madeira adicional"
+    }
+  },
+  {
+    "key": 1002946,
+    "name": "Blessing of the Forest III",
+    "category": "Special Effects",
+    "knowledge": 1003885,
+    "effect": {
+      "en": "30% chance to log additional timber",
+      "ko": "30% 확률로 목재 추가 획득",
+      "ja": "30%の確率で木材を追加獲得",
+      "ru": "30%-й шанс получить дополнительную древесину.",
+      "fr": "30 % d'obtenir du bois en bonus",
+      "de": "30% Chance auf zusätzliches Holz",
+      "es": "30 % de probabilidad de obtener madera adicional",
+      "pt": "30% de chance de obter Madeira adicional"
+    }
+  },
+  {
+    "key": 1002947,
+    "name": "Service I",
+    "category": "Special Effects",
+    "knowledge": 1003882,
+    "effect": {
+      "en": "+ 10% Contribution EXP Gain",
+      "ko": "추가 공헌도 경험치 10%",
+      "ja": "貢献度経験値ボーナス10%",
+      "ru": "10% доп. опыта вклада",
+      "fr": "+10 % d'EXP de contribution",
+      "de": "10 % mehr Beitrags-EP",
+      "es": "10 % de EXP de contribución adicional.",
+      "pt": "10% de EXP de contribuição adicional"
+    }
+  },
+  {
+    "key": 1002948,
+    "name": "Service II",
+    "category": "Special Effects",
+    "knowledge": 1003882,
+    "effect": {
+      "en": "+ 20% Contribution EXP Gain",
+      "ko": "추가 공헌도 경험치 20%",
+      "ja": "貢献度経験値ボーナス20%",
+      "ru": "20% доп. опыта вклада",
+      "fr": "+20 % d'EXP de contribution",
+      "de": "20 % mehr Beitrags-EP",
+      "es": "20 % de EXP de contribución adicional.",
+      "pt": "20% de EXP de contribuição adicional"
+    }
+  },
+  {
+    "key": 1002949,
+    "name": "Service III",
+    "category": "Special Effects",
+    "knowledge": 1003882,
+    "effect": {
+      "en": "+ 30% Contribution EXP Gain",
+      "ko": "추가 공헌도 경험치 30%",
+      "ja": "貢献度経験値ボーナス30%",
+      "ru": "30% доп. опыта вклада",
+      "fr": "+30 % d'EXP de contribution",
+      "de": "30 % mehr Beitrags-EP",
+      "es": "30 % de EXP de contribución adicional.",
+      "pt": "30% de EXP de contribuição adicional"
+    }
+  },
+  {
+    "key": 1002950,
+    "name": "Aptitude I",
+    "category": "Special Effects",
+    "knowledge": 1003883,
+    "effect": {
+      "en": "+ 10% Skill EXP Gain",
+      "ko": "추가 기술 경험치 10%",
+      "ja": "スキル経験値ボーナス10%",
+      "ru": "Дополнительный опыт навыков 10%",
+      "fr": "+10 % d'EXP de compétence",
+      "de": "Zusätzliche Fähigkeits-EP 10 %",
+      "es": "10% de experiencia de habilidades adicional.",
+      "pt": "EXP de Habilidades adicional: +10%"
+    }
+  },
+  {
+    "key": 1002951,
+    "name": "Aptitude II",
+    "category": "Special Effects",
+    "knowledge": 1003883,
+    "effect": {
+      "en": "+ 20% Skill EXP Gain",
+      "ko": "추가 기술 경험치 20%",
+      "ja": "スキル経験値ボーナス20%",
+      "ru": "Дополнительный опыт навыков 20%",
+      "fr": "+20 % d'EXP de compétence",
+      "de": "Zusätzliche Fähigkeits-EP 20 %",
+      "es": "20% de experiencia de habilidades adicional.",
+      "pt": "EXP de Habilidades adicional: +20%"
+    }
+  },
+  {
+    "key": 1002952,
+    "name": "Aptitude III",
+    "category": "Special Effects",
+    "knowledge": 1003883,
+    "effect": {
+      "en": "+ 30% Skill EXP Gain",
+      "ko": "추가 기술 경험치 30%",
+      "ja": "スキル経験値ボーナス30%",
+      "ru": "Дополнительный опыт навыков 30%",
+      "fr": "+30 % d'EXP de compétence",
+      "de": "Zusätzliche Fähigkeits-EP 30 %",
+      "es": "30% de experiencia de habilidades adicional.",
+      "pt": "EXP de Habilidades adicional: +30%"
+    }
+  },
+  {
+    "key": 1002953,
+    "name": "Energy Drain I",
+    "category": "Special Effects",
+    "knowledge": 1003884,
+    "effect": {
+      "en": "Bonus 1 Stamina restored upon defeating a faraway enemy",
+      "ko": "멀리 떨어진 적 처치 시 용기 1 추가 회복",
+      "ja": "遠距離の敵を撃破時、精神力1追加回復",
+      "ru": "При уничтожение врага на дальней дистанции дополнительно восстанавливает 1 духа",
+      "fr": "Récupère 1 Esprit supplémentaire en éliminant un ennemi à distance",
+      "de": "Regeneration von Geist 1, bei Elimierung von weit entfernten Gegnern",
+      "es": "Al derrotar a un enemigo lejano, recuperas 1 de espíritu adicional",
+      "pt": "Recupera 1 de Espírito adicional ao derrotar inimigos distantes"
+    }
+  },
+  {
+    "key": 1002954,
+    "name": "Energy Drain II",
+    "category": "Special Effects",
+    "knowledge": 1003884,
+    "effect": {
+      "en": "Bonus 2 Stamina restored upon defeating a faraway enemy",
+      "ko": "멀리 떨어진 적 처치 시 용기 2 추가 회복",
+      "ja": "遠距離の敵を撃破時、精神力2追加回復",
+      "ru": "При уничтожение врага на дальней дистанции дополнительно восстанавливает 2 духа",
+      "fr": "Récupère 2 Esprit supplémentaire en éliminant un ennemi à distance",
+      "de": "Regeneration von Geist 2, bei Elimierung von weit entfernten Gegnern",
+      "es": "Al derrotar a un enemigo lejano, recuperas 2 de espíritu adicional",
+      "pt": "Recupera 2 de Espírito adicional ao derrotar inimigos distantes"
+    }
+  },
+  {
+    "key": 1002955,
+    "name": "Energy Drain III",
+    "category": "Special Effects",
+    "knowledge": 1003884,
+    "effect": {
+      "en": "Bonus 3 Stamina restored upon defeating a faraway enemy",
+      "ko": "멀리 떨어진 적 처치 시 용기 3 추가 회복",
+      "ja": "遠距離の敵を撃破時、精神力3追加回復",
+      "ru": "При уничтожение врага на дальней дистанции дополнительно восстанавливает 3 духа",
+      "fr": "Récupère 3 Esprit supplémentaire en éliminant un ennemi à distance",
+      "de": "Regeneration von Geist 3, bei Elimierung von weit entfernten Gegnern",
+      "es": "Al derrotar a un enemigo lejano, recuperas 3 de espíritu adicional",
+      "pt": "Recupera 3 de Espírito adicional ao derrotar inimigos distantes"
+    }
+  },
+  {
+    "key": 1002969,
+    "name": "Greater Insight",
+    "category": "Crit Rate",
+    "knowledge": 1003842,
+    "status": "CriticalRate",
+    "amount": 19.4,
+    "percent": true
+  },
+  {
+    "key": 1002970,
+    "name": "Greater Swift",
+    "category": "Attack Speed",
+    "knowledge": 1003846,
+    "status": "AttackSpeedRate",
+    "amount": 19.4,
+    "percent": true
+  },
+  {
+    "key": 1002972,
+    "name": "Greater Flameward",
+    "category": "Fire Resist",
+    "knowledge": 1000512,
+    "level": 5
+  },
+  {
+    "key": 1002973,
+    "name": "Greater Frostward",
+    "category": "Ice Resist",
+    "knowledge": 1001152,
+    "level": 5
+  },
+  {
+    "key": 1002974,
+    "name": "Greater Shockward",
+    "category": "Lightning Resist",
+    "knowledge": 1001153,
+    "level": 5
+  },
+  {
+    "key": 1002975,
+    "name": "Greater Steelbane",
+    "category": "Special Effects",
+    "knowledge": 1003866,
+    "effect": {
+      "en": "+40% damage to machines",
+      "ko": "기계형 추가 피해 40%",
+      "ja": "機械型追加ダメージ40%",
+      "ru": "40% дополнительного урона механизмам",
+      "fr": "40 % de dégâts supplémentaires aux machines",
+      "de": "40 % zusätzlicher Schaden gegen Maschinen",
+      "es": "40 % de daño adicional a máquinas",
+      "pt": "+40% de dano contra máquinas"
+    }
+  },
+  {
+    "key": 1002976,
+    "name": "Greater Hexebane",
+    "category": "Special Effects",
+    "knowledge": 1003867,
+    "effect": {
+      "en": "+40% damage to earthen beings",
+      "ko": "헥세형 추가 피해 40%",
+      "ja": "ヘッサ型追加ダメージ40%",
+      "ru": "Дополнительный урон по типу Хекса 40%",
+      "fr": "+40 % de dégâts contre le type Hexe",
+      "de": "40 % zusätzlicher Schaden gegen Hexen",
+      "es": "40 % de daño adicional contra tipo Hexe.",
+      "pt": "+40% de dano contra tipo Hexe"
+    }
+  },
+  {
+    "key": 1002977,
+    "name": "Greater Bloodbane",
+    "category": "Special Effects",
+    "knowledge": 1003868,
+    "effect": {
+      "en": "+40% damage to humanoids",
+      "ko": "인간형 추가 피해 40%",
+      "ja": "人型追加ダメージ40%",
+      "ru": "40% дополнительного урона по противникам-людям",
+      "fr": "40 % de dégâts supplémentaires aux ennemis humains",
+      "de": "40 % zusätzlicher Schaden gegen menschliche Gegner",
+      "es": "40 % de daño adicional a enemigos humanos.",
+      "pt": "+40% de dano contra inimigos humanos"
+    }
+  },
+  {
+    "key": 1002978,
+    "name": "Greater Primalbane",
+    "category": "Special Effects",
+    "knowledge": 1003869,
+    "effect": {
+      "en": "+40% damage to Walkers",
+      "ko": "워커형 추가 피해 40%",
+      "ja": "ウォーカー型に追加ダメージ40%",
+      "ru": "Доп. урон против Скитальцев 40 %",
+      "fr": "Dégâts bonus contre les Marcheurs 40 %",
+      "de": "Bonus-Schaden gegen Läufer 40 %",
+      "es": "40 % de daño adicional a caminantes.",
+      "pt": "+40% de Dano contra Caminhantes"
+    }
+  },
+  {
+    "key": 1002979,
+    "name": "Greater Malicebane",
+    "category": "Special Effects",
+    "knowledge": 1003870,
+    "effect": {
+      "en": "+40% damage to mighty foes",
+      "ko": "강적 추가 피해 40%",
+      "ja": "強者追加ダメージ40%",
+      "ru": "40% дополнительного урона элитным противникам",
+      "fr": "40 % de dégâts supplémentaires aux ennemis puissants",
+      "de": "40 % zusätzlicher Schaden gegen mächtige Gegner",
+      "es": "40 % de daño adicional a enemigos de élite.",
+      "pt": "+40% de dano contra inimigos fortes"
+    }
+  },
+  {
+    "key": 1002980,
+    "name": "Greater Beastbane",
+    "category": "Special Effects",
+    "knowledge": 1003871,
+    "effect": {
+      "en": "+40% damage to beasts",
+      "ko": "야수형 추가 피해 40%",
+      "ja": "野獣型追加ダメージ40%",
+      "ru": "40% дополнительного урона зверям",
+      "fr": "40 % de dégâts supplémentaires aux bêtes",
+      "de": "40 % zusätzlicher Schaden gegen Bestien",
+      "es": "40 % de daño adicional a bestias.",
+      "pt": "+40% de dano contra feras"
+    }
+  },
+  {
+    "key": 1002981,
+    "name": "Greater Abyssbane",
+    "category": "Special Effects",
+    "knowledge": 1003872,
+    "effect": {
+      "en": "+40% damage to Abyssal creatures",
+      "ko": "심연종 추가 피해 40%",
+      "ja": "深淵種追加ダメージ40%",
+      "ru": "40% дополнительного урона существам Бездны",
+      "fr": "40 % de dégâts supplémentaires aux créatures de l'Abysse",
+      "de": "40 % zusätzlicher Schaden gegen Abyss-Kreaturen",
+      "es": "40 % de daño adicional a criaturas del Abismo.",
+      "pt": "+40% de dano contra criaturas do Abismo."
+    }
+  },
+  {
+    "key": 1002982,
+    "name": "Greater Infinite Arrows",
+    "category": "Special Effects",
+    "knowledge": 1003875,
+    "effect": {
+      "en": "100% chance to not consume arrows",
+      "ko": "100% 확률로 화살 미소모",
+      "ja": "100%の確率で矢を未消費",
+      "ru": "100% шанса не расходовать стрелу",
+      "fr": "100 % de ne pas consommer de flèches",
+      "de": "100 % Chance, keinen Pfeil zu verbrauchen",
+      "es": "100 % de probabilidad de no consumir flechas.",
+      "pt": "100% de chance de não consumir Flecha"
+    }
+  },
+  {
+    "key": 1003229,
+    "name": "Disarm I",
+    "category": "Special Effects",
+    "knowledge": 1000554,
+    "effect": {
+      "en": "1% chance to disarm enemies on hit",
+      "ko": "공격 시 적이 장비를 놓칠 확률 1% 추가",
+      "ja": "攻撃時に敵装備が落ちる確率1%",
+      "ru": "+1% к шансу того, что враг выронит снаряжение при атаке",
+      "fr": "+1 % de chances que l'ennemi lâche son équipement lors d'une attaque.",
+      "de": "+1 % Chance, dass Gegner bei einem Angriff Ausrüstung fallen lassen.",
+      "es": "1% de probabilidad de que el enemigo suelte equipo al atacar",
+      "pt": "Aumenta a chance de desarmar o inimigo ao atingi-lo em 1%"
+    }
+  },
+  {
+    "key": 1003230,
+    "name": "Disarm II",
+    "category": "Special Effects",
+    "knowledge": 1000554,
+    "effect": {
+      "en": "2% chance to disarm enemies on hit",
+      "ko": "공격 시 적이 장비를 놓칠 확률 2% 추가",
+      "ja": "攻撃時に敵装備が落ちる確率2%",
+      "ru": "+2% к шансу того, что враг выронит снаряжение при атаке",
+      "fr": "+2 % de chances que l'ennemi lâche son équipement lors d'une attaque.",
+      "de": "+2 % Chance, dass Gegner bei einem Angriff Ausrüstung fallen lassen.",
+      "es": "2% de probabilidad de que el enemigo suelte equipo al atacar",
+      "pt": "Aumenta a chance de desarmar o inimigo ao atingi-lo em 2%"
+    }
+  },
+  {
+    "key": 1003231,
+    "name": "Disarm III",
+    "category": "Special Effects",
+    "knowledge": 1000554,
+    "effect": {
+      "en": "3% chance to disarm enemies on hit",
+      "ko": "공격 시 적이 장비를 놓칠 확률 3% 추가",
+      "ja": "攻撃時に敵装備が落ちる確率3%",
+      "ru": "+3% к шансу того, что враг выронит снаряжение при атаке",
+      "fr": "+3 % de chances que l'ennemi lâche son équipement lors d'une attaque.",
+      "de": "+3 % Chance, dass Gegner bei einem Angriff Ausrüstung fallen lassen.",
+      "es": "3% de probabilidad de que el enemigo suelte equipo al atacar",
+      "pt": "Aumenta a chance de desarmar o inimigo ao atingi-lo em 3%"
+    }
+  },
+  {
+    "key": 1003281,
+    "name": "Life Transference",
+    "category": "Special Effects",
+    "knowledge": 1003238,
+    "effect": {
+      "en": "Health Siphon Lv 1",
+      "ko": "타격 시 생명 회복 Lv1",
+      "ja": "攻撃時に生命力回復Lv.1",
+      "ru": "Восстановление здоровья при атаке, ур. 1",
+      "fr": "Restaure la vie en attaquant Niv. 1",
+      "de": "Stellt Gesundheit bei Treffern wieder her Lv. 1",
+      "es": "Restauración de salud al atacar Nv. 1",
+      "pt": "Restaure Vida ao atacar Nv. 1"
+    }
+  },
+  {
+    "key": 1003290,
+    "name": "Spirit Transference",
+    "category": "Special Effects",
+    "knowledge": 1003239,
+    "effect": {
+      "en": "Spirit Siphon Lv 1",
+      "ko": "타격 시 용기 회복 Lv1",
+      "ja": "攻撃時に精神力回復Lv.1",
+      "ru": "Восстановление духа при атаке, ур. 1",
+      "fr": "Restaure l'esprit en attaquant Niv. 1",
+      "de": "Stellt Geist bei Treffer wieder her Lv. 1",
+      "es": "Restauración de espíritu al atacar Nv. 1",
+      "pt": "Restaure Espírito ao atacar Nv. 1"
+    }
+  },
+  {
+    "key": 1003291,
+    "name": "Stamina Transference",
+    "category": "Special Effects",
+    "knowledge": 1003242,
+    "effect": {
+      "en": "Stamina Siphon Lv 1",
+      "ko": "타격 시 기력 회복 Lv1",
+      "ja": "攻撃時に気力回復Lv.1",
+      "ru": "Восстановление выносливости при атаке, ур. 1",
+      "fr": "Restaure l'endurance en attaquant Niv. 1",
+      "de": "Stellt Ausdauer bei Treffern wieder her Lv 1",
+      "es": "Restauración de vigor al atacar Nv. 1",
+      "pt": "Restaure Vigor ao atacar Nv. 1"
+    }
+  },
+  {
+    "key": 1003668,
+    "name": "Colossal Might",
+    "category": "Special Effects",
+    "knowledge": 1002996
+  },
+  {
+    "key": 1003685,
+    "name": "Order from Above",
+    "category": "Special Effects",
+    "knowledge": 1003023
+  },
+  {
+    "key": 1003686,
+    "name": "Dark Crescent",
+    "category": "Special Effects",
+    "knowledge": 1003036
+  },
+  {
+    "key": 1003691,
+    "name": "Queen's Fangs",
+    "category": "Special Effects",
+    "knowledge": 1003221
+  },
+  {
+    "key": 1003692,
+    "name": "Putrid Touch",
+    "category": "Special Effects",
+    "knowledge": 1003231
+  },
+  {
+    "key": 1003699,
+    "name": "Shadow Claw",
+    "category": "Special Effects",
+    "knowledge": 1003204
+  },
+  {
+    "key": 1003700,
+    "name": "Parting Gift",
+    "category": "Special Effects",
+    "knowledge": 1003232
+  },
+  {
+    "key": 1003702,
+    "name": "Ancient Retribution",
+    "category": "Special Effects",
+    "knowledge": 1003227
+  },
+  {
+    "key": 1003714,
+    "name": "Howling of Chaos",
+    "category": "Special Effects",
+    "knowledge": 1003233
+  },
+  {
+    "key": 1003715,
+    "name": "Judgment of the Soul",
+    "category": "Special Effects",
+    "knowledge": 1002995
+  },
+  {
+    "key": 1003718,
+    "name": "Ancient Wrath",
+    "category": "Special Effects",
+    "knowledge": 1003225
+  },
+  {
+    "key": 1003759,
+    "name": "Shatter I",
+    "category": "Special Effects",
+    "knowledge": 1003342,
+    "effect": {
+      "en": "+2.5% Critical Rate against plate armor",
+      "ko": "판금 갑옷 타격 시 치명타 확률 2.5% 증가",
+      "ja": "板金鎧への攻撃時、会心率2.5%増加",
+      "ru": "При ударе в латные доспехи шанс критического попадания увеличивается на 2,5%.",
+      "fr": "+2,5 % Ch. de critique contre : armures de plates",
+      "de": "Kritische Trefferchance bei Kampfkunst gegen Platten-Körperpanzerung um 2,5 % erhöht",
+      "es": "Al golpear con la coraza de placas, la probabilidad de golpe crítico aumenta un 2,5%.",
+      "pt": "Chance de Crítico +2,5% ao atingir inimigos com Armadura de Placas."
+    }
+  },
+  {
+    "key": 1003760,
+    "name": "Shatter II",
+    "category": "Special Effects",
+    "knowledge": 1003342,
+    "effect": {
+      "en": "+5% Critical Rate against plate armor",
+      "ko": "판금 갑옷 타격 시 치명타 확률 5% 증가",
+      "ja": "板金鎧への攻撃時、会心率5%増加",
+      "ru": "При ударе в латные доспехи шанс критического попадания увеличивается на 5%.",
+      "fr": "+5 % Ch. de critique contre : armures de plates",
+      "de": "Kritische Trefferchance bei Kampfkunst gegen Platten-Körperpanzerung um 5 % erhöht",
+      "es": "Al golpear con la coraza de placas, la probabilidad de golpe crítico aumenta un 5%.",
+      "pt": "Chance de Crítico +5% ao atingir inimigos com Armadura de Placas."
+    }
+  },
+  {
+    "key": 1003761,
+    "name": "Shatter III",
+    "category": "Special Effects",
+    "knowledge": 1003342,
+    "effect": {
+      "en": "+7.5% Critical Rate against plate armor",
+      "ko": "판금 갑옷 타격 시 치명타 확률 7.5% 증가",
+      "ja": "板金鎧への攻撃時、会心率7.5%増加",
+      "ru": "При ударе в латные доспехи шанс критического попадания увеличивается на 7,5%.",
+      "fr": "+7,5 % Ch. de critique contre : armures de plates",
+      "de": "Kritische Trefferchance bei Kampfkunst gegen Platten-Körperpanzerung um 7,5 % erhöht",
+      "es": "Al golpear con la coraza de placas, la probabilidad de golpe crítico aumenta un 7,5%.",
+      "pt": "Chance de Crítico +7,5% ao atingir inimigos com Armadura de Placas."
+    }
+  },
+  {
+    "key": 1003762,
+    "name": "Rend I",
+    "category": "Special Effects",
+    "knowledge": 1003347,
+    "effect": {
+      "en": "+2.5% Critical Rate against leather armor",
+      "ko": "가죽 갑옷 타격 시 치명타 확률 2.5% 증가",
+      "ja": "革鎧への攻撃時、会心率2.5%増加",
+      "ru": "Шанс критического попадания +2,5% при использовании боевых искусств в кожаных доспехах.",
+      "fr": "+2,5 % Ch. de critique contre : armures en cuir",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst mit Leder-Körperpanzerung um 2,5 %",
+      "es": "Aumenta un 2,5% el golpe crítico al usar artes marciales contra corazas de cuero.",
+      "pt": "Aumenta a Chance de Crítico em 2,5% ao atingir inimigos com Armadura de Couro."
+    }
+  },
+  {
+    "key": 1003763,
+    "name": "Rend II",
+    "category": "Special Effects",
+    "knowledge": 1003347,
+    "effect": {
+      "en": "+5% Critical Rate against leather armor",
+      "ko": "가죽 갑옷 타격 시 치명타 확률 5% 증가",
+      "ja": "革鎧への攻撃時、会心率5%増加",
+      "ru": "Шанс критического попадания +5% при использовании боевых искусств в кожаных доспехах.",
+      "fr": "+5 % Ch. de critique contre : armures en cuir",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst mit Leder-Körperpanzerung um 5 %",
+      "es": "Aumenta un 5% el golpe crítico al usar artes marciales contra corazas de cuero.",
+      "pt": "Aumenta a Chance de Crítico em 5% ao atingir inimigos com Armadura de Couro."
+    }
+  },
+  {
+    "key": 1003764,
+    "name": "Rend III",
+    "category": "Special Effects",
+    "knowledge": 1003347,
+    "effect": {
+      "en": "+7.5% Critical Rate against leather armor",
+      "ko": "가죽 갑옷 타격 시 치명타 확률 7.5% 증가",
+      "ja": "革鎧への攻撃時、会心率7.5%増加",
+      "ru": "Шанс критического попадания +7,5% при использовании боевых искусств в кожаных доспехах.",
+      "fr": "+7,5 % Ch. de critique contre : armures en cuir",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst mit Leder-Körperpanzerung um 7,5 %",
+      "es": "Aumenta un 7,5% el golpe crítico al usar artes marciales contra corazas de cuero.",
+      "pt": "Aumenta a Chance de Crítico em 7,5% ao atingir inimigos com Armadura de Couro."
+    }
+  },
+  {
+    "key": 1003765,
+    "name": "Shred I",
+    "category": "Special Effects",
+    "knowledge": 1003348,
+    "effect": {
+      "en": "+2.5% Critical Rate against cloth armor",
+      "ko": "천 갑옷 타격 시 치명타 확률 2.5% 증가",
+      "ja": "布鎧への攻撃時、会心率2.5%上昇",
+      "ru": "Шанс критического попадания при использовании боевых искусств в тканевых доспехах увеличивается на 2,5%.",
+      "fr": "+2,5 % Ch. de critique contre : armures en tissu",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst gegen Stoffrüstung um 2,5 %.",
+      "es": "Aumenta un 2,5% el golpe crítico al usar artes marciales contra corazas de tela.",
+      "pt": "Aumenta a Chance de Crítico em 2,5% ao atingir inimigos contra Armadura de Tecido."
+    }
+  },
+  {
+    "key": 1003766,
+    "name": "Shred II",
+    "category": "Special Effects",
+    "knowledge": 1003348,
+    "effect": {
+      "en": "+5% Critical Rate against cloth armor",
+      "ko": "천 갑옷 타격 시 치명타 확률 5% 증가",
+      "ja": "布鎧への攻撃時、会心率5%上昇",
+      "ru": "Шанс критического попадания при использовании боевых искусств в тканевых доспехах увеличивается на 5%.",
+      "fr": "+5 % Ch. de critique contre : armures en tissu",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst gegen Stoffrüstung um 5 %.",
+      "es": "Aumenta un 5% el golpe crítico al usar artes marciales contra corazas de tela.",
+      "pt": "Aumenta a Chance de Crítico em 5% ao atingir inimigos contra Armadura de Tecido."
+    }
+  },
+  {
+    "key": 1003767,
+    "name": "Shred III",
+    "category": "Special Effects",
+    "knowledge": 1003348,
+    "effect": {
+      "en": "+7.5% Critical Rate against cloth armor",
+      "ko": "천 갑옷 타격 시 치명타 확률 7.5% 증가",
+      "ja": "布鎧への攻撃時、会心率7.5%上昇",
+      "ru": "Шанс критического попадания при использовании боевых искусств в тканевых доспехах увеличивается на 7,5%.",
+      "fr": "+7,5 % Ch. de critique contre : armures en tissu",
+      "de": "Erhöht die kritische Trefferchance bei Kampfkunst gegen Stoffrüstung um 7,5 %.",
+      "es": "Aumenta un 7,5% el golpe crítico al usar artes marciales contra corazas de tela.",
+      "pt": "Aumenta a Chance de Crítico em 7,5% ao atingir inimigos contra Armadura de Tecido."
+    }
+  },
+  {
+    "key": 1004203,
+    "name": "Solar Transference",
+    "category": "Special Effects",
+    "knowledge": 1003238,
+    "effect": {
+      "en": "Health Siphon Lv 2",
+      "ko": "타격 시 생명 회복 Lv2",
+      "ja": "攻撃時に生命力回復Lv.2",
+      "ru": "Восстановление здоровья при атаке, ур. 2",
+      "fr": "Restaure la vie en attaquant Niv. 2",
+      "de": "Stellt Gesundheit bei Treffern wieder her Lv. 2",
+      "es": "Restauración de salud al atacar Nv. 2",
+      "pt": "Restaure Vida ao atacar Nv. 2"
+    }
+  },
+  {
+    "key": 1004205,
+    "name": "Celestial Transference",
+    "category": "Special Effects",
+    "knowledge": 1003242,
+    "effect": {
+      "en": "Stamina Siphon Lv 2",
+      "ko": "타격 시 기력 회복 Lv2",
+      "ja": "攻撃時に気力回復Lv.2",
+      "ru": "Восстановление выносливости при атаке, ур. 2",
+      "fr": "Restaure l'endurance en attaquant Niv. 2",
+      "de": "Stellt Ausdauer bei Treffern wieder her Lv 2",
+      "es": "Restauración de vigor al atacar Nv. 2",
+      "pt": "Restaure Vigor ao atacar Nv. 2"
+    }
+  },
+  {
+    "key": 1006108,
+    "name": "Eclipsed Thorn",
+    "category": "Special Effects",
+    "knowledge": 1006278
+  },
+  {
+    "key": 1006109,
+    "name": "Writhebolt",
+    "category": "Special Effects",
+    "knowledge": 1006279
+  },
+  {
+    "key": 1006110,
+    "name": "Revelation's End",
+    "category": "Special Effects",
+    "knowledge": 1006280
+  },
+  {
+    "key": 1006111,
+    "name": "Magnetic Burst",
+    "category": "Special Effects",
+    "knowledge": 1006281
+  },
+  {
+    "key": 1006112,
+    "name": "Judicator of Ruin",
+    "category": "Special Effects",
+    "knowledge": 1006282
+  },
+  {
+    "key": 1006113,
+    "name": "Ashen Blitz",
+    "category": "Special Effects",
+    "knowledge": 1006283
+  },
+  {
+    "key": 1006114,
+    "name": "Radiant Flash",
+    "category": "Special Effects",
+    "knowledge": 1006284
+  },
+  {
+    "key": 1006115,
+    "name": "Power Overload",
+    "category": "Special Effects",
+    "knowledge": 1006285
+  },
+  {
+    "key": 1006116,
+    "name": "Venomous Fangs",
+    "category": "Special Effects",
+    "knowledge": 1006286
+  },
+  {
+    "key": 1006117,
+    "name": "Trial by Fire",
+    "category": "Special Effects",
+    "knowledge": 1006287
+  },
+  {
+    "key": 1006118,
+    "name": "Focus Fire",
+    "category": "Special Effects",
+    "knowledge": 1006288
+  },
+  {
+    "key": 1006119,
+    "name": "Rushing Wind",
+    "category": "Special Effects",
+    "knowledge": 1006289
+  },
+  {
+    "key": 1006120,
+    "name": "Unfurled Feathers",
+    "category": "Special Effects",
+    "knowledge": 1006290
+  },
+  {
+    "key": 1006121,
+    "name": "Guardian's Gaze",
+    "category": "Special Effects",
+    "knowledge": 1006291
+  },
+  {
+    "key": 1006122,
+    "name": "Mirage Cascade",
+    "category": "Special Effects",
+    "knowledge": 1006292
+  },
+  {
+    "key": 1006123,
+    "name": "Ascended Incarnate",
+    "category": "Special Effects",
+    "knowledge": 1006293
+  },
+  {
+    "key": 1006124,
+    "name": "Earthen Wedge",
+    "category": "Special Effects",
+    "knowledge": 1006294
+  },
+  {
+    "key": 1006125,
+    "name": "Storm's Echo",
+    "category": "Special Effects",
+    "knowledge": 1006295
   }
 ]

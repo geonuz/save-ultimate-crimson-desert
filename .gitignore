@@ -2,7 +2,7 @@
 # folders, where they once lived, stay ignored so a stray copy is never committed. release.yml also refuses them.
 /docs/
 /artifacts/
-/tests/SaveUltimate.SaveTests/
+/tests/CDSE.SaveTests/
 # Local dotnet CLI home used by scripts/Build.ps1.
 /.tools/
 

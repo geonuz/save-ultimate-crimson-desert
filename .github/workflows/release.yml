@@ -75,16 +75,20 @@ jobs:
           }
           "draft=$([bool]$existing)" >> $env:GITHUB_OUTPUT
           'publish=true' >> $env:GITHUB_OUTPUT
-      - name: Build, test and publish both packages
+      - name: Build, test and publish the packages
         if: steps.release.outputs.publish == 'true'
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          ./scripts/Build.ps1 -Test -Publish -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION"
-          Compress-Archive -Path "releases/SaveUltimate-$env:RELEASE_VERSION/*" -DestinationPath "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip"
+          ./scripts/Build.ps1 -Test -Publish -OutputDirectory "releases/CDSE-$env:RELEASE_VERSION"
+          Compress-Archive -Path "releases/CDSE-$env:RELEASE_VERSION/*" -DestinationPath "releases/CDSE-$env:RELEASE_VERSION-windows-x64.zip"
           # Same commit without online updates, for Nexus Mods. Its own name keeps the in-app updater from picking it.
-          ./scripts/Build.ps1 -Publish -NoOnlineUpdate -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION-noupdate"
-          Compress-Archive -Path "releases/SaveUltimate-$env:RELEASE_VERSION-noupdate/*" -DestinationPath "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64-noupdate.zip"
+          ./scripts/Build.ps1 -Publish -NoOnlineUpdate -OutputDirectory "releases/CDSE-$env:RELEASE_VERSION-noupdate"
+          Compress-Archive -Path "releases/CDSE-$env:RELEASE_VERSION-noupdate/*" -DestinationPath "releases/CDSE-$env:RELEASE_VERSION-windows-x64-noupdate.zip"
+          # The updater of 1.9.0 and earlier (SaveUltimate) only takes SaveUltimate-<version>-windows-x64.zip holding
+          # SaveUltimate.exe. Same program under the old name; it moves to CDSE.exe on its next update. Keep publishing it.
+          ./scripts/Build.ps1 -Publish -ExecutableName SaveUltimate.exe -OutputDirectory "releases/SaveUltimate-$env:RELEASE_VERSION"
+          Compress-Archive -Path "releases/SaveUltimate-$env:RELEASE_VERSION/*" -DestinationPath "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip"
       - name: Upload and publish release
         if: steps.release.outputs.publish == 'true'
         env:
@@ -94,10 +98,10 @@ jobs:
           EXISTING_DRAFT: ${{ steps.release.outputs.draft }}
         run: |
           if ($env:EXISTING_DRAFT -ne 'True') {
-            gh release create $env:RELEASE_TAG --draft --target $env:GITHUB_SHA --title "SaveUltimate $env:RELEASE_TAG" --notes-file "$env:RUNNER_TEMP/release/notes.md"
+            gh release create $env:RELEASE_TAG --draft --target $env:GITHUB_SHA --title "CDSE $env:RELEASE_TAG" --notes-file "$env:RUNNER_TEMP/release/notes.md"
             if ($LASTEXITCODE) { throw 'Could not create release draft' }
           }
-          gh release upload $env:RELEASE_TAG "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip" "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64-noupdate.zip" "$env:RUNNER_TEMP/release/release-notes.json" --clobber
+          gh release upload $env:RELEASE_TAG "releases/CDSE-$env:RELEASE_VERSION-windows-x64.zip" "releases/CDSE-$env:RELEASE_VERSION-windows-x64-noupdate.zip" "releases/SaveUltimate-$env:RELEASE_VERSION-windows-x64.zip" "$env:RUNNER_TEMP/release/release-notes.json" --clobber
           if ($LASTEXITCODE) { throw 'Could not upload release packages' }
           gh release edit $env:RELEASE_TAG --draft=false --latest
           if ($LASTEXITCODE) { throw 'Could not publish release' }

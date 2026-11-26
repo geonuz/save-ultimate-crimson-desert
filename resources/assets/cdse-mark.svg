@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+    <title>CDSE — Crimson Desert Save Editor Emblem (flat)</title>
+    <defs>
+        <linearGradient id="m_brandGrad" x1="160" y1="840" x2="840" y2="180" gradientUnits="userSpaceOnUse">
+            
+            <stop offset="0%" stop-color="#A61143"/>
+            <stop offset="28%" stop-color="#CC1E4B"/>
+            <stop offset="56%" stop-color="#E63737"/>
+            <stop offset="82%" stop-color="#F65924"/>
+            <stop offset="100%" stop-color="#FF8C1C"/>
+        
+        </linearGradient>
+        <linearGradient id="m_cGrad" x1="160" y1="680" x2="460" y2="320" gradientUnits="userSpaceOnUse">
+            
+            <stop offset="0%" stop-color="#A81347"/>
+            <stop offset="50%" stop-color="#D42245"/>
+            <stop offset="100%" stop-color="#F04330"/>
+        
+        </linearGradient>
+        <linearGradient id="m_dGrad" x1="560" y1="740" x2="830" y2="280" gradientUnits="userSpaceOnUse">
+            
+            <stop offset="0%" stop-color="#D12144"/>
+            <stop offset="45%" stop-color="#EF462E"/>
+            <stop offset="100%" stop-color="#FF7F1F"/>
+        
+        </linearGradient>
+        <linearGradient id="m_beamGrad" x1="520" y1="505" x2="880" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF6250" stop-opacity="0.96"/>
+            <stop offset="52%" stop-color="#FF7824" stop-opacity="0.82"/>
+            <stop offset="100%" stop-color="#FF9A2E" stop-opacity="0.0"/>
+        </linearGradient>
+        
+        <radialGradient id="m_haloGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FF5A4E"/>
+            <stop offset="100%" stop-color="#CC1E44"/>
+        </radialGradient>
+        
+        
+        
+    <mask id="m_slashMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+        <rect x="0" y="0" width="1024" height="1024" fill="white"/>
+        <polygon points="520,498 852,118 892,152 544,504" fill="black"/>
+        <polygon points="534,512 894,254 912,286 550,522" fill="black"/>
+    </mask>
+    
+    </defs>
+    
+    <g id="m_emblem">
+        
+        
+    <g id="m_headFrame" fill="none" stroke="url(#m_brandGrad)" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10">
+        <path d="M 262 426 L 262 154 L 424 316" stroke-width="12"/>
+        <path d="M 262 154 L 352 332" stroke-width="10"/>
+        <path d="M 420 316 L 592 316" stroke-width="12"/>
+        <path d="M 366 716 L 512 868 L 664 708" stroke-width="12"/>
+        <path d="M 438 588 L 438 792" stroke-width="11"/>
+        <path d="M 586 588 L 586 792" stroke-width="11"/>
+        <path d="M 512 548 L 512 708" stroke-width="10.5"/>
+        <path d="M 512 794 L 512 864" stroke-width="10.5"/>
+    </g>
+    
+        
+    <g id="m_rightEar" mask="url(#m_slashMask)">
+        <polygon points="588,316 752,154 752,256 664,334" fill="none"/>
+        <polygon points="756,356 856,184 856,306 762,366" fill="none"/>
+        <g fill="none" stroke="url(#m_brandGrad)" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10">
+            <path d="M 588 316 L 752 154 L 752 260" stroke-width="12"/>
+            <path d="M 752 154 L 662 336" stroke-width="10"/>
+            <path d="M 754 360 L 856 184 L 856 306 L 762 366" stroke-width="11"/>
+            <path d="M 856 184 L 784 348" stroke-width="9"/>
+        </g>
+    </g>
+    
+        
+    <g id="m_leftC">
+        <path d="M 436 452 L 482 406 L 414 338 Q 372 296 330 338 L 150 518 L 330 698 Q 372 740 414 698 L 482 630 L 436 584 L 382 638 Q 372 648 362 638 L 242 518 L 362 398 Q 372 388 382 398 Z" fill="url(#m_cGrad)"/>
+        
+    </g>
+    
+        
+    <g id="m_rightD" mask="url(#m_slashMask)">
+        <path d="M 586 310 L 616 310 C 738 310 818 398 818 516 C 818 634 738 722 616 722 L 586 722 L 586 586 L 648 534 L 648 656 C 712 652 754 598 754 516 C 754 434 712 378 648 376 L 586 376 Z" fill="url(#m_dGrad)"/>
+        
+    </g>
+    
+        
+    <g id="m_eyes">
+        <path d="M 302 454 L 424 544" stroke="url(#m_cGrad)" stroke-width="9" stroke-linecap="round"/>
+        <path d="M 354 492 C 354 532 372 548 408 558 C 424 562 434 574 438 594 L 438 548 C 424 532 390 510 354 492 Z" fill="url(#m_cGrad)"/>
+
+        <path d="M 722 454 L 600 544" stroke="url(#m_dGrad)" stroke-width="9" stroke-linecap="round"/>
+        <path d="M 670 492 C 670 532 652 548 616 558 C 600 562 590 574 586 594 L 586 548 C 600 532 634 510 670 492 Z" fill="url(#m_dGrad)"/>
+    </g>
+    
+        
+    <g id="m_slashBeams">
+        <polygon points="528,495 868,120 870,122 532,499" fill="url(#m_beamGrad)"/>
+        <polygon points="536,512 894,292 895,295 539,515" fill="url(#m_beamGrad)"/>
+    </g>
+    
+        <polygon id="m_nose" points="512,702 558,750 512,798 466,750" fill="url(#m_brandGrad)"/>
+        
+        <g id="m_saveCore">
+            <circle cx="512" cy="515" r="40" fill="url(#m_haloGrad)"/>
+            <circle cx="512" cy="515" r="19" fill="#FFFFFF"/>
+        </g>
+        
+    </g>
+    
+</svg>

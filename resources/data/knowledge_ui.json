@@ -7903,6 +7903,8 @@
         1006765,
         1006808,
         1006964,
+        1007029,
+        1007030,
         2147483254,
         2147483256,
         2147483257,
@@ -9720,6 +9722,8 @@
         1003916,
         1006514,
         1006808,
+        1007029,
+        1007030,
         2147483254,
         2147483256,
         2147483257,
@@ -9882,13 +9886,17 @@
         1003911,
         1003910,
         1003912,
-        1003913
+        1003913,
+        1007029,
+        1007030
       ],
       "members": [
         1003910,
         1003911,
         1003912,
         1003913,
+        1007029,
+        1007030,
         2147483259,
         2147483276
       ]
@@ -17109,7 +17117,6 @@
         1005913,
         1005914,
         1005915,
-        1005916,
         1005924,
         1005927,
         1005931,
@@ -20122,7 +20129,6 @@
         1005913,
         1005914,
         1005915,
-        1005916,
         1005924,
         1005927,
         1005931,
@@ -20197,8 +20203,7 @@
         1005912,
         1005913,
         1005914,
-        1005915,
-        1005916
+        1005915
       ],
       "members": [
         1005893,
@@ -20221,8 +20226,7 @@
         1005912,
         1005913,
         1005914,
-        1005915,
-        1005916
+        1005915
       ]
     },
     {
@@ -34820,6 +34824,16 @@
       107,
       1078
     ],
+    "1007029": [
+      4,
+      107,
+      1078
+    ],
+    "1007030": [
+      4,
+      107,
+      1078
+    ],
     "1003914": [
       4,
       107,
@@ -43726,11 +43740,6 @@
       1570
     ],
     "1005915": [
-      14,
-      157,
-      1570
-    ],
-    "1005916": [
       14,
       157,
       1570
@@ -52871,7 +52880,6 @@
     "1005913": 1,
     "1005914": 1,
     "1005915": 1,
-    "1005916": 1,
     "1003555": 1,
     "1003534": 1,
     "1003535": 1,
@@ -56361,6 +56369,8 @@
     "1006510": 1,
     "1006808": 1,
     "1006514": 1,
+    "1007029": 1,
+    "1007030": 1,
     "1006325": 2,
     "1006326": 2,
     "1005747": 2,
@@ -60767,8 +60777,8 @@
     "1004282": 1005787,
     "1004283": 1005788,
     "1004284": 1005789,
-    "1004305": 1003910,
-    "1004306": 1003910,
+    "1004305": 1007030,
+    "1004306": 1007029,
     "1004307": 1005546,
     "1004308": 1005546,
     "1004353": 1005550,
@@ -61201,31 +61211,23 @@
     "4266224286": 1000780,
     "4271035423": 1000800
   },
-  "clientKnowledgeCount": 7633,
+  "clientKnowledgeCount": 7634,
   "sourceSha256": {
-    "eng_knowledge.dlc_01.paloc": "f36e8b58c97d960eec924c9a943772e6f38361656ccf9507a5757757bf823ef3",
-    "eng_knowledge.paloc": "f10e66cbc07f96c3a26c451af8e58daaf4fec1fbcd9ddd9f447d356dc6fd25b5",
-    "fre_knowledge.dlc_01.paloc": "da6cc22c845c7b3b4dbba266e7c2ed23d5903a424ebbb24a9a0b83f209a100f7",
-    "fre_knowledge.paloc": "e8b1002835d24578f46de38f31ea35a281b74e32b9ab598393b176cf1cd558ad",
-    "ger_knowledge.dlc_01.paloc": "61a4043841a0e894220a7d2a53a53c7fe8ba48472a5d42c320a111e51b7a238f",
-    "ger_knowledge.paloc": "c8a2125899cf59921e8ad95f6f38b8612aee79f1710ace27de7100c49ad4cb06",
-    "jpn_knowledge.dlc_01.paloc": "ac6b46fb680b9f8aa782824a2ba90106fea8ad875c8ee34630ec4d9920ea2413",
-    "jpn_knowledge.paloc": "8b43149d2afacc24da6c31a0c70bf0a30b6e0fbe0852faf1c0ab2c2fdd794439",
-    "knowledgegroupinfo.dlc_01.staticinfobody": "2fc25d5c2a8c7f57a8ce265d2b33423702684a9ae4d7f8150da4331cf5ee075a",
-    "knowledgegroupinfo.dlc_01.staticinfoheader": "e6a017bc0d1596d749b92f9b1ac88f1a79eb54930bd941c89787808fd00c40d1",
-    "knowledgegroupinfo.staticinfobody": "906e9de46590d95307f8d6035674e28e50c4da6cd84f64e873bd0d318858c222",
-    "knowledgegroupinfo.staticinfoheader": "d6bb1b9d981ee21b3d8b7b6ca4b8d4f353c07987caf7c68458865050a6c83a38",
-    "knowledgeinfo.dlc_01.staticinfobody": "274cdca7a96c8402d63ceb7bc3b4b8985ec466dafcdf32061d8e21e945ad7fa4",
-    "knowledgeinfo.dlc_01.staticinfoheader": "a10bae6ac61f99328e67ceb72a2e6c1bcc625de51792b349989e831cf10e5080",
-    "knowledgeinfo.staticinfobody": "2244bae76e221d483fb2e4db24c9ffee7db4bc84f8d26fcc43bd5c34a4cffe8c",
-    "knowledgeinfo.staticinfoheader": "bfe9507920d49d465c636ca92123f9cf5acad16dc398c0a2a2be6352b24c490e",
-    "kor_knowledge.dlc_01.paloc": "9f66bf6b97c28a018479848cf473e5d05e6990155aa5bc36909d48b346901ed8",
-    "kor_knowledge.paloc": "3212530e0170d761738d10c802db5076284a20e5bcba2d61f7c8f21f841b5c7c",
-    "por-br_knowledge.dlc_01.paloc": "9bfea329cbd0b619efac92067cfc04924df31a23a5793e9b1a515016b290ab7a",
-    "por-br_knowledge.paloc": "967379c7a6d875cee9255df40ada70ff76b94f5739c6a954e2461223cd6f985c",
-    "rus_knowledge.dlc_01.paloc": "8099daa6e160ed193dd8009beb89d4c63e5fc639109ce4b99939245858875edb",
-    "rus_knowledge.paloc": "c8f4f179bc2aa2f4542e88be6d6948c2d30ebd5cbb5c698999d9884e76bc02fc",
-    "spa-es_knowledge.dlc_01.paloc": "359daa4b49487c4b60f670a83041c6237325ffd46c459984df4220a88a235767",
-    "spa-es_knowledge.paloc": "5b7a80ce9552df9a90c796b40dfce627d4842b73a33d0cd1d4cf4f0eca1d1aea"
+    "eng_knowledge.paloc": "6660669d0ed1a8d111f9a012c91c765058cf91274000199cfab44c5a9b98999f",
+    "fre_knowledge.paloc": "e7ed44906f6899d47ca866c7fd32133bfe6336e1bf2d83ef6e3d30cda6bcefab",
+    "ger_knowledge.paloc": "5bec6a3cc701ccf43d4ba4b9533323799fb5ee1c56a40b135621eab4a38ab26b",
+    "jpn_knowledge.paloc": "fb8349e6b32c82e350eca0ba4528edc23a39ded0ce3d6e1d3e88b8c7ee2fa48b",
+    "knowledgegroupinfo.dlc_01.staticinfobody": "7cb78697d49ab95225183865a6e6933d66667c66520a93c3b4275f05da681380",
+    "knowledgegroupinfo.dlc_01.staticinfoheader": "c460346fc6cf0bbb22a9b73fcaf557f48cfced7d2b683ee7d1cf0d3ea6784637",
+    "knowledgegroupinfo.staticinfobody": "b1595e637a335b3003113e73d8e73e6ba8fcea336b9008dbf18a50a0ff7b0323",
+    "knowledgegroupinfo.staticinfoheader": "9333d4069f16d807ea6c3db92b180d153fa849c1e16b529feec20baf8fdb48c2",
+    "knowledgeinfo.dlc_01.staticinfobody": "6c22b51a44ca0883b21625ef63c60dde67125241e8b563b45942a4172811684c",
+    "knowledgeinfo.dlc_01.staticinfoheader": "0a05697cca39504accaf844615b93a45141ea5de26465abce451bd7f08d3b847",
+    "knowledgeinfo.staticinfobody": "f4d9ff66cd7a55a82b66716f04e7bfc115a066d4c75cb134e98b103140cd08c6",
+    "knowledgeinfo.staticinfoheader": "d9dc13e743b2ef1810f07db94aa90170ab666a281b434522406aa00ca22ca76b",
+    "kor_knowledge.paloc": "678ad989b659385bfef459ef8a705b3dfec832cff6275a3341701ce8125f6720",
+    "por-br_knowledge.paloc": "87bb9e4aca356b4dc83aa4ee0157f2479d19f6fdc8b18ae030b67f12eca05e04",
+    "rus_knowledge.paloc": "f387b65ac4b517c2228b0d12414166061180fc2b439256dbe6ad4f144f9c8823",
+    "spa-es_knowledge.paloc": "580015837de017393a15b2e3dd5912f1554e1c41365fa9f1b99d36ade1d8af8e"
   }
 }

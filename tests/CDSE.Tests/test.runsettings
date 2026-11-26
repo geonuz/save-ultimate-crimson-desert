@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TestRun closes the dialogs a failing UI test opens, but not Windows file dialogs, which wait forever for a click; the whole run normally takes about two minutes. -->
+<RunSettings>
+  <RunConfiguration>
+    <TestSessionTimeout>300000</TestSessionTimeout>
+  </RunConfiguration>
+</RunSettings>

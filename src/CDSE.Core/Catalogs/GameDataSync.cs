@@ -1,0 +1,187 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
+using CDSE.Core.Archives;
+
+namespace CDSE.Core.Catalogs;
+
+public sealed record SyncProgress(string Stage, int Completed = 0, int Total = 0);
+internal sealed record CacheFile(string Sha256, long Length, long Modified)
+{
+    public static CacheFile For(string path, string hash) { var info = new FileInfo(path); return new(hash, info.Length, info.LastWriteTimeUtc.Ticks); }
+}
+internal sealed class SyncManifest
+{
+    // 4: lossy WebP pictures, knowledge pictures as .webp. An older cache is rebuilt once.
+    public int Format { get; set; } = 4;
+    public string Fingerprint { get; set; } = "";
+    public string MetadataFingerprint { get; set; } = "";
+    public Dictionary<string, CacheFile> Files { get; set; } = [];
+    public ImageManifest Images { get; set; } = new();
+    public int Items { get; set; }
+}
+public sealed record SyncResult(int Items, int Added, int Changed, int Images, int Unresolved, int Decoded, int Written, bool Reused, double Seconds);
+
+public static class GameDataSync
+{
+    private static readonly string[] Metadata = ["data/item_names.json", "data/item_details.json", "data/max_enchant_map.json",
+        .. ClientMetadata.Translated.Select(c => $"locale/names_{c}.json")];
+    private static readonly JsonSerializerOptions Json = new() { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower };
+    // Only the editor reads these files; escaping every non-Latin letter as \uXXXX made the Russian pack 2.5 times larger.
+    private static readonly JsonSerializerOptions Readable = new() { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+    internal static string Hash(byte[] data) => Convert.ToHexStringLower(SHA256.HashData(data));
+    private static string FileHash(string path) { using var stream = File.OpenRead(path); return Convert.ToHexStringLower(SHA256.HashData(stream)); }
+    private static SortedDictionary<string, string> Identity(string game, string resources)
+    {
+        var result = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        foreach (string? dlc in new GameFiles(game).Dlcs.Prepend(null))
+            foreach (string group in new[] { "0008", "0012" }.Concat(ClientMetadata.Languages.Values.Select(l => l.Group).Order(StringComparer.Ordinal)))
+            {
+                string root = GameFiles.GroupDirectory(game, dlc, group), prefix = dlc is null ? group : $"dlc/{dlc}/{group}";
+                if (dlc is not null && !File.Exists(Path.Combine(root, "0.pamt"))) continue;
+                result[prefix + "/0.pamt"] = FileHash(Path.Combine(root, "0.pamt"));
+                foreach (var file in new DirectoryInfo(root).EnumerateFiles("*.paz")) result[prefix + "/" + file.Name] = $"{file.Length}:{file.LastWriteTimeUtc.Ticks}";
+            }
+        foreach (string path in Metadata.Where(p => p != "data/max_enchant_map.json")) result["resource/" + path] = FileHash(Path.Combine(resources, path));
+        // Any release can change what the builders produce; unchanged images are still reused after a version change.
+        result["schema"] = "csharp-sync-7:" + typeof(GameDataSync).Assembly.GetName().Version;
+        return result;
+    }
+    private static SyncManifest ReadManifest(string path)
+    {
+        try
+        {
+            var saved = JsonSerializer.Deserialize<SyncManifest>(File.ReadAllBytes(path), Json);
+            if (saved is null || saved.Format != new SyncManifest().Format || saved.Files is null || saved.Images?.Records is null || saved.Images.Sources is null || saved.Images.Unresolved is null ||
+                saved.Images.Records.Values.Any(v => v is null) ||
+                !Metadata.All(saved.Files.ContainsKey) || !saved.Files.Keys.Except(Metadata).Order().SequenceEqual(saved.Images.Records.Keys.Select(n => "images/" + n).Order()) ||
+                saved.Files.Any(p => !Metadata.Contains(p.Key) && !Regex.IsMatch(p.Key, @"^images/((items|characters|knowledge)/\d+\.webp|skills/\d+\.png)$") ||
+                    p.Value is null || !Regex.IsMatch(p.Value.Sha256 ?? "", "^[0-9a-f]{64}$"))) return new();
+            return saved;
+        }
+        catch (Exception e) when (e is IOException or JsonException or UnauthorizedAccessException) { return new(); }
+    }
+    private static void NoLinks(string path)
+    {
+        for (var info = new DirectoryInfo(path); info is not null; info = info.Parent)
+            if (info.Exists && info.Attributes.HasFlag(FileAttributes.ReparsePoint)) throw new IOException("Cache folders must not be links.");
+    }
+    // The game or this release changed if the inputs no longer match the last sync.
+    public static bool IsCurrent(string game, string resources, string destination) =>
+        ReadManifest(Path.Combine(destination, "manifest.json")).Fingerprint == Hash(JsonSerializer.SerializeToUtf8Bytes(Identity(Path.GetFullPath(game), Path.GetFullPath(resources))));
+    public static SyncResult Run(string game, string resources, string destination, IProgress<SyncProgress>? progress = null, CancellationToken cancel = default)
+    {
+        cancel.ThrowIfCancellationRequested();
+        game = Path.GetFullPath(game); resources = Path.GetFullPath(resources); destination = Path.GetFullPath(destination);
+        if (destination.Equals(game, StringComparison.OrdinalIgnoreCase) || destination.StartsWith(game + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) ||
+            destination.Equals(resources, StringComparison.OrdinalIgnoreCase) || destination.StartsWith(resources + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            throw new ArgumentException("The cache must be separate from game files and bundled resources.");
+        NoLinks(destination);
+        string parent = Path.GetDirectoryName(destination)!; Directory.CreateDirectory(parent);
+        using var syncLock = new FileStream(destination + ".lock", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        var watch = Stopwatch.StartNew(); progress?.Report(new("sync.metadata"));
+        var inputs = Identity(game, resources);
+        string fingerprint = Hash(JsonSerializer.SerializeToUtf8Bytes(inputs));
+        string metadataFingerprint = Hash(JsonSerializer.SerializeToUtf8Bytes(inputs.Where(p => !p.Key.StartsWith("0012/"))));
+        var saved = ReadManifest(Path.Combine(destination, "manifest.json")); var valid = new HashSet<string>();
+        var checkedDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (name, record) in saved.Files)
+        {
+            cancel.ThrowIfCancellationRequested();
+            string path = Path.Combine(destination, name), directory = Path.GetDirectoryName(path)!;
+            if (checkedDirectories.Add(directory)) NoLinks(directory);
+            var file = new FileInfo(path);
+            if (!file.Exists || file.Attributes.HasFlag(FileAttributes.ReparsePoint)) continue;
+            // As in Python, unchanged image size/time avoids rereading thousands of images.
+            if ((Metadata.Contains(name) || file.Length != record.Length || file.LastWriteTimeUtc.Ticks != record.Modified) && FileHash(path) != record.Sha256) continue;
+            valid.Add(name);
+        }
+        if (saved.Fingerprint == fingerprint && valid.Count == saved.Files.Count && Metadata.All(valid.Contains))
+            return new(saved.Items, 0, 0, saved.Images.Records.Count, saved.Images.Unresolved.Count, 0, 0, true, watch.Elapsed.TotalSeconds);
+        var gameFiles = new GameFiles(game, cancel);
+        int items = saved.Items, added = 0, changed = 0;
+        Dictionary<string, JsonNode> outputs = saved.MetadataFingerprint == metadataFingerprint && Metadata.All(valid.Contains) ? [] :
+            ClientMetadata.Build(gameFiles, resources, destination, valid, out items, out added, out changed);
+        string stage = Path.Combine(parent, ".game-sync-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(stage);
+        try
+        {
+            var files = saved.Files.Where(p => Metadata.Contains(p.Key) && valid.Contains(p.Key)).ToDictionary();
+            foreach (var (name, data) in outputs)
+            {
+                string path = Path.Combine(stage, name); Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                using (var stream = File.Create(path)) JsonSerializer.Serialize(stream, data, Readable);
+                files[name] = CacheFile.For(path, FileHash(path));
+            }
+            var details = outputs.GetValueOrDefault("data/item_details.json") ?? JsonNode.Parse(File.ReadAllBytes(Path.Combine(destination, "data/item_details.json")))!;
+            var icons = details["items"]!.AsObject().ToDictionary(p => uint.Parse(p.Key), p => p.Value!["icons"]!.AsArray().Select(v => v!.GetValue<uint>()).ToArray());
+            details = null; outputs.Clear();
+            var images = ClientImages.Extract(gameFiles, icons, stage, saved, valid, files, progress, cancel);
+            cancel.ThrowIfCancellationRequested();
+            if (fingerprint != Hash(JsonSerializer.SerializeToUtf8Bytes(Identity(game, resources)))) throw new IOException("Game files changed during synchronization. Retry after the update.");
+            var manifest = new SyncManifest { Fingerprint = fingerprint, MetadataFingerprint = metadataFingerprint, Files = files, Images = images, Items = items };
+            File.WriteAllBytes(Path.Combine(stage, "manifest.json"), JsonSerializer.SerializeToUtf8Bytes(manifest, Json));
+            progress?.Report(new("sync.publishing")); Publish(stage, destination);
+            RemoveUnlisted(destination, files);
+            return new(items, added, changed, images.Records.Count, images.Unresolved.Count, images.Decoded, images.Written, false, watch.Elapsed.TotalSeconds);
+        }
+        finally
+        {
+            if (!Path.GetFullPath(stage).StartsWith(parent + Path.DirectorySeparatorChar + ".game-sync-", StringComparison.OrdinalIgnoreCase))
+                throw new IOException("Invalid synchronization staging path.");
+            if (Directory.Exists(stage)) Directory.Delete(stage, true);
+        }
+    }
+    // Pictures the new manifest no longer lists (the knowledge PNGs of format 3, items the game removed) would stay on disk.
+    internal static void RemoveUnlisted(string destination, IReadOnlyDictionary<string, CacheFile> files)
+    {
+        string images = Path.Combine(destination, "images");
+        if (!Directory.Exists(images)) return;
+        foreach (string path in Directory.GetFiles(images, "*", SearchOption.AllDirectories))
+            if (!files.ContainsKey(Path.GetRelativePath(destination, path).Replace('\\', '/')))
+                try { File.Delete(path); }
+                // A leftover file only costs space; the published cache is already complete.
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
+    }
+    internal static void Publish(string stage, string destination)
+    {
+        // A new cache can publish the complete sibling staging directory in one move.
+        if (!Directory.Exists(destination)) { Directory.Move(stage, destination); return; }
+        string recovery = stage + "-recovery"; Directory.CreateDirectory(recovery);
+        var committed = new List<(string Target, string Backup, bool Existed)>(); bool keep = false;
+        var checkedDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        try
+        {
+            foreach (string source in Directory.GetFiles(stage, "*", SearchOption.AllDirectories).OrderBy(p => Path.GetFileName(p) == "manifest.json"))
+            {
+                string relative = Path.GetRelativePath(stage, source), target = Path.Combine(destination, relative), backup = Path.Combine(recovery, relative);
+                string directory = Path.GetDirectoryName(target)!;
+                if (checkedDirectories.Add(directory)) { Directory.CreateDirectory(directory); NoLinks(directory); }
+                bool exists = File.Exists(target);
+                if (exists)
+                {
+                    if (File.GetAttributes(target).HasFlag(FileAttributes.ReparsePoint)) throw new IOException("Cache files must not be links.");
+                    // Moving the old file aside on the same volume costs no copy; rollback moves it back.
+                    Directory.CreateDirectory(Path.GetDirectoryName(backup)!); File.Move(target, backup);
+                    committed.Add((target, backup, true));
+                }
+                File.Move(source, target, true);
+                if (!exists) committed.Add((target, backup, false));
+            }
+        }
+        catch (Exception failure)
+        {
+            var errors = new List<Exception>();
+            foreach (var (target, backup, existed) in committed.AsEnumerable().Reverse())
+                try { if (existed) File.Move(backup, target, true); else File.Delete(target); }
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException) { errors.Add(error); }
+            if (errors.Count > 0) { keep = true; throw new AggregateException($"Cache publication and rollback failed. Recovery files: {recovery}", new[] { failure }.Concat(errors)); }
+            throw;
+        }
+        finally
+        {
+            if (!keep && Path.GetFullPath(recovery) == Path.GetFullPath(stage) + "-recovery") Directory.Delete(recovery, true);
+        }
+    }
+}

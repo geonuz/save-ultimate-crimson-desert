@@ -1,0 +1,54 @@
+<UserControl x:Class="CDSE.App.DyePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CDSE.App">
+ <Grid IsEnabled="{Binding CanEditSelection}">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+  <local:PageHeader HelpTopic="dye.title" LoadCommand="{Binding ReloadCommand}" LoadedState="{Binding HasDocument}">
+   <TextBlock Text="{local:Tr equipment.owner}" Style="{StaticResource FilterLabel}"/>
+   <ComboBox x:Name="OwnerFilter" Style="{StaticResource FilterBox}" SelectedIndex="0" SelectionChanged="OnFilter" AutomationProperties.Name="{local:Tr equipment.owner_filter}">
+    <ComboBoxItem Content="{local:Tr map.all}"/><ComboBoxItem Content="{local:Tr skills.character.0}"/><ComboBoxItem Content="{local:Tr skills.character.1}"/><ComboBoxItem Content="{local:Tr skills.character.2}"/>
+    <ComboBoxItem Content="{local:Tr companion.pets}"/><ComboBoxItem Content="{local:Tr equipment.inventory_storage}"/>
+   </ComboBox>
+   <CheckBox x:Name="DyedOnly" Content="{local:Tr dye.dyed_only}" IsChecked="True" Click="OnFilter" VerticalAlignment="Center" Margin="0,0,16,0"/>
+   <Label Content="{local:Tr 'Search:'}" Target="{Binding ElementName=Search}" Margin="0,0,12,0"/>
+   <TextBox x:Name="Search" Tag="{Binding RelativeSource={RelativeSource Self}, Path=ToolTip}" TextChanged="OnSearch" ToolTip="{local:Tr 'Search by item name, ID or storage'}" AutomationProperties.Name="{local:Tr 'Search items, IDs or storage'}"/>
+  </local:PageHeader>
+  <DockPanel Grid.Row="1" Style="{StaticResource CountRow}">
+   <Button x:Name="ExportChecked" DockPanel.Dock="Right" Click="OnExportChecked" IsEnabled="False" Margin="8,0,0,0"/>
+   <!-- Opens a menu of the playable characters. -->
+   <Button x:Name="ExportSet" DockPanel.Dock="Right" Content="{local:Tr dye.export_set}" Click="OnExportSet" IsEnabled="False" ToolTip="{local:Tr dye.export_set_hint}" Margin="8,0,0,0"><Button.ContextMenu><ContextMenu/></Button.ContextMenu></Button>
+   <Button x:Name="Import" DockPanel.Dock="Right" Style="{StaticResource AccentButton}" Content="{local:Tr dye.import}" Click="OnImport" IsEnabled="False" ToolTipService.ShowOnDisabled="True"/>
+   <TextBlock x:Name="Count" Style="{StaticResource CountText}"/>
+  </DockPanel>
+  <local:DetailSplit Grid.Row="2">
+   <DataGrid x:Name="Rows" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="OnSelect" PreviewKeyDown="OnKey">
+    <DataGrid.Columns>
+     <DataGridTemplateColumn Width="46" CanUserSort="False" CanUserResize="False">
+      <DataGridTemplateColumn.Header><CheckBox x:Name="CheckAll" Click="OnCheckAll" ToolTip="{local:Tr dye.check_all}" AutomationProperties.Name="{local:Tr dye.check_all}"/></DataGridTemplateColumn.Header>
+      <DataGridTemplateColumn.CellTemplate><DataTemplate><CheckBox IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged}" Click="OnCheck" Focusable="False" HorizontalAlignment="Center" AutomationProperties.Name="{Binding Name}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+     </DataGridTemplateColumn>
+     <DataGridTemplateColumn x:Name="PictureColumn" Width="Auto" MinWidth="40" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate><Image Source="{Binding Icon}" Width="32" Height="32"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+     <DataGridTextColumn Header="{local:Tr 'quest.col_name'}" Binding="{Binding Name}" Width="*" MinWidth="180"/>
+     <DataGridTextColumn Header="{local:Tr 'fishing.category'}" Binding="{Binding Category}" Width="Auto" MinWidth="110"/>
+     <DataGridTextColumn Header="{local:Tr dye.where}" Binding="{Binding Where}" Width="Auto" MinWidth="130"/>
+     <DataGridTextColumn Header="{local:Tr dye.parts}" Binding="{Binding Progress}" SortMemberPath="Dyed.Parts.Length" Width="Auto" MinWidth="90"/>
+     <DataGridTemplateColumn Header="{local:Tr dye.colors}" Width="Auto" MinWidth="150" CanUserSort="False"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+      <ItemsControl ItemsSource="{Binding Swatches}" Focusable="False"><ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+       <ItemsControl.ItemTemplate><DataTemplate><Border Width="18" Height="18" CornerRadius="3" Margin="0,0,4,0" Background="{Binding}" BorderBrush="{DynamicResource text_dim}" BorderThickness="1"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+    </DataGrid.Columns>
+   </DataGrid>
+   <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+    <TextBlock x:Name="SelectedTitle" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+    <Image x:Name="Picture" MaxHeight="150" Margin="0,0,0,8"/>
+    <!-- Why this save cannot take dyes. -->
+    <TextBlock x:Name="Hint" TextWrapping="Wrap" Foreground="{DynamicResource error}" Margin="0,0,0,12"/>
+    <ItemsControl x:Name="Parts" Focusable="False"><ItemsControl.ItemTemplate><DataTemplate>
+     <DockPanel Margin="0,0,0,12">
+      <Border Width="40" Height="40" Margin="0,0,12,0" CornerRadius="4" BorderBrush="{DynamicResource text_dim}" BorderThickness="1" Background="{Binding Color}" VerticalAlignment="Top"/>
+      <StackPanel><TextBlock Text="{Binding Title}" FontWeight="SemiBold"/><TextBlock Text="{Binding Detail}" Style="{StaticResource SecondaryText}" TextWrapping="Wrap"/></StackPanel>
+     </DockPanel>
+    </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+   </StackPanel></ScrollViewer>
+  </local:DetailSplit>
+ </Grid>
+</UserControl>

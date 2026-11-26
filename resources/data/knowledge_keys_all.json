@@ -7412,7 +7412,7 @@
   {
     "key": 1003913,
     "name": "Knowledge_ThornVine",
-    "display_name": "Thorny Vine"
+    "display_name": "Thornvine"
   },
   {
     "key": 1003914,
@@ -38072,7 +38072,7 @@
   {
     "key": 1006446,
     "name": "NHM_Unique_GreyMane_Furniture",
-    "display_name": "Greymane Furniture Shop"
+    "display_name": "Greymane Facilities Vendor"
   },
   {
     "key": 1006447,
@@ -38193,5 +38193,15 @@
     "key": 1007026,
     "name": "Knowledge_Node_Garden_of_Trials",
     "display_name": "Garden of Trials"
+  },
+  {
+    "key": 1007029,
+    "name": "Knowledge_NatureCreature_StoneDuck",
+    "display_name": "Stoneduck"
+  },
+  {
+    "key": 1007030,
+    "name": "Knowledge_NatureCreature_BranchBird",
+    "display_name": "Branch Bird"
   }
 ]
